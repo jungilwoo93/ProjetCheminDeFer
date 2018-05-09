@@ -6,6 +6,8 @@ Created on Mon May  7 16:26:16 2018
 """
 
 import tkinter as tk
+import tkinter.filedialog
+#from tkFileDialog import *
 #from tkinter import *
 #créer la fenêtre d'application
 fenetre = tk.Tk()
@@ -21,7 +23,11 @@ fenetre.geometry(str(ecran_width)+'x'+str(ecran_height))
 #w=fenetre.winfo_screenwidth()
 #h=fenetre.winfo_screenheight() 
 #fenetre.configure(width=w-2,height=h-50)
-tk.Button(fenetre, text="Quit", command=fenetre.destroy).pack()
+#tk.Button(fenetre, text="Quit", command=fenetre.destroy).pack()
 #démarrer du réceptionnaire d'événements
+
+choice = tkinter.filedialog.askopenfilename()
+print(choice)
+
 fenetre.mainloop()
 
