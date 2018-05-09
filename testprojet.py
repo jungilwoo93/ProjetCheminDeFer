@@ -9,9 +9,9 @@ from tkinter import *
 
 fenetre = Tk()
 fenetre.attributes("-fullscreen", 1)
-w=winfo_screenwidth()
-h=winfo_screenheight() 
-#fenetre.configure(width=1000,height=500)
+w=fenetre.winfo_screenwidth()
+h=fenetre.winfo_screenheight() 
+fenetre.configure(width=w-2,height=h-50)
 #Button(fenetre, text="Quit", command=fenetre.destroy).pack()
 fenetre.mainloop()
 
