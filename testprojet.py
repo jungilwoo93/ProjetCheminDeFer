@@ -25,9 +25,14 @@ fenetre.geometry(str(ecran_width)+'x'+str(ecran_height))
 #fenetre.configure(width=w-2,height=h-50)
 #tk.Button(fenetre, text="Quit", command=fenetre.destroy).pack()
 #démarrer du réceptionnaire d'événements
+def chooseFile():
+    choice = tkinter.filedialog.askopenfilename()
+    print(choice)
+    
+boutonParcourir=tk.Button(fenetre,text="parcourir",command=chooseFile).pack()
+#boutonParcourir.pack
 
-choice = tkinter.filedialog.askopenfilename()
-print(choice)
+
 
 fenetre.mainloop()
 
