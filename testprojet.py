@@ -12,6 +12,6 @@ fenetre.attributes("-fullscreen", 1)
 w=fenetre.winfo_screenwidth()
 h=fenetre.winfo_screenheight() 
 fenetre.configure(width=w-2,height=h-50)
-#Button(fenetre, text="Quit", command=fenetre.destroy).pack()
+Button(fenetre, text="Quit", command=fenetre.destroy).pack()
 fenetre.mainloop()
 
