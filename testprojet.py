@@ -6,7 +6,9 @@ Created on Mon May  7 16:26:16 2018
 """
 
 import tkinter as tk
-import tkinter.filedialog
+import tkinter.filedialog as tf
+import os
+from os.path import basename
 #from tkFileDialog import *
 #from tkinter import *
 #créer la fenêtre d'application
@@ -25,12 +27,34 @@ fenetre.geometry(str(ecran_width)+'x'+str(ecran_height))
 #fenetre.configure(width=w-2,height=h-50)
 #tk.Button(fenetre, text="Quit", command=fenetre.destroy).pack()
 #démarrer du réceptionnaire d'événements
+
+listFiles=tk.Listbox()
+i=1;
+#parcours choit du fichier
 def chooseFile():
-    choice = tkinter.filedialog.askopenfilename()
-    print(choice)
+    choice = tf.askopenfilename()
+    nom=basename(choice)
+    print(nom)
+    if nom!="":
+            listFiles.insert(1,nom) #ça se met par ordre alphabetique
     
+    #i+=1
+    #print(i)
+
+def delecteSelection():
+    selection = listFiles.curselection()
+    listFiles.delete(selection[0])    
+    
+def delecteAll():
+    cs=listFiles.curselection()
+    #listFiles.delete(0,cs[0] -1)
+    listFiles.delete(0,tk.END)
+    
+    
+listFiles.pack()    
 boutonParcourir=tk.Button(fenetre,text="parcourir",command=chooseFile).pack()
-#boutonParcourir.pack
+boutonSupprimer=tk.Button(fenetre,text="supprimer",command=delecteSelection).pack()
+boutonSupprimer=tk.Button(fenetre,text="vider",command=delecteAll).pack()
 
 
 
