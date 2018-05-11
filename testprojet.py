@@ -90,12 +90,12 @@ def chooseFile():
                 #i+=1
                 #print(i)
     listFiles.Sorted = True
-    while i < (listFiles.size() - 1) :
-        if (listFiles.get(i + 1,i+1) == listFiles.get(i,i)) :
-            listFiles.delete(i,i)
-            i = 0
+    while j < (listFiles.size() - 1) :
+        if (listFiles.get(j + 1,j+1) == listFiles.get(j,j)) :
+            listFiles.delete(j,j)
+            j = 0
         else :
-            i += 1
+            j += 1
             
 #supprimer de la liste les fichiers selectionnés
 def delecteSelection():
