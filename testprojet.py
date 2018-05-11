@@ -79,6 +79,9 @@ def chooseFile():
     choice = tf.askopenfilenames() #fichier uniquement
     #choice = tf.askdirectory()  #repertoire uniquement
     #defaultextension='.png'
+    #filetypes=[('BMP FILES','*.bmp')]#pas sure
+    #filetypes=[('PNG FILES','*.png')]
+    #("JPEG",'*.jpg')
     #print(choice)
     #choiceBoth=tf.
     #os.listdir #pour recupereelement d'un dosier
