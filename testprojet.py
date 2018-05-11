@@ -141,20 +141,20 @@ f2.grid(row=2,column=1)
 
 #afficher image dés qu'on selectionner un element
 def onselect(evt):
-    print("element selectionner")
     cadre=tk.Canvas(fenetre,width=440,height=380)#,bg="black"
     dicimg = {}
     #selection = listFiles.curselection()
     #print(selection[0])
     w=evt.widget
-    index = int(w.curselection()[0])
-    value = w.get(index)
-    img=Image.open(value)
-    photo = ImageTk.PhotoImage(img)
-    dicimg['img1'] = photo
-    cadre.image=photo
-    item = cadre.create_image(320,240,image =photo) 
-    cadre.grid(row=1,column=2)
+    if len(w.curselection())!=0 :
+        index = int(w.curselection()[0])
+        value = w.get(index)
+        img=Image.open(value)
+        photo = ImageTk.PhotoImage(img)
+        dicimg['img1'] = photo
+        cadre.image=photo
+        item = cadre.create_image(320,240,image =photo) 
+        cadre.grid(row=1,column=2)
 
 listFiles.bind('<<ListboxSelect>>', onselect)   
 #démarrer du réceptionnaire d'événements
