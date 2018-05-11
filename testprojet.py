@@ -29,8 +29,8 @@ ecran_width = fenetre.winfo_screenwidth()
 ecran_height = fenetre.winfo_screenheight()
 #définir la taille d'écran d'or comme la fenêtre d'application
 fenetre.geometry(str(ecran_width)+'x'+str(ecran_height))
-
-listFiles=tk.Listbox()
+f1=tk.Frame(fenetre)
+listFiles=tk.Listbox(f1).grid(row=0, sticky=tk.W)
 #listbox = tk.Listbox(fenetre, yscrollcommand=scrollbar.set)
 #scrollbar = tk.Scrollbar(listbox)
 #scrollbar.pack(side='right', fill='y')
@@ -69,53 +69,35 @@ def delecteSelection():
 def delecteAll():
     #cs=listFiles.curselection()
     #listFiles.delete(0,cs[0] -1)
-    listFiles.delete(0,tk.END)
-    
+    listFiles.delete(0,tk.END)   
     
 #listFiles.pack(side="left",fill="y")    
-boutonParcourir=tk.Button(fenetre,text="parcourir",command=chooseFile).pack()
-boutonSupprimer=tk.Button(fenetre,text="supprimer",command=delecteSelection).pack()
-boutonSupprimer=tk.Button(fenetre,text="vider",command=delecteAll).pack()
+boutonParcourir=tk.Button(f1,text="parcourir",command=chooseFile).grid(row=1, column=1,sticky=tk.W)
+boutonSupprimer=tk.Button(f1,text="supprimer",command=delecteSelection).grid(row=2, column=1,sticky=tk.W)
+boutonSupprimer=tk.Button(f1,text="vider",command=delecteAll).grid(row=3, column=1,sticky=tk.W)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+f1.pack()
+f1.grid(row=1,column=1)
 
 #frame pour le zone avec les radiobuttons
 f2=tk.Frame(fenetre)
 #label pour le zone choisit
 labelZoneChoix=tk.Label(f2,text='La zone choisit est : ')
 labelZoneChoix.config(font=('Forte',18))
-labelZoneChoix.grid(row=0, sticky=W)
+labelZoneChoix.grid(row=0, sticky=tk.W)
+
 #les radiobuttons pour les choix
 a=1
 for i,v in enumerate(typeZone):
     print(i)
-    tk.Radiobutton(f2, text=v, variable=var, value = a).grid(row=a, column=1,sticky=W)
+    tk.Radiobutton(f2, text=v, variable=var, value = a).grid(row=a, column=1,sticky=tk.W)
     a+=1
 
 #button pour comfirmer le choix avec la zone choisit sur image
-buttonConfirm=tk.Button(f2,text="Confirmer",command=confirmer).grid(row=len(typeZone)+1,column=1,sticky=W)
+buttonConfirm=tk.Button(f2,text="Confirmer",command=confirmer).grid(row=len(typeZone)+1,column=1,sticky=tk.W)
 
 f2.pack()
-f2.grid(row=1,column=2)
-
-
+f2.grid(row=2,column=1)
 
 #démarrer du réceptionnaire d'événements
 fenetre.mainloop()
