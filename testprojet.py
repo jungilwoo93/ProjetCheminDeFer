@@ -7,7 +7,7 @@ Created on Mon May  7 16:26:16 2018
 
 import tkinter as tk
 import tkinter.filedialog as tf
-import os
+#import os
 from os.path import basename
 #from tkinter import *
 #créer la fenêtre d'application
@@ -90,7 +90,7 @@ boutonSupprimer=tk.Button(zoneButton,text="vider",command=delecteAll).grid(row=1
 zoneButton.grid(row=2,pady=10)
 f1.grid(row=1,column=1)
 
-#frame pour le zone avec les radiobuttons
+#nouveau frame pour le zone avec les radiobuttons
 f2=tk.Frame(fenetre)
 #label pour le zone choisit
 labelZoneChoix=tk.Label(f2,text='La zone choisit est : ')
@@ -105,14 +105,12 @@ for i,v in enumerate(typeZone):
 
 #button pour comfirmer le choix avec la zone choisit sur image
 buttonConfirm=tk.Button(f2,text="Confirmer",command=confirmer).grid(row=len(typeZone)+1,column=0,sticky=tk.S)
-
+#liste Action
 labelAction=tk.Label(f2,text="Les actions : ")
 labelAction.config(font=('Forte',18))
 labelAction.grid(row=len(typeZone)+2,column=0,sticky=tk.W)
 listAction = tk.Listbox(f2,width=70,height=10)
 listAction.grid(row=len(typeZone)+3,column=0)
-
-
 f2.grid(row=2,column=1)
 
 #démarrer du réceptionnaire d'événements
