@@ -106,6 +106,7 @@ def chooseFile():
             j = 0
         else :
             j += 1
+    listPath.reverse()
             
 #supprimer de la liste les fichiers selectionnés
 def delecteSelection():
@@ -153,7 +154,7 @@ f2.grid(row=2,column=1)
 
 #afficher image dés qu'on selectionner un element
 def onselect(evt):
-    cadre=tk.Canvas(fenetre,width=440,height=380)#,bg="black"
+    cadre=tk.Canvas(fenetre,width=500,height=400)#,bg="black"
     dicimg = {}
     #selection = listFiles.curselection()
     #print(selection[0])
@@ -162,13 +163,16 @@ def onselect(evt):
         index = int(w.curselection()[0])
         value = w.get(index)
         img=Image.open(listPath[index])
+        img.resize((320,240))
+        #img.zoom(320/img.width(), 240/img.height())
         print(value)
         photo = ImageTk.PhotoImage(img)
         dicimg['img1'] = photo
         cadre.image=photo
-        item = cadre.create_image(320,240,image =photo) 
+        item = cadre.create_image(0,0,image =photo) 
         cadre.grid(row=1,column=2)
-
+        #.resize((x,y)) puis .save('nouvnom')
+        
 listFiles.bind('<<ListboxSelect>>', onselect)   
 #démarrer du réceptionnaire d'événements
 fenetre.mainloop()
