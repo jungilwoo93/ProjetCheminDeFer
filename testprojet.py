@@ -12,14 +12,17 @@ from os.path import basename
 #from tkinter import *
 #créer la fenêtre d'application
 fenetre = tk.Tk()
-#variable
-var = tk.IntVar()
-var.set(1)
+
+#variable global
+var=tk.StringVar()
+var.set(0)
 typeZone={"Titre","Paragraphe","Lettrine","Image"}
 
-#fonctions
+#les fonctions
+#fonctions de buttonConfirm
 def confirmer():
-    print(var)
+    listAction.insert(tk.END,var.get())
+
     
 #mettre le title et background pour l'application
 fenetre.title("Projet")
@@ -29,8 +32,16 @@ ecran_width = fenetre.winfo_screenwidth()
 ecran_height = fenetre.winfo_screenheight()
 #définir la taille d'écran d'or comme la fenêtre d'application
 fenetre.geometry(str(ecran_width)+'x'+str(ecran_height))
+
+#creer un nouveau frame pour la partie de fichier
 f1=tk.Frame(fenetre)
-listFiles=tk.Listbox(f1).grid(row=0, sticky=tk.W)
+labelFichier=tk.Label(f1,text='Les fichier choisit : ')
+labelFichier.config(font=('Forte',18))
+labelFichier.grid(row=0,sticky=tk.W,pady=5)
+listFrame=tk.Frame(f1)
+listFiles=tk.Listbox(listFrame,width=70,height=15,selectmode=tk.SINGLE).pack(pady=10,padx=20)
+listFrame.grid(row=1,sticky=tk.W)
+
 #listbox = tk.Listbox(fenetre, yscrollcommand=scrollbar.set)
 #scrollbar = tk.Scrollbar(listbox)
 #scrollbar.pack(side='right', fill='y')
@@ -71,12 +82,12 @@ def delecteAll():
     #listFiles.delete(0,cs[0] -1)
     listFiles.delete(0,tk.END)   
     
-#listFiles.pack(side="left",fill="y")    
-boutonParcourir=tk.Button(f1,text="parcourir",command=chooseFile).grid(row=1, column=1,sticky=tk.W)
-boutonSupprimer=tk.Button(f1,text="supprimer",command=delecteSelection).grid(row=2, column=1,sticky=tk.W)
-boutonSupprimer=tk.Button(f1,text="vider",command=delecteAll).grid(row=3, column=1,sticky=tk.W)
-
-f1.pack()
+#listFiles.pack(side="left",fill="y")   
+zoneButton=tk.Frame(f1)
+boutonParcourir=tk.Button(zoneButton,text="parcourir",command=chooseFile).grid(row=1, column=0,sticky=tk.S,padx=40)
+boutonSupprimer=tk.Button(zoneButton,text="supprimer",command=delecteSelection).grid(row=1, column=1,sticky=tk.S,padx=40)
+boutonSupprimer=tk.Button(zoneButton,text="vider",command=delecteAll).grid(row=1, column=2,sticky=tk.S,ipadx=10,padx=40)
+zoneButton.grid(row=2,pady=10)
 f1.grid(row=1,column=1)
 
 #frame pour le zone avec les radiobuttons
@@ -89,14 +100,19 @@ labelZoneChoix.grid(row=0, sticky=tk.W)
 #les radiobuttons pour les choix
 a=1
 for i,v in enumerate(typeZone):
-    print(i)
-    tk.Radiobutton(f2, text=v, variable=var, value = a).grid(row=a, column=1,sticky=tk.W)
+    tk.Radiobutton(f2, text=v, variable=var, value = v).grid(row=a, column=0,sticky=tk.W)
     a+=1
 
 #button pour comfirmer le choix avec la zone choisit sur image
-buttonConfirm=tk.Button(f2,text="Confirmer",command=confirmer).grid(row=len(typeZone)+1,column=1,sticky=tk.W)
+buttonConfirm=tk.Button(f2,text="Confirmer",command=confirmer).grid(row=len(typeZone)+1,column=0,sticky=tk.S)
 
-f2.pack()
+labelAction=tk.Label(f2,text="Les actions : ")
+labelAction.config(font=('Forte',18))
+labelAction.grid(row=len(typeZone)+2,column=0,sticky=tk.W)
+listAction = tk.Listbox(f2,width=70,height=10)
+listAction.grid(row=len(typeZone)+3,column=0)
+
+
 f2.grid(row=2,column=1)
 
 #démarrer du réceptionnaire d'événements
