@@ -70,7 +70,9 @@ listFrame.grid(row=1,sticky=tk.W)
 #defilX = tk.Scrollbar(self, orient='horizontal',command=listFiles.xview)
 #defilX.grid(row=1, column=0, sticky='ew')
 #listFiles['xscrollcommand']=defilX.set
-i=1;
+
+listPath=[]
+
 #parcours choit du fichier
 def chooseFile():
     #choice=fenetre.FileDialog(tf.msoFileDialogOpen)
@@ -80,19 +82,24 @@ def chooseFile():
     #print(choice)
     #choiceBoth=tf.
     #os.listdir #pour recupereelement d'un dosier
-    
+    i=1;
+    j=1
     nbSelected=len(choice)
     #recupere le nom apartir du chemin
     for i in range (0,nbSelected):
         nom=basename(choice[i])
+        #nom=choice[i]
         if nom!="": #sinon quand on clic sur parcourir mais qu'on ne choisi rien ça rajoute un espace blanc
                 listFiles.insert(1,nom) #ça se met par ordre aleatoire
+                listPath.append(choice[i])
                 #i+=1
                 #print(i)
     listFiles.Sorted = True
+    listPath.sort()
     while j < (listFiles.size() - 1) :
         if (listFiles.get(j + 1,j+1) == listFiles.get(j,j)) :
             listFiles.delete(j,j)
+            listPath.remove(listPath[j])
             j = 0
         else :
             j += 1
@@ -100,13 +107,15 @@ def chooseFile():
 #supprimer de la liste les fichiers selectionnés
 def delecteSelection():
     selection = listFiles.curselection()
-    listFiles.delete(selection[0])    
+    listFiles.delete(selection[0])
+    listPath.remove(selection[0])####################################
  
 #supprimer de la liste tout les fichiers
 def delecteAll():
     #cs=listFiles.curselection()
     #listFiles.delete(0,cs[0] -1)
-    listFiles.delete(0,tk.END)   
+    listFiles.delete(0,tk.END) 
+    listPath.clear()
     
 #listFiles.pack(side="left",fill="y")   
 zoneButton=tk.Frame(f1)
@@ -149,7 +158,8 @@ def onselect(evt):
     if len(w.curselection())!=0 :
         index = int(w.curselection()[0])
         value = w.get(index)
-        img=Image.open(value)
+        img=Image.open(listPath[index])
+        print(value)
         photo = ImageTk.PhotoImage(img)
         dicimg['img1'] = photo
         cadre.image=photo
