@@ -10,13 +10,9 @@ import tkinter.filedialog as tf
 from PIL import Image, ImageFont, ImageDraw, ImageTk
 #import os
 from os.path import basename
-#from tkinter import *
+
 #créer la fenêtre d'application
 root = tk.Tk()
-
-
-
-
 
 #variable global
 var=tk.StringVar()
@@ -57,23 +53,11 @@ listFiles = tk.Listbox(listFrame,
 listFiles.grid(row=0)#'nsew'
 xDefilB['command'] = listFiles.xview
 yDefilB['command'] = listFiles.yview
-#scrollbar.config(command=listbox.yview)
-#defilX = tk.Scrollbar(self, orient='horizontal',command=listFiles.xview)
-#defilX.grid(row=1, column=0, sticky='ew')
-#listFiles['xscrollcommand']=defilX.set
-j=1;#i=1
-#listFiles=tk.Listbox(listFrame,width=70,height=15,selectmode=tk.SINGLE).pack(pady=10,padx=20)
+
+
 listFrame.grid(row=1,pady=5,padx=20,sticky=tk.W)
 
-#listbox = tk.Listbox(fenetre, yscrollcommand=scrollbar.set)
-#scrollbar = tk.Scrollbar(listbox)
-#scrollbar.pack(side='right', fill='y')
-#listbox.pack()
 
-#scrollbar.config(command=listbox.yview)
-#defilX = tk.Scrollbar(self, orient='horizontal',command=listFiles.xview)
-#defilX.grid(row=1, column=0, sticky='ew')
-#listFiles['xscrollcommand']=defilX.set
 
 listPath=[]
 
@@ -100,7 +84,6 @@ def chooseFile():
                 listFiles.insert(1,nom) #ça se met par ordre aleatoire
                 listPath.append(choice[i])
                 #i+=1
-                #print(i)
     listFiles.Sorted = True
     listPath.sort()
     while j < (listFiles.size() - 1) :
@@ -160,19 +143,20 @@ f1.grid(row=0,column=1)
 
 
 vsb = tk.Scrollbar(root, orient=tk.VERTICAL)
-vsb.grid(row=0, column=2, rowspan=3, sticky=tk.N+tk.S)#
+vsb.grid(row=0, column=3, rowspan=4, sticky=tk.N+tk.S+tk.E)#
 hsb = tk.Scrollbar(root, orient=tk.HORIZONTAL)
-hsb.grid(row=2, column=0,columnspan=2, sticky=tk.E+tk.W)#
-c = tk.Canvas(root,yscrollcommand=vsb.set, xscrollcommand=hsb.set)
-#c.grid(row=0, column=1,sticky="news")
-vsb.config(command=c.yview)
+hsb.grid(row=3, column=0,columnspan=2, sticky=tk.E+tk.W+tk.S)#
+c = tk.Canvas(root, yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=1,height=1)
+c.grid(row=0, column=0)#,sticky="news"
+vsb.config( command=c.yview)
 hsb.config(command=c.xview)
 root.grid_rowconfigure(0, weight=1)
 root.grid_columnconfigure(0, weight=1)
-f0 = tk.Frame(f1)
+#f0 = tk.Frame(f1)
+#f0.grid(fill=tk.BOTH)
 #f0.pack(fill=tk.BOTH)
-c.grid(sticky=tk.E)
-
+#c.grid(sticky=tk.E)
+c.create_window(0, 0,  window=f1)
 
  
 #c.create_window(0, 0,  window=f0)
@@ -181,9 +165,7 @@ c.grid(sticky=tk.E)
 
 #afficher image dés qu'on selectionner un element
 def onselect(evt):
-
     cadre=tk.Canvas(root,width=600,height=750)#,bg="black"
-
     dicimg = {}
     #selection = listFiles.curselection()
     #print(selection[0])
@@ -207,7 +189,7 @@ listFiles.bind('<<ListboxSelect>>', onselect)
  
 #démarrer du réceptionnaire d'événements
 
-c.create_window(0, 0,  window=f1)
+#c.create_window(0, 0,  window=f1)
 f1.update_idletasks()
 c.config(scrollregion=c.bbox("all"))#pour scrooll
 
