@@ -12,7 +12,11 @@ from PIL import Image, ImageFont, ImageDraw, ImageTk
 from os.path import basename
 #from tkinter import *
 #créer la fenêtre d'application
-fenetre = tk.Tk()
+root = tk.Tk()
+
+
+
+
 
 #variable global
 var=tk.StringVar()
@@ -26,17 +30,17 @@ def confirmer():
 
     
 #mettre le title et background pour l'application
-fenetre.title("Projet")
+root.title("Projet")
 
 #récupérer la taille d'écran d'ordi
-ecran_width = fenetre.winfo_screenwidth()
-ecran_height = fenetre.winfo_screenheight()
+ecran_width = root.winfo_screenwidth()
+ecran_height = root.winfo_screenheight()-50
 #définir la taille d'écran d'or comme la fenêtre d'application
-fenetre.geometry(str(ecran_width)+'x'+str(ecran_height))
+root.geometry(str(ecran_width)+'x'+str(ecran_height))
 
 #creer un nouveau frame pour la partie de fichier
-f1=tk.Frame(fenetre)
-labelFichier=tk.Label(f1,text='Les fichier choisis : ')
+f1=tk.Frame(root)
+labelFichier=tk.Label(f1,text='Les fichiers choisis : ')
 labelFichier.config(font=('Forte',18))
 labelFichier.grid(row=0,sticky=tk.W,pady=5)
 
@@ -132,7 +136,7 @@ zoneButton.grid(row=2,pady=5)
 #nouveau frame pour le zone avec les radiobuttons
 #f2=tk.Frame(fenetre)
 #label pour le zone choisit
-labelZoneChoix=tk.Label(f1,text='La zone choisie est : ')
+labelZoneChoix=tk.Label(f1,text='La zone choisi est : ')
 labelZoneChoix.config(font=('Forte',18))
 labelZoneChoix.grid(row=3, sticky=tk.W)
 
@@ -153,10 +157,32 @@ listAction = tk.Listbox(f1,width=70,height=8)
 listAction.grid(row=7,column=0,pady=5)
 f1.grid(row=0,column=1)
 
+
+
+vsb = tk.Scrollbar(root, orient=tk.VERTICAL)
+vsb.grid(row=0, column=2, rowspan=3, sticky=tk.N+tk.S)#
+hsb = tk.Scrollbar(root, orient=tk.HORIZONTAL)
+hsb.grid(row=2, column=0,columnspan=2, sticky=tk.E+tk.W)#
+c = tk.Canvas(root,yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+#c.grid(row=0, column=1,sticky="news")
+vsb.config(command=c.yview)
+hsb.config(command=c.xview)
+root.grid_rowconfigure(0, weight=1)
+root.grid_columnconfigure(0, weight=1)
+f0 = tk.Frame(f1)
+#f0.pack(fill=tk.BOTH)
+c.grid(sticky=tk.E)
+
+
+ 
+#c.create_window(0, 0,  window=f0)
+#f0.update_idletasks()
+#c.config(scrollregion=c.bbox("all"))#a mettre a la fin
+
 #afficher image dés qu'on selectionner un element
 def onselect(evt):
 
-    cadre=tk.Canvas(fenetre,width=600,height=750)#,bg="black"
+    cadre=tk.Canvas(root,width=600,height=750)#,bg="black"
 
     dicimg = {}
     #selection = listFiles.curselection()
@@ -172,17 +198,18 @@ def onselect(evt):
         photo = ImageTk.PhotoImage(img)
         dicimg['img1'] = photo
         cadre.image=photo
-<<<<<<< HEAD
+        
         item = cadre.create_image(600,800,image =photo) 
         cadre.grid(row=0,column=2,padx=20,pady=20)
 
-=======
-        item = cadre.create_image(0,0,image =photo) 
-        cadre.grid(row=1,column=2)
-        #.resize((x,y)) puis .save('nouvnom')
-        
->>>>>>> fc5f3def5f94a27be45396edfde27055257a29c8
-listFiles.bind('<<ListboxSelect>>', onselect)   
+
+listFiles.bind('<<ListboxSelect>>', onselect)  
+ 
 #démarrer du réceptionnaire d'événements
-fenetre.mainloop()
+
+c.create_window(0, 0,  window=f1)
+f1.update_idletasks()
+c.config(scrollregion=c.bbox("all"))#pour scrooll
+
+root.mainloop()
 
