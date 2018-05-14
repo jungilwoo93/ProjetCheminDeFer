@@ -16,7 +16,7 @@ fenetre = tk.Tk()
 
 #variable global
 var=tk.StringVar()
-var.set(0)
+var.set("Paragraphe")
 typeZone={"Titre","Paragraphe","Lettrine","Image"}
 
 #les fonctions
@@ -36,21 +36,21 @@ fenetre.geometry(str(ecran_width)+'x'+str(ecran_height))
 
 #creer un nouveau frame pour la partie de fichier
 f1=tk.Frame(fenetre)
-labelFichier=tk.Label(f1,text='Les fichier choisit : ')
+labelFichier=tk.Label(f1,text='Les fichier choisis : ')
 labelFichier.config(font=('Forte',18))
 labelFichier.grid(row=0,sticky=tk.W,pady=5)
 
 listFrame=tk.Frame(f1)
-yDefilB = tk.Scrollbar(f1, orient='vertical')
+yDefilB = tk.Scrollbar(listFrame, orient='vertical')
 yDefilB.grid(row=0, column=1, sticky='ns')
 
-xDefilB = tk.Scrollbar(f1, orient='horizontal')
+xDefilB = tk.Scrollbar(listFrame, orient='horizontal')
 xDefilB.grid(row=1, column=0, sticky='ew')
 
 listFiles = tk.Listbox(listFrame,
      xscrollcommand=xDefilB.set,
      yscrollcommand=yDefilB.set,width=70,height=15,selectmode=tk.SINGLE)
-listFiles.pack(pady=10,padx=20)#'nsew'
+listFiles.grid(row=0)#'nsew'
 xDefilB['command'] = listFiles.xview
 yDefilB['command'] = listFiles.yview
 #scrollbar.config(command=listbox.yview)
@@ -59,7 +59,7 @@ yDefilB['command'] = listFiles.yview
 #listFiles['xscrollcommand']=defilX.set
 j=1;#i=1
 #listFiles=tk.Listbox(listFrame,width=70,height=15,selectmode=tk.SINGLE).pack(pady=10,padx=20)
-listFrame.grid(row=1,sticky=tk.W)
+listFrame.grid(row=1,pady=5,padx=20,sticky=tk.W)
 
 #listbox = tk.Listbox(fenetre, yscrollcommand=scrollbar.set)
 #scrollbar = tk.Scrollbar(listbox)
@@ -123,38 +123,41 @@ def delecteAll():
     
 #listFiles.pack(side="left",fill="y")   
 zoneButton=tk.Frame(f1)
-boutonParcourir=tk.Button(zoneButton,text="parcourir",command=chooseFile).grid(row=1, column=0,sticky=tk.S,padx=40)
-boutonSupprimer=tk.Button(zoneButton,text="supprimer",command=delecteSelection).grid(row=1, column=1,sticky=tk.S,padx=40)
-boutonSupprimer=tk.Button(zoneButton,text="vider",command=delecteAll).grid(row=1, column=2,sticky=tk.S,ipadx=10,padx=40)
-zoneButton.grid(row=2,pady=10)
-f1.grid(row=1,column=1)
+boutonParcourir=tk.Button(zoneButton,text="Parcourir",command=chooseFile).grid(row=1, column=0,sticky=tk.S,padx=40)
+boutonSupprimer=tk.Button(zoneButton,text="Supprimer",command=delecteSelection).grid(row=1, column=1,sticky=tk.S,padx=40)
+boutonSupprimer=tk.Button(zoneButton,text="Vider",command=delecteAll).grid(row=1, column=2,sticky=tk.S,ipadx=10,padx=40)
+zoneButton.grid(row=2,pady=5)
+#f1.grid(row=1,column=1)
 
 #nouveau frame pour le zone avec les radiobuttons
-f2=tk.Frame(fenetre)
+#f2=tk.Frame(fenetre)
 #label pour le zone choisit
-labelZoneChoix=tk.Label(f2,text='La zone choisit est : ')
+labelZoneChoix=tk.Label(f1,text='La zone choisie est : ')
 labelZoneChoix.config(font=('Forte',18))
-labelZoneChoix.grid(row=0, sticky=tk.W)
+labelZoneChoix.grid(row=3, sticky=tk.W)
 
 #les radiobuttons pour les choix
-a=1
+zoneRadioButton=tk.Frame(f1)
+a=0
 for i,v in enumerate(typeZone):
-    tk.Radiobutton(f2, text=v, variable=var, value = v).grid(row=a, column=0,sticky=tk.W)
+    tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v).grid(row=a, column=0,sticky=tk.W)
     a+=1
-
+zoneRadioButton.grid(row=4,sticky=tk.W,pady=5)
 #button pour comfirmer le choix avec la zone choisit sur image
-buttonConfirm=tk.Button(f2,text="Confirmer",command=confirmer).grid(row=len(typeZone)+1,column=0,sticky=tk.S)
+buttonConfirm=tk.Button(f1,text="Confirmer",command=confirmer).grid(row=5,column=0,pady=5,sticky=tk.S)
 #liste Action
-labelAction=tk.Label(f2,text="Les actions : ")
+labelAction=tk.Label(f1,text="Les actions : ")
 labelAction.config(font=('Forte',18))
-labelAction.grid(row=len(typeZone)+2,column=0,sticky=tk.W)
-listAction = tk.Listbox(f2,width=70,height=10)
-listAction.grid(row=len(typeZone)+3,column=0)
-f2.grid(row=2,column=1)
+labelAction.grid(row=6,column=0,pady=5,sticky=tk.W)
+listAction = tk.Listbox(f1,width=70,height=8)
+listAction.grid(row=7,column=0,pady=5)
+f1.grid(row=0,column=1)
 
 #afficher image dés qu'on selectionner un element
 def onselect(evt):
-    cadre=tk.Canvas(fenetre,width=500,height=400)#,bg="black"
+
+    cadre=tk.Canvas(fenetre,width=600,height=750)#,bg="black"
+
     dicimg = {}
     #selection = listFiles.curselection()
     #print(selection[0])
@@ -169,10 +172,16 @@ def onselect(evt):
         photo = ImageTk.PhotoImage(img)
         dicimg['img1'] = photo
         cadre.image=photo
+<<<<<<< HEAD
+        item = cadre.create_image(600,800,image =photo) 
+        cadre.grid(row=0,column=2,padx=20,pady=20)
+
+=======
         item = cadre.create_image(0,0,image =photo) 
         cadre.grid(row=1,column=2)
         #.resize((x,y)) puis .save('nouvnom')
         
+>>>>>>> fc5f3def5f94a27be45396edfde27055257a29c8
 listFiles.bind('<<ListboxSelect>>', onselect)   
 #démarrer du réceptionnaire d'événements
 fenetre.mainloop()
