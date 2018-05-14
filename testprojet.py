@@ -13,6 +13,28 @@ from os.path import basename
 
 #créer la fenêtre d'application
 root = tk.Tk()
+#récupérer la taille d'écran d'ordi
+ecran_width = root.winfo_screenwidth()
+ecran_height = root.winfo_screenheight()-50
+#définir la taille d'écran d'or comme la fenêtre d'application
+root.geometry(str(ecran_width)+'x'+str(ecran_height))
+
+
+f1=tk.Frame(root,bg='gold', width=ecran_width, height=ecran_height)
+f1.config(width=ecran_width, height=ecran_height)
+
+vsb = tk.Scrollbar(root, orient=tk.VERTICAL)
+vsb.grid(row=0, column=3, rowspan=4, sticky=tk.N+tk.S+tk.E)#
+hsb = tk.Scrollbar(root, orient=tk.HORIZONTAL)
+hsb.grid(row=3, column=0,columnspan=5, sticky=tk.E+tk.W+tk.S)#
+c = tk.Canvas(root, yscrollcommand=vsb.set, xscrollcommand=hsb.set, width=1, bd=0,highlightthickness=0)
+c.yview_moveto(1)
+c.xview_moveto(1)
+c.grid(row=0, column=0, sticky=tk.W+tk.N + tk.S)#,sticky="news"
+vsb.config( command=c.yview)#c.yview
+hsb.config(command=c.xview)
+root.grid_rowconfigure(0, weight=1)
+root.grid_columnconfigure(0, weight=1)
 
 #variable global
 var=tk.StringVar()
@@ -28,14 +50,10 @@ def confirmer():
 #mettre le title et background pour l'application
 root.title("Projet")
 
-#récupérer la taille d'écran d'ordi
-ecran_width = root.winfo_screenwidth()
-ecran_height = root.winfo_screenheight()-50
-#définir la taille d'écran d'or comme la fenêtre d'application
-root.geometry(str(ecran_width)+'x'+str(ecran_height))
+
 
 #creer un nouveau frame pour la partie de fichier
-f1=tk.Frame(root)
+#f1=tk.Frame(root)
 labelFichier=tk.Label(f1,text='Les fichiers choisis : ')
 labelFichier.config(font=('Forte',18))
 labelFichier.grid(row=0,sticky=tk.W,pady=5)
@@ -142,21 +160,13 @@ f1.grid(row=0,column=1)
 
 
 
-vsb = tk.Scrollbar(root, orient=tk.VERTICAL)
-vsb.grid(row=0, column=3, rowspan=4, sticky=tk.N+tk.S+tk.E)#
-hsb = tk.Scrollbar(root, orient=tk.HORIZONTAL)
-hsb.grid(row=3, column=0,columnspan=2, sticky=tk.E+tk.W+tk.S)#
-c = tk.Canvas(root, yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=1,height=1)
-c.grid(row=0, column=0, sticky=tk.W+tk.N + tk.S)#,sticky="news"
-vsb.config( command=c.yview)
-hsb.config(command=c.xview)
-root.grid_rowconfigure(0, weight=1)
-root.grid_columnconfigure(0, weight=1)
+
+
 #f0 = tk.Frame(f1)
 #f0.grid(fill=tk.BOTH)
 #f0.pack(fill=tk.BOTH)
 #c.grid(sticky=tk.E)
-c.create_window(0, 0,  window=f1)
+#c.create_window(0, 0,  window=f1)
 
  
 #c.create_window(0, 0,  window=f0)
@@ -165,7 +175,8 @@ c.create_window(0, 0,  window=f1)
 
 #afficher image dés qu'on selectionner un element
 def onselect(evt):
-    cadre=tk.Canvas(root,width=600,height=750)#,bg="black"
+    zoneImage=tk.Frame(f1)
+    cadre=tk.Canvas(f1,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=320,height=240,bg="black")#,bg="black"
     dicimg = {}
     #selection = listFiles.curselection()
     #print(selection[0])
@@ -176,20 +187,20 @@ def onselect(evt):
         img=Image.open(listPath[index])
         img.resize((320,240))
         #img.zoom(320/img.width(), 240/img.height())
-        print(value)
         photo = ImageTk.PhotoImage(img)
         dicimg['img1'] = photo
         cadre.image=photo
         
-        item = cadre.create_image(600,800,image =photo) 
-        cadre.grid(row=0,column=2,padx=20,pady=20)
-
+        cadre.create_image(320,240,image =photo) 
+        zoneImage.grid(row=2,column=2000,rowspan=2,columnspan=8,sticky=tk.E)#,padx=20,pady=20
+        cadre.grid(row=2,column=2000,rowspan=2,columnspan=8,sticky=tk.E)# padx=20,pady=20,
+        cadre.config(scrollregion=cadre.bbox("all"))
 
 listFiles.bind('<<ListboxSelect>>', onselect)  
  
 #démarrer du réceptionnaire d'événements
 
-#c.create_window(0, 0,  window=f1)
+c.create_window(0, 0,  window=f1)
 f1.update_idletasks()
 c.config(scrollregion=c.bbox("all"))#pour scrooll
 
