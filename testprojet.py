@@ -147,7 +147,7 @@ vsb.grid(row=0, column=3, rowspan=4, sticky=tk.N+tk.S+tk.E)#
 hsb = tk.Scrollbar(root, orient=tk.HORIZONTAL)
 hsb.grid(row=3, column=0,columnspan=2, sticky=tk.E+tk.W+tk.S)#
 c = tk.Canvas(root, yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=1,height=1)
-c.grid(row=0, column=0)#,sticky="news"
+c.grid(row=0, column=0, sticky=tk.W+tk.N + tk.S)#,sticky="news"
 vsb.config( command=c.yview)
 hsb.config(command=c.xview)
 root.grid_rowconfigure(0, weight=1)
