@@ -20,16 +20,17 @@ ecran_height = root.winfo_screenheight()-50
 root.geometry(str(ecran_width)+'x'+str(ecran_height))
 
 
-f1=tk.Frame(root,bg='gold', width=ecran_width, height=ecran_height)
-f1.config(width=ecran_width, height=ecran_height)
+f1=tk.Frame(root,bg='gold', width=ecran_width+1000, height=ecran_height)
+f1.config(width=ecran_width+1000, height=ecran_height)
+f1.grid(column=0,columnspan=1000,sticky=tk.E)
 
 vsb = tk.Scrollbar(root, orient=tk.VERTICAL)
 vsb.grid(row=0, column=3, rowspan=4, sticky=tk.N+tk.S+tk.E)#
 hsb = tk.Scrollbar(root, orient=tk.HORIZONTAL)
 hsb.grid(row=3, column=0,columnspan=5, sticky=tk.E+tk.W+tk.S)#
 c = tk.Canvas(root, yscrollcommand=vsb.set, xscrollcommand=hsb.set, width=1, bd=0,highlightthickness=0)
-c.yview_moveto(1)
-c.xview_moveto(1)
+#c.yview_moveto(1)
+#c.xview_moveto(1)
 c.grid(row=0, column=0, sticky=tk.W+tk.N + tk.S)#,sticky="news"
 vsb.config( command=c.yview)#c.yview
 hsb.config(command=c.xview)
@@ -174,26 +175,29 @@ f1.grid(row=0,column=1)
 #c.config(scrollregion=c.bbox("all"))#a mettre a la fin
 
 #afficher image dés qu'on selectionner un element
+zoneImage=tk.Frame(f1,bg="black")
+#zoneImage.grid(row=2,column=10,rowspan=2,columnspan=8,sticky=tk.E )
+
 def onselect(evt):
-    zoneImage=tk.Frame(f1)
-    cadre=tk.Canvas(f1,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=320,height=240,bg="black")#,bg="black"
+    cadre=tk.Canvas(zoneImage,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=320,height=240,bg="black")#,bg="black"
     dicimg = {}
     #selection = listFiles.curselection()
     #print(selection[0])
     w=evt.widget
     if len(w.curselection())!=0 :
         index = int(w.curselection()[0])
-        value = w.get(index)
+        #value = w.get(index)
         img=Image.open(listPath[index])
-        img.resize((320,240))
+        #img.resize((320,240))
         #img.zoom(320/img.width(), 240/img.height())
         photo = ImageTk.PhotoImage(img)
         dicimg['img1'] = photo
         cadre.image=photo
         
-        cadre.create_image(320,240,image =photo) 
-        zoneImage.grid(row=2,column=2000,rowspan=2,columnspan=8,sticky=tk.E)#,padx=20,pady=20
-        cadre.grid(row=2,column=2000,rowspan=2,columnspan=8,sticky=tk.E)# padx=20,pady=20,
+        cadre.create_image(400,320,image =photo) 
+        #zoneImage.grid(row=2,column=5000,rowspan=2,columnspan=8,sticky=tk.E)#,padx=20,pady=20
+        cadre.grid(row=2,column=500,rowspan=2,columnspan=30,sticky=tk.E)# padx=20,pady=20,
+        zoneImage.grid(row=2,column=10,rowspan=2,columnspan=8,sticky=tk.E )
         cadre.config(scrollregion=cadre.bbox("all"))
 
 listFiles.bind('<<ListboxSelect>>', onselect)  
