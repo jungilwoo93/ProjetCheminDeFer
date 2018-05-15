@@ -9,6 +9,7 @@ import tkinter as tk
 import tkinter.filedialog as tf
 from PIL import Image, ImageFont, ImageDraw, ImageTk
 from os.path import basename
+import DrawRect as rect
 #########################################################  fenetre principale ##################################################
 #créer la fenêtre d'application
 root = tk.Tk()
@@ -194,6 +195,11 @@ def onselect(evt):
         cadre.image=photo
         
         cadre.create_image(400,320,image =photo) 
+        a=rect.CanvasEventsDemo(cadre)
+        cadre.bind('<ButtonPress-1>', a.onStart)  
+        cadre.bind('<B1-Motion>',     a.onGrow)   
+        cadre.bind('<Double-1>',      a.onClear)  
+        cadre.bind('<ButtonPress-3>', a.onMove)   
         #zoneImage.grid(row=2,column=5000,rowspan=2,columnspan=8,sticky=tk.E)#,padx=20,pady=20
         #cadre.grid(row=2,column=500,rowspan=2,columnspan=30,sticky=tk.E)# padx=20,pady=20,
         #cadre.grid(row=0,column=1,sticky=tk.S)
