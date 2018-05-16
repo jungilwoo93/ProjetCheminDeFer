@@ -10,6 +10,7 @@ import tkinter.filedialog as tf
 from PIL import Image, ImageFont, ImageDraw, ImageTk
 from os.path import basename
 import DrawRect as rect
+import xml as xl
 #########################################################  fenetre principale ##################################################
 #créer la fenêtre d'application
 root = tk.Tk()
@@ -74,6 +75,7 @@ def chooseFile():
                 listFiles.insert(1,nom) #ça se met par ordre aleatoire
                 listPath.append(choice[i])
                 #i+=1
+    #pour trier par ordre alpha et enlever les boutons            
     listFiles.Sorted = True
     listPath.sort()
     while j < (listFiles.size() - 1) :
@@ -159,6 +161,30 @@ listAction = tk.Listbox(f1,width=70,height=8)
 listAction.grid(row=7,column=0,pady=5)
 f1.grid(row=0,column=0)
 
+
+#################fonctio de generation du xml
+def save():
+    page = xl.newPage('nom Page')
+    sizelist=listAction.size()
+    #k=0
+    #w=evt.widget
+    for k in range (0,sizelist) :
+        #if len(w.curselection())!=0 :
+        selection = listAction.curselection()
+        typeEl = selection[0]
+        index = int(listAction.curselection()[0])#.w
+        posiX=1
+        posiY=1
+        widthEl=1
+        heightEl=1
+        xl.addElement(typeEl, posiX, posiY, widthEl, heightEl,page)
+        
+    
+################ button pour confirmer le choix des element de la page
+buttonSave=tk.Button(f1,text="Enregistrer",command=save).grid(row=7,column=0,pady=5,sticky=tk.S)
+
+
+
 ############################################### frame à droite pour afficher l'image ##########################################
 #f0 = tk.Frame(f1)
 #f0.grid(fill=tk.BOTH)
@@ -176,6 +202,7 @@ f1.grid(row=0,column=0)
 #zoneImage.grid(row=2,column=10,rowspan=2,columnspan=8,sticky=tk.E )
 cadre=tk.Canvas(c,width=ecran_width-600,height=ecran_height-25)
 cadre.grid(row=0,column=1,sticky=tk.S+tk.N)
+
 def onselect(evt):
     #cadre=tk.Canvas(c,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=ecran_width-600,height=ecran_height-25,bg="black")#,bg="black"
     #cadre=tk.Label(f,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=320,height=240,bg="green")

@@ -76,7 +76,7 @@ def endProjet(nameProjet) :
         exit(1)
         
 
-def ajouterElement(typeEl, posiX, posiY, widthEl, heightEl,page):
+def addElement(typeEl, posiX, posiY, widthEl, heightEl,page):
     
 #    page = etree.SubElement(xmlProjet,'page')
 #    page.set('id',bytes(numero))
@@ -103,7 +103,7 @@ def ajouterElement(typeEl, posiX, posiY, widthEl, heightEl,page):
     height.text= str(heightEl)
 
 
-#def delectElement
+def delectElement():
     
 nameProjet='myNewProjet'
 #newProjet(nameProjet)
