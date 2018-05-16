@@ -1,6 +1,13 @@
+import math
 trace = 0 
      
 class CanvasEventsDemo: 
+    startX=0
+    startY=0
+    isDraw=False
+    finalX=0
+    finalY=0
+    #list=[]
     def __init__(self, parent):
         ##canvas = tk.Canvas(width=300, height=300, bg='white') 
         #canvas.pack()
@@ -14,11 +21,14 @@ class CanvasEventsDemo:
     def onStart(self, event):
         self.start = event
         self.drawn = None
+        self.startX=self.start.x
+        self.startY=self.start.y
 
     def onGrow(self, event):                          
         canvas = event.widget
         if self.drawn: canvas.delete(self.drawn)
         objectId = canvas.create_rectangle(self.start.x, self.start.y, event.x, event.y)
+        self.isDraw=True
         if trace: print(objectId)
         self.drawn = objectId
 
@@ -29,9 +39,37 @@ class CanvasEventsDemo:
         if self.drawn:            
             if trace: print(self.drawn)
             canvas = event.widget
-            diffX, diffY = (event.x - self.start.x), (event.y - self.start.y)
+            diffX, diffY = (event.x - self.start.x), (event.y - self.start.y) 
             canvas.move(self.drawn, diffX, diffY)
             self.start = event
+            
+    def onFinal(self,event):
+        self.final=event
+        self.finalX=event.x
+        self.finalY=event.y
+	
+    """def returnStartX(self):
+        x=self.startX
+        print("return"+str(self.startX))
+        return x
+		
+    def returnFinal(self):
+        return self.finalX,self.finalY
+    
+    def hasDrawn(self):
+        return self.isDraw"""
+        
+    def getCoordonnes(self):
+        list=[]
+        width=abs(self.finalX-self.startX)
+        height=abs(self.finalY-self.startY)
+        list.append(self.startX)
+        list.append(self.startY)
+        list.append(width)
+        list.append(height)
+        return list
+    
+    
 """import tkinter.filedialog as tf
 from PIL import Image, ImageFont, ImageDraw, ImageTk
 root = tk.Tk()
