@@ -38,7 +38,7 @@ def select_file():
             print('pages = ', len(img.sequence))
             img.compression_quality = 99
             with img.convert('jpg') as converted:
-                converted.save(filename=filePath+'/'+shotName+'/pages.jpg')    #nb le chemin des results
+                converted.save(filename=filePath+'/'+ shotName+'/pages.jpg')    #nb le chemin des results
     
 def splitPath(path):
     global filePath,tempfileName,shotName,extension

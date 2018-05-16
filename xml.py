@@ -9,18 +9,20 @@ import os.path
 #from xml.dom import minidom
 
 #C:/Users/rachel/Documents/GitHub/ProjetCheminDeFer/docXml/
-xmlProjets
+global xmlProjet
+global numero
+global xmlProjets
 
 try :
     xmlProjets[0][0]
-except IOError :
+except :
     xmlProjets = [[],[]]
+    
 #name=[]
 #memoire=[]
 #xmlProjet.append(name)
 #xmlProjet.append(memoire)
-xmlProjet
-numero
+
 
 def checkFileExiste(nameFile):
     #nameFile.exists()
@@ -103,14 +105,45 @@ def addElement(typeEl, posiX, posiY, widthEl, heightEl,page):
     height.text= str(heightEl)
 
 
-def delectElement():
+def delectElement(nameProjet):
+    chaine = "<width>"#"<posX>1</posX>\n        <posY>2</posY> \n"# <width>3</width> <height>4</height> </element>" # Texte à rechercher
+    #contenu = ""
+    remplace = "      <posX>1</posX>\n      <posY>2</posY> \n"
+ 
+#    with open('docXml\\' + nameProjet + '.xml',"r+b") as fichier:
+#        ch = fichier.read()
+#        x = ch.find(bytearray(chaine, 'utf8'))#bytes(chaine))
+#        x = ch[0:x].rfind(bytearray('\n', 'utf8')) + 1
+# 
+#        #fichier.seek(x)
+#        with open('docXml\\' + nameProjet +'.xml') as ligne:
+#            #for ligne in fichier[x:]:
+#            if not(chaine in ligne):
+#                contenu += str(ligne)
+#            #fichier.seek(x)
+#            fichier.write(bytearray(contenu,'utf8'))  
     
-nameProjet='myNewProjet'
-#newProjet(nameProjet)
-continuePoject(nameProjet)
-p=newPage('page original me revoila')
-ajouterElement('para',1,2,3,4,p)
+    with open('docXml\\' + nameProjet + '.xml','r') as f:
+        lines = f.readlines()
+ 
+    with open('docXml\\' + nameProjet + '.xml','w') as f:
+        for line in lines:
+            # str.lower permet de ne pas s'occuper des majuscules
+            if chaine in line.lower():
+                line = remplace
+            f.write(line)
+        
+        
+nameProjet='NewProjet'
+newProjet(nameProjet)     
+#continuePoject(nameProjet)       
+delectElement(nameProjet)   
+
+
+#
+#p=newPage('page original me revoila')
+#newElement('para',1,2,3,4,p)
 #ajouterElement('paruhjkl',7,2,3,4,p)
-endProjet(nameProjet)
-ajouterElement('paruhjkl',7,2,3,4,p)
-endProjet(nameProjet)
+#endProjet(nameProjet)
+#ajouterElement('paruhjkl',7,2,3,4,p)
+#endProjet(nameProjet)
