@@ -6,8 +6,11 @@ Created on Wed May 16 09:34:19 2018
 """
 
 from __future__ import print_function
-from wand import *
-from wand.image import Image
+#from wand import *
+from Wand.image import Image
+#from PIL import Image, ImageFont, ImageDraw, ImageTk
+
+
 
 #nb le chemin du fichier source
 def pdfToPng(namefile,nameProjet): #'test1/source1.pdf'
@@ -19,5 +22,5 @@ def pdfToPng(namefile,nameProjet): #'test1/source1.pdf'
             with img.convert('png') as converted:
                 converted.save(filename='ImgFromPdf/' + namefile + 'page' + page + '.png')    #nb le chemin des results
                 #'test1/result/page_n.png'
-                listImg.append('ImgFromPdf/' + namefile + 'page' + page + '.png')
+                listImg.append('ImgFromPdf/' + namefile + '/'+ 'page' + page + '.png')
                 page += 1
