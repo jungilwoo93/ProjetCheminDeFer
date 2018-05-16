@@ -14,7 +14,7 @@ from os.path import basename
 #### nos autre fichier
 import DrawRect as rect
 import xml as xl
-import pdfToImg as pti
+#import pdfToImg as pti
 
 #########################################################  fenetre principale ##################################################
 #créer la fenêtre d'application
@@ -51,11 +51,18 @@ var=tk.StringVar()
 var.set("Paragraphe")
 typeZone={"Titre","Paragraphe","Lettrine","Image"}
 listPath=[]
+drawRect=None
+nbConfirm=0
+dict={}
+selectedAction=None
 
 #################################################### toutes les fonctions  ####################################################
 # fonction de buttonConfirm
 def confirmer():
-    listAction.insert(tk.END,var.get())
+    global nbConfirm,map
+    nbConfirm+=1
+    listAction.insert(tk.END,var.get()+'-'+str(nbConfirm))
+    dict[var.get()+'-'+str(nbConfirm)]=drawRect.getCoordonnes()
     
 # parcours choit du fichier
 def chooseFile():
@@ -154,7 +161,7 @@ boutonSupprimer=tk.Button(zoneButton,text="Vider",command=delecteAll).grid(row=1
 zoneButton.grid(row=2,pady=5)
 
 ################## label pour la zone choisie
-labelZoneChoix=tk.Label(f1,text='La zone choisi est : ')
+labelZoneChoix=tk.Label(f1,text='La zone choisie est : ')
 labelZoneChoix.config(font=('Forte',18))
 labelZoneChoix.grid(row=3, sticky=tk.W)
 
@@ -170,11 +177,23 @@ zoneRadioButton.grid(row=4,sticky=tk.W,pady=5)
 buttonConfirm=tk.Button(f1,text="Confirmer",command=confirmer).grid(row=5,column=0,pady=5,sticky=tk.S)
 
 ################ listebox pour les Actions
+def onSelectAction(evt):
+    global selectedAction
+    if selectedAction is not None:
+        cadre.delete(selectedAction)
+    selection=listAction.get(listAction.curselection())
+    list=[]
+    list=dict[selection]
+    selectedAction=cadre.create_rectangle(list[0],list[1],list[0]+list[2],list[1]+list[3],width=5)
+    
 labelAction=tk.Label(f1,text="Les actions : ")
 labelAction.config(font=('Forte',18))
 labelAction.grid(row=6,column=0,pady=5,sticky=tk.W)
 listAction = tk.Listbox(f1,width=70,height=8)
 listAction.grid(row=7,column=0,pady=5)
+listAction.bind('<<ListboxSelect>>', onSelectAction)  
+
+
 f1.grid(row=0,column=0)
 
 
@@ -219,7 +238,10 @@ buttonSave=tk.Button(f1,text="Enregistrer",command=save).grid(row=7,column=0,pad
 cadre=tk.Canvas(c,width=ecran_width-600,height=ecran_height-25)
 cadre.grid(row=0,column=1,sticky=tk.S+tk.N)
 
+
+    
 def onselect(evt):
+    global drawRect,isDraw
     #cadre=tk.Canvas(c,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=ecran_width-600,height=ecran_height-25,bg="black")#,bg="black"
     #cadre=tk.Label(f,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=320,height=240,bg="green")
     #cadre=tk.Canvas(root,width=ecran_width-500,height=ecran_height,bg="black")
@@ -238,11 +260,13 @@ def onselect(evt):
         cadre.image=photo
         
         cadre.create_image(400,320,image =photo) 
-        a=rect.CanvasEventsDemo(cadre)
-        cadre.bind('<ButtonPress-1>', a.onStart)  
-        cadre.bind('<B1-Motion>',     a.onGrow)   
-        cadre.bind('<Double-1>',      a.onClear)  
-        cadre.bind('<ButtonPress-3>', a.onMove)   
+        drawRect=rect.CanvasEventsDemo(cadre)
+        cadre.bind('<ButtonPress-1>', drawRect.onStart)  
+        cadre.bind('<B1-Motion>',     drawRect.onGrow)   
+        cadre.bind('<Double-1>',      drawRect.onClear)  
+        cadre.bind('<ButtonPress-3>', drawRect.onMove)   
+        cadre.bind('<ButtonRelease-1>', drawRect.onFinal)
+        
         #zoneImage.grid(row=2,column=5000,rowspan=2,columnspan=8,sticky=tk.E)#,padx=20,pady=20
         #cadre.grid(row=2,column=500,rowspan=2,columnspan=30,sticky=tk.E)# padx=20,pady=20,
         #cadre.grid(row=0,column=1,sticky=tk.S)

@@ -106,7 +106,7 @@ def addElement(typeEl, posiX, posiY, widthEl, heightEl,page):
 
 
 def delectElement(nameProjet):
-    chaine = "<width>"#"<posX>1</posX>\n        <posY>2</posY> \n"# <width>3</width> <height>4</height> </element>" # Texte à rechercher
+    chaine = "<height>"#"<posX>1</posX>\n        <posY>2</posY> \n"# <width>3</width> <height>4</height> </element>" # Texte à rechercher
     #contenu = ""
     remplace = "      <posX>1</posX>\n      <posY>2</posY> \n"
  
@@ -122,16 +122,22 @@ def delectElement(nameProjet):
 #                contenu += str(ligne)
 #            #fichier.seek(x)
 #            fichier.write(bytearray(contenu,'utf8'))  
-    
+    ligneefface=0
     with open('docXml\\' + nameProjet + '.xml','r') as f:
         lines = f.readlines()
  
-    with open('docXml\\' + nameProjet + '.xml','w') as f:
+    with open('docXml\\' + nameProjet + '.2xml','w') as f:
         for line in lines:
             # str.lower permet de ne pas s'occuper des majuscules
             if chaine in line.lower():
                 line = remplace
-            f.write(line)
+                ligneefface=4
+            if (ligneefface==4):  
+                f.write(line)
+            if ligneefface==0 :
+                f.write(line)
+            else :
+                ligneefface -=1
         
         
 nameProjet='NewProjet'
