@@ -8,9 +8,14 @@ Created on Mon May  7 16:26:16 2018
 import tkinter as tk
 import tkinter.filedialog as tf
 from PIL import Image, ImageFont, ImageDraw, ImageTk
+import os
 from os.path import basename
+
+#### nos autre fichier
 import DrawRect as rect
 import xml as xl
+import pdfToImg as pti
+
 #########################################################  fenetre principale ##################################################
 #créer la fenêtre d'application
 root = tk.Tk()
@@ -69,9 +74,20 @@ def chooseFile():
     nbSelected=len(choice)
     #recupere le nom apartir du chemin
     for i in range (0,nbSelected):
+        ext = os.path.splitext(choice[i])
         nom=basename(choice[i])
         #nom=choice[i]
-        if nom!="": #sinon quand on clic sur parcourir mais qu'on ne choisi rien ça rajoute un espace blanc
+        if ext == '.pdf':
+            print('c est un pdf')
+            listImg = pti.pdfToPng(choice[i],'mon projet')
+            size=len(listImg)
+            for k in range (0, size) :
+                listFiles.insert(1,basename(listImg[k])) #ça se met par ordre aleatoire
+                listPath.append(listImg[i])
+            
+            
+        else :
+            if nom!="": #sinon quand on clic sur parcourir mais qu'on ne choisi rien ça rajoute un espace blanc
                 listFiles.insert(1,nom) #ça se met par ordre aleatoire
                 listPath.append(choice[i])
                 #i+=1

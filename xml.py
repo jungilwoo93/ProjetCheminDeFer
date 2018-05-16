@@ -2,7 +2,7 @@
 """
 Created on Tue May 15 09:53:46 2018
 
-@author: rachel
+@author: rachel NOIREAU & liuyan PAN
 """
 from lxml import etree
 import os.path
