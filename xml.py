@@ -7,6 +7,9 @@ Created on Tue May 15 09:53:46 2018
 from lxml import etree
 import os.path
 #from xml.dom import minidom
+import xml.etree.ElementTree as et
+
+
 
 #C:/Users/rachel/Documents/GitHub/ProjetCheminDeFer/docXml/
 global xmlProjet
@@ -37,9 +40,6 @@ def newProjet(nameProjet):
     global xmlProjet
     xmlProjet = etree.Element(nameProjet)#fait recommencer
     global xmlProjets
-    #size=len(xmlProjets)
-    #xmlProjets[0][size]=nameProjet
-    #xmlProjets[1][size]=xmlProjet
     xmlProjets[0].append(nameProjet)
     xmlProjets[1].append(xmlProjet)
     global numero 
@@ -106,50 +106,77 @@ def addElement(typeEl, posiX, posiY, widthEl, heightEl,page):
 
 
 def delectElement(nameProjet):
-    chaine = "<height>"#"<posX>1</posX>\n        <posY>2</posY> \n"# <width>3</width> <height>4</height> </element>" # Texte à rechercher
-    #contenu = ""
-    remplace = "      <posX>1</posX>\n      <posY>2</posY> \n"
- 
-#    with open('docXml\\' + nameProjet + '.xml',"r+b") as fichier:
-#        ch = fichier.read()
-#        x = ch.find(bytearray(chaine, 'utf8'))#bytes(chaine))
-#        x = ch[0:x].rfind(bytearray('\n', 'utf8')) + 1
-# 
-#        #fichier.seek(x)
-#        with open('docXml\\' + nameProjet +'.xml') as ligne:
-#            #for ligne in fichier[x:]:
-#            if not(chaine in ligne):
-#                contenu += str(ligne)
-#            #fichier.seek(x)
-#            fichier.write(bytearray(contenu,'utf8'))  
-    ligneefface=0
-    with open('docXml\\' + nameProjet + '.xml','r') as f:
-        lines = f.readlines()
- 
-    with open('docXml\\' + nameProjet + '.2xml','w') as f:
-        for line in lines:
-            # str.lower permet de ne pas s'occuper des majuscules
-            if chaine in line.lower():
-                line = remplace
-                ligneefface=4
-            if (ligneefface==4):  
-                f.write(line)
-            if ligneefface==0 :
-                f.write(line)
-            else :
-                ligneefface -=1
+    numPage = "7"#☺\n        <posY>2</posY> \n"# <width>3</width> <height>4</height> </element>" # Texte à rechercher
+    #remplace = "salut"
+    for e in xmlProjet.findall('page'):
+        if e.attrib['id']==numPage :
+            e1=e.find('element')
+            listChild=xmlProjet.getchildren() 
+            listChild=e.getchildren()
+            print(listChild)
+            print(e1)
+            e.remove(e1)
+     
+    #xmlProjet.replace(e, e)
+#    
+#    
+#    with open('docXml\\' + nameProjet + '.xml','r') as f:
+#        lines = f.readlines()
+#    
+#    ligneefface=0
+#    with open('docXml\\' + nameProjet + '.xml','w') as f:
+#        for line in lines:
+#            # str.lower permet de ne pas s'occuper des majuscules
+#            if (chaine.lower() in line.lower()):
+#                line = remplace
+#            #f.write(line)
+#                ligneefface=4
+#                print('on remplace')
+#                f.write(line)
+#                ligneefface -=1
+#            if ligneefface==0 :
+#                f.write(line)
+#                print('yo')
+#            else :
+#                ligneefface -=1
+#    
+#    
+##    root = et.XML(etree.tostring(xmlProjet,pretty_print=True).decode('utf-8'))
+##    p  = root.find(nameProjet + '/page')  # le père
+##    e = p.find('posX') # le fils
+##    p.remove(e) # supression
+##    print (et.tostring(root))
+#                
+#          
+#     
+#    
+#
+##    
+##    xml = etree.parse('monfichier.xml')
+##    for ma_balise in xml.getchildren():
+##    if 'mon_attribut' in ma_balise.attrib and ma_balise.attrib['mon_attribut'] == 'ok':
+##        ma_balise.text = 'nouvelle valeur'
+##        # Si besoin d'une section CDATA
+##        # ma_balise.text = etree.CDATA('nouvelle valeur')
+##                
+##    with open('monfichier.xml', 'w') as f1:
+##    f1.write(etree.tounicode(xml))           
+#                
+#    #index=xmlProjets[0].index(nameProjet)
+#    #xmlProjets[1][index]=xmlProjet
         
         
 nameProjet='NewProjet'
-newProjet(nameProjet)     
-#continuePoject(nameProjet)       
-delectElement(nameProjet)   
+#newProjet(nameProjet)     
+continuePoject(nameProjet)       
+ 
 
 
-#
+
 #p=newPage('page original me revoila')
-#newElement('para',1,2,3,4,p)
-#ajouterElement('paruhjkl',7,2,3,4,p)
+#addElement('para',1,2,3,4,p)
+#addElement('paruhjkl',7,2,3,4,p)
+delectElement(nameProjet)  
 #endProjet(nameProjet)
 #ajouterElement('paruhjkl',7,2,3,4,p)
-#endProjet(nameProjet)
+endProjet(nameProjet)

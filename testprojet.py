@@ -213,7 +213,7 @@ def save():
         widthEl=1
         heightEl=1
         xl.addElement(typeEl, posiX, posiY, widthEl, heightEl,page)
-        
+        xl.endProjet('mon projet')
     
 ################ button pour confirmer le choix des element de la page
 buttonSave=tk.Button(f1,text="Enregistrer",command=save).grid(row=7,column=0,pady=5,sticky=tk.S)
