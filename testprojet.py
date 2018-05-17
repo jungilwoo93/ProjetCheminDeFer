@@ -247,13 +247,15 @@ buttonSave=tk.Button(f1,text="Enregistrer",command=save).grid(row=7,column=0,pad
 #afficher image dés qu'on selectionne un element
 #zoneImage=tk.Frame(root,bg="black")
 #zoneImage.grid(row=2,column=10,rowspan=2,columnspan=8,sticky=tk.E )
-cadre=tk.Canvas(c,width=ecran_width-600,height=ecran_height-25)
-cadre.grid(row=0,column=1,sticky=tk.S+tk.N)
+fImg=tk.Frame(c,width=ecran_width-600,height=ecran_height-25,bg="green")
+fImg.grid(row=0,column=1,sticky=tk.N+tk.S)
+cadre=tk.Canvas(c,bg="blue")
+cadre.grid(row=0,column=1)
 
 
     
 def onselect(evt):
-    global drawRect,isDraw
+    global drawRect,isDraw,newImg
     #cadre=tk.Canvas(c,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=ecran_width-600,height=ecran_height-25,bg="black")#,bg="black"
     #cadre=tk.Label(f,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=320,height=240,bg="green")
     #cadre=tk.Canvas(root,width=ecran_width-500,height=ecran_height,bg="black")
@@ -267,11 +269,34 @@ def onselect(evt):
         img=Image.open(listPath[index])
         #img.resize((320,240))
         #img.zoom(320/img.width(), 240/img.height())
-        photo = ImageTk.PhotoImage(img)
-        dicimg['img1'] = photo
-        cadre.image=photo
+        wd,hg=img.size
+        mwd=ecran_width-600
+        mhg=ecran_height-25
+        if wd>mwd :
+            scale= 1.0*wd/mwd
+            newImg=img.resize((int(wd/scale),int(hg/scale)),Image.ANTIALIAS)
+            cadre.config(width=wd/scale,height=hg/scale)
+            photo = ImageTk.PhotoImage(newImg)
+            dicimg['img1'] = photo
+            cadre.image=photo
+            cadre.create_image(0,0,image=photo,anchor="nw") 
+        elif hg > mhg:
+            scale = 1.0*hg/mhg
+            newImg = img.resize((int(wd/scale),int(hg/scale)), Image.ANTIALIAS)
+            cadre.config(width=wd/scale,height=hg/scale)
+            photo = ImageTk.PhotoImage(newImg)
+            dicimg['img1'] = photo
+            cadre.image=photo
+            cadre.create_image(0,0,image=photo,anchor="nw") 
+        else:
+            cadre.config(width=wd,height=hg)
+            photo = ImageTk.PhotoImage(img)
+            dicimg['img1'] = photo
+            cadre.image=photo
+            cadre.create_image(0,0,image=photo,anchor="nw") 
+        #newImg.save(listPath[index])  
+        #newImg.close() 
         
-        cadre.create_image(400,320,image =photo) 
         drawRect=rect.CanvasEventsDemo(cadre)
         cadre.bind('<ButtonPress-1>', drawRect.onStart)  
         cadre.bind('<B1-Motion>',     drawRect.onGrow)   
