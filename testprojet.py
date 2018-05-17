@@ -199,9 +199,14 @@ f1.grid(row=0,column=0)
 
 #################fonctio de generation du xml
 def save():
-    page = xl.addPage('nom Page')
-    sizelist=listAction.size()
     nameProjet='bla'
+    numPage = '2'
+    if not(xl.pageExist(nameProjet, numPage)) :
+        page = xl.addPage('nom Page')
+    else :
+        page = xl.foundPage(nameProjet, numPage)
+    sizelist=listAction.size()
+    
     #w=evt.widget
     for k in range (0,sizelist) :
         #if len(w.curselection())!=0 :
