@@ -19,5 +19,6 @@ def nextPage():  #a mettre dans enregister #voir si onSelect se fait tout seul
     
     
 def getNumPage() : #dés qu'on selectionne un truc
-      listFiles.curselection()[0]
+      return listFiles.curselection()[0] #mettre numpage egale a sa
+      
     
