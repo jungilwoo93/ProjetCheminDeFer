@@ -199,7 +199,7 @@ f1.grid(row=0,column=0)
 
 #################fonctio de generation du xml
 def save():
-    page = xl.newPage('nom Page')
+    page = xl.addPage('nom Page')
     sizelist=listAction.size()
     nameProjet='bla'
     #w=evt.widget
