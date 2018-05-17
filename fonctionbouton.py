@@ -9,6 +9,15 @@ import tkinter.filedialog as tf
 from PIL import Image, ImageFont, ImageDraw, ImageTk
 from os.path import basename
 #################################################### toutes les fonctions  ####################################################
-# fonction de buttonConfirm
-def confirmer(listAction,var):
-    listAction.insert(tk.END,var.get())
+listFiles = tk.Listbox()
+numPage=3
+
+def nextPage():  #a mettre dans enregister #voir si onSelect se fait tout seul
+    global numPage
+    numPage += 1
+    listFiles.selection_set(numPage)
+    
+    
+def getNumPage() : #dés qu'on selectionne un truc
+      listFiles.curselection()[0]
+    

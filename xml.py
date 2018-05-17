@@ -148,12 +148,7 @@ def delectElement(nameProjet,numPage,numElem):
 ##    e = p.find('posX') # le fils
 ##    p.remove(e) # supression
 ##    print (et.tostring(root))
-#                
-#          
-#     
-#    
-#
-##    
+
 ##    xml = etree.parse('monfichier.xml')
 ##    for ma_balise in xml.getchildren():
 ##    if 'mon_attribut' in ma_balise.attrib and ma_balise.attrib['mon_attribut'] == 'ok':
@@ -168,7 +163,6 @@ def delectElement(nameProjet,numPage,numElem):
 #    #xmlProjets[1][index]=xmlProjet
         
 def replace(nameProjet, numPage, numElem, newType) :
-    numElem="1"
     for e in xmlProjet.findall('page'):
         if e.attrib['id']==numPage :
             e1=e.find('element')
@@ -178,7 +172,17 @@ def replace(nameProjet, numPage, numElem, newType) :
                 #listChild=e.getchildren()
                 #e.remove(e1)
                 #xmlProjet.replace(e, e)
-            
+
+def pageExist(nameProjet, numPage)  : 
+    for e in xmlProjet.findall('page'):
+        if e.attrib['id']==numPage :
+            return True 
+        
+def foundPage(nameProjet, numPage) : 
+    for e in xmlProjet.findall('page'):
+        if e.attrib['id']==numPage :
+            return e
+
 
 def reSave(nameProjet, numPage, numElem) :     
     for e in xmlProjet.findall('page'):
