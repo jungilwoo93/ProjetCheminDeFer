@@ -86,11 +86,11 @@ def chooseFile():
         #nom=choice[i]
         if ext == '.pdf':
             print('c est un pdf')
-            listImg = pti.pdfToPng(choice[i],'mon projet')
-            size=len(listImg)
-            for k in range (0, size) :
-                listFiles.insert(1,basename(listImg[k])) #ça se met par ordre aleatoire
-                listPath.append(listImg[i])
+            #listImg = pti.pdfToPng(choice[i],'mon projet')
+            #size=len(listImg)
+            #for k in range (0, size) :
+             #   listFiles.insert(1,basename(listImg[k])) #ça se met par ordre aleatoire
+              #  listPath.append(listImg[i])
             
             
         else :
@@ -201,7 +201,7 @@ f1.grid(row=0,column=0)
 def save():
     page = xl.newPage('nom Page')
     sizelist=listAction.size()
-    #k=0
+    nameProjet='bla'
     #w=evt.widget
     for k in range (0,sizelist) :
         #if len(w.curselection())!=0 :
@@ -212,8 +212,15 @@ def save():
         posiY=1
         widthEl=1
         heightEl=1
-        xl.addElement(typeEl, posiX, posiY, widthEl, heightEl,page)
-        xl.endProjet('mon projet')
+        numPage=2
+        numElem=2
+        if not(xl.reSave(nameProjet, numPage, numElem)) :
+            xl.addElement(typeEl, posiX, posiY, widthEl, heightEl,page)
+            xl.endProjet('mon projet')
+        else :
+            if not(xl.chageType(nameProjet, numPage, numElem, typeEl)):
+                xl.replace(nameProjet, numPage, numElem, typeEl)
+                xl.endProjet('mon projet')
     
 ################ button pour confirmer le choix des element de la page
 buttonSave=tk.Button(f1,text="Enregistrer",command=save).grid(row=7,column=0,pady=5,sticky=tk.S)

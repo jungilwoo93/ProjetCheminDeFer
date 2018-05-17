@@ -78,14 +78,14 @@ def endProjet(nameProjet) :
         exit(1)
         
 
-def addElement(typeEl, posiX, posiY, widthEl, heightEl,page):
+def addElement(typeEl, idEl, posiX, posiY, widthEl, heightEl, page):
     
 #    page = etree.SubElement(xmlProjet,'page')
 #    page.set('id',bytes(numero))
-#    
-    
+
     element = etree.SubElement(page,'element') #ou append
     element.set('type',typeEl)#recurere le typele l'element de la liste
+    element.set('id',typeEl)
     
     #truc du prof
 #    position = etree.SubElement(element,'element')
@@ -105,17 +105,19 @@ def addElement(typeEl, posiX, posiY, widthEl, heightEl,page):
     height.text= str(heightEl)
 
 
-def delectElement(nameProjet):
+def delectElement(nameProjet,numPage,numElem):
     numPage = "7"#☺\n        <posY>2</posY> \n"# <width>3</width> <height>4</height> </element>" # Texte à rechercher
     #remplace = "salut"
+    numElem="1"
     for e in xmlProjet.findall('page'):
         if e.attrib['id']==numPage :
             e1=e.find('element')
-            listChild=xmlProjet.getchildren() 
-            listChild=e.getchildren()
-            print(listChild)
-            print(e1)
-            e.remove(e1)
+            if e1.attrib['id']==numElem:
+                listChild=xmlProjet.getchildren() 
+                listChild=e.getchildren()
+                print(listChild)
+                print(e1)
+                e.remove(e1)
      
     #xmlProjet.replace(e, e)
 #    
@@ -165,7 +167,35 @@ def delectElement(nameProjet):
 #    #index=xmlProjets[0].index(nameProjet)
 #    #xmlProjets[1][index]=xmlProjet
         
-        
+def replace(nameProjet, numPage, numElem, newType) :
+    numElem="1"
+    for e in xmlProjet.findall('page'):
+        if e.attrib['id']==numPage :
+            e1=e.find('element')
+            if e1.attrib['id']==numElem:
+                e1.attrib['type'] = newType
+                #listChild=xmlProjet.getchildren() 
+                #listChild=e.getchildren()
+                #e.remove(e1)
+                #xmlProjet.replace(e, e)
+            
+
+def reSave(nameProjet, numPage, numElem) :     
+    for e in xmlProjet.findall('page'):
+        if e.attrib['id']==numPage :
+            e1=e.find('element')
+            if e1.attrib['id']==numElem:
+                return True 
+            #addElement(typeEl, idEl, posiX, posiY, widthEl, heightEl, e)
+
+def chageType(nameProjet, numPage, numElem, newType):
+    for e in xmlProjet.findall('page'):
+        if e.attrib['id']==numPage :
+            e1=e.find('element')
+            if e1.attrib['id']==numElem:
+                if e1.attrib['ty']==newType:
+                    return True
+           
 nameProjet='NewProjet'
 #newProjet(nameProjet)     
 continuePoject(nameProjet)       
