@@ -8,7 +8,7 @@ from lxml import etree
 import os.path
 #from xml.dom import minidom
 import xml.etree.ElementTree as et
-
+import xml.etree
 listProjets=[]
 
 global xmlProjet
@@ -31,7 +31,15 @@ except :
 #xmlProjet.append(name)
 #xmlProjet.append(memoire)
     
-def duplicationProjet() :
+def getExistingXml(nameProjet):
+    tree = et.parse('docXml/' + nameProjet + '.xml')#str(nameProjet) +
+    #child=tree.getchildren()
+    root = tree.getroot()
+    print(root)
+    return root
+ 
+    
+def duplicationProjet() : #pas forcement necessaire
     print(xmlProjets[0])
     for i in range (0 ,len(xmlProjets[0])):
         listProjets.append(xmlProjets[0][i])
@@ -49,10 +57,11 @@ def newProjet(nameProjet):
     #else:
     global xmlProjet
     xmlProjet = etree.Element(nameProjet)#fait recommencer
+    print(xmlProjet)
     global xmlProjets
     xmlProjets[0].append(nameProjet)
     xmlProjets[1].append(xmlProjet)
-    print(xmlProjets[0])
+    #print(xmlProjets[0])
     global numero 
     numero=0     
 
@@ -213,12 +222,12 @@ def chageType(nameProjet, numPage, numElem, newType):
                 if e1.attrib['ty']==newType:
                     return True
            
-#nameProjet='NewProjet'
-#newProjet(nameProjet)     
+nameProjet='NewProjet'
+newProjet(nameProjet)     
 #continuePoject(nameProjet)       
  
 
-
+getExistingXml('NewProjet')
 
 #p=newPage('a que coucou')
 #addElement('para',1,2,3,4,p)

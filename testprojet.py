@@ -14,6 +14,7 @@ from os.path import basename
 #### nos autre fichier
 import DrawRect as rect
 import creatXml as xl
+import gestionSave as gs
 #import pdfToImg as pti
 
 #########################################################  fenetre principale ##################################################
@@ -363,6 +364,7 @@ def selectByButton():
     cadre.bind('<Double-1>',      drawRect.onClear)  
     cadre.bind('<ButtonPress-3>', drawRect.onMove)   
     cadre.bind('<ButtonRelease-1>', drawRect.onFinal)
+    gs.mettreAJour(nameProjet,numPage)
 
     
 def onselect(evt):
@@ -417,6 +419,7 @@ def onselect(evt):
         cadre.bind('<Double-1>',      drawRect.onClear)  
         cadre.bind('<ButtonPress-3>', drawRect.onMove)   
         cadre.bind('<ButtonRelease-1>', drawRect.onFinal)
+        gs.mettreAJour(nameProjet,numPage)
         
         #zoneImage.grid(row=2,column=5000,rowspan=2,columnspan=8,sticky=tk.E)#,padx=20,pady=20
         #cadre.grid(row=2,column=500,rowspan=2,columnspan=30,sticky=tk.E)# padx=20,pady=20,
