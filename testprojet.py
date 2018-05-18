@@ -20,29 +20,31 @@ import creatXml as xl
 #créer la fenêtre d'application
 root = tk.Tk()
 #récupérer la taille d'écran d'ordi
-ecran_width = root.winfo_screenwidth()
-ecran_height = root.winfo_screenheight()-75
+ecran_width = root.winfo_screenwidth()*0.9
+ecran_height = root.winfo_screenheight()*0.82
 #définir la taille d'écran d'or comme la fenêtre d'application
 #root.geometry(str(ecran_width)+'x'+str(ecran_height))
 root.geometry('%dx%d+%d+%d' % (ecran_width, ecran_height, 1, 1))
 #mettre le title et background pour l'application
 root.title("trainning Chemin de Fer")
+root.resizable(width=False,height=False)
 ####################################################### frame entier ########################################################3
-f=tk.Frame(root,bg="green",width=ecran_width,height=ecran_height)
+f=tk.Frame(root,bg="black",width=ecran_width,height=ecran_height)
 #scrollbar pour la fenetre pricipqle
-vsb = tk.Scrollbar(f, orient=tk.VERTICAL)
+#vsb = tk.Scrollbar(f, orient=tk.VERTICAL)
 #vsb.grid(row=0, column=3, rowspan=4, sticky=tk.N+tk.S+tk.E)#
-vsb.grid(row=0,column=2,rowspan=5,sticky=tk.E+tk.N+tk.S)
-hsb = tk.Scrollbar(f, orient=tk.HORIZONTAL)
+#vsb.grid(row=0,column=2,rowspan=5,sticky=tk.E+tk.N+tk.S)
+#hsb = tk.Scrollbar(f, orient=tk.HORIZONTAL)
 #hsb.grid(row=1,column=0,sticky=tk.W)
 
-hsb.grid(row=1, column=0,columnspan=5, sticky=tk.E+tk.W)
-c = tk.Canvas(f, yscrollcommand=vsb.set, xscrollcommand=hsb.set, width=ecran_width-25, height=ecran_height-25,bd=0,highlightthickness=0)
+#hsb.grid(row=1, column=0,columnspan=5, sticky=tk.E+tk.W)
+#c = tk.Canvas(f, yscrollcommand=vsb.set, xscrollcommand=hsb.set, width=ecran_width, height=ecran_height,bd=0,highlightthickness=0)
+c=tk.Canvas(f,width=ecran_width, height=ecran_height,bd=0,highlightthickness=0,bg="gray")
 #c.yview_moveto(1)
 #c.xview_moveto(1)
 c.grid(row=0, column=0, sticky=tk.W+tk.N + tk.S)#,sticky="news"
-vsb.config(command=c.yview)#c.yview
-hsb.config(command=c.xview)
+#vsb.config(command=c.yview)#c.yview
+#hsb.config(command=c.xview)
 #root.grid_rowconfigure(0, weight=1)
 #root.grid_columnconfigure(0, weight=1)
 
@@ -175,7 +177,8 @@ menufichier.add_command(label="Quitter", command=root.destroy)
 #f1=tk.Frame(root,bg='gold', width=ecran_width+1000, height=ecran_height)
 #f1.config(width=ecran_width+1000, height=ecran_height)
 #f1.grid(column=0,columnspan=1000,sticky=tk.E)
-f1=tk.Frame(c,bg='gold')
+f1=tk.Frame(c,bg='gold',height=ecran_height,width=ecran_width*0.4)
+f1.grid(row=0,column=0,sticky=tk.S+tk.W+tk.N)
 
 ####################### label fichiers choisis
 labelFichier=tk.Label(f1,text='Les fichiers choisis : ')
@@ -202,27 +205,27 @@ yDefilB['command'] = listFiles.yview
 listFrame.grid(row=1,pady=5,padx=20,sticky=tk.W)
 
 ################### frame pour les buttons parcourir, supprimer, vider
-zoneButton=tk.Frame(f1)
-boutonParcourir=tk.Button(zoneButton,text="Parcourir",command=chooseFile).grid(row=1, column=0,sticky=tk.S,padx=40)
+#zoneButton=tk.Frame(f1)
+"""boutonParcourir=tk.Button(zoneButton,text="Parcourir",command=chooseFile).grid(row=1, column=0,sticky=tk.S,padx=40)
 boutonSupprimer=tk.Button(zoneButton,text="Supprimer",command=delecteSelection).grid(row=1, column=1,sticky=tk.S,padx=40)
-boutonSupprimer=tk.Button(zoneButton,text="Vider",command=delecteAll).grid(row=1, column=2,sticky=tk.S,ipadx=10,padx=40)
-zoneButton.grid(row=2,pady=5)
+boutonSupprimer=tk.Button(zoneButton,text="Vider",command=delecteAll).grid(row=1, column=2,sticky=tk.S,ipadx=10,padx=40)"""
+#zoneButton.grid(row=2,pady=5)
 
 ################## label pour la zone choisie
 labelZoneChoix=tk.Label(f1,text='La zone choisie est : ')
 labelZoneChoix.config(font=('Forte',18))
-labelZoneChoix.grid(row=3, sticky=tk.W)
+labelZoneChoix.grid(row=2, sticky=tk.W)
 
 ########################3 frame pour afficher les radiobuttons des choix
 zoneRadioButton=tk.Frame(f1)
 a=0
 for i,v in enumerate(typeZone):
-    tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v).grid(row=a, column=0,sticky=tk.W)
+    tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v).grid(row=0, column=a,sticky=tk.W,padx=20)
     a+=1
-zoneRadioButton.grid(row=4,sticky=tk.W,pady=5)
+zoneRadioButton.grid(row=3,sticky=tk.W,pady=5)
 
 ################ button pour comfirmer le choix avec la zone choisit sur image
-buttonConfirm=tk.Button(f1,text="Confirmer",command=confirmer).grid(row=5,column=0,pady=5,sticky=tk.S)
+buttonConfirm=tk.Button(f1,text="Confirmer",command=confirmer).grid(row=4,column=0,pady=5,sticky=tk.S)
 
 ################ listebox pour les Actions
 def onSelectAction(evt):
@@ -236,13 +239,12 @@ def onSelectAction(evt):
     
 labelAction=tk.Label(f1,text="Les actions : ")
 labelAction.config(font=('Forte',18))
-labelAction.grid(row=6,column=0,pady=5,sticky=tk.W)
+labelAction.grid(row=5,column=0,pady=5,sticky=tk.W)
 listAction = tk.Listbox(f1,width=70,height=8)
-listAction.grid(row=7,column=0,pady=5)
+listAction.grid(row=6,column=0,pady=5)
 listAction.bind('<<ListboxSelect>>', onSelectAction)  
 
 
-f1.grid(row=0,column=0)
 
 
 #################fonctio de generation du xml
@@ -274,11 +276,16 @@ def save():
             if not(xl.chageType(nameProjet, numPage, numElem, typeEl)):
                 xl.replace(nameProjet, numPage, numElem, typeEl)
                 xl.endProjet('mon projet')
-    
-################ button pour confirmer le choix des element de la page
-buttonSave=tk.Button(f1,text="Enregistrer",command=save).grid(row=7,column=0,pady=5,sticky=tk.S)
+###############################################
+def suivant():
+    print("coucou")
+                
 
-
+################ button pour confirmer le choix des element de la page ##############
+fButtons=tk.Frame(f1)
+buttonSave=tk.Button(fButtons,text="Enregistrer",command=save).grid(row=0,column=0,padx=50,sticky=tk.S)
+buttonSave=tk.Button(fButtons,text="Suivant",command=suivant).grid(row=0,column=1,padx=50,sticky=tk.S)
+fButtons.grid(row=7,column=0,pady=20)
 
 ############################################### frame à droite pour afficher l'image ##########################################
 #f0 = tk.Frame(f1)
@@ -295,7 +302,7 @@ buttonSave=tk.Button(f1,text="Enregistrer",command=save).grid(row=7,column=0,pad
 #afficher image dés qu'on selectionne un element
 #zoneImage=tk.Frame(root,bg="black")
 #zoneImage.grid(row=2,column=10,rowspan=2,columnspan=8,sticky=tk.E )
-fImg=tk.Frame(c,width=ecran_width-600,height=ecran_height-25,bg="green")
+fImg=tk.Frame(c,width=ecran_width*0.6,height=ecran_height,bg="green")
 fImg.grid(row=0,column=1,sticky=tk.N+tk.S)
 cadre=tk.Canvas(c,bg="blue")
 cadre.grid(row=0,column=1)
@@ -318,8 +325,8 @@ def onselect(evt):
         #img.resize((320,240))
         #img.zoom(320/img.width(), 240/img.height())
         wd,hg=img.size
-        mwd=ecran_width-600
-        mhg=ecran_height-25
+        mwd=ecran_width
+        mhg=ecran_height
         if wd>mwd :
             scale= 1.0*wd/mwd
             newImg=img.resize((int(wd/scale),int(hg/scale)),Image.ANTIALIAS)
