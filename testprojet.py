@@ -21,7 +21,7 @@ import creatXml as xl
 root = tk.Tk()
 #récupérer la taille d'écran d'ordi
 ecran_width = root.winfo_screenwidth()*0.9
-ecran_height = root.winfo_screenheight()*0.82
+ecran_height = root.winfo_screenheight()*0.85
 #définir la taille d'écran d'or comme la fenêtre d'application
 #root.geometry(str(ecran_width)+'x'+str(ecran_height))
 root.geometry('%dx%d+%d+%d' % (ecran_width, ecran_height, 1, 1))
@@ -58,7 +58,7 @@ nbConfirm=0
 dict={}
 selectedAction=None
 nameProjet='new'
-
+numPage=0
 #################################################### toutes les fonctions  ####################################################
 # fonction de buttonConfirm
 def confirmer():
@@ -130,6 +130,24 @@ def delecteAll():
     listFiles.delete(0,tk.END) 
     listPath.clear()
     
+def nextPage():  #a mettre dans enregister #voir si onSelect se fait tout seul
+    global numPage
+    if numPage<listFiles.size() :
+        numPage += 1
+        #print(numPage)
+        listFiles.selection_clear(0, tk.END)
+        listFiles.selection_set(numPage)
+        selectByButton()    
+    
+def lastPage():
+    global numPage
+    if numPage>listFiles.size() :
+        numPage -= 1
+        #print(numPage)
+        listFiles.selection_clear(0, tk.END)
+        listFiles.selection_set(numPage)
+        selectByButton()
+  
 ############################# Barre menu 
 def newProjet():
     chooseFile()
@@ -256,7 +274,6 @@ def save():
     else :
         page = xl.foundPage(nameProjet, numPage)
     sizelist=listAction.size()
-    
     #w=evt.widget
     for k in range (0,sizelist) :
         #if len(w.curselection())!=0 :
@@ -267,7 +284,7 @@ def save():
         posiY=1
         widthEl=1
         heightEl=1
-        numPage=2
+        #numPage=2
         numElem=2
         if not(xl.reSave(nameProjet, numPage, numElem)) :
             xl.addElement(typeEl, posiX, posiY, widthEl, heightEl,page)
@@ -276,6 +293,9 @@ def save():
             if not(xl.chageType(nameProjet, numPage, numElem, typeEl)):
                 xl.replace(nameProjet, numPage, numElem, typeEl)
                 xl.endProjet('mon projet')
+    print('save')
+    nextPage()
+        
 ###############################################
 def suivant():
     print("coucou")
@@ -283,8 +303,9 @@ def suivant():
 
 ################ button pour confirmer le choix des element de la page ##############
 fButtons=tk.Frame(f1)
-buttonSave=tk.Button(fButtons,text="Enregistrer",command=save).grid(row=0,column=0,padx=50,sticky=tk.S)
-buttonSave=tk.Button(fButtons,text="Suivant",command=suivant).grid(row=0,column=1,padx=50,sticky=tk.S)
+buttonLast=tk.Button(fButtons,text="Précédent",command=lastPage).grid(row=0,column=0,padx=50,sticky=tk.S)
+buttonSave=tk.Button(fButtons,text="Enregistrer et Suivant",command=save).grid(row=0,column=1,padx=50,sticky=tk.S)
+#buttonSave=tk.Button(fButtons,text="Suivant",command=suivant).grid(row=0,column=1,padx=50,sticky=tk.S)
 fButtons.grid(row=7,column=0,pady=20)
 
 ############################################### frame à droite pour afficher l'image ##########################################
@@ -307,9 +328,45 @@ fImg.grid(row=0,column=1,sticky=tk.N+tk.S)
 cadre=tk.Canvas(c,bg="blue")
 cadre.grid(row=0,column=1)
 
+def selectByButton():
+    dicimg = {}
+    global numPage
+    img=Image.open(listPath[numPage])
+    wd,hg=img.size
+    mwd=ecran_width
+    mhg=ecran_height
+    if wd>mwd :
+            scale= 1.0*wd/mwd
+            newImg=img.resize((int(wd/scale),int(hg/scale)),Image.ANTIALIAS)
+            cadre.config(width=wd/scale,height=hg/scale)
+            photo = ImageTk.PhotoImage(newImg)
+            dicimg['img1'] = photo
+            cadre.image=photo
+            cadre.create_image(0,0,image=photo,anchor="nw") 
+    elif hg > mhg:
+            scale = 1.0*hg/mhg
+            newImg = img.resize((int(wd/scale),int(hg/scale)), Image.ANTIALIAS)
+            cadre.config(width=wd/scale,height=hg/scale)
+            photo = ImageTk.PhotoImage(newImg)
+            dicimg['img1'] = photo
+            cadre.image=photo
+            cadre.create_image(0,0,image=photo,anchor="nw") 
+    else:
+            cadre.config(width=wd,height=hg)
+            photo = ImageTk.PhotoImage(img)
+            dicimg['img1'] = photo
+            cadre.image=photo
+            cadre.create_image(0,0,image=photo,anchor="nw") 
+    drawRect=rect.CanvasEventsDemo(cadre)
+    cadre.bind('<ButtonPress-1>', drawRect.onStart)  
+    cadre.bind('<B1-Motion>',     drawRect.onGrow)   
+    cadre.bind('<Double-1>',      drawRect.onClear)  
+    cadre.bind('<ButtonPress-3>', drawRect.onMove)   
+    cadre.bind('<ButtonRelease-1>', drawRect.onFinal)
 
     
 def onselect(evt):
+    
     global drawRect,isDraw,newImg
     #cadre=tk.Canvas(c,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=ecran_width-600,height=ecran_height-25,bg="black")#,bg="black"
     #cadre=tk.Label(f,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=320,height=240,bg="green")
@@ -320,6 +377,8 @@ def onselect(evt):
     w=evt.widget
     if len(w.curselection())!=0 :
         index = int(w.curselection()[0])
+        global numPage
+        numPage=index
         #value = w.get(index)
         img=Image.open(listPath[index])
         #img.resize((320,240))
@@ -374,7 +433,8 @@ def onselect(evt):
         #cadre.config(scrollregion=cadre.bbox("all"))
 
 listFiles.bind('<<ListboxSelect>>', onselect)  
- 
+#buttonLast.bind('<Button-1>', onselect)
+#buttonSave.bind('<Button-1>', onselect)
 #démarrer du réceptionnaire d'événements
 
 #c.create_window(0, 0,  window=f)

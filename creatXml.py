@@ -62,7 +62,7 @@ def continuePoject(nameProjet):
     index=xmlProjets[0].index(nameProjet)
     xmlProjet=xmlProjets[1][index]
 
-def newPage(pathPage):
+def addPage(pathPage):
     global numero 
     
     page = etree.SubElement(xmlProjet,'page')
@@ -220,7 +220,7 @@ def chageType(nameProjet, numPage, numElem, newType):
 
 
 
-#p=newPage('page original me revoila')
+#p=newPage('a que coucou')
 #addElement('para',1,2,3,4,p)
 #addElement('paruhjkl',7,2,3,4,p)
 #delectElement(nameProjet)  
