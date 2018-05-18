@@ -156,9 +156,15 @@ def newProjet():
     chooseFile()
     xl.newProjet(nameProjet)
 
-def continueProjet():
+def projetToContinu(listProjet):   
+    global nameProjet
+    nameProjet =listProjet.get(listProjet.curselection())
     global numPage
     numPage=gs.getAvancementProjet(nameProjet)
+    listFiles.selection_set(numPage)
+    
+def continueProjet():
+    
     rootpop = tk.Tk()
     rootpop.title("choisit le projet")
     listFrame=tk.Frame(rootpop)
@@ -177,12 +183,15 @@ def continueProjet():
     yDefilB['command'] = listProjet.yview
     
     #global xl.xmlProjets
-    xl.duplicationProjet()
+    #xl.duplicationProjet()
     #print(len(xl.listProjets))
-    for i in range (0 ,len(xl.listProjets)):
-        listProjet.insert(1,xl.listProjets[i])
+    Projetlist=xl.getListProjet()
+    for i in range (0 ,len(Projetlist)):
+        listProjet.insert(1,Projetlist[i])
     listFrame.grid(row=0,pady=0,padx=15,sticky=tk.W+tk.N +tk.E)
     listProjet.grid(row=0,pady=0,padx=15,sticky=tk.W+tk.N +tk.E)
+    
+    listProjet.bind('<<ListboxSelect>>', projetToContinu(listProjet))
 
 
 menubar=tk.Menu(root)
@@ -440,6 +449,7 @@ def onselect(evt):
         #cadre.config(scrollregion=cadre.bbox("all"))
 
 listFiles.bind('<<ListboxSelect>>', onselect)  
+listProjet.bind('<<ListboxSelect>>', projetToContinu)
 #buttonLast.bind('<Button-1>', onselect)
 #buttonSave.bind('<Button-1>', onselect)
 #démarrer du réceptionnaire d'événements

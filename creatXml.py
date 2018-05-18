@@ -13,18 +13,18 @@ listProjets=[]
 
 global xmlProjet
 global numero
-global xmlProjets
+#global xmlProjets
 
 
 #C:/Users/rachel/Documents/GitHub/ProjetCheminDeFer/docXml/
 
-try :
-    global xmlProjets
-    xmlProjets
-except :
-    print('non def')
-    #global xmlProjets
-    xmlProjets = [[],[]]
+#try :
+#    global xmlProjets
+#    xmlProjets
+#except :
+#    print('non def')
+#    #global xmlProjets
+#    xmlProjets = [[],[]]
     
 #name=[]
 #memoire=[]
@@ -38,10 +38,10 @@ def getExistingXml(nameProjet):
     return root
  
     
-def duplicationProjet() : #pas forcement necessaire
-    print(xmlProjets[0])
-    for i in range (0 ,len(xmlProjets[0])):
-        listProjets.append(xmlProjets[0][i])
+#def duplicationProjet() : #pas forcement necessaire
+#    print(xmlProjets[0])
+#    for i in range (0 ,len(xmlProjets[0])):
+#        listProjets.append(xmlProjets[0][i])
 
 
 def checkFileExiste(nameFile):
@@ -50,29 +50,28 @@ def checkFileExiste(nameFile):
 
 
 def newProjet(nameProjet):
-    #if os.path.exists(nameProjet):
-    print('ce nom est déjà prit')
+    if os.path.exists(nameProjet):
+        print('ce projet est déjà commencé')
     #demande de changer
-    #else:
-    global xmlProjet
-    xmlProjet = etree.Element(nameProjet)#fait recommencer
-    #print(xmlProjet)
-    global xmlProjets
-    xmlProjets[0].append(nameProjet)
-    xmlProjets[1].append(xmlProjet)
-    #print(xmlProjets[0])
-    global numero 
-    numero=0     
+    else:
+        global xmlProjet
+        xmlProjet = etree.Element(nameProjet)#fait recommencer
+        #print(xmlProjet)
+        #global xmlProjets
+        #xmlProjets[0].append(nameProjet)
+        #xmlProjets[1].append(xmlProjet)
+        #print(xmlProjets[0])
+        global numero 
+        numero=0     
 
 def continuePoject(nameProjet):
     global xmlProjet
     xmlProjet=getExistingXml(nameProjet) #etree.Element(nameProjet)
-    index=xmlProjets[0].index(nameProjet)
-    xmlProjet=xmlProjets[1][index]
+    #index=xmlProjets[0].index(nameProjet)
+    #xmlProjet=xmlProjets[1][index]
 
 def addPage(pathPage):
     global numero 
-    
     page = etree.SubElement(xmlProjet,'page')
     page.set('id',str(numero)) 
     
@@ -84,13 +83,13 @@ def addPage(pathPage):
 
 def endProjet(nameProjet) :   
     #xmlProjet = etree.Element(nameProjet)
-    global xmlProjets
+    #global xmlProjets
     try:
         with open('docXml/' + nameProjet +'.xml','w') as fichier:
         #En-tête du fichier xml
             fichier.write('<?xml version="1.0" encoding="UTF_8"?>\n')
-            index=xmlProjets[0].index(nameProjet)
-            xmlProjets[1][index]=xmlProjet
+            #index=xmlProjets[0].index(nameProjet)
+            #xmlProjets[1][index]=xmlProjet
             fichier.write(etree.tostring(xmlProjet,pretty_print=True).decode('utf-8'))#cree premiere balise
             #xmlProjet = etree.Element(nameProjet)
     except IOError:
