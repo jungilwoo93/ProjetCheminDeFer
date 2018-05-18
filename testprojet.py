@@ -310,9 +310,7 @@ def save():
     print('save')
     nextPage()
         
-###############################################
-def suivant():
-    print("coucou")
+
                 
 
 ################ button pour confirmer le choix des element de la page ##############
@@ -449,7 +447,6 @@ def onselect(evt):
         #cadre.config(scrollregion=cadre.bbox("all"))
 
 listFiles.bind('<<ListboxSelect>>', onselect)  
-listProjet.bind('<<ListboxSelect>>', projetToContinu)
 #buttonLast.bind('<Button-1>', onselect)
 #buttonSave.bind('<Button-1>', onselect)
 #démarrer du réceptionnaire d'événements
