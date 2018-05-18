@@ -28,7 +28,7 @@ import xml as xl
 root = tk.Tk()
 #récupérer la taille d'écran d'ordi
 ecran_width = root.winfo_screenwidth()*0.95
-ecran_height = root.winfo_screenheight()*0.9
+ecran_height = root.winfo_screenheight()*0.85
 #définir la taille d'écran d'or comme la fenêtre d'application
 #root.geometry(str(ecran_width)+'x'+str(ecran_height))
 root.geometry('%dx%d+%d+%d' % (ecran_width, ecran_height, 1, 1))
@@ -176,7 +176,7 @@ labelZoneChoix.grid(row=3, sticky=tk.W)
 zoneRadioButton=tk.Frame(f1)
 a=0
 for i,v in enumerate(typeZone):
-    tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v).grid(row=a, column=0,sticky=tk.W)
+    tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v).grid(row=0, column=a,sticky=tk.W)
     a+=1
 zoneRadioButton.grid(row=4,sticky=tk.W,pady=5)
 
