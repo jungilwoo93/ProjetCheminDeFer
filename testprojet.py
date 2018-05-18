@@ -142,7 +142,7 @@ def nextPage():  #a mettre dans enregister #voir si onSelect se fait tout seul
     
 def lastPage():
     global numPage
-    if numPage>listFiles.size() :
+    if numPage>0 :
         numPage -= 1
         #print(numPage)
         listFiles.selection_clear(0, tk.END)
@@ -151,10 +151,14 @@ def lastPage():
   
 ############################# Barre menu 
 def newProjet():
+    global numPage
+    numPage=0
     chooseFile()
     xl.newProjet(nameProjet)
 
 def continueProjet():
+    global numPage
+    numPage=gs.getAvancementProjet(nameProjet)
     rootpop = tk.Tk()
     rootpop.title("choisit le projet")
     listFrame=tk.Frame(rootpop)

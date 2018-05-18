@@ -35,7 +35,6 @@ def getExistingXml(nameProjet):
     tree = et.parse('docXml/' + nameProjet + '.xml')#str(nameProjet) +
     #child=tree.getchildren()
     root = tree.getroot()
-    print(root)
     return root
  
     
@@ -57,7 +56,7 @@ def newProjet(nameProjet):
     #else:
     global xmlProjet
     xmlProjet = etree.Element(nameProjet)#fait recommencer
-    print(xmlProjet)
+    #print(xmlProjet)
     global xmlProjets
     xmlProjets[0].append(nameProjet)
     xmlProjets[1].append(xmlProjet)
@@ -67,7 +66,7 @@ def newProjet(nameProjet):
 
 def continuePoject(nameProjet):
     global xmlProjet
-    #xmlProjet= etree.Element(nameProjet)
+    xmlProjet=getExistingXml(nameProjet) #etree.Element(nameProjet)
     index=xmlProjets[0].index(nameProjet)
     xmlProjet=xmlProjets[1][index]
 
