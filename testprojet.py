@@ -13,7 +13,7 @@ from os.path import basename
 
 #### nos autre fichier
 import DrawRect as rect
-import xml as xl
+import creatXml as xl
 #import pdfToImg as pti
 
 #########################################################  fenetre principale ##################################################
@@ -26,7 +26,7 @@ ecran_height = root.winfo_screenheight()-75
 #root.geometry(str(ecran_width)+'x'+str(ecran_height))
 root.geometry('%dx%d+%d+%d' % (ecran_width, ecran_height, 1, 1))
 #mettre le title et background pour l'application
-root.title("Projet")
+root.title("trainning Chemin de Fer")
 ####################################################### frame entier ########################################################3
 f=tk.Frame(root,bg="green",width=ecran_width,height=ecran_height)
 #scrollbar pour la fenetre pricipqle
@@ -55,6 +55,7 @@ drawRect=None
 nbConfirm=0
 dict={}
 selectedAction=None
+nameProjet='new'
 
 #################################################### toutes les fonctions  ####################################################
 # fonction de buttonConfirm
@@ -63,6 +64,7 @@ def confirmer():
     nbConfirm+=1
     listAction.insert(tk.END,var.get()+'-'+str(nbConfirm))
     dict[var.get()+'-'+str(nbConfirm)]=drawRect.getCoordonnes()
+    print(drawRect.getCoordonnes())
     
 # parcours choit du fichier
 def chooseFile():
@@ -76,15 +78,17 @@ def chooseFile():
     #print(choice)
     #choiceBoth=tf.
     #os.listdir #pour recupereelement d'un dosier
-    i=1;
-    j=1
     nbSelected=len(choice)
     #recupere le nom apartir du chemin
     for i in range (0,nbSelected):
-        ext = os.path.splitext(choice[i])
-        nom=basename(choice[i])
+        ext = os.path.splitext(choice[i])[1]
+        nomExt=basename(choice[i])
         #nom=choice[i]
+        nom=os.path.splitext(nomExt)[0]
+        print(nom)
         if ext == '.pdf':
+            global nameProjet
+            nameProjet=nom
             print('c est un pdf')
             #listImg = pti.pdfToPng(choice[i],'mon projet')
             #size=len(listImg)
@@ -101,6 +105,7 @@ def chooseFile():
     #pour trier par ordre alpha et enlever les boutons            
     listFiles.Sorted = True
     listPath.sort()
+    j=0
     while j < (listFiles.size() - 1) :
         if (listFiles.get(j + 1,j+1) == listFiles.get(j,j)) :
             listFiles.delete(j,j)
@@ -108,7 +113,7 @@ def chooseFile():
             j = 0
         else :
             j += 1
-    listPath.reverse()
+    #listPath.reverse()
             
 # supprimer de la liste les fichiers selectionnés
 def delecteSelection():
@@ -122,6 +127,49 @@ def delecteAll():
     #listFiles.delete(0,cs[0] -1)
     listFiles.delete(0,tk.END) 
     listPath.clear()
+    
+############################# Barre menu 
+def newProjet():
+    chooseFile()
+    xl.newProjet(nameProjet)
+
+def continueProjet():
+    rootpop = tk.Tk()
+    rootpop.title("choisit le projet")
+    listFrame=tk.Frame(rootpop)
+    
+    yDefilB = tk.Scrollbar(listFrame, orient='vertical')
+    yDefilB.grid(row=0, column=1, sticky='ns')
+    xDefilB = tk.Scrollbar(listFrame, orient='horizontal')
+    xDefilB.grid(row=1, column=0, sticky='ew')
+    
+    listProjet = tk.Listbox(listFrame,
+        xscrollcommand=xDefilB.set,
+        yscrollcommand=yDefilB.set,width=70,height=15,selectmode=tk.SINGLE)
+    listProjet.grid(row=0)#'nsew'
+    #listFiles.pack(side="left",fill="y")  
+    xDefilB['command'] = listProjet.xview
+    yDefilB['command'] = listProjet.yview
+    
+    #global xl.xmlProjets
+    xl.duplicationProjet()
+    #print(len(xl.listProjets))
+    for i in range (0 ,len(xl.listProjets)):
+        listProjet.insert(1,xl.listProjets[i])
+    listFrame.grid(row=0,pady=0,padx=15,sticky=tk.W+tk.N +tk.E)
+    listProjet.grid(row=0,pady=0,padx=15,sticky=tk.W+tk.N +tk.E)
+
+
+menubar=tk.Menu(root)
+root.config(menu = menubar)
+menufichier = tk.Menu(menubar,tearoff=0)
+menubar.add_cascade(label="Fichier", menu=menufichier)
+
+
+menufichier.add_command(label="Nouveau Projet", command=newProjet)
+menufichier.add_command(label="Continuer Projet", command = continueProjet) 
+menufichier.add_separator() 
+menufichier.add_command(label="Quitter", command=root.destroy) 
 
 ############################################################ frame à gauche ####################################################
 #f1=tk.Frame(root,bg='gold', width=ecran_width+1000, height=ecran_height)

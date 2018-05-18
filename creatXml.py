@@ -9,22 +9,32 @@ import os.path
 #from xml.dom import minidom
 import xml.etree.ElementTree as et
 
+listProjets=[]
 
-
-#C:/Users/rachel/Documents/GitHub/ProjetCheminDeFer/docXml/
 global xmlProjet
 global numero
 global xmlProjets
 
+
+#C:/Users/rachel/Documents/GitHub/ProjetCheminDeFer/docXml/
+
 try :
-    xmlProjets[0][0]
+    global xmlProjets
+    xmlProjets
 except :
+    print('non def')
+    #global xmlProjets
     xmlProjets = [[],[]]
     
 #name=[]
 #memoire=[]
 #xmlProjet.append(name)
 #xmlProjet.append(memoire)
+    
+def duplicationProjet() :
+    print(xmlProjets[0])
+    for i in range (0 ,len(xmlProjets[0])):
+        listProjets.append(xmlProjets[0][i])
 
 
 def checkFileExiste(nameFile):
@@ -42,6 +52,7 @@ def newProjet(nameProjet):
     global xmlProjets
     xmlProjets[0].append(nameProjet)
     xmlProjets[1].append(xmlProjet)
+    print(xmlProjets[0])
     global numero 
     numero=0     
 
@@ -65,6 +76,7 @@ def newPage(pathPage):
 
 def endProjet(nameProjet) :   
     #xmlProjet = etree.Element(nameProjet)
+    global xmlProjets
     try:
         with open('docXml/' + nameProjet +'.xml','w') as fichier:
         #En-tête du fichier xml
@@ -163,6 +175,7 @@ def delectElement(nameProjet,numPage,numElem):
 #    #xmlProjets[1][index]=xmlProjet
         
 def replace(nameProjet, numPage, numElem, newType) :
+    global xmlProjet
     for e in xmlProjet.findall('page'):
         if e.attrib['id']==numPage :
             e1=e.find('element')
@@ -200,9 +213,9 @@ def chageType(nameProjet, numPage, numElem, newType):
                 if e1.attrib['ty']==newType:
                     return True
            
-nameProjet='NewProjet'
+#nameProjet='NewProjet'
 #newProjet(nameProjet)     
-continuePoject(nameProjet)       
+#continuePoject(nameProjet)       
  
 
 
@@ -210,7 +223,7 @@ continuePoject(nameProjet)
 #p=newPage('page original me revoila')
 #addElement('para',1,2,3,4,p)
 #addElement('paruhjkl',7,2,3,4,p)
-delectElement(nameProjet)  
+#delectElement(nameProjet)  
 #endProjet(nameProjet)
 #ajouterElement('paruhjkl',7,2,3,4,p)
-endProjet(nameProjet)
+#endProjet(nameProjet)
