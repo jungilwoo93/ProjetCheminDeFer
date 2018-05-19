@@ -29,8 +29,12 @@ root.geometry('%dx%d+%d+%d' % (ecran_width, ecran_height, 1, 1))
 #mettre le title et background pour l'application
 root.title("trainning Chemin de Fer")
 root.resizable(width=False,height=False)
+
+colorDefault="#F5F5DC" #bd=-2 #supprime bordure
+
+#F5F5DC #beige
 ####################################################### frame entier ########################################################3
-f=tk.Frame(root,bg="black",width=ecran_width,height=ecran_height)
+f=tk.Frame(root,bg=colorDefault ,width=ecran_width,height=ecran_height)
 #scrollbar pour la fenetre pricipqle
 #vsb = tk.Scrollbar(f, orient=tk.VERTICAL)
 #vsb.grid(row=0, column=3, rowspan=4, sticky=tk.N+tk.S+tk.E)#
@@ -40,7 +44,7 @@ f=tk.Frame(root,bg="black",width=ecran_width,height=ecran_height)
 
 #hsb.grid(row=1, column=0,columnspan=5, sticky=tk.E+tk.W)
 #c = tk.Canvas(f, yscrollcommand=vsb.set, xscrollcommand=hsb.set, width=ecran_width, height=ecran_height,bd=0,highlightthickness=0)
-c=tk.Canvas(f,width=ecran_width, height=ecran_height,bd=0,highlightthickness=0,bg="gray")
+c=tk.Canvas(f,width=ecran_width, height=ecran_height,bd=0,highlightthickness=0,bg=colorDefault)
 #c.yview_moveto(1)
 #c.xview_moveto(1)
 c.grid(row=0, column=0, sticky=tk.W+tk.N + tk.S)#,sticky="news"
@@ -60,6 +64,7 @@ dict={}
 selectedAction=None
 nameProjet='new'
 numPage=0
+
 #################################################### toutes les fonctions  ####################################################
 # fonction de buttonConfirm
 def confirmer():
@@ -96,33 +101,31 @@ def chooseFile():
             #listImg = pti.pdfToPng(choice[i],'mon projet')
             #size=len(listImg)
             #for k in range (0, size) :
-             #   listFiles.insert(1,basename(listImg[k])) #ça se met par ordre aleatoire
+             #   listFiles.insert(listFiles.size(),basename(listImg[k])) 
               #  listPath.append(listImg[i])
             
             
         else :
             if nom!="": #sinon quand on clic sur parcourir mais qu'on ne choisi rien ça rajoute un espace blanc
-                listFiles.insert(1,nom) #ça se met par ordre aleatoire
+                listFiles.insert(listFiles.size(),nom) 
+                #listFiles.
                 listPath.append(choice[i])
+               # listFiles.TopIndex = listFiles.ListCount
                 #i+=1
     #pour trier par ordre alpha et enlever les boutons            
-    listFiles.Sorted = True
-    listPath.sort()
-    j=0
-    while j < (listFiles.size() - 1) :
-        if (listFiles.get(j + 1,j+1) == listFiles.get(j,j)) :
-            listFiles.delete(j,j)
-            listPath.remove(listPath[j])
-            j = 0
-        else :
-            j += 1
-    #listPath.reverse()
+#    listFiles.Sorted = True
+#    listPath.sort()
+#    j=0
+#    while j < (listFiles.size() - 1) :
+#        if (listFiles.get(j + 1,j+1) == listFiles.get(j,j)) :
+#            listFiles.delete(j,j)
+#            listPath.remove(listPath[j])
+#            j = 0
+#        else :
+#            j += 1
+    #listPath.reverse()??????????????????????????
+    
             
-# supprimer de la liste les fichiers selectionnés
-def delecteSelection():
-    selection = listFiles.curselection()
-    listFiles.delete(selection[0])
-    listPath.remove(selection[0])
  
 # supprimer de la liste tout les fichiers
 def delecteAll():
@@ -209,11 +212,11 @@ menufichier.add_command(label="Quitter", command=root.destroy)
 #f1=tk.Frame(root,bg='gold', width=ecran_width+1000, height=ecran_height)
 #f1.config(width=ecran_width+1000, height=ecran_height)
 #f1.grid(column=0,columnspan=1000,sticky=tk.E)
-f1=tk.Frame(c,bg='gold',height=ecran_height,width=ecran_width*0.4)
+f1=tk.Frame(c,bg=colorDefault,height=ecran_height,width=ecran_width*0.4)
 f1.grid(row=0,column=0,sticky=tk.S+tk.W+tk.N)
 
 ####################### label fichiers choisis
-labelFichier=tk.Label(f1,text='Les fichiers choisis : ')
+labelFichier=tk.Label(f1,text='Les fichiers choisis : ', bg=colorDefault)
 labelFichier.config(font=('Forte',18))
 labelFichier.grid(row=0,sticky=tk.W,pady=5)
 
@@ -244,15 +247,15 @@ boutonSupprimer=tk.Button(zoneButton,text="Vider",command=delecteAll).grid(row=1
 #zoneButton.grid(row=2,pady=5)
 
 ################## label pour la zone choisie
-labelZoneChoix=tk.Label(f1,text='La zone choisie est : ')
+labelZoneChoix=tk.Label(f1,text='La zone choisie est : ', bg=colorDefault)#,  gold
 labelZoneChoix.config(font=('Forte',18))
 labelZoneChoix.grid(row=2, sticky=tk.W)
 
 ########################3 frame pour afficher les radiobuttons des choix
-zoneRadioButton=tk.Frame(f1)
+zoneRadioButton=tk.Frame(f1, bg=colorDefault)
 a=0
 for i,v in enumerate(typeZone):
-    tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v).grid(row=0, column=a,sticky=tk.W,padx=20)
+    tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v, bg=colorDefault).grid(row=0, column=a,sticky=tk.W,padx=20)
     a+=1
 zoneRadioButton.grid(row=3,sticky=tk.W,pady=5)
 
@@ -269,20 +272,21 @@ def onSelectAction(evt):
     list=dict[selection]
     selectedAction=cadre.create_rectangle(list[0],list[1],list[0]+list[2],list[1]+list[3],width=5)
     
-labelAction=tk.Label(f1,text="Les actions : ")
+labelAction=tk.Label(f1,text="Les actions : ", bg=colorDefault)
 labelAction.config(font=('Forte',18))
 labelAction.grid(row=5,column=0,pady=5,sticky=tk.W)
 listAction = tk.Listbox(f1,width=70,height=8)
 listAction.grid(row=6,column=0,pady=5)
 listAction.bind('<<ListboxSelect>>', onSelectAction)  
 
-
-
+# supprimer de la liste les fichiers selectionnés
+def deleteSelection():#pour liste des actions
+    selection = listAction.curselection()
+    listAction.delete(selection[0])
+    #listPath.remove(selection[0])
 
 #################fonctio de generation du xml
 def save():
-    nameProjet='bla'
-    numPage = '2'
     if not(xl.pageExist(nameProjet, numPage)) :
         page = xl.addPage('nom Page')
     else :
@@ -314,9 +318,10 @@ def save():
                 
 
 ################ button pour confirmer le choix des element de la page ##############
-fButtons=tk.Frame(f1)
-buttonLast=tk.Button(fButtons,text="Précédent",command=lastPage).grid(row=0,column=0,padx=50,sticky=tk.S)
-buttonSave=tk.Button(fButtons,text="Enregistrer et Suivant",command=save).grid(row=0,column=1,padx=50,sticky=tk.S)
+fButtons=tk.Frame(f1, bg=colorDefault)
+buttonDelete=tk.Button(fButtons,text="Supprimer",command=deleteSelection).grid(row=0,column=0,padx=40,sticky=tk.S)
+buttonLast=tk.Button(fButtons,text="Précédent",command=lastPage).grid(row=0,column=1,padx=40,sticky=tk.S)
+buttonSave=tk.Button(fButtons,text="Enregistrer et Suivant",command=save).grid(row=0,column=2,padx=40,sticky=tk.S)
 #buttonSave=tk.Button(fButtons,text="Suivant",command=suivant).grid(row=0,column=1,padx=50,sticky=tk.S)
 fButtons.grid(row=7,column=0,pady=20)
 
@@ -335,9 +340,9 @@ fButtons.grid(row=7,column=0,pady=20)
 #afficher image dés qu'on selectionne un element
 #zoneImage=tk.Frame(root,bg="black")
 #zoneImage.grid(row=2,column=10,rowspan=2,columnspan=8,sticky=tk.E )
-fImg=tk.Frame(c,width=ecran_width*0.6,height=ecran_height,bg="green")
+fImg=tk.Frame(c,width=ecran_width*0.6,height=ecran_height, bg=colorDefault)
 fImg.grid(row=0,column=1,sticky=tk.N+tk.S)
-cadre=tk.Canvas(c,bg="blue")
+cadre=tk.Canvas(c, bg=colorDefault, bd=-2)
 cadre.grid(row=0,column=1)
 
 def selectByButton():
@@ -446,7 +451,7 @@ def onselect(evt):
         #cadre.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
         #cadre.config(scrollregion=cadre.bbox("all"))
 
-listFiles.bind('<<ListboxSelect>>', onselect)  
+listFiles.bind('<<ListboxSelect>>', onselect)  #green
 #buttonLast.bind('<Button-1>', onselect)
 #buttonSave.bind('<Button-1>', onselect)
 #démarrer du réceptionnaire d'événements

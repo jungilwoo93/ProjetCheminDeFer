@@ -7,8 +7,8 @@ Created on Fri May 18 14:53:00 2018
 # on ecrit dans le fichier txt le nom du projet
 
 def writeInText(nameProjet,numPage):
-    fichier = open("elemSave.txt", "w")
-    fichier.write(nameProjet + ' ' + numPage)
+    fichier = open("elemSave.txt", "a")
+    fichier.write(nameProjet + ' ' + str(numPage) + '\n')
     fichier.close()
    
     
@@ -20,13 +20,14 @@ def mettreAJour(nameProjet,numPage):
     with open('elemSave.txt', 'w') as file:
         for line in lines :
             if nameProjet.lower() in line.lower() :
-                line=nameProjet + ' ' + numPage
-            file.write("\r\n" + line)
+                line=nameProjet + ' ' + str(numPage) +'\n'
+            file.write(line)
             
             
 
 def getListProjet():
     lines = None
+    projetList = []
     with open('elemSave.txt', 'r') as file:
         lines = file.readlines()
     for line in lines :
@@ -34,8 +35,6 @@ def getListProjet():
         deb = 0
         fin = line.index(" ")
         projetLigne = []
-        projetList = []
- 
         for i in range(0, esp + 1):
             projetLigne.append(line[deb:fin])
             line=line[fin+1:]
@@ -43,28 +42,37 @@ def getListProjet():
                 fin = line.index(" ")
             else:
                 fin = len(line)
+        projetList.append(projetLigne[0])
     #for j in range(len(projetLigne)):
-    projetList.append(projetLigne[0])
+    return projetList
     
 
 def getAvancementProjet(nameProjet):
     lines = None
     with open('elemSave.txt', 'r') as file:
         lines = file.readlines()
-    for line in lines :
-        esp = line.count(" ")
-        deb = 0
-        fin = line.index(" ")
-        projetLigne = []
- 
-        for i in range(0, esp + 1):
-            projetLigne.append(line[deb:fin])
-            line=line[fin+1:]
-            if line.count(" ")!=0:
+        
+        for line in lines :
+            if nameProjet.lower() in line.lower() :
+                esp = line.count(" ")
+                deb = 0
                 fin = line.index(" ")
-            else:
-                fin = len(line)
-        if projetLigne[1]==nameProjet :
-            return int(projetLigne[1])
+                projetLigne = []
+ 
+                for i in range(0, esp + 1):
+                    projetLigne.append(line[deb:fin])
+                    line=line[fin+1:]
+                    if line.count(" ")!=0:
+                        fin = line.index(" ")
+                    else:
+                        fin = len(line)
+                return projetLigne[1]
+                #if projetLigne[0]==nameProjet :
+                 #   return int(projetLigne[1])
         
         
+
+writeInText('moche',9)
+mettreAJour('salut',7)
+print(getAvancementProjet('moche'))
+print(getListProjet())
