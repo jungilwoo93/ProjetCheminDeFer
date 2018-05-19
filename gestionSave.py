@@ -12,7 +12,7 @@ def writeInText(nameProjet,numPage):
     fichier.close()
    
     
-def mettreAJour(nameProjet,numPage):
+def update(nameProjet,numPage):
     lines = None
     with open('elemSave.txt', 'r') as file:
         lines = file.readlines()
@@ -22,7 +22,26 @@ def mettreAJour(nameProjet,numPage):
             if nameProjet.lower() in line.lower() :
                 line=nameProjet + ' ' + str(numPage) +'\n'
             file.write(line)
-            
+
+def projetExist(nameProjet) :
+    lines = None
+    with open('elemSave.txt', 'r') as file:
+        lines = file.readlines()
+    for line in lines :
+        esp = line.count(" ")
+        deb = 0
+        fin = line.index(" ")
+        projetLigne = []
+        for i in range(0, esp + 1):
+            projetLigne.append(line[deb:fin])
+            line=line[fin+1:]
+            if line.count(" ")!=0:
+                fin = line.index(" ")
+            else:
+                fin = len(line) 
+            if projetLigne[0]==nameProjet :
+                return True
+    return False
             
 
 def getListProjet():
@@ -72,7 +91,7 @@ def getAvancementProjet(nameProjet):
         
         
 
-writeInText('moche',9)
-mettreAJour('salut',7)
-print(getAvancementProjet('moche'))
-print(getListProjet())
+#writeInText('moche',9)
+#mettreAJour('salut',7)
+#print(getAvancementProjet('moche'))
+#print(getListProjet())

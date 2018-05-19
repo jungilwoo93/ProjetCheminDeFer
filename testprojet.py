@@ -31,8 +31,8 @@ root.title("trainning Chemin de Fer")
 root.resizable(width=False,height=False)
 
 colorDefault="#F5F5DC" #bd=-2 #supprime bordure
-
 #F5F5DC #beige
+
 ####################################################### frame entier ########################################################3
 f=tk.Frame(root,bg=colorDefault ,width=ecran_width,height=ecran_height)
 #scrollbar pour la fenetre pricipqle
@@ -93,11 +93,13 @@ def chooseFile():
         nomExt=basename(choice[i])
         #nom=choice[i]
         nom=os.path.splitext(nomExt)[0]
-        print(nom)
         if ext == '.pdf':
             global nameProjet
             nameProjet=nom
             print('c est un pdf')
+            
+            ##########################################a remetre 
+            
             #listImg = pti.pdfToPng(choice[i],'mon projet')
             #size=len(listImg)
             #for k in range (0, size) :
@@ -136,12 +138,19 @@ def delecteAll():
     
 def nextPage():  #a mettre dans enregister #voir si onSelect se fait tout seul
     global numPage
+    if gs.projetExist(nameProjet):
+        gs.update(nameProjet,numPage)
+    else :
+        gs.writeInText(nameProjet,numPage)
+    
+    
     if numPage<listFiles.size() :
         numPage += 1
         #print(numPage)
         listFiles.selection_clear(0, tk.END)
         listFiles.selection_set(numPage)
-        selectByButton()    
+        selectByButton() 
+     
     
 def lastPage():
     global numPage
@@ -306,12 +315,11 @@ def save():
         numElem=2
         if not(xl.reSave(nameProjet, numPage, numElem)) :
             xl.addElement(typeEl, posiX, posiY, widthEl, heightEl,page)
-            xl.endProjet('mon projet')
+            xl.endProjet(nameProjet)
         else :
-            if not(xl.chageType(nameProjet, numPage, numElem, typeEl)):
+            if not(xl.sameType(nameProjet, numPage, numElem, typeEl)):
                 xl.replace(nameProjet, numPage, numElem, typeEl)
-                xl.endProjet('mon projet')
-    print('save')
+                xl.endProjet(nameProjet)
     nextPage()
         
 
