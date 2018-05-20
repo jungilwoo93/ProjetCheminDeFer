@@ -60,7 +60,7 @@ typeZone={"Titre","Paragraphe","Lettrine","Image"}
 listPath=[]
 drawRect=None
 nbConfirm=0
-dict={}
+dict1={}
 selectedAction=None
 nameProjet='new'
 numPage=0
@@ -68,10 +68,10 @@ numPage=0
 #################################################### toutes les fonctions  ####################################################
 # fonction de buttonConfirm
 def confirmer():
-    global nbConfirm,map
+    global nbConfirm
     nbConfirm+=1
     listAction.insert(tk.END,var.get()+'-'+str(nbConfirm))
-    dict[var.get()+'-'+str(nbConfirm)]=drawRect.getCoordonnes()
+    dict1[var.get()+'-'+str(nbConfirm)]=drawRect.getCoordonnes()
     print(drawRect.getCoordonnes())
     
 # parcours choit du fichier
@@ -277,9 +277,9 @@ def onSelectAction(evt):
     if selectedAction is not None:
         cadre.delete(selectedAction)
     selection=listAction.get(listAction.curselection())
-    list=[]
-    list=dict[selection]
-    selectedAction=cadre.create_rectangle(list[0],list[1],list[0]+list[2],list[1]+list[3],width=5)
+    list1=[]
+    list1=dict1[selection]
+    selectedAction=cadre.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=5)
     
 labelAction=tk.Label(f1,text="Les actions : ", bg=colorDefault)
 labelAction.config(font=('Forte',18))
