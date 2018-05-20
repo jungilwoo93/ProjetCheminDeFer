@@ -61,8 +61,8 @@ def newProjet(nameProjet):
         #xmlProjets[0].append(nameProjet)
         #xmlProjets[1].append(xmlProjet)
         #print(xmlProjets[0])
-        global numero 
-        numero=0     
+        global numPage 
+        numPage=0     
 
 def continuePoject(nameProjet):
     global xmlProjet
@@ -71,13 +71,13 @@ def continuePoject(nameProjet):
     #xmlProjet=xmlProjets[1][index]
 
 def addPage(pathPage):
-    global numero 
+    global numPage 
     page = etree.SubElement(xmlProjet,'page')
-    page.set('id',str(numero)) 
+    page.set('id',str(numPage)) 
     
     file = etree.SubElement(page,'file')
     file.set('path',pathPage)
-    numero +=  1;
+    numPage +=  1;
     return page
     
 
@@ -125,9 +125,11 @@ def addElement(typeEl, idEl, posiX, posiY, widthEl, heightEl, page):
 
 
 def delectElement(nameProjet,numPage,numElem):
-    numPage = "7"#☺\n        <posY>2</posY> \n"# <width>3</width> <height>4</height> </element>" # Texte à rechercher
+    #numPage = "7"#☺\n        <posY>2</posY> \n"# <width>3</width> <height>4</height> </element>" # Texte à rechercher
     #remplace = "salut"
-    numElem="1"
+    
+    numElem="1"#########a virer
+    
     for e in xmlProjet.findall('page'):
         if e.attrib['id']==numPage :
             e1=e.find('element')
@@ -212,12 +214,12 @@ def reSave(nameProjet, numPage, numElem) :
                 return True 
             #addElement(typeEl, idEl, posiX, posiY, widthEl, heightEl, e)
 
-def chageType(nameProjet, numPage, numElem, newType):
+def sameType(nameProjet, numPage, numElem, newType):
     for e in xmlProjet.findall('page'):
         if e.attrib['id']==numPage :
             e1=e.find('element')
             if e1.attrib['id']==numElem:
-                if e1.attrib['ty']==newType:
+                if e1.attrib['type']==newType:
                     return True
            
 nameProjet='NewProjet'
