@@ -14,6 +14,7 @@ from os.path import basename
 #### nos autre fichier
 import DrawRect as rect
 import creatXml as xl
+#import creerXml as xl
 import gestionSave as gs
 #import pdfToImg as pti
 
@@ -27,9 +28,8 @@ ecran_height = root.winfo_screenheight()*0.85
 #root.geometry(str(ecran_width)+'x'+str(ecran_height))
 root.geometry('%dx%d+%d+%d' % (ecran_width, ecran_height, 1, 1))
 #mettre le title et background pour l'application
-root.title("trainning Chemin de Fer")
+root.title("Trainning Chemin de Fer")
 root.resizable(width=False,height=False)
-
 colorDefault="#F5F5DC" #bd=-2 #supprime bordure
 #F5F5DC #beige
 
@@ -59,20 +59,35 @@ var.set("Paragraphe")
 typeZone={"Titre","Paragraphe","Lettrine","Image"}
 listPath=[]
 drawRect=None
-nbConfirm=0
-dict1={}
+listFileWithActionRect={}
+listActionRect={}
 selectedAction=None
 nameProjet='new'
+selectedFile=None
+listActionOfFile=None
+currentSelectedFile=None
+lastSelectedFile=None
+currentSelectedAction=None
+lastSelectedAction=None
 numPage=0
+countRect=1
 
 #################################################### toutes les fonctions  ####################################################
 # fonction de buttonConfirm
 def confirmer():
-    global nbConfirm
-    nbConfirm+=1
-    listAction.insert(tk.END,var.get()+'-'+str(nbConfirm))
-    dict1[var.get()+'-'+str(nbConfirm)]=drawRect.getCoordonnes()
-    print(drawRect.getCoordonnes())
+    global countRect
+    listAction.insert(tk.END,var.get()+'-'+str(countRect))
+    listActionRect[var.get()+'-'+str(countRect)]=drawRect.getCoordonnes()
+    #listRect.append(dict1[var.get()+'-'+str(nbConfirm)])
+    #listRect.append(var.get()+'-'+str(nbConfirm))
+    #listRect.append(listActionRect[var.get()+'-'+str(nbConfirm)])
+    #print("list"+str(listRect))
+    #selection=currentSelectedFile
+    #print("selection"+selection)
+    listFileWithActionRect[currentSelectedFile]=listActionRect
+    print("listFileToRect"+str(listFileWithActionRect))
+    countRect+=1
+    #print(drawRect.getCoordonnes())
     
 # parcours choit du fichier
 def chooseFile():
@@ -278,7 +293,7 @@ def onSelectAction(evt):
         cadre.delete(selectedAction)
     selection=listAction.get(listAction.curselection())
     list1=[]
-    list1=dict1[selection]
+    list1=listActionRect[selection]
     selectedAction=cadre.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=5)
     
 labelAction=tk.Label(f1,text="Les actions : ", bg=colorDefault)
@@ -354,8 +369,9 @@ cadre=tk.Canvas(c, bg=colorDefault, bd=-2)
 cadre.grid(row=0,column=1)
 
 def selectByButton():
-    dicimg = {}
     global numPage
+    dicimg = {}
+    #pk supprimer des choses?
     img=Image.open(listPath[numPage])
     wd,hg=img.size
     mwd=ecran_width
@@ -389,11 +405,12 @@ def selectByButton():
     cadre.bind('<ButtonPress-3>', drawRect.onMove)   
     cadre.bind('<ButtonRelease-1>', drawRect.onFinal)
     gs.mettreAJour(nameProjet,numPage)
+    
 
     
 def onselect(evt):
     
-    global drawRect,isDraw,newImg
+    global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
     #cadre=tk.Canvas(c,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=ecran_width-600,height=ecran_height-25,bg="black")#,bg="black"
     #cadre=tk.Label(f,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=320,height=240,bg="green")
     #cadre=tk.Canvas(root,width=ecran_width-500,height=ecran_height,bg="black")
@@ -444,7 +461,41 @@ def onselect(evt):
         cadre.bind('<ButtonPress-3>', drawRect.onMove)   
         cadre.bind('<ButtonRelease-1>', drawRect.onFinal)
         gs.mettreAJour(nameProjet,numPage)
-        
+        #global selectedAction
+        if currentSelectedFile is None:
+            currentSelectedFile=listFiles.get(listFiles.curselection())
+        else:
+            #print(str(lastSelectedFile))
+            #print(str(currentSelectedFile))
+            lastSelectedFile=currentSelectedFile
+            currentSelectedFile=listFiles.get(listFiles.curselection())
+            #print("exchange")
+            #print(str(lastSelectedFile))
+            #print(str(currentSelectedFile))
+            if lastSelectedFile!=currentSelectedFile:
+                listAction.delete(0,tk.END)
+                #listActionRect.clear()
+                newListActionRect={}
+                listActionRect=newListActionRect
+                print(str(listActionRect))
+                #mapAction=getMapActionRect(currentSelectedFile)
+                mapActionRect=listFileWithActionRect[currentSelectedFile]
+                if mapActionRect is not None :
+                    print("mapActionRect isn't none")
+                    for key in mapActionRect :
+                        listAction.insert(tk.END,key)
+                        #print(mapActionRect[key])
+                        listActionRect[key]=mapActionRect[key]
+                        #print(str(listActionRect[key]))
+                else:
+                    print("is none")
+            """if currentSelectedFile != listFiles.get(listFiles.curselection()):
+                listAction.delete(0,tk.END)
+                listAction.insert(tk.END,var.get()+'-'+str(nbConfirm))
+                print("different")"""
+        """list=[]
+        list=dict[selection]
+        selectedAction=cadre.create_rectangle(list[0],list[1],list[0]+list[2],list[1]+list[3],width=5)"""
         #zoneImage.grid(row=2,column=5000,rowspan=2,columnspan=8,sticky=tk.E)#,padx=20,pady=20
         #cadre.grid(row=2,column=500,rowspan=2,columnspan=30,sticky=tk.E)# padx=20,pady=20,
         #cadre.grid(row=0,column=1,sticky=tk.S)
