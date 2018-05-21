@@ -13,8 +13,8 @@ from os.path import basename
 
 #### nos autre fichier
 import DrawRect as rect
-import creatXml as xl
-#import creerXml as xl
+#import creatXml as xl
+import creerXml as xl
 import gestionSave as gs
 #import pdfToImg as pti
 
@@ -129,6 +129,13 @@ def chooseFile():
                 listPath.append(choice[i])
                # listFiles.TopIndex = listFiles.ListCount
                 #i+=1
+    listFiles.select_set(0)    
+    listInitial={}
+    for file in listFiles.get(0,tk.END):
+        listFileWithActionRect[file]=listInitial
+    #print(str(listFileWithActionRect))
+    resizeImg(0)
+    recharge()
     #pour trier par ordre alpha et enlever les boutons            
 #    listFiles.Sorted = True
 #    listPath.sort()
@@ -161,10 +168,14 @@ def nextPage():  #a mettre dans enregister #voir si onSelect se fait tout seul
     
     if numPage<listFiles.size() :
         numPage += 1
-        #print(numPage)
         listFiles.selection_clear(0, tk.END)
-        listFiles.selection_set(numPage)
-        selectByButton() 
+        if numPage<listFiles.size() :
+            listFiles.selection_set(numPage)
+        else:
+            numPage=listFiles.size()-1
+            listFiles.selection_set(numPage)
+        resizeImg(numPage)
+        recharge()
      
     
 def lastPage():
@@ -174,7 +185,8 @@ def lastPage():
         #print(numPage)
         listFiles.selection_clear(0, tk.END)
         listFiles.selection_set(numPage)
-        selectByButton()
+        resizeImg(numPage)
+        recharge()
   
 ############################# Barre menu 
 def newProjet():
@@ -372,8 +384,9 @@ fImg.grid(row=0,column=1,sticky=tk.N+tk.S)
 cadre=tk.Canvas(c, bg=colorDefault, bd=-2)
 cadre.grid(row=0,column=1)
 
-def selectByButton():
+"""def selectByButton():
     global numPage
+    resizeImg(numPage)
     dicimg = {}
     #pk supprimer des choses?
     img=Image.open(listPath[numPage])
@@ -408,17 +421,88 @@ def selectByButton():
     cadre.bind('<Double-1>',      drawRect.onClear)  
     cadre.bind('<ButtonPress-3>', drawRect.onMove)   
     cadre.bind('<ButtonRelease-1>', drawRect.onFinal)
+    gs.update(nameProjet,numPage)"""
+    
+def resizeImg(index):
+    global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
+    dicimg={}
+    img=Image.open(listPath[index])
+    #img.resize((320,240))
+    #img.zoom(320/img.width(), 240/img.height())
+    wd,hg=img.size
+    mwd=ecran_width
+    mhg=ecran_height
+    if wd>mwd :
+        scale= 1.0*wd/mwd
+        newImg=img.resize((int(wd/scale),int(hg/scale)),Image.ANTIALIAS)
+        cadre.config(width=wd/scale,height=hg/scale)
+        photo = ImageTk.PhotoImage(newImg)
+        dicimg['img1'] = photo
+        cadre.image=photo
+        cadre.create_image(0,0,image=photo,anchor="nw") 
+    elif hg > mhg:
+        scale = 1.0*hg/mhg
+        newImg = img.resize((int(wd/scale),int(hg/scale)), Image.ANTIALIAS)
+        cadre.config(width=wd/scale,height=hg/scale)
+        photo = ImageTk.PhotoImage(newImg)
+        dicimg['img1'] = photo
+        cadre.image=photo
+        cadre.create_image(0,0,image=photo,anchor="nw") 
+    else:
+        cadre.config(width=wd,height=hg)
+        photo = ImageTk.PhotoImage(img)
+        dicimg['img1'] = photo
+        cadre.image=photo
+        cadre.create_image(0,0,image=photo,anchor="nw") 
+    #newImg.save(listPath[index])  
+    #newImg.close() 
+        
+    drawRect=rect.CanvasEventsDemo(cadre)
+    cadre.bind('<ButtonPress-1>', drawRect.onStart)  
+    cadre.bind('<B1-Motion>',     drawRect.onGrow)   
+    cadre.bind('<Double-1>',      drawRect.onClear)  
+    cadre.bind('<ButtonPress-3>', drawRect.onMove)   
+    cadre.bind('<ButtonRelease-1>', drawRect.onFinal)
     gs.update(nameProjet,numPage)
-    
-
-    
+ 
+def recharge():
+    global currentSelectedFile,lastSelectedFile,listActionRect
+    #global selectedAction
+    if currentSelectedFile is None:
+        currentSelectedFile=listFiles.get(listFiles.curselection())
+    else:
+        print(str(lastSelectedFile))
+        print(str(currentSelectedFile))
+        lastSelectedFile=currentSelectedFile
+        currentSelectedFile=listFiles.get(listFiles.curselection())
+        print("exchange")
+        print(str(lastSelectedFile))
+        print(str(currentSelectedFile))
+        if lastSelectedFile!=currentSelectedFile:
+            listAction.delete(0,tk.END)
+            #listActionRect.clear()
+            newListActionRect={}
+            listActionRect=newListActionRect
+            print(str(listActionRect))
+            #mapAction=getMapActionRect(currentSelectedFile)
+            mapActionRect=listFileWithActionRect[currentSelectedFile]
+            if mapActionRect is not None :
+                print("mapActionRect isn't none")
+                for key in mapActionRect :
+                    listAction.insert(tk.END,key)
+                    #print(mapActionRect[key])
+                    listActionRect[key]=mapActionRect[key]
+                    #print(str(listActionRect[key]))
+            else:
+                print("is none")
+                
 def onselect(evt):
     
     global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
     #cadre=tk.Canvas(c,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=ecran_width-600,height=ecran_height-25,bg="black")#,bg="black"
     #cadre=tk.Label(f,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=320,height=240,bg="green")
     #cadre=tk.Canvas(root,width=ecran_width-500,height=ecran_height,bg="black")
-    dicimg = {}
+    #dicimg = {}
     #selection = listFiles.curselection()
     #print(selection[0])
     w=evt.widget
@@ -427,73 +511,9 @@ def onselect(evt):
         global numPage
         numPage=index
         #value = w.get(index)
-        img=Image.open(listPath[index])
-        #img.resize((320,240))
-        #img.zoom(320/img.width(), 240/img.height())
-        wd,hg=img.size
-        mwd=ecran_width
-        mhg=ecran_height
-        if wd>mwd :
-            scale= 1.0*wd/mwd
-            newImg=img.resize((int(wd/scale),int(hg/scale)),Image.ANTIALIAS)
-            cadre.config(width=wd/scale,height=hg/scale)
-            photo = ImageTk.PhotoImage(newImg)
-            dicimg['img1'] = photo
-            cadre.image=photo
-            cadre.create_image(0,0,image=photo,anchor="nw") 
-        elif hg > mhg:
-            scale = 1.0*hg/mhg
-            newImg = img.resize((int(wd/scale),int(hg/scale)), Image.ANTIALIAS)
-            cadre.config(width=wd/scale,height=hg/scale)
-            photo = ImageTk.PhotoImage(newImg)
-            dicimg['img1'] = photo
-            cadre.image=photo
-            cadre.create_image(0,0,image=photo,anchor="nw") 
-        else:
-            cadre.config(width=wd,height=hg)
-            photo = ImageTk.PhotoImage(img)
-            dicimg['img1'] = photo
-            cadre.image=photo
-            cadre.create_image(0,0,image=photo,anchor="nw") 
-        #newImg.save(listPath[index])  
-        #newImg.close() 
-        
-        drawRect=rect.CanvasEventsDemo(cadre)
-        cadre.bind('<ButtonPress-1>', drawRect.onStart)  
-        cadre.bind('<B1-Motion>',     drawRect.onGrow)   
-        cadre.bind('<Double-1>',      drawRect.onClear)  
-        cadre.bind('<ButtonPress-3>', drawRect.onMove)   
-        cadre.bind('<ButtonRelease-1>', drawRect.onFinal)
-        gs.update(nameProjet,numPage)
-        #global selectedAction
-        if currentSelectedFile is None:
-            currentSelectedFile=listFiles.get(listFiles.curselection())
-        else:
-            #print(str(lastSelectedFile))
-            #print(str(currentSelectedFile))
-            lastSelectedFile=currentSelectedFile
-            currentSelectedFile=listFiles.get(listFiles.curselection())
-            #print("exchange")
-            #print(str(lastSelectedFile))
-            #print(str(currentSelectedFile))
-            if lastSelectedFile!=currentSelectedFile:
-                listAction.delete(0,tk.END)
-                #listActionRect.clear()
-                newListActionRect={}
-                listActionRect=newListActionRect
-                print(str(listActionRect))
-                #mapAction=getMapActionRect(currentSelectedFile)
-                mapActionRect=listFileWithActionRect[currentSelectedFile]
-                if mapActionRect is not None :
-                    print("mapActionRect isn't none")
-                    for key in mapActionRect :
-                        listAction.insert(tk.END,key)
-                        #print(mapActionRect[key])
-                        listActionRect[key]=mapActionRect[key]
-                        #print(str(listActionRect[key]))
-                else:
-                    print("is none")
-            """if currentSelectedFile != listFiles.get(listFiles.curselection()):
+        resizeImg(index)
+        recharge()
+        """if currentSelectedFile != listFiles.get(listFiles.curselection()):
                 listAction.delete(0,tk.END)
                 listAction.insert(tk.END,var.get()+'-'+str(nbConfirm))
                 print("different")"""
