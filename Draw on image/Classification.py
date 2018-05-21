@@ -80,7 +80,7 @@ def rewriteXml():
    if len(unknownSet)!=0:
        
        for x in range(0,len(unknownSet)):
-                tree = ET.parse('C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/workshop_test/'+unknownSet[x][4])
+                tree = ET.parse('workshop_test/'+unknownSet[x][4])#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
                 root = tree.getroot()
                 for component in root.iter('component'):
                     
@@ -90,16 +90,16 @@ def rewriteXml():
                             component.find('type').text="Paragraphe"
                         else:
                             component.find('type').text="Titre"
-                        tree.write('C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/workshop_test/'+unknownSet[x][4])
+                        tree.write('workshop_test/'+unknownSet[x][4])#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
                         break
                         
                     
 
                   
 
-extractData('C:/Users/DL9/Desktop/XML-Training-Data/')
+extractData('XMLTrainingData/')#C:/Users/DL9/Desktop/
 
-extractUnlabelledData("C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/workshop_test/")
+extractUnlabelledData("workshop_test/")#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
 
 
 '''transforming our dataset into a pandaDataFrame'''
