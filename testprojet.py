@@ -318,18 +318,22 @@ def save():
     sizelist=listAction.size()
     #w=evt.widget
     for k in range (0,sizelist) :
-        #if len(w.curselection())!=0 :
-        selection = listAction.curselection()
-        typeEl = selection[0]
-        index = int(listAction.curselection()[0])#.w
+
+        #listAction.selection_set(k)
+        #selection = listAction.curselection()
+        #typeEl = selection[0]
+        #index = int(listAction.curselection()[0])#.w
+        #recuprerton rectangle d'index k
+        typeEl="Paragraphe"
+        numElem=2 #id
         posiX=1
         posiY=1
         widthEl=1
         heightEl=1
         #numPage=2
-        numElem=2
+        
         if not(xl.reSave(nameProjet, numPage, numElem)) :
-            xl.addElement(typeEl, posiX, posiY, widthEl, heightEl,page)
+            xl.addElement(typeEl, numElem, posiX, posiY, widthEl, heightEl,page)
             xl.endProjet(nameProjet)
         else :
             if not(xl.sameType(nameProjet, numPage, numElem, typeEl)):
@@ -404,7 +408,7 @@ def selectByButton():
     cadre.bind('<Double-1>',      drawRect.onClear)  
     cadre.bind('<ButtonPress-3>', drawRect.onMove)   
     cadre.bind('<ButtonRelease-1>', drawRect.onFinal)
-    gs.mettreAJour(nameProjet,numPage)
+    gs.update(nameProjet,numPage)
     
 
     
@@ -460,7 +464,7 @@ def onselect(evt):
         cadre.bind('<Double-1>',      drawRect.onClear)  
         cadre.bind('<ButtonPress-3>', drawRect.onMove)   
         cadre.bind('<ButtonRelease-1>', drawRect.onFinal)
-        gs.mettreAJour(nameProjet,numPage)
+        gs.update(nameProjet,numPage)
         #global selectedAction
         if currentSelectedFile is None:
             currentSelectedFile=listFiles.get(listFiles.curselection())
