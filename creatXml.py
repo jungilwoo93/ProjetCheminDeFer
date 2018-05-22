@@ -225,12 +225,12 @@ def sameType(nameProjet, numPage, numElem, newType):
                 if e1.attrib['type']==newType:
                     return True
            
-nameProjet='NewProjet'
-newProjet(nameProjet)     
+#nameProjet='NewProjet'
+#newProjet(nameProjet)     
 #continuePoject(nameProjet)       
  
 
-getExistingXml('NewProjet')
+#getExistingXml('NewProjet')
 
 #p=newPage('a que coucou')
 #addElement('para',1,2,3,4,p)
@@ -238,4 +238,4 @@ getExistingXml('NewProjet')
 #delectElement(nameProjet)  
 #endProjet(nameProjet)
 #ajouterElement('paruhjkl',7,2,3,4,p)
-endProjet(nameProjet)
+#endProjet(nameProjet)
