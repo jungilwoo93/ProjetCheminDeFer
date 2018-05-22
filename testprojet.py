@@ -71,6 +71,7 @@ currentSelectedAction=None
 lastSelectedAction=None
 numPage=0
 countRect=1
+rectSelect=None
 
 #################################################### toutes les fonctions  ####################################################
 # fonction de buttonConfirm
