@@ -107,7 +107,7 @@ def addElement(typeEl, idEl, posiX, posiY, widthEl, heightEl, page):
 
     element = etree.SubElement(page,'element') #ou append
     element.set('type',typeEl)#recurere le typele l'element de la liste
-    element.set('id',idEl)
+    element.set('id',bytes(idEl))
     
     #truc du prof
 #    position = etree.SubElement(element,'element')

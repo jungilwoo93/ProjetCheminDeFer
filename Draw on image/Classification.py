@@ -65,16 +65,16 @@ def extractUnlabelledData(path):
     for x in range(0,len(fileNames)):
         tree = ET.parse(path+''+fileNames[x])
         root = tree.getroot()
-        for component in root.iter('component'):
-            feedUnlabelledList(component.find('type').text,component.find('PointX').text,component.find('PointY').text,component.find('RectangleWidth').text,component.find('RectangleHeight').text,fileNames[x])
+        for component in root.iter('element'):
+            feedUnlabelledList(component.find('type').text,component.find('PosX').text,component.find('PosY').text,component.find('Width').text,component.find('RectangleHeight').text,fileNames[x])
 
 def extractData(path):
     fileNames=extractPaths(path)
     for x in range(0,len(fileNames)):
         tree = ET.parse(path+''+fileNames[x])
         root = tree.getroot()
-        for component in root.iter('component'):
-            feedList(component.find('type').text,component.find('PointX').text,component.find('PointY').text,component.find('RectangleWidth').text,component.find('RectangleHeight').text)
+        for component in root.iter('element'):
+            feedList(component.find('type').text,component.find('PosX').text,component.find('PosY').text,component.find('Width').text,component.find('RectangleHeight').text)
 
 def rewriteXml():
    if len(unknownSet)!=0:
@@ -82,7 +82,7 @@ def rewriteXml():
        for x in range(0,len(unknownSet)):
                 tree = ET.parse('workshop_test/'+unknownSet[x][4])#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
                 root = tree.getroot()
-                for component in root.iter('component'):
+                for component in root.iter('element'):
                     
                     if component.find('type').text=="unknown":
                         print(x)
