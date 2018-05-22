@@ -7,8 +7,9 @@ class CanvasEventsDemo:
     isDraw=False
     finalX=0
     finalY=0
+    objectId=None
     #list=[]
-    def __init__(self, parent):
+    def __init__(self, parent,shape=None):
         ##canvas = tk.Canvas(width=300, height=300, bg='white') 
         #canvas.pack()
         #canvas.bind('<ButtonPress-1>', self.onStart)  
@@ -16,37 +17,70 @@ class CanvasEventsDemo:
         #canvas.bind('<Double-1>',      self.onClear)  
         #canvas.bind('<ButtonPress-3>', self.onMove)   
         self.canvas = parent
-        self.drawn  = None
+        self.isDraw=False
+        if shape is not None:
+            print("shape is not none")
+            #可能没什么用
+            self.drawn=shape
+        else:
+            print("shape is none")
+            self.drawn  = None
 
     def onStart(self, event):
+        global objectId
         self.start = event
+        canvas = self.start.widget
+        if self.isDraw is True:
+            canvas.delete(objectId)
         self.drawn = None
         self.startX=self.start.x
         self.startY=self.start.y
+        self.isDraw=False
+        #self.isDraw=False
 
-    def onGrow(self, event):                          
+    def onGrow(self, event): 
+        global objectId,isDraw                      
         canvas = event.widget
-        if self.drawn: canvas.delete(self.drawn)
-        objectId = canvas.create_rectangle(self.start.x, self.start.y, event.x, event.y)
-        self.isDraw=True
-        if trace: print(objectId)
-        self.drawn = objectId
+        if self.isDraw is False:
+            #print("is draw")
+            if self.drawn: 
+                canvas.delete(self.drawn)
+            objectId = canvas.create_rectangle(self.start.x, self.start.y, event.x, event.y)
+            if trace: 
+                print("trace")
+                print(objectId)
+            self.drawn = objectId
+        
 
     def onClear(self, event):
-        event.widget.delete('all')
+        global objectId
+        canvas = event.widget
+        canvas.delete(objectId)
+        self.drawn=None
 
     def onMove(self, event):
-        if self.drawn:            
+        canvas = event.widget
+        if self.drawn: 
+            canvas.delete(self.drawn)
+        diffX, diffY = (event.x - self.start.x), (event.y - self.start.y)
+        objectId = canvas.create_rectangle(self.start.x+diffX, self.start.y+diffY, self.finalX+diffX, self.finalY+diffY)
+        if trace: 
+            print("trace")
+            print(objectId)
+        self.drawn = objectId
+        """if self.drawn:            
             if trace: print(self.drawn)
             canvas = event.widget
             diffX, diffY = (event.x - self.start.x), (event.y - self.start.y) 
             canvas.move(self.drawn, diffX, diffY)
-            self.start = event
+            self.start = event"""
             
     def onFinal(self,event):
+        global isDraw
         self.final=event
         self.finalX=event.x
         self.finalY=event.y
+        self.isDraw=True
 	
     """def returnStartX(self):
         x=self.startX
@@ -60,16 +94,20 @@ class CanvasEventsDemo:
         return self.isDraw"""
         
     def getCoordonnes(self):
-        list=[]
+        listCoord=[]
         width=abs(self.finalX-self.startX)
         height=abs(self.finalY-self.startY)
-        list.append(self.startX)
-        list.append(self.startY)
-        list.append(width)
-        list.append(height)
-        return list
+        listCoord.append(self.startX)
+        listCoord.append(self.startY)
+        listCoord.append(width)
+        listCoord.append(height)
+        return listCoord
     
-    
+    def deleteRect(self):
+        print("delete rect")
+        self.canvas.delete(objectId)
+
+        
 """import tkinter.filedialog as tf
 from PIL import Image, ImageFont, ImageDraw, ImageTk
 root = tk.Tk()

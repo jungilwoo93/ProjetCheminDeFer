@@ -503,7 +503,8 @@ def resizeImg(index):
     cadre.bind('<ButtonPress-1>', drawRect.onStart)  
     cadre.bind('<B1-Motion>',     drawRect.onGrow)   
     cadre.bind('<Double-1>',      drawRect.onClear)  
-    cadre.bind('<ButtonPress-3>', drawRect.onMove)   
+    cadre.bind('<B3-Motion>',     drawRect.onMove)
+    #cadre.bind('<ButtonPress-3>', drawRect.onMove)   
     cadre.bind('<ButtonRelease-1>', drawRect.onFinal)
     gs.update(nameProjet,numPage)
  
