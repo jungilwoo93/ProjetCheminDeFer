@@ -91,7 +91,7 @@ def getAvancementProjet(nameProjet):
         
         
 
-#writeInText('moche',9)
-#mettreAJour('salut',7)
+#writeInText('coooouuuuuucccoouuuu',4)
+#update('salut',100)
 #print(getAvancementProjet('moche'))
 #print(getListProjet())

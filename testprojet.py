@@ -73,6 +73,7 @@ numPage=0
 countRect=1
 rectSelect=None
 
+
 #################################################### toutes les fonctions  ####################################################
 # fonction de buttonConfirm
 def confirmer():
@@ -162,9 +163,9 @@ def delecteAll():
 def nextPage():  #a mettre dans enregister #voir si onSelect se fait tout seul
     global numPage
     if gs.projetExist(nameProjet):
-        gs.update(nameProjet,numPage)
+        gs.update(nameProjet,numPage+1)
     else :
-        gs.writeInText(nameProjet,numPage)
+        gs.writeInText(nameProjet,numPage+1)
     
     
     if numPage<listFiles.size() :
@@ -177,10 +178,15 @@ def nextPage():  #a mettre dans enregister #voir si onSelect se fait tout seul
             listFiles.selection_set(numPage)
         resizeImg(numPage)
         recharge()
+    save()
      
     
 def lastPage():
     global numPage
+    if gs.projetExist(nameProjet):
+        gs.update(nameProjet,numPage-1)
+    else :
+        gs.writeInText(nameProjet,numPage-1)
     if numPage>0 :
         numPage -= 1
         #print(numPage)
@@ -188,6 +194,7 @@ def lastPage():
         listFiles.selection_set(numPage)
         resizeImg(numPage)
         recharge()
+    save()
   
 ############################# Barre menu 
 def newProjet():
@@ -195,16 +202,21 @@ def newProjet():
     numPage=0
     chooseFile()
     xl.newProjet(nameProjet)
-
+    gs.writeInText(nameProjet,numPage)
+'''
 def projetToContinu(listProjet):   
     global nameProjet
+    print('coucou')
+    print(listProjet.curselection())
     nameProjet =listProjet.get(listProjet.curselection())
     global numPage
     numPage=gs.getAvancementProjet(nameProjet)
     listFiles.selection_set(numPage)
+    #peut etre 
+    '''
+
     
 def continueProjet():
-    
     rootpop = tk.Tk()
     rootpop.title("choisit le projet")
     listFrame=tk.Frame(rootpop)
@@ -216,22 +228,34 @@ def continueProjet():
     
     listProjet = tk.Listbox(listFrame,
         xscrollcommand=xDefilB.set,
-        yscrollcommand=yDefilB.set,width=70,height=15,selectmode=tk.SINGLE)
+        yscrollcommand=yDefilB.set,width=70,height=15,selectmode=tk.SINGLE)    
     listProjet.grid(row=0)#'nsew'
     #listFiles.pack(side="left",fill="y")  
     xDefilB['command'] = listProjet.xview
-    yDefilB['command'] = listProjet.yview
-    
+    yDefilB['command'] = listProjet.yview    
     #global xl.xmlProjets
     #xl.duplicationProjet()
     #print(len(xl.listProjets))
-    Projetlist=xl.getListProjet()
+    Projetlist=gs.getListProjet()
     for i in range (0 ,len(Projetlist)):
         listProjet.insert(1,Projetlist[i])
     listFrame.grid(row=0,pady=0,padx=15,sticky=tk.W+tk.N +tk.E)
     listProjet.grid(row=0,pady=0,padx=15,sticky=tk.W+tk.N +tk.E)
     
-    listProjet.bind('<<ListboxSelect>>', projetToContinu(listProjet))
+    def projetToContinu(evt):   
+        global nameProjet
+        print('coucou')
+        print(listProjet.curselection())
+        nameProjet =listProjet.get(listProjet.curselection())
+        global numPage
+        numPage=gs.getAvancementProjet(nameProjet)
+        listFiles.selection_set(numPage)
+    
+    listProjet.bind('<<ListboxSelect>>', projetToContinu)
+    reloadImg()
+    rootpop.mainloop()
+
+
 
 
 menubar=tk.Menu(root)
@@ -276,6 +300,16 @@ xDefilB['command'] = listFiles.xview
 yDefilB['command'] = listFiles.yview
 listFrame.grid(row=1,pady=5,padx=20,sticky=tk.W)
 
+
+def reloadImg() :
+    listImgFromPdf = os.listdir('imgFromPdf/' + nameProjet)
+    for k in (0,len(listImgFromPdf)) :
+        nomExt=basename(listImgFromPdf[k])
+        nom=os.path.splitext(nomExt)[0]
+        listFiles.insert(listFiles.size(), nom)
+        listPath.append('imgFromPdf/' + nameProjet + '/' + listImgFromPdf[k])
+  
+      
 ################### frame pour les buttons parcourir, supprimer, vider
 #zoneButton=tk.Frame(f1)
 """boutonParcourir=tk.Button(zoneButton,text="Parcourir",command=chooseFile).grid(row=1, column=0,sticky=tk.S,padx=40)
@@ -359,7 +393,7 @@ def save():
             if not(xl.sameType(nameProjet, numPage, numElem, typeEl)):
                 xl.replace(nameProjet, numPage, numElem, typeEl)
                 xl.endProjet(nameProjet)
-    nextPage()
+    #nextPage()
         
 
                 
@@ -368,7 +402,7 @@ def save():
 fButtons=tk.Frame(f1, bg=colorDefault)
 buttonDelete=tk.Button(fButtons,text="Supprimer",command=deleteSelection).grid(row=0,column=0,padx=40,sticky=tk.S)
 buttonLast=tk.Button(fButtons,text="Précédent",command=lastPage).grid(row=0,column=1,padx=40,sticky=tk.S)
-buttonSave=tk.Button(fButtons,text="Enregistrer et Suivant",command=save).grid(row=0,column=2,padx=40,sticky=tk.S)
+buttonSave=tk.Button(fButtons,text="Enregistrer et Suivant",command=nextPage).grid(row=0,column=2,padx=40,sticky=tk.S)
 #buttonSave=tk.Button(fButtons,text="Suivant",command=suivant).grid(row=0,column=1,padx=50,sticky=tk.S)
 fButtons.grid(row=7,column=0,pady=20)
 
