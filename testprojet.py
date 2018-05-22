@@ -13,8 +13,8 @@ from os.path import basename
 
 #### nos autre fichier
 import DrawRect as rect
-#import creatXml as xl
-import creerXml as xl
+import creatXml as xl
+#import creerXml as xl
 import gestionSave as gs
 #import pdfToImg as pti
 
@@ -329,19 +329,26 @@ def save():
         page = xl.foundPage(nameProjet, numPage)
     sizelist=listAction.size()
     #w=evt.widget
+    listItems=listAction.get(0,tk.END)
+    """for i in range(0,sizelist) :
+        (typeAction,idAction) = list1[i].split("-")
+        print("type"+typeAction)
+        print("id"+idAction)"""
+    #listActionRect[selection]
     for k in range (0,sizelist) :
-
+        (typeAction,idAction) = listItems[k].split("-")
         #listAction.selection_set(k)
         #selection = listAction.curselection()
         #typeEl = selection[0]
         #index = int(listAction.curselection()[0])#.w
         #recuprerton rectangle d'index k
-        typeEl="Paragraphe"
-        numElem=2 #id
-        posiX=1
-        posiY=1
-        widthEl=1
-        heightEl=1
+        listCoord=listActionRect[listItems[k]]
+        typeEl=typeAction
+        numElem=idAction #id
+        posiX=listCoord[0]
+        posiY=listCoord[1]
+        widthEl=listCoord[2]
+        heightEl=listCoord[3]
         #numPage=2
         
         if not(xl.reSave(nameProjet, numPage, numElem)) :
