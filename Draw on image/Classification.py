@@ -66,7 +66,7 @@ def extractUnlabelledData(path):
         tree = ET.parse(path+''+fileNames[x])
         root = tree.getroot()
         for component in root.iter('element'):
-            feedUnlabelledList(component.find('type').text,component.find('PosX').text,component.find('PosY').text,component.find('Width').text,component.find('RectangleHeight').text,fileNames[x])
+            feedUnlabelledList(component.find('type').text,component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text,fileNames[x])
 
 def extractData(path):
     fileNames=extractPaths(path)
@@ -74,7 +74,7 @@ def extractData(path):
         tree = ET.parse(path+''+fileNames[x])
         root = tree.getroot()
         for component in root.iter('element'):
-            feedList(component.find('type').text,component.find('PosX').text,component.find('PosY').text,component.find('Width').text,component.find('RectangleHeight').text)
+            feedList(component.find('type').text,component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text)
 
 def rewriteXml():
    if len(unknownSet)!=0:
