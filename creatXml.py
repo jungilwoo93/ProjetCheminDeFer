@@ -84,7 +84,10 @@ def addPage(pathPage):
 def endProjet(nameProjet) :   
     #xmlProjet = etree.Element(nameProjet)
     #global xmlProjets
+    
     try:
+        if not(os.path.exists('docXml')) :
+            os.mkdir('docXml')
         with open('docXml/' + nameProjet +'.xml','w') as fichier:
         #En-tête du fichier xml
             fichier.write('<?xml version="1.0" encoding="UTF_8"?>\n')
@@ -104,7 +107,7 @@ def addElement(typeEl, idEl, posiX, posiY, widthEl, heightEl, page):
 
     element = etree.SubElement(page,'element') #ou append
     element.set('type',typeEl)#recurere le typele l'element de la liste
-    element.set('id',typeEl)
+    element.set('id',idEl)
     
     #truc du prof
 #    position = etree.SubElement(element,'element')
@@ -235,4 +238,4 @@ getExistingXml('NewProjet')
 #delectElement(nameProjet)  
 #endProjet(nameProjet)
 #ajouterElement('paruhjkl',7,2,3,4,p)
-#endProjet(nameProjet)
+endProjet(nameProjet)
