@@ -5,11 +5,14 @@ Created on Wed May 16 10:34:42 2018
 @author: panpa
 """
 import tkinter.filedialog as tk
-from PIL import Image, ImageFont, ImageDraw, ImageTk
+#from PIL import Image, ImageFont, ImageDraw, ImageTk
 #from __future__ import print_function
-#from wand.image import Image
+from wand.image import Image
+from wand.color import Color
+import PyPDF2 as pdf
 import os
 
+#print(os.environ['MAGICK_HOME'])
 root = tk.Tk()
 
 drawing = False #si le souris click, devient true
@@ -24,27 +27,53 @@ ecran_height = root.winfo_screenheight()-100
 root.geometry(str(ecran_width)+'x'+str(ecran_height))
 f1=tk.Frame(root)
 f1.grid(row=0,column=1)
+
 def select_file():
     global path
     path = tk.askopenfilename()
     if len(path) > 0: 
         splitPath(path)
-        print("filepath= " +filePath)
+        """print("filepath= " +filePath)
         print("tempfilename="+tempfileName)
         print("shotname="+shotName)
-        print("extention="+extension)
+        print("extention="+extension)"""
         #nb le chemin du fichier source
+        #### 1 ####
+        """with Image(filename=path,resolution=500) as img:
+            img.compression_quality = 99
+            with Image(width=img.width, height=img.height, background=Color("white")) as bg:
+                bg.composite(img,0,0)
+                bg.save(filename='page.png')"""
+                ####1####
+    #partie 1 convert juste une page
+                #bg.save(filename="D://S4//ProjetCheminDeFer//image.png")
+    #partie 2 convert tous les pages
+    ### 2#####
         with Image(filename=path,resolution=30) as img:
             print('pages = ', len(img.sequence))
             img.compression_quality = 99
-            with img.convert('jpg') as converted:
-                converted.save(filename=filePath+'/'+ shotName+'/pages.jpg')    #nb le chemin des results
-    
+            with img.convert('jpeg') as converted:
+                converted.save(filename='page.jpg')   #nb le chemin des results
+    ####2####
 def splitPath(path):
     global filePath,tempfileName,shotName,extension
     (filePath,tempfileName) = os.path.split(path)
     (shotName,extension) = os.path.splitext(tempfileName)
  
+def getCountPage(path):
+    sourcePDF=pdf.PdfFileReader(open(path,'rb'))
+    countPage=sourcePDF.getNumPages()
+    print(countPage)
+    return countPage
+
+"""def convertToJPG(path,page,res=120):
+    splitPath(path)
+    img = Image(filename=path,resolution=res)
+    img.format='jpeg'
+    img.compression_quality=90
+    img.background_color = Color("white")"""
+    #img_path = '%s%d.jpg' % ()
+    
     """def pdf_to_jpg(pdfPath, pages):
     # print pdf using jpg printer
     # 'pages' is the number of pages in the pdf
