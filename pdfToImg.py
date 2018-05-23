@@ -12,14 +12,14 @@ import os.path
 
 
 #nb le chemin du fichier source
-def pdfToPng(namefile,nameProjet): #'test1/source1.pdf'
+def pdfToPng(namefile,nameProjet,resol): #'test1/source1.pdf'
 	#os.mkdir('imgFromPdf/' + nameProjet)
 	if len(namefile) > 0: 
 		
 		os.makedirs('imgFromPdf/' + nameProjet)
 		page=0
 		listImg =[]
-		with Image(filename=namefile,resolution=30) as img: #30 == low quality(utilisée pour l'app java) 60== high quality utilisé pour le traitement de l'img
+		with Image(filename=namefile,resolution=resol) as img: #pour resol 30 == low quality(utilisée pour l'app java) 60== high quality utilisé pour le traitement de l'img
 			#print('pages = ', len(img.sequence))
 			img.compression_quality = 99
 			with img.convert('png') as converted:

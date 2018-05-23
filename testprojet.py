@@ -117,7 +117,7 @@ def chooseFile():
             
             ##########################################a remetre 
             
-            listImg = pti.pdfToPng(choice[i],nameProjet)
+            listImg = pti.pdfToPng(choice[i],nameProjet,30)#30==resolution base 90 resol haut
             size=len(listImg)
             for k in range (0, size) :
                 listFiles.insert(listFiles.size(),basename(listImg[k])) 
