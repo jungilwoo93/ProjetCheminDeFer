@@ -16,7 +16,7 @@ import DrawRect as rect
 import creatXml as xl
 #import creerXml as xl
 import gestionSave as gs
-#import pdfToImg as pti
+import pdfToImg as pti
 
 #########################################################  fenetre principale ##################################################
 #créer la fenêtre d'application
@@ -117,11 +117,11 @@ def chooseFile():
             
             ##########################################a remetre 
             
-            #listImg = pti.pdfToPng(choice[i],'mon projet')
-            #size=len(listImg)
-            #for k in range (0, size) :
-             #   listFiles.insert(listFiles.size(),basename(listImg[k])) 
-              #  listPath.append(listImg[i])
+            listImg = pti.pdfToPng(choice[i],'mon projet')
+            size=len(listImg)
+            for k in range (0, size) :
+                listFiles.insert(listFiles.size(),basename(listImg[k])) 
+                listPath.append(listImg[i])
             
             
         else :

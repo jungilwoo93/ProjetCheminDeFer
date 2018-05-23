@@ -6,8 +6,8 @@ Created on Wed May 16 09:34:19 2018
 """
 
 from __future__ import print_function
-#from wand import *
-from Wand.image import Image
+#from imagemagick import *
+from wand.image import Image
 import os.path
 
 
