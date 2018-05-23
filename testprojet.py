@@ -117,7 +117,7 @@ def chooseFile():
             
             ##########################################a remetre 
             
-            listImg = pti.pdfToPng(choice[i],'mon projet')
+            listImg = pti.pdfToPng(choice[i],nameProjet)
             size=len(listImg)
             for k in range (0, size) :
                 listFiles.insert(listFiles.size(),basename(listImg[k])) 
@@ -198,11 +198,11 @@ def lastPage():
   
 ############################# Barre menu 
 def newProjet():
-    global numPage
-    numPage=0
-    chooseFile()
-    xl.newProjet(nameProjet)
-    gs.writeInText(nameProjet,numPage)
+	global numPage
+	numPage=0
+	chooseFile()
+	xl.newProjet(nameProjet)
+	gs.writeInText(nameProjet,numPage)
 '''
 def projetToContinu(listProjet):   
     global nameProjet
@@ -358,45 +358,45 @@ def deleteSelection():#pour liste des actions
 
 #################fonctio de generation du xml
 def save():
-    if not(xl.pageExist(nameProjet, numPage)) :
-        page = xl.addPage('nom Page')
-    else :
-        page = xl.foundPage(nameProjet, numPage)
-    sizelist=listAction.size()
-    #w=evt.widget
-    listItems=listAction.get(0,tk.END)
-    """for i in range(0,sizelist) :
-        (typeAction,idAction) = list1[i].split("-")
-        print("type"+typeAction)
-        print("id"+idAction)"""
-    #listActionRect[selection]
-    for k in range (0,sizelist) :
-        (typeAction,idAction) = listItems[k].split("-")
-        #listAction.selection_set(k)
-        #selection = listAction.curselection()
-        #typeEl = selection[0]
-        #index = int(listAction.curselection()[0])#.w
-        #recuprerton rectangle d'index k
-        listCoord=listActionRect[listItems[k]]
-        typeEl=typeAction
-        numElem=idAction #id
-        posiX=listCoord[0]
-        posiY=listCoord[1]
-        widthEl=listCoord[2]
-        heightEl=listCoord[3]
-        #numPage=2
-        
-        if not(xl.reSave(nameProjet, numPage, numElem)) :
-            xl.addElement(typeEl, numElem, posiX, posiY, widthEl, heightEl,page)
-            xl.endProjet(nameProjet)
-        else :
-            if not(xl.sameType(nameProjet, numPage, numElem, typeEl)):
-                xl.replace(nameProjet, numPage, numElem, typeEl)
-                xl.endProjet(nameProjet)
-    #nextPage()
-        
+	if not(xl.pageExist(nameProjet, numPage)) :
+		page = xl.addPage('nom Page')
+	else :
+		page = xl.foundPage(nameProjet, numPage)
+	sizelist=listAction.size()
+	#w=evt.widget
+	listItems=listAction.get(0,tk.END)
+	"""for i in range(0,sizelist) :
+		(typeAction,idAction) = list1[i].split("-")
+		print("type"+typeAction)
+		print("id"+idAction)"""
+	#listActionRect[selection]
+	for k in range (0,sizelist) :
+		(typeAction,idAction) = listItems[k].split("-")
+		#listAction.selection_set(k)
+		#selection = listAction.curselection()
+		#typeEl = selection[0]
+		#index = int(listAction.curselection()[0])#.w
+		#recuprerton rectangle d'index k
+		listCoord=listActionRect[listItems[k]]
+		typeEl=typeAction
+		numElem=idAction #id
+		posiX=listCoord[0]
+		posiY=listCoord[1]
+		widthEl=listCoord[2]
+		heightEl=listCoord[3]
+		#numPage=2
+		
+		if not(xl.reSave(nameProjet, numPage, numElem)) :
+			xl.addElement(typeEl, numElem, posiX, posiY, widthEl, heightEl,page)
+			xl.endProjet(nameProjet)
+		else :
+			if not(xl.sameType(nameProjet, numPage, numElem, typeEl)):
+				xl.replace(nameProjet, numPage, numElem, typeEl)
+				xl.endProjet(nameProjet)
+	#nextPage()
 
-                
+
+
 
 ################ button pour confirmer le choix des element de la page ##############
 fButtons=tk.Frame(f1, bg=colorDefault)
@@ -540,42 +540,41 @@ def recharge():
                 print("is none")
                 
 def onselect(evt):
-    
-    global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
-    #cadre=tk.Canvas(c,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=ecran_width-600,height=ecran_height-25,bg="black")#,bg="black"
-    #cadre=tk.Label(f,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=320,height=240,bg="green")
-    #cadre=tk.Canvas(root,width=ecran_width-500,height=ecran_height,bg="black")
-    #dicimg = {}
-    #selection = listFiles.curselection()
-    #print(selection[0])
-    w=evt.widget
-    if len(w.curselection())!=0 :
-        index = int(w.curselection()[0])
-        global numPage
-        numPage=index
-        #value = w.get(index)
-        resizeImg(index)
-        recharge()
-        """if currentSelectedFile != listFiles.get(listFiles.curselection()):
-                listAction.delete(0,tk.END)
-                listAction.insert(tk.END,var.get()+'-'+str(nbConfirm))
-                print("different")"""
-        """list=[]
-        list=dict[selection]
-        selectedAction=cadre.create_rectangle(list[0],list[1],list[0]+list[2],list[1]+list[3],width=5)"""
-        #zoneImage.grid(row=2,column=5000,rowspan=2,columnspan=8,sticky=tk.E)#,padx=20,pady=20
-        #cadre.grid(row=2,column=500,rowspan=2,columnspan=30,sticky=tk.E)# padx=20,pady=20,
-        #cadre.grid(row=0,column=1,sticky=tk.S)
-        #cadre.create_window(0, 0,  window=f)
-        #cadre.create_window(0,0,window=f1)
-        #c.create_window(1,0,window=cadre)
-        #f.update_idletasks()
-        #f1.grid(row=0,column=0,sticky=tk.W+tk.S)
-        
-        #cadre.update_idletasks()
-        #zoneImage.grid(row=0,column=1,rowspan=2,columnspan=8,sticky=tk.E )
-        #cadre.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
-        #cadre.config(scrollregion=cadre.bbox("all"))
+	global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
+	#cadre=tk.Canvas(c,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=ecran_width-600,height=ecran_height-25,bg="black")#,bg="black"
+	#cadre=tk.Label(f,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=320,height=240,bg="green")
+	#cadre=tk.Canvas(root,width=ecran_width-500,height=ecran_height,bg="black")
+	#dicimg = {}
+	#selection = listFiles.curselection()
+	#print(selection[0])
+	w=evt.widget
+	if len(w.curselection())!=0 :
+		index = int(w.curselection()[0])
+		global numPage
+		numPage=index
+		#value = w.get(index)
+		print(index)
+		resizeImg(index)
+		recharge()
+		"""if currentSelectedFile != listFiles.get(listFiles.curselection()):
+				listAction.delete(0,tk.END)
+				listAction.insert(tk.END,var.get()+'-'+str(nbConfirm))
+				print("different")"""
+		"""list=[]
+		list=dict[selection]
+		selectedAction=cadre.create_rectangle(list[0],list[1],list[0]+list[2],list[1]+list[3],width=5)"""
+		#zoneImage.grid(row=2,column=5000,rowspan=2,columnspan=8,sticky=tk.E)#,padx=20,pady=20
+		#cadre.grid(row=2,column=500,rowspan=2,columnspan=30,sticky=tk.E)# padx=20,pady=20,
+		#cadre.grid(row=0,column=1,sticky=tk.S)
+		#cadre.create_window(0, 0,  window=f)
+		#cadre.create_window(0,0,window=f1)
+		#c.create_window(1,0,window=cadre)
+		#f.update_idletasks()
+		#f1.grid(row=0,column=0,sticky=tk.W+tk.S)
+		#cadre.update_idletasks()
+		#zoneImage.grid(row=0,column=1,rowspan=2,columnspan=8,sticky=tk.E )
+		#cadre.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
+		#cadre.config(scrollregion=cadre.bbox("all"))
 
 listFiles.bind('<<ListboxSelect>>', onselect)  #green
 #buttonLast.bind('<Button-1>', onselect)

@@ -28,7 +28,7 @@ root.geometry(str(ecran_width)+'x'+str(ecran_height))
 f1=tk.Frame(root)
 f1.grid(row=0,column=1)
 
-def select_file():
+def pdfToPng():
     global path
     path = tk.askopenfilename()
     if len(path) > 0: 
@@ -107,8 +107,8 @@ def getCountPage(path):
 
     return jpgPath"""
     
-btn = tk.Button(root, text="Select an image", command=select_file)
-btn.grid(row=0, column=0,padx="10", pady="10")
+#btn = tk.Button(root, text="Select an image", command=select_file)
+#btn.grid(row=0, column=0,padx="10", pady="10")
 
 
 
