@@ -128,7 +128,6 @@ cm=confusion_matrix(y_test,y_pred) #la confusion_matrix permet de calculer l'err
 
 
 
-
 ''' classifying unlabelled data from xml files'''
 x_train=pdDataSet.iloc[:,[0,3]].values
 y_train=pdDataSet.iloc[:,[4]].values
@@ -146,8 +145,3 @@ classifier.fit(x_train,y_train)
 y_pred=classifier.predict(x_test)
 '''rewriting the xml files after the classification of the unknown components'''
 rewriteXml()
-
-
-
-
-
