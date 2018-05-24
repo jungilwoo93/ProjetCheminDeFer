@@ -41,10 +41,16 @@ rect= tk.Menu(view,tearoff=0)
 dim= tk.Menu(view,tearoff=0)
 view.add_cascade(label="rectangle", menu=rect)
 view.add_cascade(label="dimention", menu=dim)
+rect.add_checkbutton(label="Plein", command=bf.fullRect(rectFull))
+#rect.add_command(label="Vide", command=bf.fullRect)
+#rect.add_command(label="Plein", command=bf.emptyRect)
 
-rect.add_command(label="Vide", command=fullRect)
-rect.add_command(label="Plein", command=emptyRect)
-
+nitem=tk.IntVar()
+nitem.set(1)
+dim.add_radiobutton(label="item1",  variable=nitem, value=1)
+dim.add_radiobutton(label="item2", variable=nitem, value=2)#command=item,
+dim.add_radiobutton(label="item3",  variable=nitem, value=3)
+#dim.add_radiobutton()
 
 
 

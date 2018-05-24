@@ -253,24 +253,26 @@ def continueProjet():
 
 
 def deepLearnig():
-	import Segmentation as seg
+	import UseCheminDeFer/Segmentation as seg
 	import Classification as cl
 	import drawOnImage as doi
 	save()
 	root.destroy
 
+	
 menubar=tk.Menu(root)
 root.config(menu = menubar)
 menufichier = tk.Menu(menubar,tearoff=0)
+cheminDeFer = tk.Menu(menubar,tearoff=0)
 menubar.add_cascade(label="Fichier", menu=menufichier)
 menubar.add_cascade(label="Chemin de fer", menu=cheminDeFer)
 
 menufichier.add_command(label="Nouveau Projet", command=newProjet)
 menufichier.add_command(label="Continuer Projet", command = continueProjet) 
 menufichier.add_separator() 
-menufichier.add_command(label="Enregistrer", command=save)
-menufichier.add_separator()
-menufichier.add_command(label="Quitter", command=root.destroy) 
+#menufichier.add_command(label="Enregistrer", command=save)
+#menufichier.add_separator()
+#menufichier.add_command(label="Quitter", command=root.destroy) 
 
 cheminDeFer.add_command(label="Crée", command=deepLearnig)
 ############################################################ frame à gauche ####################################################
@@ -407,6 +409,11 @@ def save():
 	#nextPage()
 
 
+
+###fin barre menu qui a besoin de save
+menufichier.add_command(label="Enregistrer", command=save)
+menufichier.add_separator()
+menufichier.add_command(label="Quitter", command=root.destroy) 
 
 
 ################ button pour confirmer le choix des element de la page ##############

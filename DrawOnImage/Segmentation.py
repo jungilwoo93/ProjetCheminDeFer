@@ -8,6 +8,8 @@ Created on Fri Jan 19 14:04:46 2018
 import cv2
 import xml.etree.cElementTree as ET
 
+print('segmentation')
+
 for x in range(130, 169):  # les images chargées pour la segmentation image130 à image 169
     id_img="page_n-"+str(x)+".png"
     

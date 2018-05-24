@@ -20,10 +20,11 @@ def exportToPdf():
 
 
 #peut etre 2 ensemble si rien a rajouter
-def fullRect():
+def fullRect(full):
 	global rectFull
-	rectFull=True
+	#contrary=not(rectFull)
+	rectFull=not(full)#not(rectFull)
 
-def emptyRect():
-	global rectFull
-	rectFull=False
+#def emptyRect():
+#	global rectFull
+#	rectFull=False
