@@ -17,18 +17,21 @@ def pdfToPng(namefile,nameProjet,resol): #'test1/source1.pdf'
 	if len(namefile) > 0: 
 		
 		os.makedirs('imgFromPdf/' + nameProjet)
-		page=0
+		#page=0
 		listImg =[]
+		#print('pages = ', len(img.sequence))
 		with Image(filename=namefile,resolution=resol) as img: #pour resol 30 == low quality(utilisée pour l'app java) 60== high quality utilisé pour le traitement de l'img
-			#print('pages = ', len(img.sequence))
+			print('pages = ', len(img.sequence))
 			img.compression_quality = 99
+			#page += 1
+			for i in range (len(img.sequence)) :
+				listImg.append('imgFromPdf/' + splitPath(namefile) + '/'+ splitPath(namefile) + 'page-' + str(i) + '.png')
+				
 			with img.convert('png') as converted:
-				print("coucou") 
-				print(str(page))
+				#print("coucou") 
+				#print(str(page))
 				converted.save(filename='imgFromPdf/' + nameProjet + '/' + splitPath(namefile) + 'page' + '.png')    #nb le chemin des results
-				#'test1/result/page_n.png'
-				listImg.append('imgFromPdf/' + splitPath(namefile) + '/'+ splitPath(namefile) + 'page-' + str(page) + '.png')
-				page += 1
+				#listImg.append('imgFromPdf/' + splitPath(namefile) + '/'+ splitPath(namefile) + 'page-' + str(page) + '.png')
 		return listImg
 				
 def splitPath(path):

@@ -93,52 +93,49 @@ def confirmer():
     
 # parcours choit du fichier
 def chooseFile():
-    #choice=fenetre.FileDialog(tf.msoFileDialogOpen)
-    choice = tf.askopenfilenames() #fichier uniquement
-    #choice = tf.askdirectory()  #repertoire uniquement
-    #defaultextension='.png'
-    #filetypes=[('BMP FILES','*.bmp')]#pas sure
-    #filetypes=[('PNG FILES','*.png')]
-    #("JPEG",'*.jpg')
-    #print(choice)
-    #choiceBoth=tf.
-    #os.listdir #pour recupereelement d'un dosier
-    nbSelected=len(choice)
-    #recupere le nom apartir du chemin
-    for i in range (0,nbSelected):
-        ext = os.path.splitext(choice[i])[1]
-        nomExt=basename(choice[i])
-        #nom=choice[i]
-        nom=os.path.splitext(nomExt)[0]
-        if ext == '.pdf':
-            global nameProjet
-            nameProjet=nom
-            print('c est un pdf')
-            
-            ##########################################a remetre 
-            
-            listImg = pti.pdfToPng(choice[i],nameProjet,30)#30==resolution base 90 resol haut
-            size=len(listImg)
-            for k in range (0, size) :
-                listFiles.insert(listFiles.size(),basename(listImg[k])) 
-                listPath.append(listImg[k])
-            
-            
-        else :
-            if nom!="": #sinon quand on clic sur parcourir mais qu'on ne choisi rien ça rajoute un espace blanc
-                listFiles.insert(listFiles.size(),nom) 
-                #listFiles.
-                listPath.append(choice[i])
-               # listFiles.TopIndex = listFiles.ListCount
-                #i+=1
-    listFiles.select_set(0)    
-    listInitial={}
-    for file in listFiles.get(0,tk.END):
-        listFileWithActionRect[file]=listInitial
-    #print(str(listFileWithActionRect))
-    resizeImg(0)
-    recharge()
-    #pour trier par ordre alpha et enlever les boutons            
+	#choice=fenetre.FileDialog(tf.msoFileDialogOpen)
+	choice = tf.askopenfilenames() #fichier uniquement
+	#choice = tf.askdirectory()  #repertoire uniquement
+	#defaultextension='.png'
+	#filetypes=[('BMP FILES','*.bmp')]#pas sure
+	#filetypes=[('PNG FILES','*.png')]
+	#("JPEG",'*.jpg')
+	#print(choice)
+	#choiceBoth=tf.
+	#os.listdir #pour recupereelement d'un dosier
+	nbSelected=len(choice)
+	#recupere le nom apartir du chemin
+	for i in range (0,nbSelected):
+		ext = os.path.splitext(choice[i])[1]
+		nomExt=basename(choice[i])
+		#nom=choice[i]
+		nom=os.path.splitext(nomExt)[0]
+		if ext == '.pdf':
+			global nameProjet
+			nameProjet=nom
+			listImg = pti.pdfToPng(choice[i],nameProjet,30)#30==resolution base 90 resol haut
+			size=len(listImg)
+			print("salut")
+			print(size)
+			print(listImg)
+			for k in range (0, size) :
+				listFiles.insert(listFiles.size(),basename(listImg[k])) 
+				listPath.append(listImg[k])
+		else :
+			if nom!="": #sinon quand on clic sur parcourir mais qu'on ne choisi rien ça rajoute un espace blanc
+				listFiles.insert(listFiles.size(),nom) 
+				#listFiles.
+				listPath.append(choice[i])
+				# listFiles.TopIndex = listFiles.ListCount
+				#i+=1
+	listFiles.select_set(0)    
+	listInitial={}
+	for file in listFiles.get(0,tk.END):
+		listFileWithActionRect[file]=listInitial
+	#print(str(listFileWithActionRect))
+	resizeImg(0)
+	recharge()
+	#pour trier par ordre alpha et enlever les boutons            
 #    listFiles.Sorted = True
 #    listPath.sort()
 #    j=0
