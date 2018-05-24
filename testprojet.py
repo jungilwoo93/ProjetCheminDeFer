@@ -356,7 +356,7 @@ def deleteSelection():#pour liste des actions
 def save():
 	print('save')
 	if not(xl.pageExist(nameProjet, numPage)) :
-		page = xl.addPage('nom Page')
+		page = xl.addPage(listFiles[numpage])
 		xl.endProjet(nameProjet)
 	else :
 		page = xl.foundPage(nameProjet, numPage)
