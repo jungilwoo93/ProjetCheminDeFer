@@ -115,9 +115,6 @@ def chooseFile():
 			nameProjet=nom
 			listImg = pti.pdfToPng(choice[i],nameProjet,30)#30==resolution base 90 resol haut
 			size=len(listImg)
-			print("salut")
-			print(size)
-			print(listImg)
 			for k in range (0, size) :
 				listFiles.insert(listFiles.size(),basename(listImg[k])) 
 				listPath.append(listImg[k])
@@ -164,7 +161,7 @@ def nextPage():  #a mettre dans enregister #voir si onSelect se fait tout seul
     else :
         gs.writeInText(nameProjet,numPage+1)
     
-    
+    save()
     if numPage<listFiles.size() :
         numPage += 1
         listFiles.selection_clear(0, tk.END)
@@ -175,30 +172,32 @@ def nextPage():  #a mettre dans enregister #voir si onSelect se fait tout seul
             listFiles.selection_set(numPage)
         resizeImg(numPage)
         recharge()
-    save()
+    
      
     
 def lastPage():
-    global numPage
-    if gs.projetExist(nameProjet):
-        gs.update(nameProjet,numPage-1)
-    else :
-        gs.writeInText(nameProjet,numPage-1)
-    if numPage>0 :
-        numPage -= 1
-        #print(numPage)
-        listFiles.selection_clear(0, tk.END)
-        listFiles.selection_set(numPage)
-        resizeImg(numPage)
-        recharge()
-    save()
-  
+	save()
+	global numPage
+	if gs.projetExist(nameProjet):
+		gs.update(nameProjet,numPage-1)
+	else :
+		gs.writeInText(nameProjet,numPage-1)
+	if numPage>0 :
+		numPage -= 1
+		#print(numPage)
+		listFiles.selection_clear(0, tk.END)
+		listFiles.selection_set(numPage)
+		resizeImg(numPage)
+		recharge()
+
+
 ############################# Barre menu 
 def newProjet():
 	global numPage
 	numPage=0
 	chooseFile()
 	xl.newProjet(nameProjet)
+	xl.endProjet(nameProjet)
 	gs.writeInText(nameProjet,numPage)
 '''
 def projetToContinu(listProjet):   
@@ -241,7 +240,7 @@ def continueProjet():
     
     def projetToContinu(evt):   
         global nameProjet
-        print('coucou')
+        print('coucou projet to continue')
         print(listProjet.curselection())
         nameProjet =listProjet.get(listProjet.curselection())
         global numPage
@@ -355,18 +354,23 @@ def deleteSelection():#pour liste des actions
 
 #################fonctio de generation du xml
 def save():
+	print('save')
 	if not(xl.pageExist(nameProjet, numPage)) :
 		page = xl.addPage('nom Page')
+		xl.endProjet(nameProjet)
 	else :
 		page = xl.foundPage(nameProjet, numPage)
 	sizelist=listAction.size()
 	#w=evt.widget
 	listItems=listAction.get(0,tk.END)
+	print('avant')
 	"""for i in range(0,sizelist) :
 		(typeAction,idAction) = list1[i].split("-")
 		print("type"+typeAction)
 		print("id"+idAction)"""
 	#listActionRect[selection]
+	print('apres')
+	print(sizelist)
 	for k in range (0,sizelist) :
 		(typeAction,idAction) = listItems[k].split("-")
 		#listAction.selection_set(k)
@@ -383,7 +387,9 @@ def save():
 		heightEl=listCoord[3]
 		#numPage=2
 		
+		print('saluuuuuuuuuuut')
 		if not(xl.reSave(nameProjet, numPage, numElem)) :
+			print('nouvel element')
 			xl.addElement(typeEl, numElem, posiX, posiY, widthEl, heightEl,page)
 			xl.endProjet(nameProjet)
 		else :

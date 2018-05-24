@@ -50,19 +50,20 @@ def checkFileExiste(nameFile):
 
 
 def newProjet(nameProjet):
-    if os.path.exists(nameProjet):
-        print('ce projet est déjà commencé')
-    #demande de changer
-    else:
-        global xmlProjet
-        xmlProjet = etree.Element(nameProjet)#fait recommencer
+	print('xml en creation')
+	if os.path.exists(nameProjet):
+		print('ce projet est déjà commencé')
+	#demande de changer
+	else:
+		global xmlProjet
+		xmlProjet = etree.Element(nameProjet)#fait recommencer
         #print(xmlProjet)
         #global xmlProjets
         #xmlProjets[0].append(nameProjet)
         #xmlProjets[1].append(xmlProjet)
         #print(xmlProjets[0])
-        global numPage 
-        numPage=0     
+		global numPage 
+		numPage=0     
 
 def continuePoject(nameProjet):
     global xmlProjet
@@ -187,16 +188,17 @@ def delectElement(nameProjet,numPage,numElem):
 #    #xmlProjets[1][index]=xmlProjet
         
 def replace(nameProjet, numPage, numElem, newType) :
-    global xmlProjet
-    for e in xmlProjet.findall('page'):
-        if e.attrib['id']==numPage :
-            e1=e.find('element')
-            if e1.attrib['id']==numElem:
-                e1.attrib['type'] = newType
-                #listChild=xmlProjet.getchildren() 
-                #listChild=e.getchildren()
-                #e.remove(e1)
-                #xmlProjet.replace(e, e)
+	global xmlProjet
+	for e in xmlProjet.findall('page'):
+		if e.attrib['id']==numPage :
+			e1=e.find('element')
+			if not(e1 is None):
+				if e1.attrib['id']==numElem:
+					e1.attrib['type'] = newType
+					#listChild=xmlProjet.getchildren() 
+					#listChild=e.getchildren()
+					#e.remove(e1)
+#xmlProjet.replace(e, e)
 
 def pageExist(nameProjet, numPage)  : 
     for e in xmlProjet.findall('page'):
@@ -210,20 +212,27 @@ def foundPage(nameProjet, numPage) :
 
 
 def reSave(nameProjet, numPage, numElem) :     
-    for e in xmlProjet.findall('page'):
-        if e.attrib['id']==numPage :
-            e1=e.find('element')
-            if e1.attrib['id']==numElem:
-                return True 
+	print('resave')
+	for e in xmlProjet.findall('page'):
+		print(numPage)
+		if e.attrib['id']==str(numPage) :
+			print('passe numpage')
+			e1=e.find('element')
+			if not(e1 is None):
+				if e1.attrib['id']==str(numElem):
+					return True 
+	return False
             #addElement(typeEl, idEl, posiX, posiY, widthEl, heightEl, e)
 
 def sameType(nameProjet, numPage, numElem, newType):
-    for e in xmlProjet.findall('page'):
-        if e.attrib['id']==numPage :
-            e1=e.find('element')
-            if e1.attrib['id']==numElem:
-                if e1.attrib['type']==newType:
-                    return True
+	for e in xmlProjet.findall('page'):
+		if e.attrib['id']==numPage :
+			e1=e.find('element')
+			if not(e1 is None):
+				if e1.attrib['id']==numElem:
+					if e1.attrib['type']==newType:
+						return True
+	return False
            
 #nameProjet='NewProjet'
 #newProjet(nameProjet)     
