@@ -121,7 +121,7 @@ def chooseFile():
             size=len(listImg)
             for k in range (0, size) :
                 listFiles.insert(listFiles.size(),basename(listImg[k])) 
-                listPath.append(listImg[i])
+                listPath.append(listImg[k])
             
             
         else :
