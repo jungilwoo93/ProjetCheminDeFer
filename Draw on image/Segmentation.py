@@ -13,7 +13,7 @@ for x in range(130, 169):  # les images chargées pour la segmentation image130 
     
     
     root = ET.Element('Image',id=id_img)
-    components = ET.SubElement(root, "Components")
+    components = ET.SubElement(root, "element")
     
     
     
@@ -42,12 +42,12 @@ for x in range(130, 169):  # les images chargées pour la segmentation image130 
              [x, y, w, h] = cv2.boundingRect(contour)
              if w <500 and h <50 :    #finding the big bigblocks aka "paragraphes"
     
-             component = ET.SubElement(components, "component")
+             component = ET.SubElement(components, "element")
              ET.SubElement(component, "type").text = "lettrine"
-             ET.SubElement(component, "RectangleWidth").text = str(w)
-             ET.SubElement(component, "RectangleHeight").text = str(h)
-             ET.SubElement(component, "PointX").text = str(x)
-             ET.SubElement(component, "PointY").text = str(y)
+             ET.SubElement(component, "width").text = str(w)
+             ET.SubElement(component, "height").text = str(h)
+             ET.SubElement(component, "posX").text = str(x)
+             ET.SubElement(component, "posY").text = str(y)
              
              cv2.rectangle(or_im, (x, y), (x + w, y + h), (255, 0, 0), 3)
              cv2.putText(or_im, "letr", (x - 20, y - 20),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
@@ -65,12 +65,12 @@ for x in range(130, 169):  # les images chargées pour la segmentation image130 
              if w <80 and h <40 :  #les lettrines en generales sans assez petites
                  continue
     
-             component = ET.SubElement(components, "component")
+             component = ET.SubElement(components, "element")
              ET.SubElement(component, "type").text = "unknown"
-             ET.SubElement(component, "RectangleWidth").text = str(w)
-             ET.SubElement(component, "RectangleHeight").text = str(h)
-             ET.SubElement(component, "PointX").text = str(x)
-             ET.SubElement(component, "PointY").text = str(y)
+             ET.SubElement(component, "width").text = str(w)
+             ET.SubElement(component, "height").text = str(h)
+             ET.SubElement(component, "posX").text = str(x)
+             ET.SubElement(component, "posY").text = str(y)
              cv2.rectangle(or_im, (x, y), (x + w, y + h), (0, 255, 0), 1)
              cv2.putText(or_im, "txt", (x - 20, y - 20),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)   #cette ligne permet de dessiner sur l'image segmenter pour verifier la segmentation, cela est optionnel
     

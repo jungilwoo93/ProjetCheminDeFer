@@ -61,20 +61,21 @@ def feedUnlabelledList(tp,x,y,w,h,i):
         unknownSet.append([x,y,w,h,i])
 
 def extractUnlabelledData(path):
-    fileNames=extractUnlabelledPaths(path)
+    #fileNames=extractUnlabelledPaths(path)
     for x in range(0,len(fileNames)):
         tree = ET.parse(path+''+fileNames[x])
         root = tree.getroot()
-        for component in root.iter('element'):
-            feedUnlabelledList(component.find('type').text,component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text,fileNames[x])
+		file=root.iter('page/file')
+        for component in root.iter('page/element'):
+            feedUnlabelledList(component.attrib['type'].text,component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text,file[x])
 
 def extractData(path):
     fileNames=extractPaths(path)
     for x in range(0,len(fileNames)):
         tree = ET.parse(path+''+fileNames[x])
         root = tree.getroot()
-        for component in root.iter('element'):
-            feedList(component.find('type').text,component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text)
+        for component in root.iter('page/element'):
+            feedList(component.attrib['type'].text,component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text)
 
 def rewriteXml():
    if len(unknownSet)!=0:
@@ -84,12 +85,12 @@ def rewriteXml():
                 root = tree.getroot()
                 for component in root.iter('element'):
                     
-                    if component.find('type').text=="unknown":
+                    if component.attrib['type'].text=="unknown":
                         print(x)
                         if y_pred[x]==1:
-                            component.find('type').text="Paragraphe"
+                            component.attrib['type'].text="Paragraphe"
                         else:
-                            component.find('type').text="Titre"
+                            component.attrib['type'].text="Titre"
                         tree.write('workshop_test/'+unknownSet[x][4])#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
                         break
                         
