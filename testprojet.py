@@ -249,6 +249,10 @@ def continueProjet():
 		listFiles.selection_set(numPage)
 		reloadImg()
 		xl.continuePoject(nameProjet)
+		listFiles.select_set(0)    
+		listInitial={}
+		for file in listFiles.get(0,tk.END):
+			listFileWithActionRect[file]=listInitial
 	
 	
 	listProjet.bind('<<ListboxSelect>>', projetToContinu)
@@ -549,6 +553,7 @@ def recharge():
 			print(str(listActionRect))
 			#mapAction=getMapActionRect(currentSelectedFile)
 			#index=listFileWithActionRect.index(currentSelectedFile)
+			print("currenFile"+str(currentSelectedFile))
 			mapActionRect=listFileWithActionRect[currentSelectedFile]
 			if mapActionRect is not None :
 				print("mapActionRect isn't none")
