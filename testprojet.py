@@ -14,7 +14,6 @@ from os.path import basename
 #### nos autre fichier
 import DrawRect as rect
 import creatXml as xl
-#import creerXml as xl
 import gestionSave as gs
 import pdfToImg as pti
 
@@ -197,7 +196,7 @@ def newProjet():
 	numPage=0
 	chooseFile()
 	xl.newProjet(nameProjet)
-	xl.addPage('imageFromPdf/' + nameProjet '/'+ nameProjet + 'page-0.png')
+	xl.addPage('imageFromPdf/' + nameProjet+ '/'+ nameProjet + 'page-0.png')
 	xl.endProjet(nameProjet)
 	gs.writeInText(nameProjet,numPage)
 '''
@@ -245,19 +244,20 @@ def continueProjet():
 		print(listProjet.curselection())
 		nameProjet =listProjet.get(listProjet.curselection()[0])
 		#nameProjet=listProjet.curselection()
-		rootpop.destroy
+		#rootpop.destroy
 		global numPage
 		numPage=gs.getAvancementProjet(nameProjet)
 		listFiles.selection_set(numPage)
 		reloadImg()
-		
+		resizeImg(0)
 		xl.continuePoject(nameProjet)
-		listFiles.select_set(0)    
+		
 		listInitial={}
 		print('ver la fin')
 		for file in listFiles.get(0,tk.END):
 			listFileWithActionRect[file]=listInitial
 		rootpop.destroy()
+		rootpop.quit()
 	
 	listProjet.bind('<<ListboxSelect>>', projetToContinu)
 	
@@ -330,6 +330,7 @@ def reloadImg() :
 		nom=os.path.splitext(nomExt)[0]
 		listFiles.insert(listFiles.size(), nom)
 		listPath.append('imgFromPdf/' + nameProjet + '/' + listImgFromPdf[k])
+	listFiles.select_set(0) 
   
       
 ################### frame pour les buttons parcourir, supprimer, vider
@@ -374,8 +375,14 @@ listAction.bind('<<ListboxSelect>>', onSelectAction)
 
 # supprimer de la liste les fichiers selectionnés
 def deleteSelection():#pour liste des actions
-    selection = listAction.curselection()
-    listAction.delete(selection[0])
+    global drawRect
+    currentselection = listAction.curselection()
+    selection=listAction.get(listAction.curselection())
+    list1=[]
+    list1=listActionRect[selection]
+    idRect=list1[4]
+    drawRect.deleteRect(idRect)
+    listAction.delete(currentselection[0])
     #listPath.remove(selection[0])
 
 #################fonctio de generation du xml
@@ -526,48 +533,48 @@ def resizeImg(index):
         cadre.create_image(0,0,image=photo,anchor="nw") 
     #newImg.save(listPath[index])  
     #newImg.close() 
-        
-    drawRect=rect.CanvasEventsDemo(cadre)
-    cadre.bind('<ButtonPress-1>', drawRect.onStart)  
-    cadre.bind('<B1-Motion>',     drawRect.onGrow)   
-    cadre.bind('<Double-1>',      drawRect.onClear)  
-    cadre.bind('<B3-Motion>',     drawRect.onMove)
-    #cadre.bind('<ButtonPress-3>', drawRect.onMove)   
-    cadre.bind('<ButtonRelease-1>', drawRect.onFinal)
+    if currentSelectedFile is None:   
+        currentSelectedFile=listFiles.get(listFiles.curselection())
+        fileChange=False
+    else:
+        if lastSelectedFile!=currentSelectedFile:
+            fileChange=True
+        else:
+            fileChange=False    
+    drawRect=rect.CanvasEventsDemo(cadre,listAction,listActionRect,listFileWithActionRect,currentSelectedFile,fileChange)
+    cadre.bind('<ButtonPress-1>', drawRect.leftOnStart)  
+    cadre.bind('<B1-Motion>',     drawRect.leftOnGrow)   
+    cadre.bind('<Double-1>',      drawRect.leftOnClear)
+    cadre.bind('<ButtonRelease-1>', drawRect.leftOnFinal)
+    cadre.bind('<ButtonPress-3>', drawRect.rightOnStart)
+    cadre.bind('<B3-Motion>',     drawRect.rightOnMove)
+    cadre.bind('<ButtonRelease-3>',drawRect.rightOnFinal)
     gs.update(nameProjet,numPage)
  
 def recharge():
 	global currentSelectedFile,lastSelectedFile,listActionRect
 	#global selectedAction
-	if currentSelectedFile is None:
-		currentSelectedFile=listFiles.get(listFiles.curselection())
-	else:
-		print(str(lastSelectedFile))
-		print(str(currentSelectedFile))
+	if currentSelectedFile is not None:
 		lastSelectedFile=currentSelectedFile
 		currentSelectedFile=listFiles.get(listFiles.curselection())
-		print("exchange")
-		print(str(lastSelectedFile))
-		print(str(currentSelectedFile))
 		if lastSelectedFile!=currentSelectedFile:
 			listAction.delete(0,tk.END)
-			#listActionRect.clear()
 			newListActionRect={}
 			listActionRect=newListActionRect
-			print(str(listActionRect))
+			#print(str(listActionRect))
 			#mapAction=getMapActionRect(currentSelectedFile)
-			#index=listFileWithActionRect.index(currentSelectedFile)
-			print("currenFile"+str(currentSelectedFile))
 			mapActionRect=listFileWithActionRect[currentSelectedFile]
 			if mapActionRect is not None :
 				print("mapActionRect isn't none")
 				for key in mapActionRect :
 					listAction.insert(tk.END,key)
-					#print(mapActionRect[key])
+                    #print(mapActionRect[key])
 					listActionRect[key]=mapActionRect[key]
-					#print(str(listActionRect[key]))
-			else:
-				print("is none")
+                    #print(str(listActionRect[key]))
+			#else:
+			#    print("is none")
+	else:
+		currentSelectedFile=listFiles.get(listFiles.curselection())
 
 def onselect(evt):
 	global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
@@ -583,7 +590,7 @@ def onselect(evt):
 		global numPage
 		numPage=index
 		#value = w.get(index)
-		print(index)
+		#print(index)
 		resizeImg(index)
 		recharge()
 		"""if currentSelectedFile != listFiles.get(listFiles.curselection()):
