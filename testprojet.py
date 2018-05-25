@@ -157,7 +157,7 @@ def delecteAll():
 def nextPage():  #a mettre dans enregister #voir si onSelect se fait tout seul
     global numPage
     if gs.projetExist(nameProjet):
-        gs.update(nameProjet,numPage+1)
+        gs.update(nameProjet,str(numPage+1))
     else :
         gs.writeInText(nameProjet,numPage+1)
     
@@ -213,49 +213,53 @@ def projetToContinu(listProjet):
 
     
 def continueProjet():
-    rootpop = tk.Tk()
-    rootpop.title("choisit le projet")
-    listFrame=tk.Frame(rootpop)
-    
-    yDefilB = tk.Scrollbar(listFrame, orient='vertical')
-    yDefilB.grid(row=0, column=1, sticky='ns')
-    xDefilB = tk.Scrollbar(listFrame, orient='horizontal')
-    xDefilB.grid(row=1, column=0, sticky='ew')
-    
-    listProjet = tk.Listbox(listFrame,
-        xscrollcommand=xDefilB.set,
-        yscrollcommand=yDefilB.set,width=70,height=15,selectmode=tk.SINGLE)    
-    listProjet.grid(row=0)#'nsew'
-    #listFiles.pack(side="left",fill="y")  
-    xDefilB['command'] = listProjet.xview
-    yDefilB['command'] = listProjet.yview    
-    #global xl.xmlProjets
-    #xl.duplicationProjet()
-    #print(len(xl.listProjets))
-    Projetlist=gs.getListProjet()
-    for i in range (0 ,len(Projetlist)):
-        listProjet.insert(1,Projetlist[i])
-    listFrame.grid(row=0,pady=0,padx=15,sticky=tk.W+tk.N +tk.E)
-    listProjet.grid(row=0,pady=0,padx=15,sticky=tk.W+tk.N +tk.E)
-    
-    def projetToContinu(evt):   
-        global nameProjet
-        print('coucou projet to continue')
-        print(listProjet.curselection())
-        nameProjet =listProjet.get(listProjet.curselection())
-        global numPage
-        numPage=gs.getAvancementProjet(nameProjet)
-        listFiles.selection_set(numPage)
-    
-    listProjet.bind('<<ListboxSelect>>', projetToContinu)
-    reloadImg()
-    rootpop.mainloop()
+	rootpop = tk.Tk()
+	rootpop.title("choisit le projet")
+	listFrame=tk.Frame(rootpop)
+	
+	yDefilB = tk.Scrollbar(listFrame, orient='vertical')
+	yDefilB.grid(row=0, column=1, sticky='ns')
+	xDefilB = tk.Scrollbar(listFrame, orient='horizontal')
+	xDefilB.grid(row=1, column=0, sticky='ew')
+	
+	listProjet = tk.Listbox(listFrame,
+		xscrollcommand=xDefilB.set,
+		yscrollcommand=yDefilB.set,width=70,height=15,selectmode=tk.SINGLE)    
+	listProjet.grid(row=0)#'nsew'
+	#listFiles.pack(side="left",fill="y")  
+	xDefilB['command'] = listProjet.xview
+	yDefilB['command'] = listProjet.yview    
+	#global xl.xmlProjets
+	#xl.duplicationProjet()
+	#print(len(xl.listProjets))
+	Projetlist=gs.getListProjet()
+	for i in range (0 ,len(Projetlist)):
+		listProjet.insert(1,Projetlist[i])
+	listFrame.grid(row=0,pady=0,padx=15,sticky=tk.W+tk.N +tk.E)
+	listProjet.grid(row=0,pady=0,padx=15,sticky=tk.W+tk.N +tk.E)
+	
+	def projetToContinu(evt):   
+		global nameProjet
+		print('coucou projet to continue')
+		#print(listProjet.curselection())
+		nameProjet =listProjet.get(listProjet.curselection())
+		
+		global numPage
+		numPage=gs.getAvancementProjet(nameProjet)
+		listFiles.selection_set(numPage)
+		reloadImg()
+		xl.continuePoject(nameProjet)
+	
+	
+	listProjet.bind('<<ListboxSelect>>', projetToContinu)
+	
+	rootpop.mainloop()
 
 
 def deepLearnig():
-	import UseCheminDeFer/Segmentation as seg
-	import Classification as cl
-	import drawOnImage as doi
+	from DrawOnImage import Segmentation
+	from DrawOnImage import Classification
+	from DrawOnImage import drawOnImage
 	save()
 	root.destroy
 
@@ -308,12 +312,16 @@ listFrame.grid(row=1,pady=5,padx=20,sticky=tk.W)
 
 
 def reloadImg() :
-    listImgFromPdf = os.listdir('imgFromPdf/' + nameProjet)
-    for k in (0,len(listImgFromPdf)) :
-        nomExt=basename(listImgFromPdf[k])
-        nom=os.path.splitext(nomExt)[0]
-        listFiles.insert(listFiles.size(), nom)
-        listPath.append('imgFromPdf/' + nameProjet + '/' + listImgFromPdf[k])
+	listImgFromPdf = os.listdir('imgFromPdf/' + nameProjet)
+	chrono = lambda v: os.path.getmtime(os.path.join('imgFromPdf/' + nameProjet, v))
+	listImgFromPdf.sort(key = chrono)
+	#print(listImgFromPdf)
+	#print(len(listImgFromPdf))
+	for k in range (0,len(listImgFromPdf)) :
+		nomExt=basename(listImgFromPdf[k])
+		nom=os.path.splitext(nomExt)[0]
+		listFiles.insert(listFiles.size(), nom)
+		listPath.append('imgFromPdf/' + nameProjet + '/' + listImgFromPdf[k])
   
       
 ################### frame pour les buttons parcourir, supprimer, vider
@@ -364,23 +372,19 @@ def deleteSelection():#pour liste des actions
 
 #################fonctio de generation du xml
 def save():
-	print('save')
-	if not(xl.pageExist(nameProjet, numPage)) :
-		page = xl.addPage(listFiles[numpage])
+	if not(xl.pageExist(nameProjet, str(numPage))) :
+		page = xl.addPage(str(listPath[numPage]))
 		xl.endProjet(nameProjet)
 	else :
 		page = xl.foundPage(nameProjet, numPage)
 	sizelist=listAction.size()
 	#w=evt.widget
 	listItems=listAction.get(0,tk.END)
-	print('avant')
 	"""for i in range(0,sizelist) :
 		(typeAction,idAction) = list1[i].split("-")
 		print("type"+typeAction)
 		print("id"+idAction)"""
 	#listActionRect[selection]
-	print('apres')
-	print(sizelist)
 	for k in range (0,sizelist) :
 		(typeAction,idAction) = listItems[k].split("-")
 		#listAction.selection_set(k)
@@ -397,9 +401,7 @@ def save():
 		heightEl=listCoord[3]
 		#numPage=2
 		
-		print('saluuuuuuuuuuut')
 		if not(xl.reSave(nameProjet, numPage, numElem)) :
-			print('nouvel element')
 			xl.addElement(typeEl, numElem, posiX, posiY, widthEl, heightEl,page)
 			xl.endProjet(nameProjet)
 		else :
@@ -527,36 +529,37 @@ def resizeImg(index):
     gs.update(nameProjet,numPage)
  
 def recharge():
-    global currentSelectedFile,lastSelectedFile,listActionRect
-    #global selectedAction
-    if currentSelectedFile is None:
-        currentSelectedFile=listFiles.get(listFiles.curselection())
-    else:
-        print(str(lastSelectedFile))
-        print(str(currentSelectedFile))
-        lastSelectedFile=currentSelectedFile
-        currentSelectedFile=listFiles.get(listFiles.curselection())
-        print("exchange")
-        print(str(lastSelectedFile))
-        print(str(currentSelectedFile))
-        if lastSelectedFile!=currentSelectedFile:
-            listAction.delete(0,tk.END)
-            #listActionRect.clear()
-            newListActionRect={}
-            listActionRect=newListActionRect
-            print(str(listActionRect))
-            #mapAction=getMapActionRect(currentSelectedFile)
-            mapActionRect=listFileWithActionRect[currentSelectedFile]
-            if mapActionRect is not None :
-                print("mapActionRect isn't none")
-                for key in mapActionRect :
-                    listAction.insert(tk.END,key)
-                    #print(mapActionRect[key])
-                    listActionRect[key]=mapActionRect[key]
-                    #print(str(listActionRect[key]))
-            else:
-                print("is none")
-                
+	global currentSelectedFile,lastSelectedFile,listActionRect
+	#global selectedAction
+	if currentSelectedFile is None:
+		currentSelectedFile=listFiles.get(listFiles.curselection())
+	else:
+		print(str(lastSelectedFile))
+		print(str(currentSelectedFile))
+		lastSelectedFile=currentSelectedFile
+		currentSelectedFile=listFiles.get(listFiles.curselection())
+		print("exchange")
+		print(str(lastSelectedFile))
+		print(str(currentSelectedFile))
+		if lastSelectedFile!=currentSelectedFile:
+			listAction.delete(0,tk.END)
+			#listActionRect.clear()
+			newListActionRect={}
+			listActionRect=newListActionRect
+			print(str(listActionRect))
+			#mapAction=getMapActionRect(currentSelectedFile)
+			#index=listFileWithActionRect.index(currentSelectedFile)
+			mapActionRect=listFileWithActionRect[currentSelectedFile]
+			if mapActionRect is not None :
+				print("mapActionRect isn't none")
+				for key in mapActionRect :
+					listAction.insert(tk.END,key)
+					#print(mapActionRect[key])
+					listActionRect[key]=mapActionRect[key]
+					#print(str(listActionRect[key]))
+			else:
+				print("is none")
+
 def onselect(evt):
 	global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
 	#cadre=tk.Canvas(c,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=ecran_width-600,height=ecran_height-25,bg="black")#,bg="black"

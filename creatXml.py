@@ -32,10 +32,13 @@ global numero
 #xmlProjet.append(memoire)
     
 def getExistingXml(nameProjet):
-    tree = et.parse('docXml/' + nameProjet + '.xml')#str(nameProjet) +
-    #child=tree.getchildren()
-    root = tree.getroot()
-    return root
+	print('salut salut')
+	print(nameProjet)
+	tree = et.parse('docXml/' + nameProjet + '.xml')#str(nameProjet) +
+	#child=tree.getchildren()
+	root = tree.getroot()
+	xmlProject=root
+	return root
  
     
 #def duplicationProjet() : #pas forcement necessaire
@@ -84,7 +87,7 @@ def addPage(pathPage):
 
 def endProjet(nameProjet) :   
     #xmlProjet = etree.Element(nameProjet)
-    #global xmlProjets
+    global xmlProjets
     
     try:
         if not(os.path.exists('docXml')) :
@@ -201,14 +204,17 @@ def replace(nameProjet, numPage, numElem, newType) :
 #xmlProjet.replace(e, e)
 
 def pageExist(nameProjet, numPage)  : 
-    for e in xmlProjet.findall('page'):
-        if e.attrib['id']==numPage :
-            return True 
+	global xmlProjet
+	for e in xmlProjet.findall('page'):
+		if e.attrib['id']==numPage :
+			return True
+	return False
         
 def foundPage(nameProjet, numPage) : 
-    for e in xmlProjet.findall('page'):
-        if e.attrib['id']==numPage :
-            return e
+	global xmlProjet
+	for e in xmlProjet.findall('page'):
+		if e.attrib['id']==numPage :
+			return e
 
 
 def reSave(nameProjet, numPage, numElem) :     
