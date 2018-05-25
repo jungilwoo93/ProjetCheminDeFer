@@ -8,7 +8,7 @@ from lxml import etree
 import os.path
 #from xml.dom import minidom
 import xml.etree.ElementTree as et
-import xml.etree
+import xml.etree as xe
 listProjets=[]
 
 global xmlProjet
@@ -32,13 +32,18 @@ global numero
 #xmlProjet.append(memoire)
     
 def getExistingXml(nameProjet):
-	print('salut salut')
-	print(nameProjet)
-	tree = et.parse('docXml/' + nameProjet + '.xml')#str(nameProjet) +
-	#child=tree.getchildren()
-	root = tree.getroot()
-	xmlProject=root
-	return root
+	try:
+		print('salut salut')
+		print(nameProjet)
+		tree = et.parse('docXml/' + nameProjet + '.xml')#str(nameProjet) +
+		#child=tree.getchildren()
+		root = tree.getroot()
+		global xmlProjet
+		xmlProject=root
+		return root
+	except: #xe.XMLSyntaxError
+		print('probleme de parse')
+	
  
     
 #def duplicationProjet() : #pas forcement necessaire

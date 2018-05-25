@@ -155,25 +155,25 @@ def delecteAll():
     listPath.clear()
     
 def nextPage():  #a mettre dans enregister #voir si onSelect se fait tout seul
-    global numPage
-    if gs.projetExist(nameProjet):
-        gs.update(nameProjet,str(numPage+1))
-    else :
-        gs.writeInText(nameProjet,numPage+1)
+	global numPage
+	if gs.projetExist(nameProjet):
+		#print(str(int(numPage)+1))
+		gs.update(nameProjet,str(numPage+1))
+	else :
+		gs.writeInText(nameProjet,numPage+1)
+	save()
+	if numPage<listFiles.size() :
+		numPage += 1
+		listFiles.selection_clear(0, tk.END)
+		if numPage<listFiles.size() :
+			listFiles.selection_set(numPage)
+		else:
+			numPage=listFiles.size()-1
+			listFiles.selection_set(numPage)
+		resizeImg(numPage)
+		recharge()
     
-    save()
-    if numPage<listFiles.size() :
-        numPage += 1
-        listFiles.selection_clear(0, tk.END)
-        if numPage<listFiles.size() :
-            listFiles.selection_set(numPage)
-        else:
-            numPage=listFiles.size()-1
-            listFiles.selection_set(numPage)
-        resizeImg(numPage)
-        recharge()
     
-     
     
 def lastPage():
 	save()
@@ -197,6 +197,7 @@ def newProjet():
 	numPage=0
 	chooseFile()
 	xl.newProjet(nameProjet)
+	xl.addPage('imageFromPdf/' + nameProjet '/'+ nameProjet + 'page-0.png')
 	xl.endProjet(nameProjet)
 	gs.writeInText(nameProjet,numPage)
 '''
@@ -241,19 +242,22 @@ def continueProjet():
 	def projetToContinu(evt):   
 		global nameProjet
 		print('coucou projet to continue')
-		#print(listProjet.curselection())
-		nameProjet =listProjet.get(listProjet.curselection())
-		
+		print(listProjet.curselection())
+		nameProjet =listProjet.get(listProjet.curselection()[0])
+		#nameProjet=listProjet.curselection()
+		rootpop.destroy
 		global numPage
 		numPage=gs.getAvancementProjet(nameProjet)
 		listFiles.selection_set(numPage)
 		reloadImg()
+		
 		xl.continuePoject(nameProjet)
 		listFiles.select_set(0)    
 		listInitial={}
+		print('ver la fin')
 		for file in listFiles.get(0,tk.END):
 			listFileWithActionRect[file]=listInitial
-	
+		rootpop.destroy()
 	
 	listProjet.bind('<<ListboxSelect>>', projetToContinu)
 	
