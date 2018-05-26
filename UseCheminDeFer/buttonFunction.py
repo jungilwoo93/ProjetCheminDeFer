@@ -7,6 +7,7 @@ Created on Tue May 22 09:37:31 2018
 
 import tkinter as tk
 import tkinter.filedialog as tf
+import os
 
 def ChooseWhereSave():
 	f=tkinter.filedialog.asksaveasfile(
@@ -28,3 +29,18 @@ def fullRect(full):
 #def emptyRect():
 #	global rectFull
 #	rectFull=False
+
+def setDimention(x,y):
+	global dimention
+	dimention=[x,y]
+
+
+
+def getListImg(nameProjet):
+	listImg = os.listdir('DrawOnImage/finalResult/' + nameProjet)
+	chrono = lambda v: os.path.getmtime(os.path.join('DrawOnImage/finalResult/' + nameProjet, v))
+	listImg.sort(key = chrono)
+	return listImg
+
+
+

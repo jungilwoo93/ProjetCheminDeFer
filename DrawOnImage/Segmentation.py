@@ -8,23 +8,22 @@ Created on Fri Jan 19 14:04:46 2018
 import cv2
 import xml.etree.cElementTree as ET
 
-print('segmentation')
 
-for x in range(130, 169):  # les images chargées pour la segmentation image130 à image 169
+for x in range(0, 50):  # les images chargées pour la segmentation image130 à image 169
     id_img="page_n-"+str(x)+".png"
     
+    global nameProjet
+    root = ET.Element(nameProjet,id=id_img)
+    components = ET.SubElement(root, "page")
     
-    root = ET.Element('Image',id=id_img)
-    components = ET.SubElement(root, "element")
     
     
-    
-    or_im=cv2.imread("imgFromPdf/"+id_img)  #les images extraite en haute qualité se trouve dans le dossier /images
+    or_im=cv2.imread("imgFromPdf/"+ nameProject+id_img)  #les images extraite en haute qualité se trouve dans le dossier /images
     kernel1 = cv2.getStructuringElement(cv2.MORPH_CROSS, (1, 2)) 
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 1))
     
     #Read a grayscale image
-    im_gray = cv2.imread("imgFromPdf/"+id_img, cv2.IMREAD_GRAYSCALE)
+    im_gray = cv2.imread("imgFromPdf/"+ nameProject+id_img, cv2.IMREAD_GRAYSCALE)
     
     #Convert grayscale image to binary
     (thresh, im_bw) = cv2.threshold(im_gray, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
@@ -43,9 +42,9 @@ for x in range(130, 169):  # les images chargées pour la segmentation image130 
     for contour in contours:
              [x, y, w, h] = cv2.boundingRect(contour)
              if w <500 and h <50 :    #finding the big bigblocks aka "paragraphes"
-    
+			 #page = ET.SubElement(components, "page")
              component = ET.SubElement(components, "element")
-             ET.SubElement(component, "type").text = "lettrine"
+             coponent.attrib["type"].text = "lettrine"
              ET.SubElement(component, "width").text = str(w)
              ET.SubElement(component, "height").text = str(h)
              ET.SubElement(component, "posX").text = str(x)
@@ -66,9 +65,9 @@ for x in range(130, 169):  # les images chargées pour la segmentation image130 
              [x, y, w, h] = cv2.boundingRect(contour)
              if w <80 and h <40 :  #les lettrines en generales sans assez petites
                  continue
-    
+			 #page = ET.SubElement(components, "page")
              component = ET.SubElement(components, "element")
-             ET.SubElement(component, "type").text = "unknown"
+             components.attrib["type"].text = "unknown"
              ET.SubElement(component, "width").text = str(w)
              ET.SubElement(component, "height").text = str(h)
              ET.SubElement(component, "posX").text = str(x)
