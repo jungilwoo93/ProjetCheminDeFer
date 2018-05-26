@@ -369,9 +369,11 @@ def onSelectAction(evt):
 labelAction=tk.Label(f1,text="Les actions : ", bg=colorDefault)
 labelAction.config(font=('Forte',18))
 labelAction.grid(row=5,column=0,pady=5,sticky=tk.W)
-listAction = tk.Listbox(f1,width=70,height=8)
+listAction = tk.Listbox(f1,width=70,height=8,selectmode=tk.MULTIPLE)
 listAction.grid(row=6,column=0,pady=5)
 listAction.bind('<<ListboxSelect>>', onSelectAction)  
+for i in range(0,listAction.size()):
+	listAction.selection_set(i)
 
 # supprimer de la liste les fichiers selectionnés
 def deleteSelection():#pour liste des actions
