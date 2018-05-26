@@ -30,7 +30,10 @@ def fullRect(full):
 #	global rectFull
 #	rectFull=False
 
-def setDimention(x,y):
+def setDimention():
+	x=4
+	y=8
+	print('changement de dimention')
 	global dimention
 	dimention=[x,y]
 

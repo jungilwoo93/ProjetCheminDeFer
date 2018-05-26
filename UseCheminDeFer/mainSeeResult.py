@@ -24,7 +24,7 @@ root.resizable(width=False,height=False)
 colorDefault="#F5F5DC"
 
 ####variable
-dimention=[4,8]
+dimention=[6,8]
 rectFull=False
 defaultColor="#F5F5DC"
 
@@ -49,22 +49,26 @@ rect.add_checkbutton(label="Plein", command=bf.fullRect(rectFull))
 #rect.add_command(label="Plein", command=bf.emptyRect)
 
 nitem=tk.IntVar()
-nitem.set(3)# bouton seletionner par defaut doit etre le meme que celui selectionner en haut
+nitem.set(4)# bouton seletionner par defaut doit etre le meme que celui selectionner en haut
 
 #########nombre de page par feuille
-dim.add_radiobutton(label="2*2",  variable=nitem, value=1,  command=bf.setDimention(2,2))
-dim.add_radiobutton(label="3*4", variable=nitem, value=2,  command=bf.setDimention(3,4))#command=item,
-dim.add_radiobutton(label="4*8",  variable=nitem, value=3,  command=bf.setDimention(4,8))
-dim.add_radiobutton(label="5*10",  variable=nitem, value=4,  command=bf.setDimention(5,10))
-dim.add_radiobutton(label="6*16",  variable=nitem, value=5,  command=bf.setDimention(6,16))
+def setDimention():
+	print('on change')
+	dimention[0]=nitem.get()
+	print(dimention)
 
-
+dim.add_radiobutton(label="2*2",  variable=nitem, value=2,  command=setDimention)
+dim.add_radiobutton(label="3*4", variable=nitem, value=3,  command=setDimention)#command=item,
+dim.add_radiobutton(label="4*8",  variable=nitem, value=4,  command=setDimention)
+dim.add_radiobutton(label="5*10",  variable=nitem, value=5,  command=setDimention)
+dim.add_radiobutton(label="6*16",  variable=nitem, value=6,  command=setDimention)
 
 ###########l'aperçu
 
 dicimg={}
 
 canva=tk.Canvas(root, width =760, height = 760, bg =defaultColor)
+canva.update()
 canva.grid()
 
 
@@ -77,21 +81,24 @@ listImg=bf.getListImg('test')
 posX=0
 posY=0
 widthImg=dimention[0]
+print(dimention)
 for image in listImg:
-	print(image)
+	#print(image)
 	img=Image.open('DrawOnImage/finalResult/'+ 'test'+ '/' + image)
 	wd,hg=img.size
 	scale= 1.0*wd/mwd
-	newImg=img.resize((int(wd/widthImg),int(hg/widthImg)),Image.ANTIALIAS)
-	canva.config(width=wd/scale,height=hg/scale)
+	newImg=img.resize((int((mwd-widthImg*2)/widthImg),int((hg/wd)*((mwd-widthImg*2)/widthImg))),Image.ANTIALIAS)
+	canva.config(width=mwd,)#height=mhg
 	photo = ImageTk.PhotoImage(newImg)
 	canva.image=photo
 	canva.create_image(posX,posY,image=photo,anchor="nw")
 	dicimg[photo] = photo
-	posX+=wd/widthImg+2
-	#posY+=widthImg
+	posX+=mwd/widthImg+2
+	if posX>mwd :
+		posY+=((hg/wd)*((mwd-widthImg*2)/widthImg))+2
+		posX=0
 # mise en page à l'aide de la méthode 'grid':
-canva.grid(sticky=tk.NE, rowspan = 10, padx =10, pady =5)
+#, rowspan = 10, padx =10, pady =5
 #row = lig, column = col,
 
 
@@ -101,5 +108,5 @@ canva.grid(sticky=tk.NE, rowspan = 10, padx =10, pady =5)
 
 
 
-
+canva.grid(sticky=tk.NE)
 root.mainloop()

@@ -75,13 +75,13 @@ class Zoom_Advanced(ttk.Frame):
         self.container = self.canvas.create_rectangle(0, 0, self.width, self.height, width=0)
         # Plot some optional random rectangles for the test purposes
         minsize, maxsize, number = 5, 20, 10
-        for n in range(number):
-            x0 = random.randint(0, self.width - maxsize)
-            y0 = random.randint(0, self.height - maxsize)
-            x1 = x0 + random.randint(minsize, maxsize)
-            y1 = y0 + random.randint(minsize, maxsize)
-            color = ('red', 'orange', 'yellow', 'green', 'blue')[random.randint(0, 4)]
-            self.canvas.create_rectangle(x0, y0, x1, y1, fill=color, activefill='black')
+        #for n in range(number):
+            #x0 = random.randint(0, self.width - maxsize)
+            #y0 = random.randint(0, self.height - maxsize)
+            #x1 = x0 + random.randint(minsize, maxsize)
+            #y1 = y0 + random.randint(minsize, maxsize)
+            #color = ('red', 'orange', 'yellow', 'green', 'blue')[random.randint(0, 4)]
+            #self.canvas.create_rectangle(x0, y0, x1, y1, fill=color, activefill='black')
         self.show_image()
 
     def scroll_y(self, *args, **kwargs):
@@ -157,7 +157,7 @@ class Zoom_Advanced(ttk.Frame):
             self.canvas.lower(imageid)  # set image into background
             self.canvas.imagetk = imagetk  # keep an extra reference to prevent garbage-collection
 
-path = 'test.jpg'  # place path to your image here
+path = 'UseCheminDeFer/test.png'  # place path to your image here
 root = tk.Tk()
 app = Zoom_Advanced(root, path=path)
 root.mainloop() 
