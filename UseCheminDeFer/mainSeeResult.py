@@ -54,6 +54,7 @@ nitem.set(4)# bouton seletionner par defaut doit etre le meme que celui selectio
 #########nombre de page par feuille
 def setDimention():
 	print('on change')
+	global dimention
 	dimention[0]=nitem.get()
 	print(dimention)
 

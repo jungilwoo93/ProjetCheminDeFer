@@ -9,8 +9,10 @@ import os.path
 #from xml.dom import minidom
 import xml.etree.ElementTree as et
 import xml.etree as xe
+import xml.etree.cElementTree as ET
+#import requests
+#import lxml.etree._Element as el
 
-from xml.dom import minidom
 
 listProjets=[]
 
@@ -29,16 +31,25 @@ listProjets=[]
     
     
 def getExistingXml(nameProjet):########
-	try:
-		print('salut salut')
-		print(nameProjet)
+	#try:
+		#r = requests.get('docXml/' + nameProjet + '.xml')
+		#xml = r.json()['items'].encode('utf-8')
+		#parser=etree.XMLParser(encoding='utf-8')
 		tree = et.parse('docXml/' + nameProjet + '.xml')#str(nameProjet) +
-		root = tree.getroottree(etree._Element)#getroot()
+		#root = etree.fromstring(xml, parser=etree.XMLParser(encoding='utf-8'))
+		root = tree.getroot()#getroottree()
+		
 		#doc = minidom.parse('docXml/' + nameProjet + '.xml')
 		#root = doc.documentElement
+		print(type(tree))
+		print(type(root))
+		#proj=root.find(str(nameProjet))
+		#print(type(proj))
+		#bla=et.fromstring('docXml/' + nameProjet + '.xml')
+		
 		return root
-	except: #xe.XMLSyntaxError
-		print('probleme de parse')
+	#except: #xe.XMLSyntaxError
+		#print('probleme de parse')
 	
  
     
@@ -57,16 +68,10 @@ def newProjet(nameProjet):
 	print('xml en creation')
 	if os.path.exists(nameProjet):
 		print('ce projet est déjà commencé')
-	#demande de changer
+		continuePoject(nameProjet)
 	else:
 		#global xmlProjet
 		xmlProjet = etree.Element(nameProjet)#fait recommencer
-        #print(xmlProjet)
-        #global xmlProjets
-        #xmlProjets[0].append(nameProjet)
-        #xmlProjets[1].append(xmlProjet)
-        #print(xmlProjets[0])
-		#global numPage 
 		#numPage=0 
 		return xmlProjet
 
