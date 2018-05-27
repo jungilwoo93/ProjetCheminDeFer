@@ -71,7 +71,7 @@ lastSelectedAction=None
 numPage=0
 countRect=1
 rectSelect=None
-
+xmlProjet=None
 
 #################################################### toutes les fonctions  ####################################################
 # fonction de buttonConfirm
@@ -123,7 +123,6 @@ def chooseFile():
 				#listFiles.
 				listPath.append(choice[i])
 				# listFiles.TopIndex = listFiles.ListCount
-				#i+=1
 	listFiles.select_set(0)    
 	listInitial={}
 	for file in listFiles.get(0,tk.END):
@@ -148,16 +147,13 @@ def chooseFile():
  
 # supprimer de la liste tout les fichiers
 def delecteAll():
-    #cs=listFiles.curselection()
-    #listFiles.delete(0,cs[0] -1)
     listFiles.delete(0,tk.END) 
     listPath.clear()
     
 def nextPage():  #a mettre dans enregister #voir si onSelect se fait tout seul
 	global numPage
 	if gs.projetExist(nameProjet):
-		#print(str(int(numPage)+1))
-		gs.update(nameProjet,str(numPage+1))
+		gs.update(nameProjet,str(int(numPage)+1))
 	else :
 		gs.writeInText(nameProjet,numPage+1)
 	save()
@@ -195,11 +191,14 @@ def newProjet():
 	global numPage
 	numPage=0
 	chooseFile()
-	xl.newProjet(nameProjet)
-	xl.addPage('imageFromPdf/' + nameProjet+ '/'+ nameProjet + 'page-0.png')
-	xl.endProjet(nameProjet)
+	global xmlProjet
+	xmlProjet=xl.newProjet(nameProjet)
+	page=xl.addPage('imageFromPdf/' + nameProjet+ '/'+ nameProjet + 'page-0.png',numPage, xmlProjet)
+	xmlProjet=xl.endProjet(nameProjet,xmlProjet)
 	gs.writeInText(nameProjet,numPage)
-'''
+
+
+	'''
 def projetToContinu(listProjet):   
     global nameProjet
     print('coucou')
@@ -240,24 +239,22 @@ def continueProjet():
 	
 	def projetToContinu(evt):   
 		global nameProjet
-		print('coucou projet to continue')
-		print(listProjet.curselection())
-		nameProjet =listProjet.get(listProjet.curselection()[0])
 		#nameProjet=listProjet.curselection()
 		#rootpop.destroy
-		global numPage
-		numPage=gs.getAvancementProjet(nameProjet)
-		listFiles.selection_set(numPage)
-		reloadImg()
-		resizeImg(0)
-		xl.continuePoject(nameProjet)
-		
-		listInitial={}
-		print('ver la fin')
-		for file in listFiles.get(0,tk.END):
-			listFileWithActionRect[file]=listInitial
-		rootpop.destroy()
-		rootpop.quit()
+		if len(listProjet.curselection())!=0:
+			nameProjet =listProjet.get(listProjet.curselection()[0])
+			global numPage
+			numPage=gs.getAvancementProjet(nameProjet)
+			listFiles.selection_set(numPage)
+			reloadImg()
+			resizeImg(numPage)
+			global xmlProjet
+			xmlProjet=xl.continuePoject(nameProjet)
+			listInitial={}
+			for file in listFiles.get(0,tk.END):
+				listFileWithActionRect[file]=listInitial
+			rootpop.destroy()
+			rootpop.quit()
 	
 	listProjet.bind('<<ListboxSelect>>', projetToContinu)
 	
@@ -268,8 +265,10 @@ def deepLearnig():
 	from DrawOnImage import Segmentation
 	from DrawOnImage import Classification
 	from DrawOnImage import drawOnImage
+	from UseCheminDeFer import mainSeeResult
 	save()
-	root.destroy
+	root.destroy()
+	rootpop.quit()
 
 	
 menubar=tk.Menu(root)
@@ -389,11 +388,13 @@ def deleteSelection():#pour liste des actions
 
 #################fonctio de generation du xml
 def save():
-	if not(xl.pageExist(nameProjet, str(numPage))) :
-		page = xl.addPage(str(listPath[numPage]))
-		xl.endProjet(nameProjet)
+	global xmlProjet
+	if not(xl.pageExist(nameProjet, str(numPage),xmlProjet)) :
+		page = xl.addPage(str(listPath[int(numPage)]),numPage,xmlProjet)
+		
+		xmlProjet=xl.endProjet(nameProjet,xmlProjet)
 	else :
-		page = xl.foundPage(nameProjet, numPage)
+		page = xl.foundPage(nameProjet, numPage,xmlProjet)
 	sizelist=listAction.size()
 	#w=evt.widget
 	listItems=listAction.get(0,tk.END)
@@ -418,13 +419,13 @@ def save():
 		heightEl=listCoord[3]
 		#numPage=2
 		
-		if not(xl.reSave(nameProjet, numPage, numElem)) :
-			xl.addElement(typeEl, numElem, posiX, posiY, widthEl, heightEl,page)
-			xl.endProjet(nameProjet)
+		if not(xl.reSave(nameProjet, numPage, numElem,xmlProjet)) :
+			xl.addElement(typeEl, numElem, posiX, posiY, widthEl, heightEl,nameProjet, numPage, xmlProjet)
+			xmlProjet=xl.endProjet(nameProjet,xmlProjet)
 		else :
-			if not(xl.sameType(nameProjet, numPage, numElem, typeEl)):
-				xl.replace(nameProjet, numPage, numElem, typeEl)
-				xl.endProjet(nameProjet)
+			if not(xl.sameType(nameProjet, numPage, numElem, typeEl,xmlProjet)):
+				xmlProjet=xl.replace(nameProjet, numPage, numElem, typeEl,xmlProjet)
+				xmlProjet=xl.endProjet(nameProjet,xmlProjet)
 	#nextPage()
 
 
@@ -505,7 +506,7 @@ cadre.grid(row=0,column=1)
 def resizeImg(index):
     global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
     dicimg={}
-    img=Image.open(listPath[index])
+    img=Image.open(listPath[int(index)])
     #img.resize((320,240))
     #img.zoom(320/img.width(), 240/img.height())
     wd,hg=img.size

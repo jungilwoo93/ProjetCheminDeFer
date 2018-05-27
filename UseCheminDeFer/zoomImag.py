@@ -68,13 +68,20 @@ class Zoom_Advanced(ttk.Frame):
         self.canvas.bind('<Button-5>',   self.wheel)  # only with Linux, wheel scroll down
         self.canvas.bind('<Button-4>',   self.wheel)  # only with Linux, wheel scroll up
         self.image = Image.open(path)  # open image
-        self.width, self.height = self.image.size
+        
+		
+		
+		##############a mettre ici
+		
+		
+		
+		self.width, self.height = self.image.size
         self.imscale = 1.0  # scale for the canvaas image
         self.delta = 1.3  # zoom magnitude
         # Put image into container rectangle and use it to set proper coordinates to the image
         self.container = self.canvas.create_rectangle(0, 0, self.width, self.height, width=0)
         # Plot some optional random rectangles for the test purposes
-        minsize, maxsize, number = 5, 20, 10
+        #minsize, maxsize, number = 5, 20, 10
         #for n in range(number):
             #x0 = random.randint(0, self.width - maxsize)
             #y0 = random.randint(0, self.height - maxsize)
