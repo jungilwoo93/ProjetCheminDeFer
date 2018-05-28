@@ -61,13 +61,14 @@ def feedUnlabelledList(tp,x,y,w,h,i):
         unknownSet.append([x,y,w,h,i])
 
 def extractUnlabelledData(path):
-    #fileNames=extractUnlabelledPaths(path)
-    for x in range(0,len(fileNames)):
-        tree = ET.parse(path+''+fileNames[x])
-        root = tree.getroot()
+	fileNames=extractUnlabelledPaths(path)
+	#file=root.iter('page/file')
+	for x in range(0,len(fileNames)):#fileNames
+		tree = ET.parse(path+''+fileNames[x])
+		root = tree.getroot()
 		file=root.iter('page/file')
-        for component in root.iter('page/element'):
-            feedUnlabelledList(component.attrib['type'],component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text,file[x])
+		for component in root.iter('page/element'):
+			feedUnlabelledList(component.attrib['type'],component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text,file[x])
 
 def extractData(path):
     fileNames=extractPaths(path)
@@ -86,7 +87,7 @@ def rewriteXml():
                 for component in root.iter('element'):
                     
                     if component.attrib['type'].text=="unknown":
-                        print(x)
+                        #print(x)
                         if y_pred[x]==1:
                             component.attrib['type']="Paragraphe"
                         else:

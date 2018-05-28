@@ -16,7 +16,7 @@ for x in range(0, 50):  # les images chargées pour la segmentation image130 à 
 	root = ET.Element(nameProjet,id=id_img)
 	components = ET.SubElement(root, "page")
 	
-	print("imgFromPdf/"+ nameProjet+'/'+ nameProjet + id_img)
+	#print("imgFromPdf/"+ nameProjet+'/'+ nameProjet + id_img)
 	
 	or_im=cv2.imread("imgFromPdf/"+ nameProjet+'/'+ nameProjet + id_img)  #les images extraite en haute qualité se trouve dans le dossier /images
 	kernel1 = cv2.getStructuringElement(cv2.MORPH_CROSS, (1, 2)) 
@@ -77,6 +77,6 @@ for x in range(0, 50):  # les images chargées pour la segmentation image130 à 
 	
 	#saving
 	tree = ET.ElementTree(root)
-	tree.write("Results/xml_results/"+id_img+"-Unlabelled.xml")     #writing elements to an unlabelled xml(it's unlabelled since we have not classified it yet)
+	tree.write("DrawOnImage/Results/xml_results/"+id_img+"-Unlabelled.xml")     #writing elements to an unlabelled xml(it's unlabelled since we have not classified it yet)
 	cv2.imwrite('bw_image.png', im_bw1)        #optionnel visuel d'une image en "mi-processing"
 	cv2.imwrite("Results/"+id_img, or_im)      #optionnel image segmenter
