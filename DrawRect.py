@@ -1,3 +1,4 @@
+import tkinter as tk
 trace = 0 
 class CanvasEventsDemo:
 
@@ -20,6 +21,7 @@ class CanvasEventsDemo:
 	listActionRect=None
 	listFileWithActionRect=None
 	currentFile=None
+	listRectAppear=[]
 	#fileChanged=False
 	
 	def __init__(self, parent,listbox,actionRectList,fileWithActionRectList,currentFileSelected,fileChange,col=None):
@@ -34,9 +36,13 @@ class CanvasEventsDemo:
 		#print("true or false?????????????"+str(fileChange))
 		#print("!!!!!!!!!!!!!listRect!!!!!!!!!!!!!"+str(self.listRect))
 		if fileChange is True:
-			self.canvas.delete(self.listRect[len(self.listRect)-1])
+			if len(self.listRect) >1:
+				self.canvas.delete(self.listRect[len(self.listRect)-1])
+			for i in range(0,len(self.listRectAppear)):
+				self.canvas.delete(listRectAppear[i])
+			self.listRectAppear=[]
 			#fileChange=False
-		print("!!!!!!!!!!!!!listRect!!!!!!!!!!!!!"+str(self.listRect))
+		#print("!!!!!!!!!!!!!listRect!!!!!!!!!!!!!"+str(self.listRect))
 		#print("listbox")
 		#print("listActionRect"+str(actionRectList))
 		#print("listFileWithActionRect"+str(fileWithActionRectList))
@@ -122,6 +128,13 @@ class CanvasEventsDemo:
 		self.listActionRect['Paragraphe-'+str(self.idAction)]=self.getCoordonnes()
 		self.listFileWithActionRect[self.currentFile]=self.listActionRect
 		self.listRect.append(objectId)
+		self.listBoxAction.select_set(0,tk.END)
+		for i in range(0,self.listBoxAction.size()) : 
+			selection=self.listBoxAction.get(i)
+			list1=[]
+			list1=self.listActionRect[selection]
+			selectedAction=self.canvas.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=3)
+			self.listRectAppear.append(selectedAction)
 	
 	def rightOnFinal(self,event):
 		global isMove
