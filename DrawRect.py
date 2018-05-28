@@ -39,8 +39,10 @@ class CanvasEventsDemo:
 			if len(self.listRect) >1:
 				self.canvas.delete(self.listRect[len(self.listRect)-1])
 			for i in range(0,len(self.listRectAppear)):
-				self.canvas.delete(listRectAppear[i])
+				self.canvas.delete(self.listRectAppear[i])
 			self.listRectAppear=[]
+			if self.listBoxAction.size() >0 :
+				self.listBoxAction.select_set(0,tk.END)
 			#fileChange=False
 		#print("!!!!!!!!!!!!!listRect!!!!!!!!!!!!!"+str(self.listRect))
 		#print("listbox")
@@ -68,8 +70,8 @@ class CanvasEventsDemo:
 		self.startX=self.start.x
 		self.startY=self.start.y
 		self.isDraw=False
-		print("is True? " +str(self.fileChanged))
-		print("is draw? " +str(self.isDraw)) 
+		#print("is True? " +str(self.fileChanged))
+		#print("is draw? " +str(self.isDraw)) 
 
         
 	def rightOnStart(self,event):
@@ -123,18 +125,26 @@ class CanvasEventsDemo:
 		self.finalX=event.x
 		self.finalY=event.y
 		self.isDraw=True
-		self.idAction=self.listBoxAction.size()+1
-		self.listBoxAction.insert(self.listBoxAction.size(),'Paragraphe-'+str(self.idAction))
+		self.idAction=self.listBoxAction.size()+1##############id de action essayer de recuperer par le nom de listbox,if size de listbox>0,sinon par 1,2,3......
+		self.listBoxAction.insert(self.listBoxAction.size(),'Paragraphe-'+str(self.idAction)),
 		self.listActionRect['Paragraphe-'+str(self.idAction)]=self.getCoordonnes()
 		self.listFileWithActionRect[self.currentFile]=self.listActionRect
-		self.listRect.append(objectId)
+		#self.listRect.append(objectId)#####################
 		self.listBoxAction.select_set(0,tk.END)
+		#print("size of listBoxAction " + self.listBoxAction.size())
 		for i in range(0,self.listBoxAction.size()) : 
 			selection=self.listBoxAction.get(i)
 			list1=[]
 			list1=self.listActionRect[selection]
+			#print("listActionRect1111"+str(self.listActionRect[selection]))
+			#print("list1"+str(list1))
 			selectedAction=self.canvas.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=3)
-			self.listRectAppear.append(selectedAction)
+			list1[4]=selectedAction
+			#print("selection     "+str(selectedAction))
+			self.listRectAppear.append(selectedAction)#########################
+			#self.listRect.append(self.listRectAppear[0])
+			#print("listActionRect22222222"+str(self.listActionRect[selection]))
+			#print("creat rect"+str(self.listRectAppear))
 	
 	def rightOnFinal(self,event):
 		global isMove
@@ -159,7 +169,35 @@ class CanvasEventsDemo:
 		listCoord.append(objectId)
 		return listCoord
     
+	def deselectAll(self,idRect):
+		#self.listRectAppear.remove(idRect)
+		self.canvas.delete(idRect)
+	
+	def deleteAllRectAppear(self):
+		for i in range(0,len(self.listRectAppear)):
+			self.canvas.delete(self.listRectAppear[i])
+		
 	def deleteRect(self,idRect):
 		print("delete rect")
 		self.listRect.remove(idRect)
 		self.canvas.delete(idRect)
+	
+	def deselectRect(self):
+		list1=[]
+		list1=self.listRectAppear
+		return list1
+		
+	def clearListRectAppear(self):
+		self.listRectAppear.clear()
+		
+	def creatRect(self,actionRect,coordRect,wd=None):
+		list1=[]
+		list1=self.listActionRect[actionRect]
+		if wd is not None:
+			selectedAction=self.canvas.create_rectangle(coordRect[0],coordRect[1],coordRect[0]+coordRect[2],coordRect[1]+coordRect[3],width=wd)
+		else:
+			selectedAction=self.canvas.create_rectangle(coordRect[0],coordRect[1],coordRect[0]+coordRect[2],coordRect[1]+coordRect[3])
+		list1[4]=selectedAction
+		if selectedAction not in self.listRectAppear : 
+			self.listRectAppear.append(selectedAction)
+		return self.listRectAppear
