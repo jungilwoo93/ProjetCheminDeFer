@@ -110,7 +110,7 @@ pdDataSet = pd.DataFrame(dataSet)
 pdUnlabelledData=pd.DataFrame(unknownSet)
 
 '''test train split 25% 75%'''
-
+#ajuster taille des array
 x_train,x_test,y_train,y_test=train_test_split(pdDataSet.iloc[:,[0,3]].values ,pdDataSet.iloc[:,[4]].values,test_size=0.25,random_state=0)
 
 scaler = StandardScaler()

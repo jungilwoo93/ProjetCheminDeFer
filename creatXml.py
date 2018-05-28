@@ -4,6 +4,7 @@ Created on Tue May 15 09:53:46 2018
 
 @author: rachel NOIREAU & liuyan PAN
 """
+import lxml.etree as le
 from lxml import etree
 import os.path
 #from xml.dom import minidom
@@ -14,44 +15,56 @@ import xml.etree.cElementTree as ET
 #import lxml.etree._Element as el
 
 
-listProjets=[]
+import xml.dom.minidom as dm
+#from PyQt4 import QtXml,  QtCore
 
-#global xmlProjet
 
 
 #C:/Users/rachel/Documents/GitHub/ProjetCheminDeFer/docXml/
 
-#try :
-#    global xmlProjets
-#    xmlProjets
-#except :
-#    print('non def')
-#    #global xmlProjets
-#    xmlProjets = [[],[]]
-    
     
 def getExistingXml(nameProjet):########
 	#try:
+	
+		# def __init__(self):
+			# file = QtCore.QFile("files//essai.xml")
+			# file.open(mode_r)
+			# doc = QtXml.QDomDocument()
+			# doc.setContent(self.file)
+			# file.close()
+			# file.open(mode_w)
+			# out = QtCore.QTextStream(self.file)
+			# root = self.doc.documentElement()
+		#doc = dm.parse('docXml/' + nameProjet + '.xml')
+		#root=doc.getElementsByTagName('Batch')[0]
+		#root=ET.iterparse('docXml/' + nameProjet + '.xml')
+        #print (self.root.tagName())
 		#r = requests.get('docXml/' + nameProjet + '.xml')
 		#xml = r.json()['items'].encode('utf-8')
 		#parser=etree.XMLParser(encoding='utf-8')
-		tree = etree.parse('docXml/' + nameProjet + '.xml')#str(nameProjet) +
+		tree = le.parse('docXml/' + nameProjet + '.xml')#str(nameProjet) +
 		#root = etree.fromstring(xml, parser=etree.XMLParser(encoding='utf-8'))
 		root = tree.getroot()#getroottree()
+		print(type(root))
 		#oSetroot = etree.Element(root.tag)
 		#doc = minidom.parse('docXml/' + nameProjet + '.xml')
 		#root = doc.documentElement
-		
-		NewSub = etree.SubElement ( root, 'CREATE_NEW_SUB' )
-		tree.write ('docXml/' + nameProjet + '.xml' )
-		print(type(tree))
-		print(type(root))
-		#print(type(oSetroot))
-		#proj=root.find(str(nameProjet))
-		#print(type(proj))
+		#root.find()
+		#NewSub = etree.SubElement ( root, nameProjet )
+		#tree.write('docXml/' + nameProjet + '.xml')
+		#rootXml=ET.XML(root)
+		#avec dom
+		#doc = parse('docXml/' + nameProjet + '.xml') # parse an XML file by name
+		#doc.documentElement
+		#datasource = open('docXml/' + nameProjet + '.xml')
+		#dom2 = parse(datasource)
+		#docXml=doc.toxml()
+		#dom3 = parseString(docXml)
+		#conference=doc.getElementsByTagName('Batch')
+		#rootXml=ET.XML(docXml)
 		#bla=et.fromstring('docXml/' + nameProjet + '.xml')
-		
-		return NewSub
+		#NewSub#oSetroot
+		return root
 	#except: #xe.XMLSyntaxError
 		#print('probleme de parse')
 	
@@ -74,9 +87,9 @@ def newProjet(nameProjet):
 		print('ce projet est déjà commencé')
 		continuePoject(nameProjet)
 	else:
-		#global xmlProjet
 		xmlProjet = etree.Element(nameProjet)#fait recommencer
-		#numPage=0 
+		print('le type a avoir')
+		print(type(xmlProjet))
 		return xmlProjet
 
 def continuePoject(nameProjet):
@@ -87,14 +100,10 @@ def continuePoject(nameProjet):
 	return xmlProjet
 
 def addPage(pathPage,numPage,xmlProjet):
-	#global numPage 
 	page = etree.SubElement(xmlProjet,'page')
 	page.set('id',str(numPage)) 
-	
 	file = etree.SubElement(page,'file')
 	file.set('path',pathPage)
-	#numPage +=  1;
-	print(page)
 	return page
     
 
@@ -110,9 +119,9 @@ def endProjet(nameProjet,xmlProjet) :
 			#fichier.write('<?xml version="1.0" encoding="UTF_8"?>\n')#pb d'encodage
             #index=xmlProjets[0].index(nameProjet)
             #xmlProjets[1][index]=xmlProjet
-			print(xmlProjet)
 			fichier.write(etree.tostring(xmlProjet,pretty_print=True).decode('utf-8'))#cree premiere balise
             #xmlProjet = etree.Element(nameProjet)
+			fichier.close()
 			return xmlProjet
 	except IOError:
 		print('Problème rencontré lors de l\'écriture ...')
@@ -219,7 +228,8 @@ def replace(nameProjet, numPage, numElem, newType,xmlProjet) :
 						return xmlProjet
 #xmlProjet.replace(e, e)
 
-def pageExist(nameProjet, numPage,xmlProjet)  : 
+def pageExist(nameProjet, numPage,xmlProjet)  :
+	print(type(xmlProjet))
 	for e in xmlProjet.findall('page'):
 		if e.attrib['id']==str(numPage) :
 			return True
