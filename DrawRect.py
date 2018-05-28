@@ -145,6 +145,7 @@ class CanvasEventsDemo:
 			#self.listRect.append(self.listRectAppear[0])
 			#print("listActionRect22222222"+str(self.listActionRect[selection]))
 			#print("creat rect"+str(self.listRectAppear))
+		self.canvas.delete(objectId)
 	
 	def rightOnFinal(self,event):
 		global isMove

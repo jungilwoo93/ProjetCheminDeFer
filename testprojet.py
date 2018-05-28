@@ -76,18 +76,26 @@ xmlProjet=None
 #################################################### toutes les fonctions  ####################################################
 # fonction de buttonConfirm
 def confirmer():
-    global countRect
-    listAction.insert(tk.END,var.get()+'-'+str(countRect))
-    listActionRect[var.get()+'-'+str(countRect)]=drawRect.getCoordonnes()
+	currentSelect=listAction.curselection()
+	for i in range(0,len(currentSelect)):
+		selection=listAction.get(currentSelect[i])
+		print("selection "+selection)
+		d=listActionRect
+		d.update(title=d.pop(selection))
+		print("listActionRect "+str(listActionRect))
+		print("d " + str(d))
+    #global countRect
+    #listAction.insert(tk.END,var.get()+'-'+str(countRect))
+    #listActionRect[var.get()+'-'+str(countRect)]=drawRect.getCoordonnes()
     #listRect.append(dict1[var.get()+'-'+str(nbConfirm)])
     #listRect.append(var.get()+'-'+str(nbConfirm))
     #listRect.append(listActionRect[var.get()+'-'+str(nbConfirm)])
     #print("list"+str(listRect))
     #selection=currentSelectedFile
     #print("selection"+selection)
-    listFileWithActionRect[currentSelectedFile]=listActionRect
-    print("listFileToRect"+str(listFileWithActionRect))
-    countRect+=1
+    #listFileWithActionRect[currentSelectedFile]=listActionRect
+    #print("listFileToRect"+str(listFileWithActionRect))
+    #countRect+=1
     #print(drawRect.getCoordonnes())
     
 # parcours choit du fichier
@@ -364,7 +372,17 @@ buttonConfirm=tk.Button(f1,text="Confirmer",command=confirmer).grid(row=4,column
 
 ################ listebox pour les Actions
 def onSelectAction(evt):
+	global drawRect
 	currentSelect=listAction.curselection()
+	drawRect.deleteAllRectAppear()
+	for i in range(0,len(currentSelect)):
+		selection=listAction.get(currentSelect[i])
+		print("selection " +str(selection))
+		list1=[]
+		list1=listActionRect[selection]
+		print("listActionRect "+str(list1))
+		drawRect.creatRect(selection,list1,3)
+	"""currentSelect=listAction.curselection()
 	if len(currentSelect) >1:
 		print("when all selected "+str(listAction.curselection()))
 		tmp=0
@@ -377,7 +395,7 @@ def onSelectAction(evt):
 		print("after select " +str(listAction.curselection()))
 	else:
 		
-		print("if length of currentSelect =1 or =0")
+		print("if length of currentSelect =1 or =0")"""
 	"""global selectedAction
     if selectedAction is not None:
         cadre.delete(selectedAction)
@@ -405,6 +423,7 @@ def deleteSelection():#pour liste des actions
     idRect=list1[4]
     drawRect.deleteRect(idRect)
     listAction.delete(currentselection[0])
+	#pas encore supprimer dans la liste!!!!!!!!!!!!!!!!
     #listPath.remove(selection[0])
 
 #################fonctio de generation du xml
@@ -448,7 +467,26 @@ def save():
 				xmlProjet=xl.endProjet(nameProjet,xmlProjet)
 	#nextPage()
 
-
+def deselect():
+	global countClick
+	listSelectionAction=listAction.curselection()
+	if len(listSelectionAction) < listAction.size() :
+		listAction.select_set(0,tk.END)
+		currentSelect=listAction.curselection()
+		for i in range(0,len(currentSelect)):
+			selection=listAction.get(currentSelect[i])
+			list1=[]
+			list1=listActionRect[selection]
+			drawRect.creatRect(selection,list1,3)
+	else:
+		listAction.selection_clear(0,tk.END)
+		list1=drawRect.deselectRect()
+		print("list1 " + str(list1))
+		sizeList=len(list1)
+		for i in range(0,sizeList):
+			print("out here?")
+			drawRect.deselectAll(list1[i])
+		drawRect.clearListRectAppear()
 
 ###fin barre menu qui a besoin de save
 menufichier.add_command(label="Enregistrer", command=save)
@@ -458,9 +496,10 @@ menufichier.add_command(label="Quitter", command=root.destroy)
 
 ################ button pour confirmer le choix des element de la page ##############
 fButtons=tk.Frame(f1, bg=colorDefault)
-buttonDelete=tk.Button(fButtons,text="Supprimer",command=deleteSelection).grid(row=0,column=0,padx=40,sticky=tk.S)
-buttonLast=tk.Button(fButtons,text="Précédent",command=lastPage).grid(row=0,column=1,padx=40,sticky=tk.S)
-buttonSave=tk.Button(fButtons,text="Enregistrer et Suivant",command=nextPage).grid(row=0,column=2,padx=40,sticky=tk.S)
+buttonDeselect=tk.Button(fButtons,text="Deselect/Select all",command=deselect).grid(row=0,column=0,padx=20,sticky=tk.S)
+buttonDelete=tk.Button(fButtons,text="Supprimer",command=deleteSelection).grid(row=0,column=1,padx=20,sticky=tk.S)
+buttonLast=tk.Button(fButtons,text="Précédent",command=lastPage).grid(row=0,column=2,padx=20,sticky=tk.S)
+buttonSave=tk.Button(fButtons,text="Enregistrer et Suivant",command=nextPage).grid(row=0,column=3,padx=20,sticky=tk.S)
 #buttonSave=tk.Button(fButtons,text="Suivant",command=suivant).grid(row=0,column=1,padx=50,sticky=tk.S)
 fButtons.grid(row=7,column=0,pady=20)
 
