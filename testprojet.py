@@ -267,10 +267,12 @@ def continueProjet():
 
 
 def deepLearnig():
-	from DrawOnImage import Segmentation
+	from DrawOnImage import Segmentation as sg
 	from DrawOnImage import Classification
 	from DrawOnImage import drawOnImage
 	from UseCheminDeFer import mainSeeResult
+	#global sg.namePropjet
+	sg.nameProjet=nameProjet
 	save()
 	root.destroy()
 	rootpop.quit()

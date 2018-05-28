@@ -67,7 +67,7 @@ def extractUnlabelledData(path):
         root = tree.getroot()
 		file=root.iter('page/file')
         for component in root.iter('page/element'):
-            feedUnlabelledList(component.attrib['type'].text,component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text,file[x])
+            feedUnlabelledList(component.attrib['type'],component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text,file[x])
 
 def extractData(path):
     fileNames=extractPaths(path)
@@ -75,7 +75,7 @@ def extractData(path):
         tree = ET.parse(path+''+fileNames[x])
         root = tree.getroot()
         for component in root.iter('page/element'):
-            feedList(component.attrib['type'].text,component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text)
+            feedList(component.attrib['type'],component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text)
 
 def rewriteXml():
    if len(unknownSet)!=0:
@@ -88,9 +88,9 @@ def rewriteXml():
                     if component.attrib['type'].text=="unknown":
                         print(x)
                         if y_pred[x]==1:
-                            component.attrib['type'].text="Paragraphe"
+                            component.attrib['type']="Paragraphe"
                         else:
-                            component.attrib['type'].text="Titre"
+                            component.attrib['type']="Titre"
                         tree.write('workshop_test/'+unknownSet[x][4])#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
                         break
                         
