@@ -362,13 +362,27 @@ buttonConfirm=tk.Button(f1,text="Confirmer",command=confirmer).grid(row=4,column
 
 ################ listebox pour les Actions
 def onSelectAction(evt):
-    global selectedAction
+	currentSelect=listAction.curselection()
+	if len(currentSelect) >1:
+		print("when all selected "+str(listAction.curselection()))
+		tmp=0
+		for i in range(0,len(currentSelect)):
+			if int(currentSelect[i])==tmp:
+				tmp+=1
+		listAction.selection_clear(0,tk.END)
+		listAction.select_set(tmp)
+		tmp=0
+		print("after select " +str(listAction.curselection()))
+	else:
+		
+		print("if length of currentSelect =1 or =0")
+	"""global selectedAction
     if selectedAction is not None:
         cadre.delete(selectedAction)
     selection=listAction.get(listAction.curselection())
     list1=[]
     list1=listActionRect[selection]
-    selectedAction=cadre.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=5)
+    selectedAction=cadre.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=5)"""
     
 labelAction=tk.Label(f1,text="Les actions : ", bg=colorDefault)
 labelAction.config(font=('Forte',18))
