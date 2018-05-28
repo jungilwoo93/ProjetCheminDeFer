@@ -20,7 +20,7 @@ def update(nameProjet,numPage):
     with open('elemSave.txt', 'w') as file:
         for line in lines :
             if nameProjet.lower() in line.lower() :
-                line=nameProjet + ' ' + str(numPage) +'\n'
+                line=nameProjet + ' ' + str(numPage)
             file.write(line)
 
 def projetExist(nameProjet) :
