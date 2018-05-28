@@ -285,6 +285,20 @@ def getRect(nameProjet,numPage,xmlProjet):
 		elHeight=rect.find('height')
 		height=elHeight.findtext()
 		listRect.append([numPage,numrect,posx,posy,width,height])
+	return listRect
+
+
+
+def getLastRectangleId(nameProjet, xmlProjet):
+	maxId=0
+	for page in xmlProjet.findall('page'):
+		for elem in page.findall('element'):
+			id=elem.attrib['id']
+			if int(id)>maxId:
+				maxId=id
+	return maxId+1
+
+
 
 
 
