@@ -69,13 +69,7 @@ class Zoom_Advanced(ttk.Frame):
         self.canvas.bind('<Button-4>',   self.wheel)  # only with Linux, wheel scroll up
         self.image = Image.open(path)  # open image
         
-		
-		
-		##############a mettre ici
-		
-		
-		
-		self.width, self.height = self.image.size
+        self.width, self.height = self.image.size
         self.imscale = 1.0  # scale for the canvaas image
         self.delta = 1.3  # zoom magnitude
         # Put image into container rectangle and use it to set proper coordinates to the image

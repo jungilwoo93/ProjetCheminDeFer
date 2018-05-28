@@ -43,7 +43,7 @@ def getExistingXml(nameProjet):########
 		#root = doc.documentElement
 		
 		NewSub = etree.SubElement ( root, 'CREATE_NEW_SUB' )
-		tree.write ('docXml/' + nameProjet + '1.xml' )
+		tree.write ('docXml/' + nameProjet + '.xml' )
 		print(type(tree))
 		print(type(root))
 		#print(type(oSetroot))
