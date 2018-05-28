@@ -157,15 +157,15 @@ def nextPage():  #a mettre dans enregister #voir si onSelect se fait tout seul
 	else :
 		gs.writeInText(nameProjet,numPage+1)
 	save()
-	if numPage<listFiles.size() :
-		numPage += 1
+	if int(numPage)<listFiles.size() :
+		int(numPage) += 1
 		listFiles.selection_clear(0, tk.END)
-		if numPage<listFiles.size() :
-			listFiles.selection_set(numPage)
+		if int(numPage)<listFiles.size() :
+			listFiles.selection_set(int(numPage))
 		else:
-			numPage=listFiles.size()-1
-			listFiles.selection_set(numPage)
-		resizeImg(numPage)
+			int(numPage)=listFiles.size()-1
+			listFiles.selection_set(int(numPage))
+		resizeImg(int(numPage))
 		recharge()
     
     
@@ -174,15 +174,15 @@ def lastPage():
 	save()
 	global numPage
 	if gs.projetExist(nameProjet):
-		gs.update(nameProjet,numPage-1)
+		gs.update(nameProjet,int(numPage)-1)
 	else :
-		gs.writeInText(nameProjet,numPage-1)
-	if numPage>0 :
+		gs.writeInText(nameProjet,int(numPage)-1)
+	if int(numPage)>0 :
 		numPage -= 1
 		#print(numPage)
 		listFiles.selection_clear(0, tk.END)
-		listFiles.selection_set(numPage)
-		resizeImg(numPage)
+		listFiles.selection_set(int(numPage))
+		resizeImg(int(numPage))
 		recharge()
 
 
@@ -245,9 +245,9 @@ def continueProjet():
 			nameProjet =listProjet.get(listProjet.curselection()[0])
 			global numPage
 			numPage=gs.getAvancementProjet(nameProjet)
-			listFiles.selection_set(numPage)
+			listFiles.selection_set(int(numPage))
 			reloadImg()
-			resizeImg(numPage)
+			resizeImg(int(numPage))
 			global xmlProjet
 			xmlProjet=xl.continuePoject(nameProjet)
 			listInitial={}
@@ -417,7 +417,6 @@ def save():
 		posiY=listCoord[1]
 		widthEl=listCoord[2]
 		heightEl=listCoord[3]
-		#numPage=2
 		
 		if not(xl.reSave(nameProjet, numPage, numElem,xmlProjet)) :
 			xl.addElement(typeEl, numElem, posiX, posiY, widthEl, heightEl,nameProjet, numPage, xmlProjet)

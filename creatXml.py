@@ -38,16 +38,17 @@ def getExistingXml(nameProjet):########
 		tree = et.parse('docXml/' + nameProjet + '.xml')#str(nameProjet) +
 		#root = etree.fromstring(xml, parser=etree.XMLParser(encoding='utf-8'))
 		root = tree.getroot()#getroottree()
-		
+		oSetroot = etree.Element(root.tag)
 		#doc = minidom.parse('docXml/' + nameProjet + '.xml')
 		#root = doc.documentElement
 		print(type(tree))
 		print(type(root))
+		print(type(oSetroot))
 		#proj=root.find(str(nameProjet))
 		#print(type(proj))
 		#bla=et.fromstring('docXml/' + nameProjet + '.xml')
 		
-		return root
+		return oSetroot
 	#except: #xe.XMLSyntaxError
 		#print('probleme de parse')
 	
