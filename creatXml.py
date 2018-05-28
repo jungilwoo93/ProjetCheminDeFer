@@ -35,20 +35,23 @@ def getExistingXml(nameProjet):########
 		#r = requests.get('docXml/' + nameProjet + '.xml')
 		#xml = r.json()['items'].encode('utf-8')
 		#parser=etree.XMLParser(encoding='utf-8')
-		tree = et.parse('docXml/' + nameProjet + '.xml')#str(nameProjet) +
+		tree = etree.parse('docXml/' + nameProjet + '.xml')#str(nameProjet) +
 		#root = etree.fromstring(xml, parser=etree.XMLParser(encoding='utf-8'))
 		root = tree.getroot()#getroottree()
-		oSetroot = etree.Element(root.tag)
+		#oSetroot = etree.Element(root.tag)
 		#doc = minidom.parse('docXml/' + nameProjet + '.xml')
 		#root = doc.documentElement
+		
+		NewSub = etree.SubElement ( root, 'CREATE_NEW_SUB' )
+		tree.write ('docXml/' + nameProjet + '1.xml' )
 		print(type(tree))
 		print(type(root))
-		print(type(oSetroot))
+		#print(type(oSetroot))
 		#proj=root.find(str(nameProjet))
 		#print(type(proj))
 		#bla=et.fromstring('docXml/' + nameProjet + '.xml')
 		
-		return oSetroot
+		return NewSub
 	#except: #xe.XMLSyntaxError
 		#print('probleme de parse')
 	
@@ -104,7 +107,7 @@ def endProjet(nameProjet,xmlProjet) :
 			os.mkdir('docXml')
 		with open('docXml/' + nameProjet +'.xml','w') as fichier:
         #En-tête du fichier xml
-			fichier.write('<?xml version="1.0" encoding="UTF_8"?>\n')
+			#fichier.write('<?xml version="1.0" encoding="UTF_8"?>\n')#pb d'encodage
             #index=xmlProjets[0].index(nameProjet)
             #xmlProjets[1][index]=xmlProjet
 			print(xmlProjet)

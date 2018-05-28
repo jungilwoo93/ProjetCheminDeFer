@@ -158,13 +158,14 @@ def nextPage():  #a mettre dans enregister #voir si onSelect se fait tout seul
 		gs.writeInText(nameProjet,numPage+1)
 	save()
 	if int(numPage)<listFiles.size() :
-		int(numPage) += 1
+		numPage=int(numPage)
+		numPage += 1
 		listFiles.selection_clear(0, tk.END)
-		if int(numPage)<listFiles.size() :
-			listFiles.selection_set(int(numPage))
-		else:
-			int(numPage)=listFiles.size()-1
-			listFiles.selection_set(int(numPage))
+		#if int(numPage)<listFiles.size() :
+		listFiles.selection_set(int(numPage))
+		#else:
+		#	numPage=listFiles.size()-1
+		#	listFiles.selection_set(int(numPage))
 		resizeImg(int(numPage))
 		recharge()
     
@@ -178,6 +179,7 @@ def lastPage():
 	else :
 		gs.writeInText(nameProjet,int(numPage)-1)
 	if int(numPage)>0 :
+		numPage=int(numPage)
 		numPage -= 1
 		#print(numPage)
 		listFiles.selection_clear(0, tk.END)
@@ -236,7 +238,8 @@ def continueProjet():
 		listProjet.insert(1,Projetlist[i])
 	listFrame.grid(row=0,pady=0,padx=15,sticky=tk.W+tk.N +tk.E)
 	listProjet.grid(row=0,pady=0,padx=15,sticky=tk.W+tk.N +tk.E)
-	
+
+
 	def projetToContinu(evt):   
 		global nameProjet
 		#nameProjet=listProjet.curselection()
@@ -245,6 +248,8 @@ def continueProjet():
 			nameProjet =listProjet.get(listProjet.curselection()[0])
 			global numPage
 			numPage=gs.getAvancementProjet(nameProjet)
+			print('le num de la page')
+			print(numPage)
 			listFiles.selection_set(int(numPage))
 			reloadImg()
 			resizeImg(int(numPage))
