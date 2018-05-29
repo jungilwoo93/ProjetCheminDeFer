@@ -41,10 +41,11 @@ def getExistingXml(nameProjet):########
 		#r = requests.get('docXml/' + nameProjet + '.xml')
 		#xml = r.json()['items'].encode('utf-8')
 		#parser=etree.XMLParser(encoding='utf-8')
-		tree = le.parse('docXml/' + nameProjet + '.xml')#str(nameProjet) +
+		tree = le.parse('DrawOnImage/XmlTrainingData/' + nameProjet + '.xml')#str(nameProjet) +
 		#root = etree.fromstring(xml, parser=etree.XMLParser(encoding='utf-8'))
 		root = tree.getroot()#getroottree()
-		print(type(root))
+		#print('ccccccccccccccccccccccoooooooouuuuuuucou')
+		#print(type(root))
 		#oSetroot = etree.Element(root.tag)
 		#doc = minidom.parse('docXml/' + nameProjet + '.xml')
 		#root = doc.documentElement

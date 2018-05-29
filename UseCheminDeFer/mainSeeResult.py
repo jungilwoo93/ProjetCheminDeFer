@@ -10,7 +10,7 @@ import tkinter.filedialog as tf
 from PIL import Image, ImageFont, ImageDraw, ImageTk
 
 #fichier lier
-import buttonFunction as bf
+from UseCheminDeFer import buttonFunction as bf
 
 
 

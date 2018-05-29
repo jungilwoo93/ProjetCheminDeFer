@@ -91,17 +91,17 @@ def extractData(path):
 def rewriteXml():
 	if len(unknownSet)!=0:
 		for x in range(0,len(unknownSet)):
-				tree = ET.parse('DrawOnImage/workshop_test/'+unknownSet[x][4])#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
+				tree = ET.parse('DrawOnImage/workshop_test/'+unknownSet[x][4] + '-Unlabelled.xml')#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
 				root = tree.getroot()
 				for component in root.iter('page'):
 					for elem in component.iter('element'):
-						if elem.attrib['type'].text=="unknown":
+						if elem.attrib['type']=="unknown":
 							#print(x)
 							if y_pred[x]==1:
 								elem.attrib['type']="Paragraphe"
 							else:
 								elem.attrib['type']="Titre"
-							tree.write('DrawOnImage/workshop_test/'+unknownSet[x][4])#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
+							tree.write('DrawOnImage/workshop_test/'+unknownSet[x][4] + '-Unlabelled.xml')#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
 							break
 
 
@@ -125,6 +125,12 @@ x_train,x_test,y_train,y_test=train_test_split(pdDataSet.iloc[:,[0,3]].values ,p
 scaler = StandardScaler()
 print('x_train::::::')
 print(x_train)
+print('x_test::::::')
+print(x_test)
+print('y_train::::::')
+print(y_train)
+print('y_test::::::')
+print(y_test)
 x_train = scaler.fit_transform(x_train)
 x_test = scaler.transform(x_test)
 
