@@ -617,22 +617,23 @@ def recharge():
 	global currentSelectedFile,lastSelectedFile,listActionRect
 	#global selectedAction
 	if currentSelectedFile is not None:
-		lastSelectedFile=currentSelectedFile
-		currentSelectedFile=listFiles.get(listFiles.curselection())
-		if lastSelectedFile!=currentSelectedFile:
-			listAction.delete(0,tk.END)
-			newListActionRect={}
-			listActionRect=newListActionRect
-			#print(str(listActionRect))
-			#mapAction=getMapActionRect(currentSelectedFile)
-			mapActionRect=listFileWithActionRect[currentSelectedFile]
-			if mapActionRect is not None :
-				print("mapActionRect isn't none")
-				for key in mapActionRect :
-					listAction.insert(tk.END,key)
-                    #print(mapActionRect[key])
-					listActionRect[key]=mapActionRect[key]
-                    #print(str(listActionRect[key]))
+		if len(listFiles.curselection())!=0 :
+			lastSelectedFile=currentSelectedFile
+			currentSelectedFile=listFiles.get(listFiles.curselection())
+			if lastSelectedFile!=currentSelectedFile:
+				listAction.delete(0,tk.END)
+				newListActionRect={}
+				listActionRect=newListActionRect
+				#print(str(listActionRect))
+				#mapAction=getMapActionRect(currentSelectedFile)
+				mapActionRect=listFileWithActionRect[currentSelectedFile]
+				if mapActionRect is not None :
+					print("mapActionRect isn't none")
+					for key in mapActionRect :
+						listAction.insert(tk.END,key)
+						#print(mapActionRect[key])
+						listActionRect[key]=mapActionRect[key]
+						#print(str(listActionRect[key]))
 			#else:
 			#    print("is none")
 	else:
