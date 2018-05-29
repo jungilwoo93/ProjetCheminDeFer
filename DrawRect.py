@@ -43,6 +43,8 @@ class CanvasEventsDemo:
 			self.listRectAppear=[]
 			if self.listBoxAction.size() >0 :
 				self.listBoxAction.select_set(0,tk.END)
+			else:
+				print("size <0")
 			#fileChange=False
 		#print("!!!!!!!!!!!!!listRect!!!!!!!!!!!!!"+str(self.listRect))
 		#print("listbox")
@@ -138,7 +140,7 @@ class CanvasEventsDemo:
 			list1=self.listActionRect[selection]
 			#print("listActionRect1111"+str(self.listActionRect[selection]))
 			#print("list1"+str(list1))
-			selectedAction=self.canvas.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=3)
+			selectedAction=self.canvas.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=2)
 			list1[4]=selectedAction
 			#print("selection     "+str(selectedAction))
 			self.listRectAppear.append(selectedAction)#########################
@@ -168,6 +170,9 @@ class CanvasEventsDemo:
 		listCoord.append(width)
 		listCoord.append(height)
 		listCoord.append(objectId)
+		listCoord.append(2)
+		listCoord.append('black')
+		listCoord.append(None)
 		return listCoord
     
 	def deselectAll(self,idRect):
@@ -191,13 +196,38 @@ class CanvasEventsDemo:
 	def clearListRectAppear(self):
 		self.listRectAppear.clear()
 		
-	def creatRect(self,actionRect,coordRect,wd=None):
+	def creatRect(self,actionRect,coordRect,wd=None, colOutline=None, colFill=None):
 		list1=[]
 		list1=self.listActionRect[actionRect]
 		if wd is not None:
-			selectedAction=self.canvas.create_rectangle(coordRect[0],coordRect[1],coordRect[0]+coordRect[2],coordRect[1]+coordRect[3],width=wd)
+			list1[5]=wd
+			if colOutline is not None:
+				list1[6]=colOutline
+				if colFill is not None:
+					list1[7]=str(colFill)
+					selectedAction=self.canvas.create_rectangle(coordRect[0],coordRect[1],coordRect[0]+coordRect[2],coordRect[1]+coordRect[3],width=wd, outline=colOutline, fill=colFill)
+				else:
+					selectedAction=self.canvas.create_rectangle(coordRect[0],coordRect[1],coordRect[0]+coordRect[2],coordRect[1]+coordRect[3],width=wd, outline=colOutline)
+			else:
+				if colFill is not None:
+					list1[7]=str(colFill)
+					selectedAction=self.canvas.create_rectangle(coordRect[0],coordRect[1],coordRect[0]+coordRect[2],coordRect[1]+coordRect[3],width=wd,fill=colFill)
+				else:
+					selectedAction=self.canvas.create_rectangle(coordRect[0],coordRect[1],coordRect[0]+coordRect[2],coordRect[1]+coordRect[3],width=wd)
 		else:
-			selectedAction=self.canvas.create_rectangle(coordRect[0],coordRect[1],coordRect[0]+coordRect[2],coordRect[1]+coordRect[3])
+			if colOutline is not None:
+				list1[6]=colOutline
+				if colFill is not None:
+					list1[7]=str(colFill)
+					selectedAction=self.canvas.create_rectangle(coordRect[0],coordRect[1],coordRect[0]+coordRect[2],coordRect[1]+coordRect[3],outline=colOutline, fill=colFill)
+				else:
+					selectedAction=self.canvas.create_rectangle(coordRect[0],coordRect[1],coordRect[0]+coordRect[2],coordRect[1]+coordRect[3],outline=colOutline)
+			else:
+				if colFill is not None:
+					list1[7]=str(colFill)
+					selectedAction=self.canvas.create_rectangle(coordRect[0],coordRect[1],coordRect[0]+coordRect[2],coordRect[1]+coordRect[3],fill=colFill)
+				else:
+					selectedAction=self.canvas.create_rectangle(coordRect[0],coordRect[1],coordRect[0]+coordRect[2],coordRect[1]+coordRect[3])
 		list1[4]=selectedAction
 		if selectedAction not in self.listRectAppear : 
 			self.listRectAppear.append(selectedAction)

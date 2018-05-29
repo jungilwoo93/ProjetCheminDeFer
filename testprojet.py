@@ -74,16 +74,72 @@ rectSelect=None
 xmlProjet=None
 
 #################################################### toutes les fonctions  ####################################################
-# fonction de buttonConfirm
-def confirmer():
+def changeColRect():
+	value = str(var.get())
+	if value == 'Titre' :
+		createRectBySelectionListbox(2,'blue')
+	elif value == 'Lettrine' :
+		createRectBySelectionListbox(2,'green')
+	elif value == 'Image' : 
+		createRectBySelectionListbox(2,'red')
+	else:
+		createRectBySelectionListbox(2,'black')
+
+def createRectBySelectionListbox(wd=None,outline=None,fill=None):
 	currentSelect=listAction.curselection()
 	for i in range(0,len(currentSelect)):
 		selection=listAction.get(currentSelect[i])
-		print("selection "+selection)
-		d=listActionRect
-		d.update(title=d.pop(selection))
-		print("listActionRect "+str(listActionRect))
-		print("d " + str(d))
+		list1=[]
+		list1=listActionRect[selection]
+		if wd is not None:
+			if outline is not None:
+				if fill is not None :
+					drawRect.creatRect(selection,list1,wd,outline,fill)
+				else:
+					drawRect.creatRect(selection,list1,wd,outline)
+			else:	
+				if fill is not None :
+					drawRect.creatRect(selection,list1,wd,None,fill)
+				else:
+					drawRect.creatRect(selection,list1,wd)
+		else:
+			if outline is not None:
+				if fill is not None :
+					drawRect.creatRect(selection,list1,None,outline,fill)
+				else:
+					drawRect.creatRect(selection,list1,None,outline)
+			else:
+				if fill is not None :
+					drawRect.creatRect(selection,list1,None,None,fill)
+				else:
+					drawRect.creatRect(selection,list1)
+# fonction de buttonConfirm
+def confirmer():
+	print("listActionRect orginal " +str(listActionRect))
+	listActionOrigin=listAction.get(0,tk.END)
+	listTextSelection=[]
+	listTextChange=[]
+	value = var.get()
+	currentSelect=listAction.curselection()
+	for i in range(0,len(currentSelect)):
+		selection=listAction.get(currentSelect[i])
+		listTextSelection.append(selection)
+	for k in range(0,len(listTextSelection)):
+		(typeAction,idAction) = listTextSelection[k].split("-")
+		listTextChange.append(var.get()+'-'+idAction)
+	for j in range(0,len(currentSelect)):
+		listAction.insert(int(currentSelect[j]),str(listTextChange[j]))
+		listAction.delete(int(currentSelect[j])+1)
+		#print("selection "+selection)
+		#d=listActionRect
+		#d.update(title=d.pop(selection))
+	newListActionRect={}
+	listActionChange=listAction.get(0,tk.END)
+	for h in range(0,listAction.size()):
+		newListActionRect[listActionChange[h]]=listActionRect[listActionOrigin[h]]
+	listActionRect.clear()
+	for key in newListActionRect :
+		listActionRect[key]=newListActionRect[key]
     #global countRect
     #listAction.insert(tk.END,var.get()+'-'+str(countRect))
     #listActionRect[var.get()+'-'+str(countRect)]=drawRect.getCoordonnes()
@@ -233,7 +289,7 @@ def continueProjet():
 	
 	listProjet = tk.Listbox(listFrame,
 		xscrollcommand=xDefilB.set,
-		yscrollcommand=yDefilB.set,width=70,height=15,selectmode=tk.SINGLE)    
+		yscrollcommand=yDefilB.set,width=70,height=15,selectmode=tk.SINGLE,exportselection=0)    
 	listProjet.grid(row=0)#'nsew'
 	#listFiles.pack(side="left",fill="y")  
 	xDefilB['command'] = listProjet.xview
@@ -325,7 +381,7 @@ xDefilB.grid(row=1, column=0, sticky='ew')
 ##################### listBox pour afficher les fichiers choisis
 listFiles = tk.Listbox(listFrame,
      xscrollcommand=xDefilB.set,
-     yscrollcommand=yDefilB.set,width=70,height=15,selectmode=tk.SINGLE)
+     yscrollcommand=yDefilB.set,width=70,height=15,selectmode=tk.SINGLE,exportselection=0)
 listFiles.grid(row=0)#'nsew'
 #listFiles.pack(side="left",fill="y")  
 xDefilB['command'] = listFiles.xview
@@ -363,7 +419,7 @@ labelZoneChoix.grid(row=2, sticky=tk.W)
 zoneRadioButton=tk.Frame(f1, bg=colorDefault)
 a=0
 for i,v in enumerate(typeZone):
-    tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v, bg=colorDefault).grid(row=0, column=a,sticky=tk.W,padx=20)
+    tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v, bg=colorDefault,command=changeColRect).grid(row=0, column=a,sticky=tk.W,padx=20)
     a+=1
 zoneRadioButton.grid(row=3,sticky=tk.W,pady=5)
 
