@@ -331,17 +331,17 @@ def continueProjet():
 
 
 def deepLearnig():
-	from DrawOnImage import Segmentation as sg
-	from DrawOnImage import Classification as cl
-	#from DrawOnImage import drawOnImage as doi
+	from DrawOnImage import Segmentation
+	from DrawOnImage import Classification
+	#from DrawOnImage import drawOnImage  #a remettre c'est juste lourd
 	from UseCheminDeFer import mainSeeResult
 	#global sg.namePropjet
 	#sg.nameProjet=nameProjet
 	#cl.nameProjet=nameProjet
 	#doi.nameProjet=nameProjet
 	#save()
-	root.destroy()
-	root.quit()
+	#root.destroy()
+	#root.quit()
 
 	
 menubar=tk.Menu(root)

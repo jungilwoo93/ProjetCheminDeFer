@@ -7,8 +7,8 @@ Created on Fri Jan 19 14:04:46 2018
 
 import cv2
 import xml.etree.cElementTree as ET
-
-nameProjet='Batch'
+#from testprojet import nameProjet
+#nameProjet='Batch'
 
 for x in range(0, 50):  # les images chargées pour la segmentation image130 à image 169
 	id_img="page-"+str(x)+".png"
