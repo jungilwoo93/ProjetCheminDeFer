@@ -48,7 +48,6 @@ def extractUnlabelledPaths(path):
 
 
 def feedList(tp,x,y,w,h): #type,point x, pointY, RectangleWidth,RectangleHeight
-    print('ajout a dataset')
     if tp == "Paragraphe":
         dataSet.append([x,y,w,h,1])
         
@@ -73,19 +72,12 @@ def extractUnlabelledData(path):
 
 def extractData(path):
 	fileNames=extractPaths(path)
-	print('fichier de xml')
-	print(fileNames)
 	for x in range(0,len(fileNames)):
-		print('nomfichier')
-		print(path+''+fileNames[x])
 		if fileNames[x]==nameProjet + '.xml' :
-			print('c est le bon xml')
 			tree = ET.parse(path+''+fileNames[x])
 			root = tree.getroot()
 			for component in root.iter('page'):
-				print('page trouve')
 				for elem in component.iter('element'):
-					print('elem trouver')
 					feedList(elem.attrib['type'],elem.find('posX').text,elem.find('posY').text,elem.find('width').text,elem.find('height').text)
 
 def rewriteXml():
@@ -117,20 +109,12 @@ extractUnlabelledData("DrawOnImage/workshop_test/")#C:/Users/DL9/Desktop/Machine
 
 pdDataSet = pd.DataFrame(dataSet)#met sous forme de tableau a double entrée
 pdUnlabelledData=pd.DataFrame(unknownSet)
-print(pdDataSet)
 '''test train split 25% 75%'''
 #iloc:gets rows (or columns) at particular positions in the index
 x_train,x_test,y_train,y_test=train_test_split(pdDataSet.iloc[:,[0,3]].values ,pdDataSet.iloc[:,[4]].values,test_size=0.25,random_state=0)
 
 scaler = StandardScaler()
-print('x_train::::::')
-print(x_train)
-print('x_test::::::')
-print(x_test)
-print('y_train::::::')
-print(y_train)
-print('y_test::::::')
-print(y_test)
+
 x_train = scaler.fit_transform(x_train)
 x_test = scaler.transform(x_test)
 

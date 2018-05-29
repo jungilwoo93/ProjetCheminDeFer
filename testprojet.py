@@ -332,11 +332,13 @@ def continueProjet():
 
 def deepLearnig():
 	from DrawOnImage import Segmentation as sg
-	from DrawOnImage import Classification
-	from DrawOnImage import drawOnImage
-	#from UseCheminDeFer import mainSeeResult
+	from DrawOnImage import Classification as cl
+	#from DrawOnImage import drawOnImage as doi
+	from UseCheminDeFer import mainSeeResult
 	#global sg.namePropjet
-	sg.nameProjet=nameProjet
+	#sg.nameProjet=nameProjet
+	#cl.nameProjet=nameProjet
+	#doi.nameProjet=nameProjet
 	#save()
 	root.destroy()
 	root.quit()

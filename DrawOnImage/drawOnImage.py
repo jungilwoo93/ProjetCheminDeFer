@@ -43,7 +43,6 @@ class imgData:
 		return fileList  
 	
 	def run(self):
-		print('je run')
 		fl=self.extractPaths()
 		for x in range(0,len(fl)):
 			tree = ET.parse(fl[x])
