@@ -18,7 +18,7 @@ import pandas as pd
 
 dataSet=[] #training dataset
 unknownSet=[]
-
+nameProjet='Batch'
 
 class Component(object):
 
@@ -31,24 +31,24 @@ class Component(object):
         
 
 def extractPaths(path):
-    xmlFiles=glob.glob(path+"/*.xml")
-    fileList=list()
-    for x in range(0,len(xmlFiles)):
-         fileList.append(xmlFiles[x][39:])
-    return fileList
+	xmlFiles=glob.glob(path+"/*.xml")
+	fileList=list()
+	for x in range(0,len(xmlFiles)):
+		fileList.append(xmlFiles[x][28:])#28:nombre de caractere du chemin
+	return fileList
     
 def extractUnlabelledPaths(path):
     xmlFiles=glob.glob(path+"/*.xml")
     fileList=list()
     for x in range(0,len(xmlFiles)):
-         fileList.append(xmlFiles[x][75:])
+         fileList.append(xmlFiles[x][26:])#75:nbr de car
     return fileList
     
 
 
 
 def feedList(tp,x,y,w,h): #type,point x, pointY, RectangleWidth,RectangleHeight
-   
+    print('ajout a dataset')
     if tp == "Paragraphe":
         dataSet.append([x,y,w,h,1])
         
@@ -67,50 +67,62 @@ def extractUnlabelledData(path):
 		tree = ET.parse(path+''+fileNames[x])
 		root = tree.getroot()
 		file=root.iter('page/file')
-		for component in root.iter('page/element'):
-			feedUnlabelledList(component.attrib['type'],component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text,file[x])
+		for component in root.iter('page'):
+			for elem in component.iter('element'):
+				feedUnlabelledList(elem.attrib['type'],elem.find('posX').text,elem.find('posY').text,elem.find('width').text,elem.find('height').text,file[x])
 
 def extractData(path):
-    fileNames=extractPaths(path)
-    for x in range(0,len(fileNames)):
-        tree = ET.parse(path+''+fileNames[x])
-        root = tree.getroot()
-        for component in root.iter('page/element'):
-            feedList(component.attrib['type'],component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text)
+	fileNames=extractPaths(path)
+	print('fichier de xml')
+	print(fileNames)
+	for x in range(0,len(fileNames)):
+		print('nomfichier')
+		print(path+''+fileNames[x])
+		if fileNames[x]==nameProjet + '.xml' :
+			print('c est le bon xml')
+			tree = ET.parse(path+''+fileNames[x])
+			root = tree.getroot()
+			for component in root.iter('page'):
+				print('page trouve')
+				for elem in component.iter('element'):
+					print('elem trouver')
+					feedList(elem.attrib['type'],elem.find('posX').text,elem.find('posY').text,elem.find('width').text,elem.find('height').text)
 
 def rewriteXml():
-   if len(unknownSet)!=0:
+	if len(unknownSet)!=0:
        
-       for x in range(0,len(unknownSet)):
-                tree = ET.parse('workshop_test/'+unknownSet[x][4])#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
-                root = tree.getroot()
-                for component in root.iter('element'):
+		for x in range(0,len(unknownSet)):
+				tree = ET.parse('DrawOnImage/workshop_test/'+unknownSet[x][4])#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
+				root = tree.getroot()
+				for component in root.iter('page'):
+					for elem in component.iter('element'):
                     
-                    if component.attrib['type'].text=="unknown":
-                        #print(x)
-                        if y_pred[x]==1:
-                            component.attrib['type']="Paragraphe"
-                        else:
-                            component.attrib['type']="Titre"
-                        tree.write('workshop_test/'+unknownSet[x][4])#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
-                        break
+						if elem.attrib['type'].text=="unknown":
+							#print(x)
+							if y_pred[x]==1:
+								elem.attrib['type']="Paragraphe"
+							else:
+								elem.attrib['type']="Titre"
+							tree.write('DrawOnImage/workshop_test/'+unknownSet[x][4])#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
+							break
                         
                     
 
                   
 
-extractData('XMLTrainingData/')#C:/Users/DL9/Desktop/
+extractData('DrawOnImage/XMLTrainingData/')#C:/Users/DL9/Desktop/
 
-extractUnlabelledData("workshop_test/")#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
+extractUnlabelledData("DrawOnImage/workshop_test/")#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
 
 
 '''transforming our dataset into a pandaDataFrame'''
 
-pdDataSet = pd.DataFrame(dataSet)
+pdDataSet = pd.DataFrame(dataSet)#met sous forme de tableau a double entrée
 pdUnlabelledData=pd.DataFrame(unknownSet)
-
+print(pdDataSet)
 '''test train split 25% 75%'''
-#ajuster taille des array
+#ajuster taille des array [:,[0,3]] et [:,[4]]
+#iloc:gets rows (or columns) at particular positions in the index
 x_train,x_test,y_train,y_test=train_test_split(pdDataSet.iloc[:,[0,3]].values ,pdDataSet.iloc[:,[4]].values,test_size=0.25,random_state=0)
 
 scaler = StandardScaler()

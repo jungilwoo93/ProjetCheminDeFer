@@ -21,7 +21,6 @@ import xml.dom.minidom as dm
 
 
 #C:/Users/rachel/Documents/GitHub/ProjetCheminDeFer/docXml/
-
     
 def getExistingXml(nameProjet):########
 	#try:
@@ -82,21 +81,15 @@ def checkFileExiste(nameFile):
 
 
 def newProjet(nameProjet):
-	print('xml en creation')
 	if os.path.exists(nameProjet):
 		print('ce projet est déjà commencé')
 		continuePoject(nameProjet)
 	else:
 		xmlProjet = etree.Element(nameProjet)#fait recommencer
-		print('le type a avoir')
-		print(type(xmlProjet))
 		return xmlProjet
 
 def continuePoject(nameProjet):
-    #global xmlProjet
 	xmlProjet=getExistingXml(nameProjet) #etree.Element(nameProjet)
-    #index=xmlProjets[0].index(nameProjet)
-    #xmlProjet=xmlProjets[1][index]
 	return xmlProjet
 
 def addPage(pathPage,numPage,xmlProjet):
@@ -109,12 +102,11 @@ def addPage(pathPage,numPage,xmlProjet):
 
 def endProjet(nameProjet,xmlProjet) :   
     #xmlProjet = etree.Element(nameProjet)
-    # xmlProjets
-    
+	path='DrawOnImage/XmlTrainingData'
 	try:
-		if not(os.path.exists('docXml')) :
-			os.mkdir('docXml')
-		with open('docXml/' + nameProjet +'.xml','w') as fichier:
+		if not(os.path.exists(path)) :
+			os.mkdir(path)
+		with open(path + '/' + nameProjet +'.xml','w') as fichier:
         #En-tête du fichier xml
 			#fichier.write('<?xml version="1.0" encoding="UTF_8"?>\n')#pb d'encodage
             #index=xmlProjets[0].index(nameProjet)
@@ -156,11 +148,6 @@ def addElement(typeEl, idEl, posiX, posiY, widthEl, heightEl, nameProjet, numPag
 
 
 def delectElement(nameProjet,numPage,numElem,xmlProjet):
-    #numPage = "7"#☺\n        <posY>2</posY> \n"# <width>3</width> <height>4</height> </element>" # Texte à rechercher
-    #remplace = "salut"
-    
-	#numElem="1"#########a virer
-    
 	for e in xmlProjet.findall('page'):
 		if e.attrib['id']==str(numPage) :
 			for e1 in e.findall('element'):
@@ -222,35 +209,23 @@ def replace(nameProjet, numPage, numElem, newType,xmlProjet) :
 				if not(e1 is None):
 					if e1.attrib['id']==str(numElem):
 						e1.attrib['type'] = newType
-						#listChild=xmlProjet.getchildren() 
-						#listChild=e.getchildren()
-						#e.remove(e1)
 						return xmlProjet
 #xmlProjet.replace(e, e)
 
-def pageExist(nameProjet, numPage,xmlProjet)  :
-	print(type(xmlProjet))
+def pageExist(nameProjet, numPage,xmlProjet)  : #virer name project
 	for e in xmlProjet.findall('page'):
 		if e.attrib['id']==str(numPage) :
 			return True
 	return False
         
-def foundPage(nameProjet, numPage, xmlProjet) :
-	print('va founde')
+def foundPage(nameProjet, numPage, xmlProjet) : #nameProjet a virer
 	for e in xmlProjet.findall('page'):
-		print(e)
-		print(numPage)
-		print(e.attrib['id'])
 		if e.attrib['id']==str(numPage) :
-			print('element page')
-			print(e)
 			return e
 
 
-def reSave(nameProjet, numPage, numElem, xmlProjet) :     
-	print('resave')
+def reSave(nameProjet, numPage, numElem, xmlProjet) : #peut retirer name project    
 	for e in xmlProjet.findall('page'):
-		print(numPage)
 		if e.attrib['id']==str(numPage) :
 			print('passe numpage')
 			for e1 in e.findall('element'):
@@ -260,7 +235,7 @@ def reSave(nameProjet, numPage, numElem, xmlProjet) :
 	return False
             #addElement(typeEl, idEl, posiX, posiY, widthEl, heightEl, e)
 
-def sameType(nameProjet, numPage, numElem, newType, xmlProjet):
+def sameType(nameProjet, numPage, numElem, newType, xmlProjet):#peut retirai nameProj
 	for e in xmlProjet.findall('page'):
 		if e.attrib['id']==str(numPage) :
 			for e1 in e.findall('element'):
@@ -289,7 +264,7 @@ def getRect(nameProjet,numPage,xmlProjet):
 
 
 
-def getLastRectangleId(nameProjet, xmlProjet):
+def getLastRectangleId(xmlProjet):
 	maxId=0
 	for page in xmlProjet.findall('page'):
 		for elem in page.findall('element'):
@@ -299,20 +274,3 @@ def getLastRectangleId(nameProjet, xmlProjet):
 	return maxId+1
 
 
-
-
-
-#nameProjet='NewProjet'
-#newProjet(nameProjet)     
-#continuePoject(nameProjet)       
- 
-
-#getExistingXml('NewProjet')
-
-#p=newPage('a que coucou')
-#addElement('para',1,2,3,4,p)
-#addElement('paruhjkl',7,2,3,4,p)
-#delectElement(nameProjet)  
-#endProjet(nameProjet)
-#ajouterElement('paruhjkl',7,2,3,4,p)
-#endProjet(nameProjet)

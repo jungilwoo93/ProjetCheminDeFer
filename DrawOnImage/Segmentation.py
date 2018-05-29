@@ -67,7 +67,7 @@ for x in range(0, 50):  # les images chargées pour la segmentation image130 à 
 				continue
 			#page = ET.SubElement(components, "page")
 			component = ET.SubElement(components, "element")
-			components.attrib["type"] = "unknown"
+			component.attrib["type"] = "unknown"
 			ET.SubElement(component, "width").text = str(w)
 			ET.SubElement(component, "height").text = str(h)
 			ET.SubElement(component, "posX").text = str(x)
@@ -78,5 +78,5 @@ for x in range(0, 50):  # les images chargées pour la segmentation image130 à 
 	#saving
 	tree = ET.ElementTree(root)
 	tree.write("DrawOnImage/Results/xml_results/"+id_img+"-Unlabelled.xml")     #writing elements to an unlabelled xml(it's unlabelled since we have not classified it yet)
-	cv2.imwrite('bw_image.png', im_bw1)        #optionnel visuel d'une image en "mi-processing"
-	cv2.imwrite("Results/"+id_img, or_im)      #optionnel image segmenter
+	cv2.imwrite('DrawOnImage/bw_image.png', im_bw1)        #optionnel visuel d'une image en "mi-processing"
+	cv2.imwrite("DrawOnImage/Results/"+id_img, or_im)      #optionnel image segmenter
