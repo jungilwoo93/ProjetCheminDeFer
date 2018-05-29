@@ -334,12 +334,12 @@ def deepLearnig():
 	from DrawOnImage import Segmentation as sg
 	from DrawOnImage import Classification
 	from DrawOnImage import drawOnImage
-	from UseCheminDeFer import mainSeeResult
+	#from UseCheminDeFer import mainSeeResult
 	#global sg.namePropjet
 	sg.nameProjet=nameProjet
-	save()
+	#save()
 	root.destroy()
-	rootpop.quit()
+	root.quit()
 
 	
 menubar=tk.Menu(root)
