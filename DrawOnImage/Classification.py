@@ -62,14 +62,14 @@ def feedUnlabelledList(tp,x,y,w,h,i):
 
 def extractUnlabelledData(path):
 	fileNames=extractUnlabelledPaths(path)
-	#file=root.iter('page/file')
+	#file=root.attrib['id']
 	for x in range(0,len(fileNames)):#fileNames
 		tree = ET.parse(path+''+fileNames[x])
 		root = tree.getroot()
-		file=root.iter('page/file')
+		file=root.attrib['id']
 		for component in root.iter('page'):
 			for elem in component.iter('element'):
-				feedUnlabelledList(elem.attrib['type'],elem.find('posX').text,elem.find('posY').text,elem.find('width').text,elem.find('height').text,file[x])
+				feedUnlabelledList(elem.attrib['type'],elem.find('posX').text,elem.find('posY').text,elem.find('width').text,elem.find('height').text,file)
 
 def extractData(path):
 	fileNames=extractPaths(path)
@@ -90,13 +90,11 @@ def extractData(path):
 
 def rewriteXml():
 	if len(unknownSet)!=0:
-       
 		for x in range(0,len(unknownSet)):
 				tree = ET.parse('DrawOnImage/workshop_test/'+unknownSet[x][4])#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
 				root = tree.getroot()
 				for component in root.iter('page'):
 					for elem in component.iter('element'):
-                    
 						if elem.attrib['type'].text=="unknown":
 							#print(x)
 							if y_pred[x]==1:
@@ -105,10 +103,10 @@ def rewriteXml():
 								elem.attrib['type']="Titre"
 							tree.write('DrawOnImage/workshop_test/'+unknownSet[x][4])#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
 							break
-                        
-                    
 
-                  
+
+
+
 
 extractData('DrawOnImage/XMLTrainingData/')#C:/Users/DL9/Desktop/
 
@@ -121,12 +119,12 @@ pdDataSet = pd.DataFrame(dataSet)#met sous forme de tableau a double entrée
 pdUnlabelledData=pd.DataFrame(unknownSet)
 print(pdDataSet)
 '''test train split 25% 75%'''
-#ajuster taille des array [:,[0,3]] et [:,[4]]
 #iloc:gets rows (or columns) at particular positions in the index
 x_train,x_test,y_train,y_test=train_test_split(pdDataSet.iloc[:,[0,3]].values ,pdDataSet.iloc[:,[4]].values,test_size=0.25,random_state=0)
 
 scaler = StandardScaler()
-
+print('x_train::::::')
+print(x_train)
 x_train = scaler.fit_transform(x_train)
 x_test = scaler.transform(x_test)
 

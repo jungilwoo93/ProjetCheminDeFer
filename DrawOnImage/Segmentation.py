@@ -77,6 +77,7 @@ for x in range(0, 50):  # les images chargées pour la segmentation image130 à 
 	
 	#saving
 	tree = ET.ElementTree(root)
-	tree.write("DrawOnImage/Results/xml_results/"+id_img+"-Unlabelled.xml")     #writing elements to an unlabelled xml(it's unlabelled since we have not classified it yet)
+	tree.write("DrawOnImage/Results/xml_results/"+id_img+"-Unlabelled.xml")#writing elements to an unlabelled xml(it's unlabelled since we have not classified it yet)
+	tree.write("DrawOnImage/workshop_test/"+id_img+"-Unlabelled.xml")
 	cv2.imwrite('DrawOnImage/bw_image.png', im_bw1)        #optionnel visuel d'une image en "mi-processing"
 	cv2.imwrite("DrawOnImage/Results/"+id_img, or_im)      #optionnel image segmenter
