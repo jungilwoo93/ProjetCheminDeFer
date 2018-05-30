@@ -7,10 +7,10 @@ Created on Tue May 22 09:37:31 2018
 
 import tkinter as tk
 import tkinter.filedialog as tf
-from PIL import Image, ImageFont, ImageDraw, ImageTk
 
 #fichier lier
-from UseCheminDeFer import buttonFunction as bf
+#from UseCheminDeFer 
+import buttonFunction as bf
 
 
 
@@ -70,7 +70,7 @@ def setDimention():
 	elif value == 6:
 		dimention[0]=6
 		dimention[1]=16
-	setCanvas(dimention)
+	bf.setCanvas(canva,dicimg,listImg,mwd,mhg,dimention)
 
 dim.add_radiobutton(label="2*2",  variable=nitem, value=2,  command=setDimention)
 dim.add_radiobutton(label="3*4", variable=nitem, value=3,  command=setDimention)#command=item,
@@ -79,7 +79,8 @@ dim.add_radiobutton(label="5*10",  variable=nitem, value=5,  command=setDimentio
 dim.add_radiobutton(label="6*16",  variable=nitem, value=6,  command=setDimention)
 
 canva=tk.Canvas(root, width =760, height = 760, bg =defaultColor)
-#canva.update()
+canva.update()
+canva.grid(sticky=tk.NE)
 #canva.grid()
 
 dicimg={}
@@ -93,38 +94,8 @@ posX=0
 posY=0
 
 ###########l'aperçu
-def setCanvas(dm):
-	global posX,posY,listImg,dicimg,mwd,mhg
-	posX=0
-	posY=0
-	widthImg=dm[0]
-	for image in listImg:
-		img=Image.open('DrawOnImage/finalResult/'+ 'test'+ '/' + image)
-		wd,hg=img.size
-		scale= 1.0*wd/mwd
-		newImg=img.resize((int((mwd-widthImg*2)/widthImg),int((hg/wd)*((mwd-widthImg*2)/widthImg))),Image.ANTIALIAS)
-		canva.config(width=mwd)#height=mhg
-		photo = ImageTk.PhotoImage(newImg)
-		canva.image=photo
-		canva.create_image(posX,posY,image=photo,anchor="nw")
-		dicimg[photo] = photo
-		posX+=mwd/widthImg+2
-		if posX>mwd :
-			posY+=((hg/wd)*((mwd-widthImg*2)/widthImg))+2
-			posX=0
+bf.setCanvas(canva,dicimg,listImg,mwd,mhg,dimention)
 
-# mise en page à l'aide de la méthode 'grid':
-#, rowspan = 10, padx =10, pady =5
-#row = lig, column = col,
-
-
-
-
-
-setCanvas(dimention)
-canva.update()
-#canva.grid()
-canva.grid(sticky=tk.NE)
 root.mainloop()
 
 

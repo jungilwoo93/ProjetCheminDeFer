@@ -8,6 +8,7 @@ Created on Tue May 22 09:37:31 2018
 import tkinter as tk
 import tkinter.filedialog as tf
 import os
+from PIL import Image, ImageFont, ImageDraw, ImageTk
 
 def ChooseWhereSave():
 	f=tkinter.filedialog.asksaveasfile(
@@ -44,6 +45,23 @@ def getListImg(nameProjet):
 	chrono = lambda v: os.path.getmtime(os.path.join('DrawOnImage/finalResult/' + nameProjet, v))
 	listImg.sort(key = chrono)
 	return listImg
-
-
+	
+def setCanvas(canva,dicimg,listImg,mwd,mhg,dm):
+	posX=0
+	posY=0
+	widthImg=dm[0]
+	for image in listImg:
+		img=Image.open('DrawOnImage/finalResult/'+ 'test'+ '/' + image)
+		wd,hg=img.size
+		scale= 1.0*wd/mwd
+		newImg=img.resize((int((mwd-widthImg*2)/widthImg),int((hg/wd)*((mwd-widthImg*2)/widthImg))),Image.ANTIALIAS)
+		canva.config(width=mwd)#height=mhg
+		photo = ImageTk.PhotoImage(newImg)
+		canva.image=photo
+		canva.create_image(posX,posY,image=photo,anchor="nw")
+		dicimg[photo] = photo
+		posX+=mwd/widthImg+2
+		if posX>mwd :
+			posY+=((hg/wd)*((mwd-widthImg*2)/widthImg))+2
+			posX=0
 
