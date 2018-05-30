@@ -13,13 +13,13 @@ def writeInText(nameProjet,numPage):
    
     
 def update(nameProjet,numPage):
-    lines = None
-    with open('elemSave.txt', 'r') as file:
-        lines = file.readlines()
-        #lines = [l in file.readlines() if l.contain(nameProjet)]
-    with open('elemSave.txt', 'w') as file:
-        for line in lines :
-            if nameProjet.lower() in line.lower() :
+	lines = None
+	with open('elemSave.txt', 'r') as file:
+		lines = file.readlines()
+		#lines = [l in file.readlines() if l.contain(nameProjet)]
+	with open('elemSave.txt', 'w') as file:
+		for line in lines :
+			if nameProjet.lower() in line.lower() :
 				if cheminIsDone(nameProjet):
 					line=nameProjet + ' ' + str(numPage) +' CDF'
 				else:
