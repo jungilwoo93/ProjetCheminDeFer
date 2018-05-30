@@ -313,8 +313,6 @@ def continueProjet():
 			nameProjet =listProjet.get(listProjet.curselection()[0])
 			global numPage
 			numPage=gs.getAvancementProjet(nameProjet)
-			print('le num de la page')
-			print(numPage)
 			listFiles.selection_set(int(numPage))
 			reloadImg()
 			resizeImg(int(numPage))
@@ -404,6 +402,7 @@ def reloadImg() :
 		nom=os.path.splitext(nomExt)[0]
 		listFiles.insert(listFiles.size(), nom)
 		listPath.append('imgFromPdf/' + nameProjet + '/' + listImgFromPdf[k])
+	global numberPage
 	numberPage=len(listImgFromPdf)
 	listFiles.select_set(numPage)#pour que ça aille a la page ou on en etait
   

@@ -42,20 +42,29 @@ def drawIm(nameProjet):
 			for x in range(0,len(xmlFiles)):
 				fileList.append(xmlFiles[x])
 			return fileList  
-	
+		
+		def splitPath(self,path):
+			(filePath,tempfileName) = os.path.split(path)
+			(shotName,extension) = os.path.splitext(tempfileName)
+			return shotName + '.png'
+
+		
 		def run(self):
 			fl=self.extractPaths()
 			for x in range(0,len(fl)):
 				tree = ET.parse(fl[x])
 				root = tree.getroot()
+				print(fl[x])
 				for page in root.iter('page'):
 					for component in page.iter('element'):
 						img13.addComponent(component.attrib['type'],component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text)
 						self.dataSizeCounter =self.dataSizeCounter+1
-					img13.printall(fl[x][26:])#file name starts at the position 14 of the string
+					img13.printall(img13.splitPath(fl[x]))#file name starts at the position 14 of the string
 					self.dataSizeCounter=0
 	
 		def printall(self,img): #this method draws on image after data extraction
+			print(img.split("-U"))
+			print(img.split("-U")[0])
 			im = Image.open("imgFromPdf/"+nameProjet+ '/' + nameProjet + img.split("-U")[0])# # path+ the name of the image 
 			im=im.convert("RGB")
 			color=(100,255,0)
@@ -82,4 +91,4 @@ def drawIm(nameProjet):
 
 #draw.rectangle((10, 10, 30, 30), fill=None, outline=(255, 0, 0))
 
-    
+drawIm('Batch')    

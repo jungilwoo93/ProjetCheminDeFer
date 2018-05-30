@@ -43,6 +43,7 @@ def splitPath(path):
 	(shotName,extension) = os.path.splitext(tempfileName)
 	return shotName
 	
+
 def getCountPage():#path
 	#sourcePDF=pdf.PdfFileReader(open(path,'rb'))
 	#countPage=sourcePDF.getNumPages()
