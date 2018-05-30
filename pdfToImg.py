@@ -2,7 +2,7 @@
 """
 Created on Wed May 16 09:34:19 2018
 
-@author: rachel
+@author: rachel NOIREAU & Liuyan PAN
 """
 
 from __future__ import print_function

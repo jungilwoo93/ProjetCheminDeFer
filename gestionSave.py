@@ -20,8 +20,11 @@ def update(nameProjet,numPage):
     with open('elemSave.txt', 'w') as file:
         for line in lines :
             if nameProjet.lower() in line.lower() :
-                line=nameProjet + ' ' + str(numPage)
-            file.write(line)
+				if cheminIsDone(nameProjet):
+					line=nameProjet + ' ' + str(numPage) +' CDF'
+				else:
+					line=nameProjet + ' ' + str(numPage)
+			file.write(line)
 
 def projetExist(nameProjet) :
     lines = None
@@ -88,8 +91,42 @@ def getAvancementProjet(nameProjet):
                 return projetLigne[1]
                 #if projetLigne[0]==nameProjet :
                  #   return int(projetLigne[1])
+
+
+
+def cheminIsDone(nameProjet):
+    lines = None
+    with open('elemSave.txt', 'r') as file:
+        lines = file.readlines()
         
-        
+        for line in lines :
+            if nameProjet.lower() in line.lower() :
+                esp = line.count(" ")
+                deb = 0
+                fin = line.index(" ")
+                projetLigne = []
+ 
+                for i in range(0, esp + 1):
+                    projetLigne.append(line[deb:fin])
+                    line=line[fin+1:]
+                    if line.count(" ")!=0:
+                        fin = line.index(" ")
+                    else:
+                        fin = len(line)
+                if len(projetLigne)==3:
+                    return projetLigne[3]=='CDF'
+
+
+def doChemin(nameProjet):
+    lines = None
+    with open('elemSave.txt', 'r') as file:
+        lines = file.readlines()
+        #lines = [l in file.readlines() if l.contain(nameProjet)]
+    with open('elemSave.txt', 'w') as file:
+        for line in lines :
+            if nameProjet.lower() in line.lower() :
+                line=nameProjet + ' ' + str(numPage) + ' CDF'
+            file.write(line)
 
 #writeInText('coooouuuuuucccoouuuu',4)
 #update('salut',100)

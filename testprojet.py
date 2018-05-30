@@ -330,13 +330,17 @@ def continueProjet():
 
 
 def deepLearnig():
-	from DrawOnImage import Segmentation as sg
-	sg.Segm(nameProjet, numberPage)#nombre de page il et calculer dans pdfToimage
-	from DrawOnImage import Classification as cl
-	cl.classif(nameProjet)
-	from DrawOnImage import drawOnImage as doi #a remettre c'est juste lourd
-	doi.drawIm(nameProjet)
+	if not(gs.cheminIsDone(nameProjet)):
+		from DrawOnImage import Segmentation as sg
+		sg.Segm(nameProjet, numberPage)#nombre de page il et calculer dans pdfToimage
+		from DrawOnImage import Classification as cl
+		cl.classif(nameProjet)
+		from DrawOnImage import drawOnImage as doi #a remettre c'est juste lourd
+		doi.drawIm(nameProjet)
+	else:
+		gs.doChemin(nameProjet)
 	from UseCheminDeFer import mainSeeResult# a changer pour le nom aussi
+	
 	#global sg.namePropjet
 	#sg.nameProjet=nameProjet
 	#cl.nameProjet=nameProjet

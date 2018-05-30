@@ -54,7 +54,6 @@ def drawIm(nameProjet):
 			for x in range(0,len(fl)):
 				tree = ET.parse(fl[x])
 				root = tree.getroot()
-				print(fl[x])
 				for page in root.iter('page'):
 					for component in page.iter('element'):
 						img13.addComponent(component.attrib['type'],component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text)
@@ -63,12 +62,13 @@ def drawIm(nameProjet):
 					self.dataSizeCounter=0
 	
 		def printall(self,img): #this method draws on image after data extraction
-			print(img.split("-U"))
-			print(img.split("-U")[0])
 			im = Image.open("imgFromPdf/"+nameProjet+ '/' + nameProjet + img.split("-U")[0])# # path+ the name of the image 
+			imFull = Image.open("imgFromPdf/"+nameProjet+ '/' + nameProjet + img.split("-U")[0])# # path+ the name of the image 
 			im=im.convert("RGB")
+			imFull=imFull.convert("RGB")
 			color=(100,255,0)
 			draw = ImageDraw.Draw(im)
+			drawFull = ImageDraw.Draw(imFull)
 			for i in range(self.dataSize-self.dataSizeCounter,self.dataSize):
 				if self.types[i]=="Titre":
 					color=(0,0,255)
@@ -76,11 +76,17 @@ def drawIm(nameProjet):
 					color=(255,100,0)
 				else:
 					color=(100,255,0)
-			
 				draw.text((int(self.x[i])-15,int(self.y[i])-15),self.types[i],fill=color)#self.types[i]'''
 				draw.rectangle((int(self.x[i]),int(self.y[i]),int(self.w[i])+int(self.x[i]),int(self.h[i])+int(self.y[i])), fill=None, outline=color)
-			im.save("DrawOnImage/finalResult/classified-"+img.split("-U")[0], "PNG")
-
+				drawFull.text((int(self.x[i])-15,int(self.y[i])-15),self.types[i],fill=color)#self.types[i]'''
+				drawFull.rectangle((int(self.x[i]),int(self.y[i]),int(self.w[i])+int(self.x[i]),int(self.h[i])+int(self.y[i])), fill=color, outline=color)
+				
+			if not os.path.exists("DrawOnImage/finalResult/"+nameProjet):
+				os.makedirs("DrawOnImage/finalResult/" + nameProjet)
+				os.makedirs("DrawOnImage/finalResult/" + nameProjet + "/fullRect")
+				os.makedirs("DrawOnImage/finalResult/" + nameProjet + "/emptyRect")
+			im.save("DrawOnImage/finalResult/"+ nameProjet+"/emptyRect/classified-"+img.split("-U")[0], "PNG")
+			imFull.save("DrawOnImage/finalResult/"+ nameProjet+"/fullRect/classified-"+img.split("-U")[0], "PNG")
 
 
 
