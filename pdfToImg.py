@@ -10,6 +10,7 @@ from __future__ import print_function
 from wand.image import Image
 import os.path
 
+#numberPage
 
 #nb le chemin du fichier source
 def pdfToPng(namefile,nameProjet,resol): #'test1/source1.pdf'
@@ -21,7 +22,9 @@ def pdfToPng(namefile,nameProjet,resol): #'test1/source1.pdf'
 		listImg =[]
 		#print('pages = ', len(img.sequence))
 		with Image(filename=namefile,resolution=resol) as img: #pour resol 30 == low quality(utilisée pour l'app java) 60== high quality utilisé pour le traitement de l'img
-			print('pages = ', len(img.sequence))
+			#print('pages = ', len(img.sequence))
+			#global numPage
+			#numberPage=len(img.sequence)
 			img.compression_quality = 99
 			#page += 1
 			for i in range (len(img.sequence)) :

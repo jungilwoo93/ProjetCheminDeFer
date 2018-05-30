@@ -331,10 +331,13 @@ def continueProjet():
 
 
 def deepLearnig():
-	from DrawOnImage import Segmentation
-	from DrawOnImage import Classification
-	#from DrawOnImage import drawOnImage  #a remettre c'est juste lourd
-	from UseCheminDeFer import mainSeeResult
+	from DrawOnImage import Segmentation as sg
+	sg.Segm(nameProjet, 20)#nombre de page il et calculer dans pdfToimage
+	from DrawOnImage import Classification as cl
+	cl.classif(nameProjet)
+	from DrawOnImage import drawOnImage as doi #a remettre c'est juste lourd
+	doi.drawIm(nameProjet)
+	from UseCheminDeFer import mainSeeResult# a changer pour le nom aussi
 	#global sg.namePropjet
 	#sg.nameProjet=nameProjet
 	#cl.nameProjet=nameProjet
@@ -395,14 +398,12 @@ def reloadImg() :
 	listImgFromPdf = os.listdir('imgFromPdf/' + nameProjet)
 	chrono = lambda v: os.path.getmtime(os.path.join('imgFromPdf/' + nameProjet, v))
 	listImgFromPdf.sort(key = chrono)
-	#print(listImgFromPdf)
-	#print(len(listImgFromPdf))
 	for k in range (0,len(listImgFromPdf)) :
 		nomExt=basename(listImgFromPdf[k])
 		nom=os.path.splitext(nomExt)[0]
 		listFiles.insert(listFiles.size(), nom)
 		listPath.append('imgFromPdf/' + nameProjet + '/' + listImgFromPdf[k])
-	listFiles.select_set(0) 
+	listFiles.select_set(numPage)#pour que ça aille a la page ou on en etait
   
       
 ################### frame pour les buttons parcourir, supprimer, vider
@@ -682,7 +683,6 @@ def recharge():
 				listAction.delete(0,tk.END)
 				newListActionRect={}
 				listActionRect=newListActionRect
-				#print(str(listActionRect))
 				#mapAction=getMapActionRect(currentSelectedFile)
 				mapActionRect=listFileWithActionRect[currentSelectedFile]
 				if mapActionRect is not None :
