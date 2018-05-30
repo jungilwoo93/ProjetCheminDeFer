@@ -72,7 +72,7 @@ numPage=0
 countRect=1
 rectSelect=None
 xmlProjet=None
-
+numberPage=0
 #################################################### toutes les fonctions  ####################################################
 def changeColRect():
 	value = str(var.get())
@@ -177,6 +177,7 @@ def chooseFile():
 			global nameProjet
 			nameProjet=nom
 			listImg = pti.pdfToPng(choice[i],nameProjet,30)#30==resolution base 90 resol haut
+			numberPage = pti.getCountPage()
 			size=len(listImg)
 			for k in range (0, size) :
 				listFiles.insert(listFiles.size(),basename(listImg[k])) 
@@ -332,7 +333,7 @@ def continueProjet():
 
 def deepLearnig():
 	from DrawOnImage import Segmentation as sg
-	sg.Segm(nameProjet, 20)#nombre de page il et calculer dans pdfToimage
+	sg.Segm(nameProjet, numberPage)#nombre de page il et calculer dans pdfToimage
 	from DrawOnImage import Classification as cl
 	cl.classif(nameProjet)
 	from DrawOnImage import drawOnImage as doi #a remettre c'est juste lourd
@@ -403,6 +404,7 @@ def reloadImg() :
 		nom=os.path.splitext(nomExt)[0]
 		listFiles.insert(listFiles.size(), nom)
 		listPath.append('imgFromPdf/' + nameProjet + '/' + listImgFromPdf[k])
+	numberPage=len(listImgFromPdf)
 	listFiles.select_set(numPage)#pour que ça aille a la page ou on en etait
   
       
