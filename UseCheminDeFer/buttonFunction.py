@@ -9,6 +9,9 @@ import tkinter as tk
 import tkinter.filedialog as tf
 import os
 from PIL import Image, ImageFont, ImageDraw, ImageTk
+import zoomImg as zi
+
+listImgOfCanvas=[]
 
 def ChooseWhereSave():
 	f=tkinter.filedialog.asksaveasfile(
@@ -58,10 +61,20 @@ def setCanvas(canva,dicimg,listImg,mwd,mhg,dm):
 		canva.config(width=mwd)#height=mhg
 		photo = ImageTk.PhotoImage(newImg)
 		canva.image=photo
-		canva.create_image(posX,posY,image=photo,anchor="nw")
+		imgCreated=canva.create_image(posX,posY,image=photo,anchor="nw")
+		listImgOfCanvas.append(imgCreated)
 		dicimg[photo] = photo
 		posX+=mwd/widthImg+2
 		if posX>mwd :
 			posY+=((hg/wd)*((mwd-widthImg*2)/widthImg))+2
 			posX=0
+	im = Image.new('RGBA', canva, (255, 255, 255, 255))
+	im.save('D:\\S4\\ProjetCheminDeFer\\UseCheminDeFer\\img.png')
 
+def deleteCanvas(canva):
+	global listImgOfCanvas
+	for img in listImgOfCanvas:
+		canva.delete(img)
+
+def zoomImage(canva):
+	zoom_ad = Zoom_Advanced(canva,path)

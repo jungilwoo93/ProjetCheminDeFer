@@ -7,7 +7,7 @@ Created on Tue May 22 09:37:31 2018
 
 import tkinter as tk
 import tkinter.filedialog as tf
-
+import zoomImg as zi
 #fichier lier
 #from UseCheminDeFer 
 import buttonFunction as bf
@@ -70,6 +70,7 @@ def setDimention():
 	elif value == 6:
 		dimention[0]=6
 		dimention[1]=16
+	bf.deleteCanvas(canva)
 	bf.setCanvas(canva,dicimg,listImg,mwd,mhg,dimention)
 
 dim.add_radiobutton(label="2*2",  variable=nitem, value=2,  command=setDimention)
@@ -77,6 +78,7 @@ dim.add_radiobutton(label="3*4", variable=nitem, value=3,  command=setDimention)
 dim.add_radiobutton(label="4*8",  variable=nitem, value=4,  command=setDimention)
 dim.add_radiobutton(label="5*10",  variable=nitem, value=5,  command=setDimention)
 dim.add_radiobutton(label="6*16",  variable=nitem, value=6,  command=setDimention)
+
 
 canva=tk.Canvas(root, width =760, height = 760, bg =defaultColor)
 canva.update()
@@ -92,7 +94,7 @@ mhg=ecran_height
 listImg=bf.getListImg('test')
 posX=0
 posY=0
-
+app = zi.Zoom_Advanced(root,listImg)
 ###########l'aperçu
 bf.setCanvas(canva,dicimg,listImg,mwd,mhg,dimention)
 
