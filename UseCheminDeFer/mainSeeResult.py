@@ -22,11 +22,12 @@ root.geometry('%dx%d+%d+%d' % (ecran_width, ecran_height, 1, 1))
 root.title("Chemin de Fer")
 root.resizable(width=False,height=False)
 colorDefault="#F5F5DC"
+defaultColor="#F5F5DC"
 
 ####variable
 dimention=[6,8]
 rectFull=False
-defaultColor="#F5F5DC"
+#defaultColor="#F5F5DC"
 
 ####menu barrre
 menubar=tk.Menu(root)
@@ -70,8 +71,8 @@ def setDimention():
 	elif value == 6:
 		dimention[0]=6
 		dimention[1]=16
-	bf.deleteCanvas(canva)
-	bf.setCanvas(canva,dicimg,listImg,mwd,mhg,dimention)
+	#bf.deleteCanvas(canva)
+	bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention)
 
 dim.add_radiobutton(label="2*2",  variable=nitem, value=2,  command=setDimention)
 dim.add_radiobutton(label="3*4", variable=nitem, value=3,  command=setDimention)#command=item,
@@ -80,9 +81,9 @@ dim.add_radiobutton(label="5*10",  variable=nitem, value=5,  command=setDimentio
 dim.add_radiobutton(label="6*16",  variable=nitem, value=6,  command=setDimention)
 
 
-canva=tk.Canvas(root, width =760, height = 760, bg =defaultColor)
-canva.update()
-canva.grid(sticky=tk.NE)
+#canva=tk.Canvas(root, width =760, height = 760, bg =defaultColor)
+#canva.update()
+#canva.grid(sticky=tk.NE)
 #canva.grid()
 
 dicimg={}
@@ -94,9 +95,9 @@ mhg=ecran_height
 listImg=bf.getListImg('test')
 posX=0
 posY=0
-app = zi.Zoom_Advanced(root,listImg)
+#app = zi.Zoom_Advanced(root,listImg,mwd,mhg,dimention)
 ###########l'aperçu
-bf.setCanvas(canva,dicimg,listImg,mwd,mhg,dimention)
+bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention)
 
 root.mainloop()
 

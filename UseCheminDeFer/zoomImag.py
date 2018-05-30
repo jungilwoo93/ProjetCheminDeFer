@@ -4,14 +4,14 @@ Created on Mon May 21 19:23:16 2018
 
 @author: rachel
 """
-columns=0
+"""columns=0
 lines=0
 
 def show():
     for ligne in range(5):
         for colonne in range(5):
             Button(fenetre, text='L%s-C%s' % (ligne, colonne), borderwidth=1).grid(row=ligne, column=colonne)
-            
+  """          
             
 
 # -*- coding: utf-8 -*-
@@ -44,7 +44,7 @@ class Zoom_Advanced(ttk.Frame):
     def __init__(self, mainframe, path):
         ''' Initialize the main Frame '''
         ttk.Frame.__init__(self, master=mainframe)
-        self.master.title('Zoom with mouse wheel')
+        #self.master.title('Zoom with mouse wheel')
         # Vertical and horizontal scrollbars for canvas
         vbar = AutoScrollbar(self.master, orient='vertical')
         hbar = AutoScrollbar(self.master, orient='horizontal')
@@ -58,15 +58,15 @@ class Zoom_Advanced(ttk.Frame):
         vbar.configure(command=self.scroll_y)  # bind scrollbars to the canvas
         hbar.configure(command=self.scroll_x)
         # Make the canvas expandable
-        self.master.rowconfigure(0, weight=1)
+        self.master.rowconfigure(0, weight=3)
         self.master.columnconfigure(0, weight=1)
         # Bind events to the Canvas
         self.canvas.bind('<Configure>', self.show_image)  # canvas is resized
         self.canvas.bind('<ButtonPress-1>', self.move_from)
         self.canvas.bind('<B1-Motion>',     self.move_to)
         self.canvas.bind('<MouseWheel>', self.wheel)  # with Windows and MacOS, but not Linux
-        self.canvas.bind('<Button-5>',   self.wheel)  # only with Linux, wheel scroll down
-        self.canvas.bind('<Button-4>',   self.wheel)  # only with Linux, wheel scroll up
+        #self.canvas.bind('<Button-5>',   self.wheel)  # only with Linux, wheel scroll down
+        #self.canvas.bind('<Button-4>',   self.wheel)  # only with Linux, wheel scroll up
         self.image = Image.open(path)  # open image
         
         self.width, self.height = self.image.size
@@ -158,7 +158,8 @@ class Zoom_Advanced(ttk.Frame):
             self.canvas.lower(imageid)  # set image into background
             self.canvas.imagetk = imagetk  # keep an extra reference to prevent garbage-collection
 
-path = 'UseCheminDeFer/test.png'  # place path to your image here
+"""path = 'UseCheminDeFer/test.png'  # place path to your image here
 root = tk.Tk()
 app = Zoom_Advanced(root, path=path)
-root.mainloop() 
+aoo = Zoom_Advanced(root, path=path)
+root.mainloop() """
