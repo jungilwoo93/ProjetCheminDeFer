@@ -12,29 +12,27 @@ from UseCheminDeFer import imgToPdf as itp
 #fichier lier
 from UseCheminDeFer import buttonFunction as bf
 
-
+####variable
+dimention=[4,8]
+rectFull=False
 
 def creatChemin(nameProjet):
-	nameProjet='Batch'#a virer
+	#nameProjet='Batch'#a virer
 
 	####fenetre
 
-	root = tk.Tk()
+	#root = tk.Tk()
+	root = tk.Toplevel()
 	ecran_width = root.winfo_screenwidth()*0.9
 	ecran_height = root.winfo_screenheight()*0.85
 	root.geometry('%dx%d+%d+%d' % (ecran_width, ecran_height, 1, 1))
 	root.title("Chemin de Fer")
 	root.resizable(width=False,height=False)
 	colorDefault="#F5F5DC"
-	defaultColor="#F5F5DC"########################pourquoi les 2
-
-	
-	####variable
-	dimention=[6,8]
-	rectFull=False
 
 
-	#defaultColor="#F5F5DC"
+
+
 	
 	####menu barrre
 	menubar=tk.Menu(root)
@@ -53,7 +51,14 @@ def creatChemin(nameProjet):
 
 	#def PngToPdf():
 	#	itp.pngToImg(nameProjet,dimention,rectFull)
-
+	
+	def fullRec():
+		global rectFull
+		rect=bf.fullRect(rectFull)
+		rectFull=rect
+		print(rectFull)
+		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
+		
 	
 	
 	
@@ -61,7 +66,7 @@ def creatChemin(nameProjet):
 	dim= tk.Menu(view,tearoff=0)
 	view.add_cascade(label="rectangle", menu=rect)
 	view.add_cascade(label="dimention", menu=dim)
-	rect.add_checkbutton(label="Plein", command=bf.fullRect(rectFull))
+	rect.add_checkbutton(label="Plein", command=fullRec)
 	#rect.add_command(label="Vide", command=bf.fullRect)
 	#rect.add_command(label="Plein", command=bf.emptyRect)
 	
@@ -88,7 +93,7 @@ def creatChemin(nameProjet):
 			dimention[0]=6
 			dimention[1]=16
 		#bf.deleteCanvas(canva)
-		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention)
+		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
 		
 		
 	#def PngToImg():
@@ -112,12 +117,12 @@ def creatChemin(nameProjet):
 	#wd,hg=img.size
 	mwd=ecran_width
 	mhg=ecran_height
-	listImg=bf.getListImg('test')#########################changer
+	listImg=bf.getListImg(nameProjet, rectFull)#########################changer
 	posX=0
 	posY=0
 	#app = zi.Zoom_Advanced(root,listImg,mwd,mhg,dimention)
 	###########l'aperçu
-	bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention)
+	bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
 	
 	root.mainloop()
 

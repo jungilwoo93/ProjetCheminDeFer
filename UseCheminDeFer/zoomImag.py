@@ -152,16 +152,14 @@ class Zoom_Advanced(ttk.Frame):
             x = min(int(x2 / self.imscale), self.width)   # sometimes it is larger on 1 pixel...
             y = min(int(y2 / self.imscale), self.height)  # ...and sometimes not
             image = self.image.crop((int(x1 / self.imscale), int(y1 / self.imscale), x, y))
-            print(image)
             imagetk = ImageTk.PhotoImage(image.resize((int(x2 - x1), int(y2 - y1))))
-            print(imagetk)
             imageid = self.canvas.create_image(max(bbox2[0], bbox1[0]), max(bbox2[1], bbox1[1]),
                                                anchor='nw', image=imagetk)
             self.canvas.lower(imageid)  # set image into background
             self.canvas.imagetk = imagetk  # keep an extra reference to prevent garbage-collection
-
-"""path = 'UseCheminDeFer/test.png'  # place path to your image here
+'''
+path = 'UseCheminDeFer/test.png'  # place path to your image here
 root = tk.Tk()
 app = Zoom_Advanced(root, path=path)
 aoo = Zoom_Advanced(root, path=path)
-root.mainloop() """
+root.mainloop()'''

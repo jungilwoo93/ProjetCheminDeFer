@@ -9,15 +9,15 @@ import tkinter as tk
 import tkinter.filedialog as tf
 import os
 from PIL import Image, ImageFont, ImageDraw, ImageTk
-import zoomImag as zi
+from UseCheminDeFer import zoomImag as zi
 
 listImgOfCanvas=[]
 
-def ChooseWhereSave():
-	f=tkinter.filedialog.asksaveasfile(
-		title="Enregistrer sous … un fichier",
-		filetypes=[('PDF files','.pdf')])
-	print(f.name) 
+# def ChooseWhereSave():
+	# f=tkinter.filedialog.asksaveasfile(
+		# title="Enregistrer sous … un fichier",
+		# filetypes=[('PDF files','.pdf')])
+	# print(f.name) 
 	
 
 #def exportToPdf():
@@ -26,34 +26,43 @@ def ChooseWhereSave():
 
 #peut etre 2 ensemble si rien a rajouter
 def fullRect(full):
-	global rectFull
 	#contrary=not(rectFull)
-	rectFull=not(full)#not(rectFull)
+	#print(not(full))
+	return not(full)#not(rectFull)
 
 #def emptyRect():
 #	global rectFull
 #	rectFull=False
 
-def setDimention():
-	x=4
-	y=8
-	print('changement de dimention')
-	global dimention
-	dimention=[x,y]
+# def setDimention():
+	# x=4
+	# y=8
+	# print('changement de dimention')
+	# global dimention
+	# dimention=[x,y]
 
 
 
-def getListImg(nameProjet):
-	listImg = os.listdir('DrawOnImage/finalResult/' + nameProjet)
-	chrono = lambda v: os.path.getmtime(os.path.join('DrawOnImage/finalResult/' + nameProjet, v))
+def getListImg(nameProjet,rectFull):
+	if rectFull:
+		rect='fullRect'
+	else:
+		rect='emptyRect'
+	listImg = os.listdir('DrawOnImage/finalResult/' + nameProjet + '/' +rect)
+	chrono = lambda v: os.path.getmtime(os.path.join('DrawOnImage/finalResult/' + nameProjet + '/' +rect, v))
 	listImg.sort(key = chrono)
 	return listImg
 	
-def setCanvas(canva,dicimg,listImg,mwd,mhg,dm):
+def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull):
+	if rectFull:
+		rect='fullRect'
+	else:
+		rect='emptyRect'
 	posX=0
 	posY=0
 	widthImg=dm[0]
-	img=Image.open('DrawOnImage/finalResult/'+ 'test'+ '/' + listImg[0])
+	img=Image.open('DrawOnImage/finalResult/'+ nameProjet +'/' +rect + '/' + listImg[0])
+	print('DrawOnImage/finalResult/'+ nameProjet +'/' +rect + '/' + listImg[0])
 	wd,hg=img.size
 	h=len(listImg)%dm[0]
 	col=int(len(listImg)/dm[0])
@@ -61,7 +70,7 @@ def setCanvas(canva,dicimg,listImg,mwd,mhg,dm):
 		col+=1
 	new_im = Image.new('RGB',(int(wd*widthImg),int(hg*col)))
 	for image in listImg:
-		img=Image.open('DrawOnImage/finalResult/'+ 'test'+ '/' + image)
+		img=Image.open('DrawOnImage/finalResult/'+ nameProjet + '/' +rect +'/'+ image)
 		wd,hg=img.size
 		new_im.paste(img,(int(posX),int(posY)))
 		posX+=wd+3
