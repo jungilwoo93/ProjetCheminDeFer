@@ -339,7 +339,8 @@ def deepLearnig():
 		doi.drawIm(nameProjet)
 	else:
 		gs.doChemin(nameProjet)
-	from UseCheminDeFer import mainSeeResult# a changer pour le nom aussi
+	from UseCheminDeFer import mainSeeResult as msr# a changer pour le nom aussi
+	msr.creatChemin(nameProjet)
 	
 	#global sg.namePropjet
 	#sg.nameProjet=nameProjet

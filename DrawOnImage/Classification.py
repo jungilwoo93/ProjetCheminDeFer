@@ -61,22 +61,17 @@ def classif(nameProjet):
 			dataSet.append([x,y,w,h,2])
     
 	def feedUnlabelledList(tp,x,y,w,h,i):
-		print('on va ajouter un unknown')
 		if tp == "unknown":
 			unknownSet.append([x,y,w,h,i])
 
 	def extractUnlabelledData(path):
 		fileNames=extractUnlabelledPaths(path)
-		print(fileNames)
 		for x in range(0,len(fileNames)):#fileNames
-			print(path+''+fileNames[x])
 			tree = ET.parse(path+''+fileNames[x])
 			root = tree.getroot()
 			file=root.attrib['id']
 			for component in root.iter('page'):
-				print('on ajoute une page')
 				for elem in component.iter('element'):
-					print('on ajoute un elem')
 					feedUnlabelledList(elem.attrib['type'],elem.find('posX').text,elem.find('posY').text,elem.find('width').text,elem.find('height').text,file)
 
 	def extractData(path):
@@ -94,12 +89,10 @@ def classif(nameProjet):
 		if len(unknownSet)!=0:
 			for x in range(0,len(unknownSet)):
 				tree = ET.parse('DrawOnImage/workshop_test/'+ nameProjet +'/'+unknownSet[x][4] + '-Unlabelled.xml')#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
-				print('DrawOnImage/workshop_test/'+ nameProjet +'/'+unknownSet[x][4] + '-Unlabelled.xml')
 				root = tree.getroot()
 				for component in root.iter('page'):
 					for elem in component.iter('element'):
 						if elem.attrib['type']=="unknown":
-							#print(x)
 							if y_pred[x]==1:
 								elem.attrib['type']="Paragraphe"
 							else:
@@ -145,7 +138,6 @@ def classif(nameProjet):
 	''' classifying unlabelled data from xml files'''
 	x_train=pdDataSet.iloc[:,[0,3]].values
 	y_train=pdDataSet.iloc[:,[4]].values
-	print(pdUnlabelledData)
 	x_test=pdUnlabelledData.iloc[:,[0,3]].values
 
 
