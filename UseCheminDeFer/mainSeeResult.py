@@ -11,6 +11,7 @@ from UseCheminDeFer import zoomImag as zi
 from UseCheminDeFer import imgToPdf as itp
 #fichier lier
 from UseCheminDeFer import buttonFunction as bf
+from UseCheminDeFer import editPage as ep
 
 ####variable
 dimention=[4,8]
@@ -126,6 +127,11 @@ def creatChemin(nameProjet):
 	###########l'aperçu
 	bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
 	
+	def selectPage(event):
+		print('ca clic')
+		ep.selectPage(event)
+	
+	#root.bind(<"Button1">, selectPage)
 	root.mainloop()
 
 

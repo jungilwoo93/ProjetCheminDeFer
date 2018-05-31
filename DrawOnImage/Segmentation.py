@@ -8,19 +8,15 @@ Created on Fri Jan 19 14:04:46 2018
 import cv2
 import xml.etree.cElementTree as ET
 import os
-#import testprojet# import nameProjet #ouvre une autre fenetre
-#nameProjet='Batch'
-#nameProjet=testprojet.nameProjet
+
+
 def Segm(nameProjet,numberPage):
-	print('hhhhhheeeellllooooooo')
-	print(numberPage)
-	for x in range(0, numberPage):  # les images chargées pour la segmentation image130 à image 169
+	for x in range(0, numberPage):  # les images chargées pour la segmentation
 		id_img="page-"+str(x)+".png"
 		
 		root = ET.Element(nameProjet,id=id_img)
 		components = ET.SubElement(root, "page")
 		
-		#print("imgFromPdf/"+ nameProjet+'/'+ nameProjet + id_img)
 		
 		or_im=cv2.imread("imgFromPdf/"+ nameProjet+'/'+ nameProjet + id_img)  #les images extraite en haute qualité se trouve dans le dossier /images
 		kernel1 = cv2.getStructuringElement(cv2.MORPH_CROSS, (1, 2)) 
@@ -69,7 +65,6 @@ def Segm(nameProjet,numberPage):
 			[x, y, w, h] = cv2.boundingRect(contour)
 			if w <80 and h <40 :  #les lettrines en generales sans assez petites
 				continue
-			#page = ET.SubElement(components, "page")
 			component = ET.SubElement(components, "element")
 			component.attrib["type"] = "unknown"
 			ET.SubElement(component, "width").text = str(w)
@@ -82,7 +77,6 @@ def Segm(nameProjet,numberPage):
 		#saving
 		tree = ET.ElementTree(root)
 		if not os.path.exists("DrawOnImage/Results/xml_results/"+nameProjet ):
-			print('cree dans xml_result')
 			os.makedirs("DrawOnImage/Results/xml_results/"+nameProjet)
 		if not os.path.exists("DrawOnImage/workshop_test/"+nameProjet):
 			os.makedirs("DrawOnImage/workshop_test/"+nameProjet)
@@ -90,5 +84,5 @@ def Segm(nameProjet,numberPage):
 			os.makedirs("DrawOnImage/Results/"+nameProjet)
 		tree.write("DrawOnImage/Results/xml_results/"+nameProjet+'/'+id_img+"-Unlabelled.xml")#writing elements to an unlabelled xml(it's unlabelled since we have not classified it yet)
 		tree.write("DrawOnImage/workshop_test/"+nameProjet+'/'+id_img+"-Unlabelled.xml")
-		cv2.imwrite('DrawOnImage/bw_image.png', im_bw1)        #optionnel visuel d'une image en "mi-processing"
-		cv2.imwrite("DrawOnImage/Results/"+nameProjet+'/'+id_img, or_im)      #optionnel image segmenter
+		#cv2.imwrite('DrawOnImage/bw_image.png', im_bw1)        #optionnel visuel d'une image en "mi-processing"
+		#cv2.imwrite("DrawOnImage/Results/"+nameProjet+'/'+id_img, or_im)      #optionnel image segmenter

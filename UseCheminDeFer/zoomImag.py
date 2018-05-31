@@ -157,6 +157,10 @@ class Zoom_Advanced(ttk.Frame):
                                                anchor='nw', image=imagetk)
             self.canvas.lower(imageid)  # set image into background
             self.canvas.imagetk = imagetk  # keep an extra reference to prevent garbage-collection
+    
+    def selectPage(event):
+        print('ca clic')
+        #ep.selectPage(event)
 '''
 path = 'UseCheminDeFer/test.png'  # place path to your image here
 root = tk.Tk()
