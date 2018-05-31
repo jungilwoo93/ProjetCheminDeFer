@@ -20,26 +20,13 @@ listImgOfCanvas=[]
 	# print(f.name) 
 	
 
-#def exportToPdf():
-#	print('export pdf')
 
 
-#peut etre 2 ensemble si rien a rajouter
+
+
 def fullRect(full):
-	#contrary=not(rectFull)
-	#print(not(full))
-	return not(full)#not(rectFull)
+	return not(full)
 
-#def emptyRect():
-#	global rectFull
-#	rectFull=False
-
-# def setDimention():
-	# x=4
-	# y=8
-	# print('changement de dimention')
-	# global dimention
-	# dimention=[x,y]
 
 
 
@@ -53,6 +40,7 @@ def getListImg(nameProjet,rectFull):
 	listImg.sort(key = chrono)
 	return listImg
 	
+	
 def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull):
 	if rectFull:
 		rect='fullRect'
@@ -62,7 +50,6 @@ def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull):
 	posY=0
 	widthImg=dm[0]
 	img=Image.open('DrawOnImage/finalResult/'+ nameProjet +'/' +rect + '/' + listImg[0])
-	print('DrawOnImage/finalResult/'+ nameProjet +'/' +rect + '/' + listImg[0])
 	wd,hg=img.size
 	h=len(listImg)%dm[0]
 	col=int(len(listImg)/dm[0])
