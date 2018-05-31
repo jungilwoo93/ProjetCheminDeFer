@@ -15,7 +15,7 @@ class CanvasEventsDemo:
 	objectId=None
 	color="Black"
 	listRectDrawn={}
-	listRect=[]
+	#listRect=[]
 	idAction=0
 	listBoxAction=None
 	listActionRect=None
@@ -36,8 +36,8 @@ class CanvasEventsDemo:
 		#print("true or false?????????????"+str(fileChange))
 		#print("!!!!!!!!!!!!!listRect!!!!!!!!!!!!!"+str(self.listRect))
 		if fileChange is True:
-			if len(self.listRect) >1:
-				self.canvas.delete(self.listRect[len(self.listRect)-1])
+			#if len(self.listRect) >1:
+			#	self.canvas.delete(self.listRect[len(self.listRect)-1])
 			for i in range(0,len(self.listRectAppear)):
 				self.canvas.delete(self.listRectAppear[i])
 			self.listRectAppear=[]
@@ -183,9 +183,14 @@ class CanvasEventsDemo:
 		for i in range(0,len(self.listRectAppear)):
 			self.canvas.delete(self.listRectAppear[i])
 		
-	def deleteRect(self,idRect):
-		print("delete rect")
-		self.listRect.remove(idRect)
+	def deleteRect(self,selection,idRect):
+		#print("delete rect")
+		list1=[]
+		list1=self.listActionRect[selection]
+		
+		del self.listActionRect[selection]
+		#print("listRect " +str(self.listActionRect))
+		#self.listRect.remove(idRect)
 		self.canvas.delete(idRect)
 	
 	def deselectRect(self):
@@ -197,6 +202,10 @@ class CanvasEventsDemo:
 		self.listRectAppear.clear()
 		
 	def creatRect(self,actionRect,coordRect,wd=None, colOutline=None, colFill=None):
+		#print("currentFile " +self.currentFile) 
+		#list2=[]
+		#list2=self.listFileWithActionRect[self.currentFile]
+		#print("listFileWithActionRect with?????" + str(list2))
 		list1=[]
 		list1=self.listActionRect[actionRect]
 		if wd is not None:
@@ -213,7 +222,7 @@ class CanvasEventsDemo:
 					list1[7]=str(colFill)
 					selectedAction=self.canvas.create_rectangle(coordRect[0],coordRect[1],coordRect[0]+coordRect[2],coordRect[1]+coordRect[3],width=wd,fill=colFill)
 				else:
-					selectedAction=self.canvas.create_rectangle(coordRect[0],coordRect[1],coordRect[0]+coordRect[2],coordRect[1]+coordRect[3],width=wd)
+					selectedAction=self.canvas.create_rectangle(coordRect[0],coordRect[1],coordRect[0]+coordRect[2],coordRect[1]+coordRect[3],width=wd,outline=coordRect[6])
 		else:
 			if colOutline is not None:
 				list1[6]=colOutline

@@ -115,7 +115,7 @@ def createRectBySelectionListbox(wd=None,outline=None,fill=None):
 					drawRect.creatRect(selection,list1)
 # fonction de buttonConfirm
 def confirmer():
-	print("listActionRect orginal " +str(listActionRect))
+	#print("listActionRect orginal " +str(listActionRect))
 	listActionOrigin=listAction.get(0,tk.END)
 	listTextSelection=[]
 	listTextChange=[]
@@ -140,6 +140,7 @@ def confirmer():
 	listActionRect.clear()
 	for key in newListActionRect :
 		listActionRect[key]=newListActionRect[key]
+	listFileWithActionRect[currentSelectedFile]=listActionRect
     #global countRect
     #listAction.insert(tk.END,var.get()+'-'+str(countRect))
     #listActionRect[var.get()+'-'+str(countRect)]=drawRect.getCoordonnes()
@@ -442,10 +443,10 @@ def onSelectAction(evt):
 	drawRect.deleteAllRectAppear()
 	for i in range(0,len(currentSelect)):
 		selection=listAction.get(currentSelect[i])
-		print("selection " +str(selection))
+		#print("selection " +str(selection))
 		list1=[]
 		list1=listActionRect[selection]
-		print("listActionRect "+str(list1))
+		#print("listActionRect "+str(list1))
 		drawRect.creatRect(selection,list1,3)
 	"""currentSelect=listAction.curselection()
 	if len(currentSelect) >1:
@@ -480,14 +481,39 @@ for i in range(0,listAction.size()):
 
 # supprimer de la liste les fichiers selectionnés
 def deleteSelection():#pour liste des actions
-    global drawRect
-    currentselection = listAction.curselection()
-    selection=listAction.get(listAction.curselection())
-    list1=[]
-    list1=listActionRect[selection]
-    idRect=list1[4]
-    drawRect.deleteRect(idRect)
-    listAction.delete(currentselection[0])
+	global drawRect
+	currentselection = listAction.curselection()
+	#print("current selection " +str(currentselection))
+	#print("size " + str(len(currentselection)))
+	listSelection=[]
+	for i in range(0,len(currentselection)):
+		#print("current selection " +str(currentselection[i]))
+		selection=listAction.get(currentselection[i])
+		#print("selection " +str(selection))
+		list1=listActionRect[selection]
+		idRect=list1[4]
+		drawRect.deleteRect(selection,idRect)
+	a = range(0,len(currentselection))
+	for x in reversed(a):
+		#print(str(x))
+		listAction.delete(currentselection[x])
+	#print("listFile with Action rECT : " + str(listFileWithActionRect))
+	#for k in range(0,len(currentselection)-1).reverse():
+	#	print(str(k))
+		#
+	"""for i in range(0,len(currentselection)):
+		print("current selection " +str(currentselection[i]))
+		
+		list1=[]
+		list1=listActionRect[selection]
+		idRect=list1[4]
+		drawRect.deleteRect(selection,idRect)
+		listAction.delete(currentselection[i])"""
+	"""else:
+		selection=listAction.get(currentselection[0])
+		list1=[]
+		
+		listAction.delete(currentselection[0])"""
 	#pas encore supprimer dans la liste!!!!!!!!!!!!!!!!
     #listPath.remove(selection[0])
 
@@ -532,27 +558,36 @@ def save():
 				xmlProjet=xl.endProjet(nameProjet,xmlProjet)
 	#nextPage()
 
-def deselect():
-	global countClick
+def de_select():
+	#global countClick
+	listSelectionAction=listAction.curselection()
 	listSelectionAction=listAction.curselection()
 	if len(listSelectionAction) < listAction.size() :
-		listAction.select_set(0,tk.END)
-		currentSelect=listAction.curselection()
-		for i in range(0,len(currentSelect)):
-			selection=listAction.get(currentSelect[i])
-			list1=[]
-			list1=listActionRect[selection]
-			drawRect.creatRect(selection,list1,3)
+		selectAll()
 	else:
-		listAction.selection_clear(0,tk.END)
-		list1=drawRect.deselectRect()
-		print("list1 " + str(list1))
-		sizeList=len(list1)
-		for i in range(0,sizeList):
-			print("out here?")
-			drawRect.deselectAll(list1[i])
-		drawRect.clearListRectAppear()
+		deselectAll()
 
+def deselectAll():
+	listAction.selection_clear(0,tk.END)
+	list1=drawRect.deselectRect()
+	#print("list1 " + str(list1))
+	sizeList=len(list1)
+	for i in range(0,sizeList):
+		#print("out here?")
+		drawRect.deselectAll(list1[i])
+	drawRect.clearListRectAppear()
+	
+def selectAll():
+	listAction.select_set(0,tk.END)
+	currentSelect=listAction.curselection()
+	for i in range(0,len(currentSelect)):
+		selection=listAction.get(currentSelect[i])
+		list1=[]
+		list1=listActionRect[selection]
+		#print("listActionRect " +str(listActionRect))
+		#print("selection " + str(selection))
+		#print("list1 " + str(list1))
+		drawRect.creatRect(selection,list1,3)
 ###fin barre menu qui a besoin de save
 menufichier.add_command(label="Enregistrer", command=save)
 menufichier.add_separator()
@@ -561,7 +596,7 @@ menufichier.add_command(label="Quitter", command=root.destroy)
 
 ################ button pour confirmer le choix des element de la page ##############
 fButtons=tk.Frame(f1, bg=colorDefault)
-buttonDeselect=tk.Button(fButtons,text="Deselect/Select all",command=deselect).grid(row=0,column=0,padx=20,sticky=tk.S)
+buttonDeselect=tk.Button(fButtons,text="Deselect/Select all",command=de_select).grid(row=0,column=0,padx=20,sticky=tk.S)
 buttonDelete=tk.Button(fButtons,text="Supprimer",command=deleteSelection).grid(row=0,column=1,padx=20,sticky=tk.S)
 buttonLast=tk.Button(fButtons,text="Précédent",command=lastPage).grid(row=0,column=2,padx=20,sticky=tk.S)
 buttonSave=tk.Button(fButtons,text="Enregistrer et Suivant",command=nextPage).grid(row=0,column=3,padx=20,sticky=tk.S)
@@ -692,7 +727,7 @@ def recharge():
 				#mapAction=getMapActionRect(currentSelectedFile)
 				mapActionRect=listFileWithActionRect[currentSelectedFile]
 				if mapActionRect is not None :
-					print("mapActionRect isn't none")
+					#print("mapActionRect isn't none")
 					for key in mapActionRect :
 						listAction.insert(tk.END,key)
 						#print(mapActionRect[key])
@@ -718,8 +753,9 @@ def onselect(evt):
 		numPage=index
 		#value = w.get(index)
 		#print(index)
-		resizeImg(index)
 		recharge()
+		resizeImg(index)
+		selectAll()
 		"""if currentSelectedFile != listFiles.get(listFiles.curselection()):
 				listAction.delete(0,tk.END)
 				listAction.insert(tk.END,var.get()+'-'+str(nbConfirm))
