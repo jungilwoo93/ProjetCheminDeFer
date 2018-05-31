@@ -7,8 +7,8 @@ Created on Tue May 22 09:37:31 2018
 
 import tkinter as tk
 import tkinter.filedialog as tf
-from UseCheminDeFer import zoomImg as zi
-import imgToPdf as itp
+from UseCheminDeFer import zoomImag as zi
+from UseCheminDeFer import imgToPdf as itp
 #fichier lier
 from UseCheminDeFer import buttonFunction as bf
 
@@ -43,11 +43,20 @@ def creatChemin(nameProjet):
 	view = tk.Menu(menubar,tearoff=0)
 	menubar.add_cascade(label="Fichier", menu=menufichier)
 	menubar.add_cascade(label="Affichage", menu=view)
+	
+	def PngToPdf():
+		itp.pngToImg(nameProjet,dimention,rectFull)
 
 	menufichier.add_command(label="Exporter en pdf", command=PngToPdf)#(nameProjet,dimention,isFull):
 	menufichier.add_separator() 
 	menufichier.add_command(label="Quitter", command=root.destroy) 
 
+	#def PngToPdf():
+	#	itp.pngToImg(nameProjet,dimention,rectFull)
+
+	
+	
+	
 	rect= tk.Menu(view,tearoff=0)
 	dim= tk.Menu(view,tearoff=0)
 	view.add_cascade(label="rectangle", menu=rect)
@@ -82,8 +91,8 @@ def creatChemin(nameProjet):
 		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention)
 		
 		
-	def PngToImg():
-		itp.pngToImg(nameProjet,dimention,rectFull)
+	#def PngToImg():
+		#itp.pngToImg(nameProjet,dimention,rectFull)
 
 	dim.add_radiobutton(label="2*2",  variable=nitem, value=2,  command=setDimention)
 	dim.add_radiobutton(label="3*4", variable=nitem, value=3,  command=setDimention)#command=item,

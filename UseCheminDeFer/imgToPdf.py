@@ -7,6 +7,15 @@ from fpdf import FPDF
 from PIL import Image
 import os
 
+
+def ChooseWhereSave():
+	f=tkinter.filedialog.asksaveasfile(
+		title="Enregistrer sous …",
+		filetypes=[('PDF files','.pdf')])
+	print(f.name) 
+	
+
+
 def pngToPdf(nameProjet,dimention,isFull):
 	marge=0
 	spacing=2

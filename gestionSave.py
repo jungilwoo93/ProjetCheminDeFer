@@ -114,7 +114,7 @@ def cheminIsDone(nameProjet):
                     else:
                         fin = len(line)
                 if len(projetLigne)==3:
-                    return projetLigne[3]=='CDF'
+                    return projetLigne[2]=='CDF'
 
 
 def doChemin(nameProjet):

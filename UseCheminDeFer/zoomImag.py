@@ -152,7 +152,9 @@ class Zoom_Advanced(ttk.Frame):
             x = min(int(x2 / self.imscale), self.width)   # sometimes it is larger on 1 pixel...
             y = min(int(y2 / self.imscale), self.height)  # ...and sometimes not
             image = self.image.crop((int(x1 / self.imscale), int(y1 / self.imscale), x, y))
+            print(image)
             imagetk = ImageTk.PhotoImage(image.resize((int(x2 - x1), int(y2 - y1))))
+            print(imagetk)
             imageid = self.canvas.create_image(max(bbox2[0], bbox1[0]), max(bbox2[1], bbox1[1]),
                                                anchor='nw', image=imagetk)
             self.canvas.lower(imageid)  # set image into background

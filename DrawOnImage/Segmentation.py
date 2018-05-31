@@ -12,6 +12,8 @@ import os
 #nameProjet='Batch'
 #nameProjet=testprojet.nameProjet
 def Segm(nameProjet,numberPage):
+	print('hhhhhheeeellllooooooo')
+	print(numberPage)
 	for x in range(0, numberPage):  # les images chargées pour la segmentation image130 à image 169
 		id_img="page-"+str(x)+".png"
 		
@@ -56,12 +58,12 @@ def Segm(nameProjet,numberPage):
 				cv2.putText(or_im, "letr", (x - 20, y - 20),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
 			
 		im_bw1 = cv2.dilate(im_bw1,kernel, iterations=5)   
-	
-	
+		
+		
 		kernel2 = cv2.getStructuringElement(cv2.MORPH_RECT, (7, 7))
 		im_bw1 = cv2.morphologyEx(im_bw1, cv2.MORPH_CLOSE, kernel2)
 		_, contours1, _=  cv2.findContours(im_bw1.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-	
+		
 		#finding bigblocks
 		for contour in contours1:
 			[x, y, w, h] = cv2.boundingRect(contour)
@@ -76,10 +78,11 @@ def Segm(nameProjet,numberPage):
 			ET.SubElement(component, "posY").text = str(y)
 			cv2.rectangle(or_im, (x, y), (x + w, y + h), (0, 255, 0), 1)
 			cv2.putText(or_im, "txt", (x - 20, y - 20),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)   #cette ligne permet de dessiner sur l'image segmenter pour verifier la segmentation, cela est optionnel
-	
+		
 		#saving
 		tree = ET.ElementTree(root)
-		if not os.path.exists("DrawOnImage/Results/xml_results/"+nameProjet):
+		if not os.path.exists("DrawOnImage/Results/xml_results/"+nameProjet ):
+			print('cree dans xml_result')
 			os.makedirs("DrawOnImage/Results/xml_results/"+nameProjet)
 		if not os.path.exists("DrawOnImage/workshop_test/"+nameProjet):
 			os.makedirs("DrawOnImage/workshop_test/"+nameProjet)
