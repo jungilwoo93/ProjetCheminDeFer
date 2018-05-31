@@ -43,7 +43,7 @@ def creatChemin(nameProjet):
 	menubar.add_cascade(label="Affichage", menu=view)
 	
 	def PngToPdf():
-		itp.pngToImg(nameProjet,dimention,rectFull)
+		itp.pngToPdf(nameProjet,dimention,rectFull)
 
 	menufichier.add_command(label="Exporter en pdf", command=PngToPdf)#(nameProjet,dimention,isFull):
 	menufichier.add_separator() 

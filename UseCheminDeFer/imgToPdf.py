@@ -33,8 +33,10 @@ def pngToPdf(nameProjet,dimention,isFull):
 	pdf = FPDF(format='A4')#orientation = 'P'(ou L), unit = 'mm',
 	#for image in imagelist:
 	k=0
+	
 	while k< len(imageList):
-		pdf.add_page()
+		if not(k == len(imageList)):
+			pdf.add_page()
 		for i in range (0, dimention[1]):
 			for j in range (0, dimention[0]):
 				if not(k == len(imageList)):
@@ -45,6 +47,7 @@ def pngToPdf(nameProjet,dimention,isFull):
 					x += w + spacing
 			x = 0 + marge
 			y += h + spacing
+		y=0+marge
 	pdf.output("OnVaVoirSiPdfFonction.pdf", "F")
 
 def getImg(nameProjet, isFull):
