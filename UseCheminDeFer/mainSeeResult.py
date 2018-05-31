@@ -43,7 +43,9 @@ def creatChemin(nameProjet):
 	menubar.add_cascade(label="Affichage", menu=view)
 	
 	def PngToPdf():
-		itp.pngToPdf(nameProjet,dimention,rectFull)
+		path=itp.ChooseWhereSave()
+		itp.pngToPdf(nameProjet,dimention,rectFull,path)
+		
 
 	menufichier.add_command(label="Exporter en pdf", command=PngToPdf)#(nameProjet,dimention,isFull):
 	menufichier.add_separator() 
@@ -74,7 +76,7 @@ def creatChemin(nameProjet):
 	nitem.set(4)# bouton seletionner par defaut doit etre le meme que celui selectionner en haut
 
 	#########nombre de page par feuille
-	def setDimention():
+	def setDimention():#y amoyen de simplifier
 		global dimention
 		value=nitem.get()
 		if value==2:
@@ -82,16 +84,16 @@ def creatChemin(nameProjet):
 			dimention[1]=2
 		elif value == 3:
 			dimention[0]=3
-			dimention[1]=4
+			dimention[1]=3
 		elif value == 4:
 			dimention[0]=4
-			dimention[1]=8
+			dimention[1]=4
 		elif value == 5:
 			dimention[0]=5
-			dimention[1]=10
+			dimention[1]=5
 		elif value == 6:
 			dimention[0]=6
-			dimention[1]=16
+			dimention[1]=6
 		#bf.deleteCanvas(canva)
 		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
 		
@@ -100,10 +102,10 @@ def creatChemin(nameProjet):
 		#itp.pngToImg(nameProjet,dimention,rectFull)
 
 	dim.add_radiobutton(label="2*2",  variable=nitem, value=2,  command=setDimention)
-	dim.add_radiobutton(label="3*4", variable=nitem, value=3,  command=setDimention)#command=item,
-	dim.add_radiobutton(label="4*8",  variable=nitem, value=4,  command=setDimention)
-	dim.add_radiobutton(label="5*10",  variable=nitem, value=5,  command=setDimention)
-	dim.add_radiobutton(label="6*16",  variable=nitem, value=6,  command=setDimention)
+	dim.add_radiobutton(label="3*3", variable=nitem, value=3,  command=setDimention)#command=item,
+	dim.add_radiobutton(label="4*4",  variable=nitem, value=4,  command=setDimention)
+	dim.add_radiobutton(label="5*5",  variable=nitem, value=5,  command=setDimention)
+	dim.add_radiobutton(label="6*6",  variable=nitem, value=6,  command=setDimention)
 
 
 	#canva=tk.Canvas(root, width =760, height = 760, bg =defaultColor)
