@@ -21,11 +21,11 @@ import pdfToImg as pti
 #créer la fenêtre d'application
 root = tk.Tk()
 #récupérer la taille d'écran d'ordi
-ecran_width = root.winfo_screenwidth()*0.9
-ecran_height = root.winfo_screenheight()*0.85
+screen_width = root.winfo_screenwidth()*0.9
+screen_height = root.winfo_screenheight()*0.85
 #définir la taille d'écran d'or comme la fenêtre d'application
-#root.geometry(str(ecran_width)+'x'+str(ecran_height))
-root.geometry('%dx%d+%d+%d' % (ecran_width, ecran_height, 1, 1))
+#root.geometry(str(screen_width)+'x'+str(screen_height))
+root.geometry('%dx%d+%d+%d' % (screen_width, screen_height, 1, 1))
 #mettre le title et background pour l'application
 root.title("Trainning Chemin de Fer")
 root.resizable(width=False,height=False)
@@ -33,7 +33,7 @@ colorDefault="#F5F5DC" #bd=-2 #supprime bordure
 #F5F5DC #beige
 
 ####################################################### frame entier ########################################################3
-f=tk.Frame(root,bg=colorDefault ,width=ecran_width,height=ecran_height)
+f=tk.Frame(root,bg=colorDefault ,width=screen_width,height=screen_height)
 #scrollbar pour la fenetre pricipqle
 #vsb = tk.Scrollbar(f, orient=tk.VERTICAL)
 #vsb.grid(row=0, column=3, rowspan=4, sticky=tk.N+tk.S+tk.E)#
@@ -42,8 +42,8 @@ f=tk.Frame(root,bg=colorDefault ,width=ecran_width,height=ecran_height)
 #hsb.grid(row=1,column=0,sticky=tk.W)
 
 #hsb.grid(row=1, column=0,columnspan=5, sticky=tk.E+tk.W)
-#c = tk.Canvas(f, yscrollcommand=vsb.set, xscrollcommand=hsb.set, width=ecran_width, height=ecran_height,bd=0,highlightthickness=0)
-c=tk.Canvas(f,width=ecran_width, height=ecran_height,bd=0,highlightthickness=0,bg=colorDefault)
+#c = tk.Canvas(f, yscrollcommand=vsb.set, xscrollcommand=hsb.set, width=screen_width, height=screen_height,bd=0,highlightthickness=0)
+c=tk.Canvas(f,width=screen_width, height=screen_height,bd=0,highlightthickness=0,bg=colorDefault)
 #c.yview_moveto(1)
 #c.xview_moveto(1)
 c.grid(row=0, column=0, sticky=tk.W+tk.N + tk.S)#,sticky="news"
@@ -367,10 +367,10 @@ menufichier.add_separator()
 
 cheminDeFer.add_command(label="Crée", command=deepLearnig)
 ############################################################ frame à gauche ####################################################
-#f1=tk.Frame(root,bg='gold', width=ecran_width+1000, height=ecran_height)
-#f1.config(width=ecran_width+1000, height=ecran_height)
+#f1=tk.Frame(root,bg='gold', width=screen_width+1000, height=screen_height)
+#f1.config(width=screen_width+1000, height=screen_height)
 #f1.grid(column=0,columnspan=1000,sticky=tk.E)
-f1=tk.Frame(c,bg=colorDefault,height=ecran_height,width=ecran_width*0.4)
+f1=tk.Frame(c,bg=colorDefault,height=screen_height,width=screen_width*0.4)
 f1.grid(row=0,column=0,sticky=tk.S+tk.W+tk.N)
 
 ####################### label fichiers choisis
@@ -583,7 +583,7 @@ fButtons.grid(row=7,column=0,pady=20)
 #afficher image dés qu'on selectionne un element
 #zoneImage=tk.Frame(root,bg="black")
 #zoneImage.grid(row=2,column=10,rowspan=2,columnspan=8,sticky=tk.E )
-fImg=tk.Frame(c,width=ecran_width*0.6,height=ecran_height, bg=colorDefault)
+fImg=tk.Frame(c,width=screen_width*0.6,height=screen_height, bg=colorDefault)
 fImg.grid(row=0,column=1,sticky=tk.N+tk.S)
 cadre=tk.Canvas(c, bg=colorDefault, bd=-2)
 cadre.grid(row=0,column=1)
@@ -595,8 +595,8 @@ cadre.grid(row=0,column=1)
     #pk supprimer des choses?
     img=Image.open(listPath[numPage])
     wd,hg=img.size
-    mwd=ecran_width
-    mhg=ecran_height
+    mwd=screen_width
+    mhg=screen_height
     if wd>mwd :
             scale= 1.0*wd/mwd
             newImg=img.resize((int(wd/scale),int(hg/scale)),Image.ANTIALIAS)
@@ -634,8 +634,8 @@ def resizeImg(index):
     #img.resize((320,240))
     #img.zoom(320/img.width(), 240/img.height())
     wd,hg=img.size
-    mwd=ecran_width
-    mhg=ecran_height
+    mwd=screen_width
+    mhg=screen_height
     if wd>mwd :
         scale= 1.0*wd/mwd
         newImg=img.resize((int(wd/scale),int(hg/scale)),Image.ANTIALIAS)
@@ -705,9 +705,9 @@ def recharge():
 
 def onselect(evt):
 	global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
-	#cadre=tk.Canvas(c,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=ecran_width-600,height=ecran_height-25,bg="black")#,bg="black"
+	#cadre=tk.Canvas(c,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=screen_width-600,height=screen_height-25,bg="black")#,bg="black"
 	#cadre=tk.Label(f,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=320,height=240,bg="green")
-	#cadre=tk.Canvas(root,width=ecran_width-500,height=ecran_height,bg="black")
+	#cadre=tk.Canvas(root,width=screen_width-500,height=screen_height,bg="black")
 	#dicimg = {}
 	#selection = listFiles.curselection()
 	#print(selection[0])
