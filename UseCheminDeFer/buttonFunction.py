@@ -20,8 +20,8 @@ def ChooseWhereSave():
 	print(f.name) 
 	
 
-def exportToPdf():
-	print('export pdf')
+#def exportToPdf():
+#	print('export pdf')
 
 
 #peut etre 2 ensemble si rien a rajouter

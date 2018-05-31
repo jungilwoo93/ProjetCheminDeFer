@@ -7,99 +7,110 @@ Created on Tue May 22 09:37:31 2018
 
 import tkinter as tk
 import tkinter.filedialog as tf
-import zoomImg as zi
+from UseCheminDeFer import zoomImg as zi
+import imgToPdf as itp
 #fichier lier
-#from UseCheminDeFer 
-import buttonFunction as bf
+from UseCheminDeFer import buttonFunction as bf
 
 
 
-####fenetre
-root = tk.Tk()
-ecran_width = root.winfo_screenwidth()*0.9
-ecran_height = root.winfo_screenheight()*0.85
-root.geometry('%dx%d+%d+%d' % (ecran_width, ecran_height, 1, 1))
-root.title("Chemin de Fer")
-root.resizable(width=False,height=False)
-colorDefault="#F5F5DC"
-defaultColor="#F5F5DC"
+def creatChemin(nameProjet):
+	nameProjet='Batch'#a virer
 
-####variable
-dimention=[6,8]
-rectFull=False
-#defaultColor="#F5F5DC"
+	####fenetre
 
-####menu barrre
-menubar=tk.Menu(root)
-root.config(menu = menubar)
-menufichier = tk.Menu(menubar,tearoff=0)
-view = tk.Menu(menubar,tearoff=0)
-menubar.add_cascade(label="Fichier", menu=menufichier)
-menubar.add_cascade(label="Affichage", menu=view)
+	root = tk.Tk()
+	ecran_width = root.winfo_screenwidth()*0.9
+	ecran_height = root.winfo_screenheight()*0.85
+	root.geometry('%dx%d+%d+%d' % (ecran_width, ecran_height, 1, 1))
+	root.title("Chemin de Fer")
+	root.resizable(width=False,height=False)
+	colorDefault="#F5F5DC"
+	defaultColor="#F5F5DC"########################pourquoi les 2
 
-menufichier.add_command(label="Exporter en pdf", command=bf.exportToPdf)
-menufichier.add_separator() 
-menufichier.add_command(label="Quitter", command=root.destroy) 
+	
+	####variable
+	dimention=[6,8]
+	rectFull=False
 
-rect= tk.Menu(view,tearoff=0)
-dim= tk.Menu(view,tearoff=0)
-view.add_cascade(label="rectangle", menu=rect)
-view.add_cascade(label="dimention", menu=dim)
-rect.add_checkbutton(label="Plein", command=bf.fullRect(rectFull))
-#rect.add_command(label="Vide", command=bf.fullRect)
-#rect.add_command(label="Plein", command=bf.emptyRect)
 
-nitem=tk.IntVar()
-nitem.set(4)# bouton seletionner par defaut doit etre le meme que celui selectionner en haut
+	#defaultColor="#F5F5DC"
+	
+	####menu barrre
+	menubar=tk.Menu(root)
+	root.config(menu = menubar)
+	menufichier = tk.Menu(menubar,tearoff=0)
+	view = tk.Menu(menubar,tearoff=0)
+	menubar.add_cascade(label="Fichier", menu=menufichier)
+	menubar.add_cascade(label="Affichage", menu=view)
 
-#########nombre de page par feuille
-def setDimention():
-	global dimention
-	value=nitem.get()
-	if value==2:
-		dimention[0]=2
-		dimention[1]=2
-	elif value == 3:
-		dimention[0]=3
-		dimention[1]=4
-	elif value == 4:
-		dimention[0]=4
-		dimention[1]=8
-	elif value == 5:
-		dimention[0]=5
-		dimention[1]=10
-	elif value == 6:
-		dimention[0]=6
-		dimention[1]=16
-	#bf.deleteCanvas(canva)
+	menufichier.add_command(label="Exporter en pdf", command=PngToPdf)#(nameProjet,dimention,isFull):
+	menufichier.add_separator() 
+	menufichier.add_command(label="Quitter", command=root.destroy) 
+
+	rect= tk.Menu(view,tearoff=0)
+	dim= tk.Menu(view,tearoff=0)
+	view.add_cascade(label="rectangle", menu=rect)
+	view.add_cascade(label="dimention", menu=dim)
+	rect.add_checkbutton(label="Plein", command=bf.fullRect(rectFull))
+	#rect.add_command(label="Vide", command=bf.fullRect)
+	#rect.add_command(label="Plein", command=bf.emptyRect)
+	
+	nitem=tk.IntVar()
+	nitem.set(4)# bouton seletionner par defaut doit etre le meme que celui selectionner en haut
+
+	#########nombre de page par feuille
+	def setDimention():
+		global dimention
+		value=nitem.get()
+		if value==2:
+			dimention[0]=2
+			dimention[1]=2
+		elif value == 3:
+			dimention[0]=3
+			dimention[1]=4
+		elif value == 4:
+			dimention[0]=4
+			dimention[1]=8
+		elif value == 5:
+			dimention[0]=5
+			dimention[1]=10
+		elif value == 6:
+			dimention[0]=6
+			dimention[1]=16
+		#bf.deleteCanvas(canva)
+		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention)
+		
+		
+	def PngToImg():
+		itp.pngToImg(nameProjet,dimention,rectFull)
+
+	dim.add_radiobutton(label="2*2",  variable=nitem, value=2,  command=setDimention)
+	dim.add_radiobutton(label="3*4", variable=nitem, value=3,  command=setDimention)#command=item,
+	dim.add_radiobutton(label="4*8",  variable=nitem, value=4,  command=setDimention)
+	dim.add_radiobutton(label="5*10",  variable=nitem, value=5,  command=setDimention)
+	dim.add_radiobutton(label="6*16",  variable=nitem, value=6,  command=setDimention)
+
+
+	#canva=tk.Canvas(root, width =760, height = 760, bg =defaultColor)
+	#canva.update()
+	#canva.grid(sticky=tk.NE)
+	#canva.grid()
+
+	dicimg={}
+	#img.resize((320,240))
+	#img.zoom(320/img.width(), 240/img.height())
+	#wd,hg=img.size
+	mwd=ecran_width
+	mhg=ecran_height
+	listImg=bf.getListImg('test')#########################changer
+	posX=0
+	posY=0
+	#app = zi.Zoom_Advanced(root,listImg,mwd,mhg,dimention)
+	###########l'aperçu
 	bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention)
-
-dim.add_radiobutton(label="2*2",  variable=nitem, value=2,  command=setDimention)
-dim.add_radiobutton(label="3*4", variable=nitem, value=3,  command=setDimention)#command=item,
-dim.add_radiobutton(label="4*8",  variable=nitem, value=4,  command=setDimention)
-dim.add_radiobutton(label="5*10",  variable=nitem, value=5,  command=setDimention)
-dim.add_radiobutton(label="6*16",  variable=nitem, value=6,  command=setDimention)
-
-
-#canva=tk.Canvas(root, width =760, height = 760, bg =defaultColor)
-#canva.update()
-#canva.grid(sticky=tk.NE)
-#canva.grid()
-
-dicimg={}
-#img.resize((320,240))
-#img.zoom(320/img.width(), 240/img.height())
-#wd,hg=img.size
-mwd=ecran_width
-mhg=ecran_height
-listImg=bf.getListImg('test')
-posX=0
-posY=0
-#app = zi.Zoom_Advanced(root,listImg,mwd,mhg,dimention)
-###########l'aperçu
-bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention)
-
-root.mainloop()
+	
+	root.mainloop()
 
 
 
