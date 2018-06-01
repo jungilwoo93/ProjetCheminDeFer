@@ -73,16 +73,21 @@ countRect=1
 rectSelect=None
 xmlProjet=None
 numberPage=0
+#colorRect='black'
 #################################################### toutes les fonctions  ####################################################
 def changeColRect():
 	value = str(var.get())
 	if value == 'Titre' :
+		#colorRect='blue'
 		createRectBySelectionListbox(2,'blue')
 	elif value == 'Lettrine' :
+		#colorRect='green'
 		createRectBySelectionListbox(2,'green')
 	elif value == 'Image' : 
+		#colorRect='red'
 		createRectBySelectionListbox(2,'red')
 	else:
+		#colorRect='black'
 		createRectBySelectionListbox(2,'black')
 
 def createRectBySelectionListbox(wd=None,outline=None,fill=None):
@@ -119,7 +124,9 @@ def confirmer():
 	listActionOrigin=listAction.get(0,tk.END)
 	listTextSelection=[]
 	listTextChange=[]
-	value = var.get()
+	drawRect.deleteAllRectAppear()
+	changeColRect()
+	#value = var.get()
 	currentSelect=listAction.curselection()
 	for i in range(0,len(currentSelect)):
 		selection=listAction.get(currentSelect[i])
@@ -352,7 +359,9 @@ def continueProjet():
 				listFileWithActionRect[listFileInListbox[i]]=listInitial
 			#for file in listFiles.get(0,tk.END):
 			#	listFileWithActionRect[file]=listInitial
+			print('listFileWithActionRect ' +str(listFileWithActionRect)) 
 			recharge()
+			#deselectAll()
 			selectAll()
 			rootpop.destroy()
 			rootpop.quit()
@@ -461,7 +470,7 @@ labelZoneChoix.grid(row=2, sticky=tk.W)
 zoneRadioButton=tk.Frame(f1, bg=colorDefault)
 a=0
 for i,v in enumerate(typeZone):
-    tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v, bg=colorDefault,command=changeColRect).grid(row=0, column=a,sticky=tk.W,padx=20)
+    tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v, bg=colorDefault).grid(row=0, column=a,sticky=tk.W,padx=20)
     a+=1
 zoneRadioButton.grid(row=3,sticky=tk.W,pady=5)
 
