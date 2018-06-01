@@ -122,15 +122,18 @@ class CanvasEventsDemo:
 		self.isMove=False
             
 	def leftOnFinal(self,event):
+		print('listFileWithActionRect !!!!' + str(self.listFileWithActionRect))
+		self.listActionRect=self.listFileWithActionRect[self.currentFile]
 		global isDraw,listBoxAction,idAction,listActionRect,listFileWithActionRect,currentFile
 		self.final=event
 		self.finalX=event.x
 		self.finalY=event.y
 		self.isDraw=True
 		self.idAction=self.listBoxAction.size()+1##############id de action essayer de recuperer par le nom de listbox,if size de listbox>0,sinon par 1,2,3......
-		self.listBoxAction.insert(self.listBoxAction.size(),'Paragraphe-'+str(self.idAction)),
+		self.listBoxAction.insert(self.listBoxAction.size(),'Paragraphe-'+str(self.idAction))
 		self.listActionRect['Paragraphe-'+str(self.idAction)]=self.getCoordonnes()
 		self.listFileWithActionRect[self.currentFile]=self.listActionRect
+		print('listFileWithActionRect ' + str(self.listFileWithActionRect))
 		#self.listRect.append(objectId)#####################
 		self.listBoxAction.select_set(0,tk.END)
 		#print("size of listBoxAction " + self.listBoxAction.size())

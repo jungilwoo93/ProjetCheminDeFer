@@ -359,7 +359,7 @@ def continueProjet():
 				listFileWithActionRect[listFileInListbox[i]]=listInitial
 			#for file in listFiles.get(0,tk.END):
 			#	listFileWithActionRect[file]=listInitial
-			print('listFileWithActionRect ' +str(listFileWithActionRect)) 
+			#print('listFileWithActionRect ' +str(listFileWithActionRect)) 
 			recharge()
 			#deselectAll()
 			selectAll()
