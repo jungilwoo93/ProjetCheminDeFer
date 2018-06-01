@@ -22,8 +22,7 @@ def ChooseWhereSave():
 
 
 def pngToPdf(nameProjet,dimention,isFull,pathSave):
-	print('ccccoooouuuuuccoooouuuu')
-	marge=0
+	marge=10#marge entre image et bord de la feuille
 	spacing=2
 	numPage=0
 	path, imageList = getImg(nameProjet, isFull)
@@ -37,7 +36,6 @@ def pngToPdf(nameProjet,dimention,isFull,pathSave):
 	w=int(((mwd-dimention[0]*spacing)-2*marge)/dimention[0])
 	h=int((hg/wd)*(((mwd-dimention[0]*spacing)-2*marge)/dimention[0]))
 	pdf = FPDF(format='A4')#orientation = 'P'(ou L), unit = 'mm',
-	#for image in imagelist:
 	k=0
 	
 	while k< len(imageList):
@@ -54,7 +52,6 @@ def pngToPdf(nameProjet,dimention,isFull,pathSave):
 			x = 0 + marge
 			y += h + spacing
 		y=0+marge
-	#print(pathSave+'.pdf')
 	pdf.output(pathSave, "F")
 
 def getImg(nameProjet, isFull):

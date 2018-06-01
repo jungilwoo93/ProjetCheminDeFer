@@ -41,7 +41,7 @@ def getListImg(nameProjet,rectFull):
 	return listImg
 	
 	
-def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull):
+def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull,dimention):
 	if rectFull:
 		rect='fullRect'
 	else:
@@ -88,14 +88,19 @@ def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull):
 	#canva.postscript(file='D:\\S4\\ProjetCheminDeFer\\UseCheminDeFer\\img.ps')
 	path='UseCheminDeFer/img.jpg'
 	new_im.save(path,'JPEG',quality=1000)
-	zi.Zoom_Advanced(canva,path)
+	zi.Zoom_Advanced(canva,path,dimention,getNumberImg(nameProjet))
 	
 	#new_im.show()
+
+#recuper le nombre de page
+def getNumberImg(nameProjet):
+		return len(os.listdir('DrawOnImage/finalResult/'+ nameProjet + '/emptyRect' ))#que les rectangles soit plein ou pas il y a antant de page
+
 
 def deleteCanvas(canva):
 	global listImgOfCanvas
 	for img in listImgOfCanvas:
 		canva.delete(img)
 
-def zoomImage(canva):
-	zoom_ad = Zoom_Advanced(canva,path)
+def zoomImage(canva, dimention):
+	zoom_ad = Zoom_Advanced(canva,path,dimention)

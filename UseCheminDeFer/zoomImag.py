@@ -22,6 +22,11 @@ import random
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
+from UseCheminDeFer import editPage as ep
+
+sizeXimg=0
+sizeYimg=0
+pageSelected=0
 
 class AutoScrollbar(ttk.Scrollbar):
     ''' A scrollbar that hides itself if it's not needed.
@@ -40,9 +45,15 @@ class AutoScrollbar(ttk.Scrollbar):
         raise tk.TclError('Cannot use place with this widget')
 
 class Zoom_Advanced(ttk.Frame):
+    dimention=[4,4]
+    numPage=0
     ''' Advanced zoom of the image '''
-    def __init__(self, mainframe, path):
+    def __init__(self, mainframe, path,dim,numberPage):
         ''' Initialize the main Frame '''
+        global dimention
+        dimention=dim
+        global numPage
+        numPage=numberPage
         ttk.Frame.__init__(self, master=mainframe)
         #self.master.title('Zoom with mouse wheel')
         # Vertical and horizontal scrollbars for canvas
@@ -74,15 +85,6 @@ class Zoom_Advanced(ttk.Frame):
         self.delta = 1.3  # zoom magnitude
         # Put image into container rectangle and use it to set proper coordinates to the image
         self.container = self.canvas.create_rectangle(0, 0, self.width, self.height, width=0)
-        # Plot some optional random rectangles for the test purposes
-        #minsize, maxsize, number = 5, 20, 10
-        #for n in range(number):
-            #x0 = random.randint(0, self.width - maxsize)
-            #y0 = random.randint(0, self.height - maxsize)
-            #x1 = x0 + random.randint(minsize, maxsize)
-            #y1 = y0 + random.randint(minsize, maxsize)
-            #color = ('red', 'orange', 'yellow', 'green', 'blue')[random.randint(0, 4)]
-            #self.canvas.create_rectangle(x0, y0, x1, y1, fill=color, activefill='black')
         self.show_image()
 
     def scroll_y(self, *args, **kwargs):
@@ -94,9 +96,21 @@ class Zoom_Advanced(ttk.Frame):
         ''' Scroll canvas horizontally and redraw the image '''
         self.canvas.xview(*args, **kwargs)  # scroll horizontally
         self.show_image()  # redraw the image
+    
+    def selectPage(self, event):
+        print('ca clic')
+        mouseX = event.x
+        mouseY = event.y
+        x = self.canvas.canvasx(event.x)
+        y = self.canvas.canvasy(event.y)
+        sizeX = sizeXimg
+        sizeY = sizeYimg
+        global pageSelected
+        pageSelected = ep.selectPage(x, y, mouseX, mouseY, sizeX, sizeY,dimention, numPage)
 
     def move_from(self, event):
         ''' Remember previous coordinates for scrolling with the mouse '''
+        self.selectPage(event)
         self.canvas.scan_mark(event.x, event.y)
 
     def move_to(self, event):
@@ -148,19 +162,36 @@ class Zoom_Advanced(ttk.Frame):
         y1 = max(bbox2[1] - bbox1[1], 0)
         x2 = min(bbox2[2], bbox1[2]) - bbox1[0]
         y2 = min(bbox2[3], bbox1[3]) - bbox1[1]
+        
+        x1img = min(bbox2[0] - bbox1[0], 0)  # get coordinates (x1,y1,x2,y2) of the image tile
+        y1img = min(bbox2[1] - bbox1[1], 0)
+        x2img = max(bbox2[2], bbox1[2]) - bbox1[0]
+        y2img = max(bbox2[3], bbox1[3]) - bbox1[1]
         if int(x2 - x1) > 0 and int(y2 - y1) > 0:  # show image if it in the visible area
             x = min(int(x2 / self.imscale), self.width)   # sometimes it is larger on 1 pixel...
             y = min(int(y2 / self.imscale), self.height)  # ...and sometimes not
             image = self.image.crop((int(x1 / self.imscale), int(y1 / self.imscale), x, y))
             imagetk = ImageTk.PhotoImage(image.resize((int(x2 - x1), int(y2 - y1))))
+            global sizeXimg
+            global sizeYimg
+            sizeXimg = [x2img ,x1img]
+            sizeYimg = [y2img , y1img]
             imageid = self.canvas.create_image(max(bbox2[0], bbox1[0]), max(bbox2[1], bbox1[1]),
                                                anchor='nw', image=imagetk)
             self.canvas.lower(imageid)  # set image into background
             self.canvas.imagetk = imagetk  # keep an extra reference to prevent garbage-collection
     
-    def selectPage(event):
-        print('ca clic')
-        #ep.selectPage(event)
+def getNumPage():
+    return pageSelected
+    # def selectPage(event):
+        # print('ca clic')
+        # mouseX = event.x
+        # mouseY = event.y
+        # x = self.canvas.canvasx(event.x)
+        # y = self.canvas.canvasy(event.y)
+        # sizeX = sizeXimg
+        # sizeY = sizeYimg
+        # ep.selectPage(x, y, sizeX, sizeY)
 '''
 path = 'UseCheminDeFer/test.png'  # place path to your image here
 root = tk.Tk()

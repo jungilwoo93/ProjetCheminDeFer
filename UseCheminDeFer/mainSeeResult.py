@@ -11,10 +11,10 @@ from UseCheminDeFer import zoomImag as zi
 from UseCheminDeFer import imgToPdf as itp
 #fichier lier
 from UseCheminDeFer import buttonFunction as bf
-from UseCheminDeFer import editPage as ep
+#from UseCheminDeFer import editPage as ep
 
 ####variable
-dimention=[4,8]
+dimention=[4,4]
 rectFull=False
 
 def creatChemin(nameProjet):
@@ -38,19 +38,21 @@ def creatChemin(nameProjet):
 	####menu barrre
 	menubar=tk.Menu(root)
 	root.config(menu = menubar)
-	menufichier = tk.Menu(menubar,tearoff=0)
+	menufile = tk.Menu(menubar,tearoff=0)
 	view = tk.Menu(menubar,tearoff=0)
-	menubar.add_cascade(label="Fichier", menu=menufichier)
+	editmenu = tk.Menu(menubar,tearoff=0)
+	menubar.add_cascade(label="Fichier", menu=menufile)
 	menubar.add_cascade(label="Affichage", menu=view)
+	menubar.add_cascade(label="Modifier", menu=editmenu)
 	
 	def PngToPdf():
 		path=itp.ChooseWhereSave()
 		itp.pngToPdf(nameProjet,dimention,rectFull,path)
 		
 
-	menufichier.add_command(label="Exporter en pdf", command=PngToPdf)#(nameProjet,dimention,isFull):
-	menufichier.add_separator() 
-	menufichier.add_command(label="Quitter", command=root.destroy) 
+	menufile.add_command(label="Exporter en pdf", command=PngToPdf)#(nameProjet,dimention,isFull):
+	menufile.add_separator() 
+	menufile.add_command(label="Quitter", command=root.destroy) 
 
 	#def PngToPdf():
 	#	itp.pngToImg(nameProjet,dimention,rectFull)
@@ -59,8 +61,7 @@ def creatChemin(nameProjet):
 		global rectFull
 		rect=bf.fullRect(rectFull)
 		rectFull=rect
-		print(rectFull)
-		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
+		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull,dimention)
 		
 	
 	
@@ -72,6 +73,12 @@ def creatChemin(nameProjet):
 	rect.add_checkbutton(label="Plein", command=fullRec)
 	#rect.add_command(label="Vide", command=bf.fullRect)
 	#rect.add_command(label="Plein", command=bf.emptyRect)
+	
+	def edit():
+		numPage=zi.getNumPage()
+		path='imgFromPdf/' + nameProjet + '/' + nameProjet +'page-'+ str(numPage) +'png'
+	
+	editmenu.add_command(label="modifier une erreur", command=edit)#(nameProjet,dimention,isFull):
 	
 	nitem=tk.IntVar()
 	nitem.set(4)# bouton seletionner par defaut doit etre le meme que celui selectionner en haut
@@ -96,7 +103,7 @@ def creatChemin(nameProjet):
 			dimention[0]=6
 			dimention[1]=6
 		#bf.deleteCanvas(canva)
-		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
+		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull,dimention)
 		
 		
 	#def PngToImg():
@@ -113,7 +120,7 @@ def creatChemin(nameProjet):
 	#canva.update()
 	#canva.grid(sticky=tk.NE)
 	#canva.grid()
-
+	#zoomImage
 	dicimg={}
 	#img.resize((320,240))
 	#img.zoom(320/img.width(), 240/img.height())
@@ -125,11 +132,11 @@ def creatChemin(nameProjet):
 	posY=0
 	#app = zi.Zoom_Advanced(root,listImg,mwd,mhg,dimention)
 	###########l'aperçu
-	bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
+	bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull,dimention)
 	
-	def selectPage(event):
-		print('ca clic')
-		ep.selectPage(event)
+	# def selectPage(event):
+		# print('ca clic')
+		# ep.selectPage(event)
 	
 	#root.bind(<"Button1">, selectPage)
 	root.mainloop()

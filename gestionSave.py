@@ -117,16 +117,20 @@ def cheminIsDone(nameProjet):
                     return projetLigne[2]=='CDF'
 
 
-def doChemin(nameProjet):
-    lines = None
-    with open('elemSave.txt', 'r') as file:
-        lines = file.readlines()
-        #lines = [l in file.readlines() if l.contain(nameProjet)]
-    with open('elemSave.txt', 'w') as file:
-        for line in lines :
-            if nameProjet.lower() in line.lower() :
-                line=nameProjet + ' ' + str(numPage) + ' CDF'
-            file.write(line)
+def doChemin(nameProjet, numPage):
+	lines = None
+	with open('elemSave.txt', 'r') as file:
+		lines = file.readlines()
+		#lines = [l in file.readlines() if l.contain(nameProjet)]
+	with open('elemSave.txt', 'w') as file:
+		for line in lines :
+			
+			if nameProjet.lower() in line.lower() :
+				line=nameProjet + ' ' + str(numPage) + ' ' +'CDF'
+				#print('salut')
+				#print(line)
+				file.write(line)
+
 
 #writeInText('coooouuuuuucccoouuuu',4)
 #update('salut',100)
