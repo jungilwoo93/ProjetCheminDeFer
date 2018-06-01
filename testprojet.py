@@ -593,7 +593,7 @@ def save():
 def de_select():
 	#global countClick
 	listSelectionAction=listAction.curselection()
-	listSelectionAction=listAction.curselection()
+	#listSelectionAction=listAction.curselection()
 	if len(listSelectionAction) < listAction.size() :
 		selectAll()
 	else:

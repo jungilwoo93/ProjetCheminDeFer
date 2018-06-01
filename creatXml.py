@@ -223,7 +223,13 @@ def foundPage(nameProjet, numPage, xmlProjet) : #nameProjet a virer
 	for e in xmlProjet.findall('page'):
 		if e.attrib['id']==str(numPage) :
 			return e
-
+def findAllPage(xmlProject):
+	listPage=[]
+	for e in xmlProject.findall('page'):
+		listPage.append(e)
+	return listPage
+		#if e.attrib['id']==str(numPage) :
+		#	return e
 
 def reSave(nameProjet, numPage, numElem, xmlProjet) : #peut retirer name project    
 	for e in xmlProjet.findall('page'):
@@ -248,27 +254,28 @@ def sameType(nameProjet, numPage, numElem, newType, xmlProjet):#peut retirai nam
  
 
 def getRect(nameProjet,numPage,xmlProjet):
-	page=foundPage(nameProjet,numPage,xmlProjet)
-	print("page " +str(page))
+	#page=foundPage(nameProjet,numPage,xmlProjet)
+	allPage=findAllPage(xmlProjet)
 	listRect=[]
-	if page is not None:
-		for rect in page.findall('element'):
-			typeRect=rect.attrib['type']
-			#print("typeRect " +str(typeRect)) 
-			numrect=rect.attrib['id']
-			#print("numRect " +str(numrect)) 
-			elPosx=rect.find('posX')
-			#print("elPosx " +str(elPosx))
-			posx=elPosx.text
-			#posx=elPosx.findtext()
-			#print("posX " +str(posx))
-			elPosy=rect.find('posY')
-			posy=elPosy.text
-			elWidth=rect.find('width')
-			width=elWidth.text
-			elHeight=rect.find('height')
-			height=elHeight.text
-			listRect.append([numPage,typeRect,numrect,posx,posy,width,height])
+	for page in allPage:
+		if page.attrib['id']==str(numPage):
+			for rect in page.findall('element'):
+				typeRect=rect.attrib['type']
+				#print("typeRect " +str(typeRect)) 
+				numrect=rect.attrib['id']
+				#print("numRect " +str(numrect)) 
+				elPosx=rect.find('posX')
+				#print("elPosx " +str(elPosx))
+				posx=elPosx.text
+				#posx=elPosx.findtext()
+				#print("posX " +str(posx))
+				elPosy=rect.find('posY')
+				posy=elPosy.text
+				elWidth=rect.find('width')
+				width=elWidth.text
+				elHeight=rect.find('height')
+				height=elHeight.text
+				listRect.append([numPage,typeRect,numrect,posx,posy,width,height])
 	return listRect
 
 
