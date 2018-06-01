@@ -248,19 +248,27 @@ def sameType(nameProjet, numPage, numElem, newType, xmlProjet):#peut retirai nam
  
 
 def getRect(nameProjet,numPage,xmlProjet):
-	page=foundPage(nameProjet,page,xmlProjet)
+	page=foundPage(nameProjet,numPage,xmlProjet)
+	print("page " +str(page))
 	listRect=[]
-	for rect in page.findall('element'):
-		numrect=rect.attrib['id']
-		elPosx=rect.find('posX')
-		posx=elPosx.findtext()
-		elPosy=rect.find('posY')
-		posy=elPosy.findtext()
-		elWidth=rect.find('width')
-		width=elWidth.findtext()
-		elHeight=rect.find('height')
-		height=elHeight.findtext()
-		listRect.append([numPage,numrect,posx,posy,width,height])
+	if page is not None:
+		for rect in page.findall('element'):
+			typeRect=rect.attrib['type']
+			#print("typeRect " +str(typeRect)) 
+			numrect=rect.attrib['id']
+			#print("numRect " +str(numrect)) 
+			elPosx=rect.find('posX')
+			#print("elPosx " +str(elPosx))
+			posx=elPosx.text
+			#posx=elPosx.findtext()
+			#print("posX " +str(posx))
+			elPosy=rect.find('posY')
+			posy=elPosy.text
+			elWidth=rect.find('width')
+			width=elWidth.text
+			elHeight=rect.find('height')
+			height=elHeight.text
+			listRect.append([numPage,typeRect,numrect,posx,posy,width,height])
 	return listRect
 
 

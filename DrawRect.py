@@ -204,10 +204,11 @@ class CanvasEventsDemo:
 	def creatRect(self,actionRect,coordRect,wd=None, colOutline=None, colFill=None):
 		#print("currentFile " +self.currentFile) 
 		#list2=[]
-		#list2=self.listFileWithActionRect[self.currentFile]
+		list2=self.listFileWithActionRect[self.currentFile]
 		#print("listFileWithActionRect with?????" + str(list2))
-		list1=[]
-		list1=self.listActionRect[actionRect]
+		#print("self.listActionRect " + str(self.listActionRect))
+		#list1=[]
+		list1=list2[actionRect]
 		if wd is not None:
 			list1[5]=wd
 			if colOutline is not None:

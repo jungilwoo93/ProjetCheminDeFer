@@ -307,21 +307,53 @@ def continueProjet():
 
 
 	def projetToContinu(evt):   
-		global nameProjet
+		global nameProjet,numPage,xmlProjet,currentSelectedFile
 		#nameProjet=listProjet.curselection()
 		#rootpop.destroy
 		if len(listProjet.curselection())!=0:
 			nameProjet =listProjet.get(listProjet.curselection()[0])
-			global numPage
+			#global numPage
 			numPage=gs.getAvancementProjet(nameProjet)
 			listFiles.selection_set(int(numPage))
 			reloadImg()
 			resizeImg(int(numPage))
-			global xmlProjet
+			#global xmlProjet
 			xmlProjet=xl.continuePoject(nameProjet)
 			listInitial={}
-			for file in listFiles.get(0,tk.END):
-				listFileWithActionRect[file]=listInitial
+			list1=xl.getRect(nameProjet,numPage,xmlProjet)
+			currentSelectedFile=nameProjet
+			listFileInListbox = listFiles.get(0,tk.END)
+			for i in range(0,len(listFileInListbox)):
+				for k in range(0,len(list1)):
+					list2=list1[k]
+					#print("list2 "+str(list2))
+					#print(str(int(list2[0]))+'=?'+str(i))
+					if int(list2[0]) == i :
+						list3=[]
+						list3.append(int(list2[3]))
+						list3.append(int(list2[4]))
+						list3.append(int(list2[5]))
+						list3.append(int(list2[6]))
+						list3.append(None) #idRect
+						list3.append(2)
+						if list2[1] =='Titre':
+							list3.append('blue')
+						elif list2[1] =='Lettrine' :
+							list3.append('green')
+						elif list2[1]=='Image':
+							list3.append('red')
+						else:
+							list3.append('black')
+						list3.append(None)
+						#print("list3 "+str(list3))
+						listInitial[str(list2[1])+'-'+str(list2[2])]=list3
+					else:
+						listInitial={}
+				listFileWithActionRect[listFileInListbox[i]]=listInitial
+			#for file in listFiles.get(0,tk.END):
+			#	listFileWithActionRect[file]=listInitial
+			recharge()
+			selectAll()
 			rootpop.destroy()
 			rootpop.quit()
 	
