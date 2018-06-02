@@ -379,8 +379,7 @@ def deepLearnig():
 		cl.classif(nameProjet)
 		from DrawOnImage import drawOnImage as doi #a remettre c'est juste lourd
 		doi.drawIm(nameProjet)
-	else:
-		gs.doChemin(nameProjet)
+		gs.doChemin(nameProjet,numPage)
 	from UseCheminDeFer import mainSeeResult as msr# a changer pour le nom aussi
 	msr.creatChemin(nameProjet)
 	
