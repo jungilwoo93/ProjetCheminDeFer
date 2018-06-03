@@ -84,7 +84,7 @@ class Zoom_Advanced(ttk.Frame):
 		self.photo = ImageTk.PhotoImage(file='guillemets.jpg')
 		#button = Button(root, image=photo)
 		self.bt_green = tk.Button(self.master, image=self.photo, command=lambda: self.canvas.config(bg="green"))
-		self.bt_green_w = self.canvas.create_window(40, 60, window=bt_green)
+		self.bt_green_w = self.canvas.create_window(40, 60, window=self.bt_green)
 		
 		
 		
@@ -93,7 +93,7 @@ class Zoom_Advanced(ttk.Frame):
 		self.delta = 1.3  # zoom magnitude
         # Put image into container rectangle and use it to set proper coordinates to the image
 		self.container = self.canvas.create_rectangle(0, 0, self.width, self.height, width=0)
-		show_image()
+		self.show_image()
 
 	def scroll_y(self, *args, **kwargs):
 		''' Scroll canvas vertically and redraw the image '''
