@@ -373,6 +373,7 @@ def continueProjet():
 
 def deepLearnig():
 	if not(gs.cheminIsDone(nameProjet)):
+		print('creeation de cdf')
 		from DrawOnImage import Segmentation as sg
 		sg.Segm(nameProjet, numberPage)#nombre de page il et calculer dans pdfToimage
 		from DrawOnImage import Classification as cl

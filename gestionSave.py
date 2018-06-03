@@ -20,7 +20,7 @@ def update(nameProjet,numPage):
 	with open('elemSave.txt', 'w') as file:
 		for line in lines :
 			if nameProjet.lower() in line.lower() :
-				if cheminIsDone(nameProjet):
+				if 'CDF' in line :
 					line=nameProjet + ' ' + str(numPage) +' CDF'
 				else:
 					line=nameProjet + ' ' + str(numPage)
@@ -113,7 +113,10 @@ def cheminIsDone(nameProjet):
                         fin = line.index(" ")
                     else:
                         fin = len(line)
+                print(projetLigne)
+                print(len(projetLigne))
                 if len(projetLigne)==3:
+                    print(projetLigne[2]=='CDF')
                     return projetLigne[2]=='CDF'
 
 
