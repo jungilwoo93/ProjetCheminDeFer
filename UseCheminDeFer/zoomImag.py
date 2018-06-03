@@ -80,11 +80,15 @@ class Zoom_Advanced(ttk.Frame):
 		#self.canvas.bind('<Button-4>',   self.wheel)  # only with Linux, wheel scroll up
 		self.image = Image.open(path)  # open image
 		
-		
-		self.photo = ImageTk.PhotoImage(file='guillemets.jpg')
+		self.img = Image.open('guillemets.jpg')
+		self.sizeButton=5
+		self.imag = self.img.resize((self.sizeButton,self.sizeButton))
+		self.photo = ImageTk.PhotoImage(self.imag)
 		#button = Button(root, image=photo)
-		self.bt_green = tk.Button(self.master, image=self.photo, command=lambda: self.canvas.config(bg="green"))
-		self.bt_green_w = self.canvas.create_window(40, 60, window=self.bt_green)
+		self.posX=40
+		self.posY=60
+		self.bt_green = tk.Button(self.master, image=self.photo)#command=lambda: self.canvas.config(bg="green")
+		self.bt_green_w = self.canvas.create_window(self.posX, self.posY, window=self.bt_green)
 		
 		
 		

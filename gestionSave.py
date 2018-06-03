@@ -113,10 +113,7 @@ def cheminIsDone(nameProjet):
                         fin = line.index(" ")
                     else:
                         fin = len(line)
-                print(projetLigne)
-                print(len(projetLigne))
                 if len(projetLigne)==3:
-                    print(projetLigne[2]=='CDF')
                     return projetLigne[2]=='CDF'
 
 
