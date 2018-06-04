@@ -278,8 +278,17 @@ def getRect(nameProjet,numPage,xmlProjet):
 				listRect.append([numPage,typeRect,numrect,posx,posy,width,height])
 	return listRect
 
-
-
+def getRectForModification(name,pathImg,xmlProjet):
+	num = None
+	allPage=findAllPage(xmlProjet)
+	for page in allPage:
+		allPath = page.findall('file')
+		for path in allPath:
+			if path.attrib['path'] == pathImg:
+				num = page.attrib['id']
+	listRect=getRect(name,num,xmlProjet)
+	return listRect
+	
 def getLastRectangleId(xmlProjet):
 	maxId=0
 	for page in xmlProjet.findall('page'):
