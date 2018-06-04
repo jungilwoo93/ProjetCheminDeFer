@@ -268,7 +268,7 @@ def newProjet():
 	chooseFile()
 	global xmlProjet
 	xmlProjet=xl.newProjet(nameProjet)
-	page=xl.addPage('imageFromPdf/' + nameProjet+ '/'+ nameProjet + 'page-0.png',numPage, xmlProjet)
+	page=xl.addPage('imgFromPdf/' + nameProjet+ '/'+ nameProjet + 'page-0.png',numPage, xmlProjet)
 	xmlProjet=xl.endProjet(nameProjet,xmlProjet)
 	gs.writeInText(nameProjet,numPage)
 
