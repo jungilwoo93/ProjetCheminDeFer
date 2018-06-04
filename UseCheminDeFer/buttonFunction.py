@@ -41,7 +41,7 @@ def getListImg(nameProjet,rectFull):
 	return listImg
 	
 	
-def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull,dimention):
+def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull):
 	if rectFull:
 		rect='fullRect'
 	else:
@@ -53,16 +53,19 @@ def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull,dimention):
 	wd,hg=img.size
 	h=len(listImg)%dm[0]
 	col=int(len(listImg)/dm[0])
+	spacing=3
 	if h != 0:
 		col+=1
 	new_im = Image.new('RGB',(int(wd*widthImg),int(hg*col)))
 	for image in listImg:
 		img=Image.open('DrawOnImage/finalResult/'+ nameProjet + '/' +rect +'/'+ image)
 		wd,hg=img.size
+		hg-=spacing
+		wd-=spacing
 		new_im.paste(img,(int(posX),int(posY)))
-		posX+=wd+3
+		posX+=wd+spacing
 		if posX>=(wd*widthImg) :
-			posY+=hg+3
+			posY+=hg+spacing
 			posX=0
 	#posX=0
 	#posY=0
@@ -88,7 +91,7 @@ def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull,dimention):
 	#canva.postscript(file='D:\\S4\\ProjetCheminDeFer\\UseCheminDeFer\\img.ps')
 	path='UseCheminDeFer/img.jpg'
 	new_im.save(path,'JPEG',quality=1000)
-	zi.Zoom_Advanced(canva,path,dimention,getNumberImg(nameProjet))
+	zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet))
 	
 	#new_im.show()
 

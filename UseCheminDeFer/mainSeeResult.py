@@ -7,30 +7,28 @@ Created on Tue May 22 09:37:31 2018
 
 import tkinter as tk
 import tkinter.filedialog as tf
+
+#import de nos autre fichier
 from UseCheminDeFer import zoomImag as zi
 from UseCheminDeFer import imgToPdf as itp
-#fichier lier
 from UseCheminDeFer import buttonFunction as bf
 #from UseCheminDeFer import editPage as ep
 
 ####variable
 dimention=[4,4]
 rectFull=False
+colorDefault="#F5F5DC" #couleur du fond
+
 
 def creatChemin(nameProjet):
-	#nameProjet='Batch'#a virer
-
 	####fenetre
-
-	#root = tk.Tk()
-	root = tk.Toplevel()
+	root = tk.Toplevel()#pour ouvrirune fenetre dans une autre fenetre
 	ecran_width = root.winfo_screenwidth()*0.9
 	ecran_height = root.winfo_screenheight()*0.85
 	root.geometry('%dx%d+%d+%d' % (ecran_width, ecran_height, 1, 1))
 	root.title("Chemin de Fer")
 	root.resizable(width=False,height=False)
-	colorDefault="#F5F5DC"
-
+	
 
 
 
@@ -54,14 +52,12 @@ def creatChemin(nameProjet):
 	menufile.add_separator() 
 	menufile.add_command(label="Quitter", command=root.destroy) 
 
-	#def PngToPdf():
-	#	itp.pngToImg(nameProjet,dimention,rectFull)
 	
 	def fullRec():
 		global rectFull
 		rect=bf.fullRect(rectFull)
 		rectFull=rect
-		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull,dimention)
+		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
 		
 	
 	
@@ -71,20 +67,19 @@ def creatChemin(nameProjet):
 	view.add_cascade(label="rectangle", menu=rect)
 	view.add_cascade(label="dimention", menu=dim)
 	rect.add_checkbutton(label="Plein", command=fullRec)
-	#rect.add_command(label="Vide", command=bf.fullRect)
-	#rect.add_command(label="Plein", command=bf.emptyRect)
+
 	
 	def edit():
 		numPage=zi.getNumPage()
 		path='imgFromPdf/' + nameProjet + '/' + nameProjet +'page-'+ str(numPage) +'png'
 	
-	editmenu.add_command(label="modifier une erreur", command=edit)#(nameProjet,dimention,isFull):
+	editmenu.add_command(label="modifier une erreur", command=edit)
 	
 	nitem=tk.IntVar()
 	nitem.set(4)# bouton seletionner par defaut doit etre le meme que celui selectionner en haut
 
 	#########nombre de page par feuille
-	def setDimention():#y amoyen de simplifier
+	def setDimention():#il y a moyen de simplifier
 		global dimention
 		value=nitem.get()
 		if value==2:
@@ -103,11 +98,9 @@ def creatChemin(nameProjet):
 			dimention[0]=6
 			dimention[1]=6
 		#bf.deleteCanvas(canva)
-		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull,dimention)
+		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
 		
 		
-	#def PngToImg():
-		#itp.pngToImg(nameProjet,dimention,rectFull)
 
 	dim.add_radiobutton(label="2*2",  variable=nitem, value=2,  command=setDimention)
 	dim.add_radiobutton(label="3*3", variable=nitem, value=3,  command=setDimention)#command=item,
@@ -128,17 +121,13 @@ def creatChemin(nameProjet):
 	mwd=ecran_width
 	mhg=ecran_height
 	listImg=bf.getListImg(nameProjet, rectFull)#########################changer
-	posX=0
+	posX=0#######utile?
 	posY=0
 	#app = zi.Zoom_Advanced(root,listImg,mwd,mhg,dimention)
 	###########l'aperçu
-	bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull,dimention)
+	bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
 	
-	# def selectPage(event):
-		# print('ca clic')
-		# ep.selectPage(event)
-	
-	#root.bind(<"Button1">, selectPage)
+
 	root.mainloop()
 
 

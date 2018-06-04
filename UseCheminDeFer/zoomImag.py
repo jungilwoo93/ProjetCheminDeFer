@@ -14,15 +14,15 @@ def show():
 """
 
 
-# -*- coding: utf-8 -*-
-# Advanced zoom example. Like in Google Maps.
-# It zooms only a tile, but not the whole image. So the zoomed tile occupies
-# constant memory and not crams it with a huge resized image for the large zooms.
+
 import random
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
+
+#import de nos autres fichiers
 from UseCheminDeFer import editPage as ep
+from UseCheminDeFer import export as exp
 
 sizeXimg=0
 sizeYimg=0
@@ -80,15 +80,25 @@ class Zoom_Advanced(ttk.Frame):
 		#self.canvas.bind('<Button-4>',   self.wheel)  # only with Linux, wheel scroll up
 		self.image = Image.open(path)  # open image
 		
-		self.img = Image.open('guillemets.jpg')
-		self.sizeButton=5
-		self.imag = self.img.resize((self.sizeButton,self.sizeButton))
-		self.photo = ImageTk.PhotoImage(self.imag)
-		#button = Button(root, image=photo)
-		self.posX=40
-		self.posY=60
-		self.bt_green = tk.Button(self.master, image=self.photo)#command=lambda: self.canvas.config(bg="green")
-		self.bt_green_w = self.canvas.create_window(self.posX, self.posY, window=self.bt_green)
+		#les boutons 
+		
+		
+		
+		
+		# exp.creatButton()
+		# self.img = Image.open('guillemets.jpg')
+		# self.sizeButton=8
+		# self.imag = self.img.resize((self.sizeButton,self.sizeButton))
+		# self.photo = ImageTk.PhotoImage(self.imag)
+		# k=0
+		# self.posX=0
+		# self.posY=10
+		# while k<numPager :
+			# for j in range (0,dimention[0]):
+				# self.posX=40
+				# self.posY=60
+				# self.bt_green = tk.Button(self.master, image=self.photo)#command=lambda: self.canvas.config(bg="green")
+				# self.bt_green_w = self.canvas.create_window(self.posX, self.posY, window=self.bt_green)
 		
 		
 		
@@ -96,6 +106,9 @@ class Zoom_Advanced(ttk.Frame):
 		self.imscale = 1.0  # scale for the canvaas image
 		self.delta = 1.3  # zoom magnitude
         # Put image into container rectangle and use it to set proper coordinates to the image
+		
+		exp.creatButton(self.canvas, self.width, self.height,numPage,dimention, self.master,sizeYimg)
+		
 		self.container = self.canvas.create_rectangle(0, 0, self.width, self.height, width=0)
 		self.show_image()
 
@@ -110,12 +123,12 @@ class Zoom_Advanced(ttk.Frame):
 		self.show_image()  # redraw the image
     
 	def selectPage(self, event):
-		print('ca clic')
+		#print('ca clic')
 		mouseX = event.x
 		mouseY = event.y
 		x = self.canvas.canvasx(event.x)
 		y = self.canvas.canvasy(event.y)
-		sizeX = sizeXimg
+		sizeX = sizeXimg#a simplifier
 		sizeY = sizeYimg
 		global pageSelected
 		pageSelected = ep.selectPage(x, y, mouseX, mouseY, sizeX, sizeY,dimention, numPage)
