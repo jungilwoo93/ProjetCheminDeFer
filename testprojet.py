@@ -4,7 +4,7 @@ Created on Mon May  7 16:26:16 2018
 
 @author: Rachel Noireau et Liuyan PAN
 """
-
+#### libraries à importer
 import tkinter as tk
 import tkinter.filedialog as tf
 from PIL import Image, ImageFont, ImageDraw, ImageTk
@@ -16,6 +16,7 @@ import DrawRect as rect
 import creatXml as xl
 import gestionSave as gs
 import pdfToImg as pti
+import commun as co
 
 #########################################################  fenetre principale ##################################################
 #créer la fenêtre d'application
@@ -28,12 +29,14 @@ screen_height = root.winfo_screenheight()*0.85
 root.geometry('%dx%d+%d+%d' % (screen_width, screen_height, 1, 1))
 #mettre le title et background pour l'application
 root.title("Trainning Chemin de Fer")
+#fixer la taille de fenêtre, on peut pas agrandir et réduire la fênetre
 root.resizable(width=False,height=False)
-colorDefault="#F5F5DC" #bd=-2 #supprime bordure
-#F5F5DC #beige
+#colorDefault="#F5F5DC" #F5F5DC #beige #bd=-2 #supprime bordure
+func=co.FunctionCommun()
+func.setSizeScreen(screen_width,screen_height)
 
 ####################################################### frame entier ########################################################3
-f=tk.Frame(root,bg=colorDefault ,width=screen_width,height=screen_height)
+f=tk.Frame(root,bg=func.colorDefault ,width=screen_width,height=screen_height)
 #scrollbar pour la fenetre pricipqle
 #vsb = tk.Scrollbar(f, orient=tk.VERTICAL)
 #vsb.grid(row=0, column=3, rowspan=4, sticky=tk.N+tk.S+tk.E)#
@@ -43,7 +46,7 @@ f=tk.Frame(root,bg=colorDefault ,width=screen_width,height=screen_height)
 
 #hsb.grid(row=1, column=0,columnspan=5, sticky=tk.E+tk.W)
 #c = tk.Canvas(f, yscrollcommand=vsb.set, xscrollcommand=hsb.set, width=screen_width, height=screen_height,bd=0,highlightthickness=0)
-c=tk.Canvas(f,width=screen_width, height=screen_height,bd=0,highlightthickness=0,bg=colorDefault)
+c=tk.Canvas(f,width=screen_width, height=screen_height,bd=0,highlightthickness=0,bg=func.colorDefault)
 #c.yview_moveto(1)
 #c.xview_moveto(1)
 c.grid(row=0, column=0, sticky=tk.W+tk.N + tk.S)#,sticky="news"
@@ -55,27 +58,27 @@ c.grid(row=0, column=0, sticky=tk.W+tk.N + tk.S)#,sticky="news"
 ######################################################## variable global #######################################################
 var=tk.StringVar()
 var.set("Paragraphe")
-typeZone={"Titre","Paragraphe","Lettrine","Image"}
-listPath=[]
-drawRect=None
-listFileWithActionRect={}
-listActionRect={}
-selectedAction=None
-nameProjet='new'
-selectedFile=None
-listActionOfFile=None
-currentSelectedFile=None
-lastSelectedFile=None
-currentSelectedAction=None
-lastSelectedAction=None
-numPage=0
-countRect=1
-rectSelect=None
-xmlProjet=None
-numberPage=0
+#typeZone={"Titre","Paragraphe","Lettrine","Image"}
+#listPath=[]
+#drawRect=None
+#listFileWithActionRect={}
+#listActionRect={}
+#selectedAction=None
+#nameProjet='new'
+#selectedFile=None
+#listActionOfFile=None
+#currentSelectedFile=None
+#lastSelectedFile=None
+#currentSelectedAction=None
+#lastSelectedAction=None
+#numPage=0
+#countRect=1
+#rectSelect=None
+#xmlProjet=None
+#numberPage=0
 #colorRect='black'
 #################################################### toutes les fonctions  ####################################################
-def changeColRect():
+"""def changeColRect():
 	value = str(var.get())
 	if value == 'Titre' :
 		#colorRect='blue'
@@ -99,32 +102,32 @@ def createRectBySelectionListbox(wd=None,outline=None,fill=None):
 		if wd is not None:
 			if outline is not None:
 				if fill is not None :
-					drawRect.creatRect(selection,list1,wd,outline,fill)
+					func.drawRect.creatRect(selection,list1,wd,outline,fill)
 				else:
-					drawRect.creatRect(selection,list1,wd,outline)
+					func.drawRect.creatRect(selection,list1,wd,outline)
 			else:	
 				if fill is not None :
-					drawRect.creatRect(selection,list1,wd,None,fill)
+					func.drawRect.creatRect(selection,list1,wd,None,fill)
 				else:
-					drawRect.creatRect(selection,list1,wd)
+					func.drawRect.creatRect(selection,list1,wd)
 		else:
 			if outline is not None:
 				if fill is not None :
-					drawRect.creatRect(selection,list1,None,outline,fill)
+					func.drawRect.creatRect(selection,list1,None,outline,fill)
 				else:
-					drawRect.creatRect(selection,list1,None,outline)
+					func.drawRect.creatRect(selection,list1,None,outline)
 			else:
 				if fill is not None :
-					drawRect.creatRect(selection,list1,None,None,fill)
+					func.drawRect.creatRect(selection,list1,None,None,fill)
 				else:
-					drawRect.creatRect(selection,list1)
+					func.drawRect.creatRect(selection,list1)
 # fonction de buttonConfirm
 def confirmer():
 	#print("listActionRect orginal " +str(listActionRect))
 	listActionOrigin=listAction.get(0,tk.END)
 	listTextSelection=[]
 	listTextChange=[]
-	drawRect.deleteAllRectAppear()
+	func.drawRect.deleteAllRectAppear()
 	changeColRect()
 	#value = var.get()
 	currentSelect=listAction.curselection()
@@ -161,9 +164,9 @@ def confirmer():
     #print("listFileToRect"+str(listFileWithActionRect))
     #countRect+=1
     #print(drawRect.getCoordonnes())
-    
+""" 
 # parcours choit du fichier
-def chooseFile():
+"""def chooseFile():
 	#choice=fenetre.FileDialog(tf.msoFileDialogOpen)
 	choice = tf.askopenfilenames() #fichier uniquement
 	#choice = tf.askdirectory()  #repertoire uniquement
@@ -215,11 +218,12 @@ def chooseFile():
 #        else :
 #            j += 1
     #listPath.reverse()??????????????????????????
+	"""
     
             
  
 # supprimer de la liste tout les fichiers
-def delecteAll():
+"""def delecteAll():
     listFiles.delete(0,tk.END) 
     listPath.clear()
     
@@ -259,10 +263,10 @@ def lastPage():
 		listFiles.selection_set(int(numPage))
 		resizeImg(int(numPage))
 		recharge()
-
+"""
 
 ############################# Barre menu 
-def newProjet():
+"""def newProjet():
 	global numPage
 	numPage=0
 	chooseFile()
@@ -271,9 +275,9 @@ def newProjet():
 	page=xl.addPage('imgFromPdf/' + nameProjet+ '/'+ nameProjet + 'page-0.png',numPage, xmlProjet)
 	xmlProjet=xl.endProjet(nameProjet,xmlProjet)
 	gs.writeInText(nameProjet,numPage)
+"""
 
-
-	'''
+"""
 def projetToContinu(listProjet):   
     global nameProjet
     print('coucou')
@@ -283,9 +287,9 @@ def projetToContinu(listProjet):
     numPage=gs.getAvancementProjet(nameProjet)
     listFiles.selection_set(numPage)
     #peut etre 
-    '''
+ """
 
-    
+"""    
 def continueProjet():
 	rootpop = tk.Tk()
 	rootpop.title("choisit le projet")
@@ -391,7 +395,7 @@ def deepLearnig():
 	#save()
 	#root.destroy()
 	#root.quit()
-
+"""
 	
 menubar=tk.Menu(root)
 root.config(menu = menubar)
@@ -400,23 +404,23 @@ cheminDeFer = tk.Menu(menubar,tearoff=0)
 menubar.add_cascade(label="Fichier", menu=menufichier)
 menubar.add_cascade(label="Chemin de fer", menu=cheminDeFer)
 
-menufichier.add_command(label="Nouveau Projet", command=newProjet)
-menufichier.add_command(label="Continuer Projet", command = continueProjet) 
+menufichier.add_command(label="Nouveau Projet", command=func.newProjet)
+menufichier.add_command(label="Continuer Projet", command = func.continueProjet) 
 menufichier.add_separator() 
 #menufichier.add_command(label="Enregistrer", command=save)
 #menufichier.add_separator()
 #menufichier.add_command(label="Quitter", command=root.destroy) 
 
-cheminDeFer.add_command(label="Crée", command=deepLearnig)
+cheminDeFer.add_command(label="Crée", command=func.deepLearnig)
 ############################################################ frame à gauche ####################################################
 #f1=tk.Frame(root,bg='gold', width=screen_width+1000, height=screen_height)
 #f1.config(width=screen_width+1000, height=screen_height)
 #f1.grid(column=0,columnspan=1000,sticky=tk.E)
-f1=tk.Frame(c,bg=colorDefault,height=screen_height,width=screen_width*0.4)
+f1=tk.Frame(c,bg=func.colorDefault,height=screen_height,width=screen_width*0.4)
 f1.grid(row=0,column=0,sticky=tk.S+tk.W+tk.N)
 
 ####################### label fichiers choisis
-labelFichier=tk.Label(f1,text='Les fichiers choisis : ', bg=colorDefault)
+labelFichier=tk.Label(f1,text='Les fichiers choisis : ', bg=func.colorDefault)
 labelFichier.config(font=('Forte',18))
 labelFichier.grid(row=0,sticky=tk.W,pady=5)
 
@@ -434,13 +438,14 @@ listFiles = tk.Listbox(listFrame,
      xscrollcommand=xDefilB.set,
      yscrollcommand=yDefilB.set,width=70,height=15,selectmode=tk.SINGLE,exportselection=0)
 listFiles.grid(row=0)#'nsew'
+func.setListBoxFiles(listFiles)
 #listFiles.pack(side="left",fill="y")  
 xDefilB['command'] = listFiles.xview
 yDefilB['command'] = listFiles.yview
 listFrame.grid(row=1,pady=5,padx=20,sticky=tk.W)
 
 
-def reloadImg() :
+"""def reloadImg() :
 	listImgFromPdf = os.listdir('imgFromPdf/' + nameProjet)
 	chrono = lambda v: os.path.getmtime(os.path.join('imgFromPdf/' + nameProjet, v))
 	listImgFromPdf.sort(key = chrono)
@@ -452,7 +457,7 @@ def reloadImg() :
 	global numberPage
 	numberPage=len(listImgFromPdf)
 	listFiles.select_set(numPage)#pour que ça aille a la page ou on en etait
-  
+ """ 
       
 ################### frame pour les buttons parcourir, supprimer, vider
 #zoneButton=tk.Frame(f1)
@@ -462,23 +467,25 @@ boutonSupprimer=tk.Button(zoneButton,text="Vider",command=delecteAll).grid(row=1
 #zoneButton.grid(row=2,pady=5)
 
 ################## label pour la zone choisie
-labelZoneChoix=tk.Label(f1,text='La zone choisie est : ', bg=colorDefault)#,  gold
+labelZoneChoix=tk.Label(f1,text='La zone choisie est : ', bg=func.colorDefault)#,  gold
 labelZoneChoix.config(font=('Forte',18))
 labelZoneChoix.grid(row=2, sticky=tk.W)
 
+def setVar():
+	func.setVar(var.get())
 ########################3 frame pour afficher les radiobuttons des choix
-zoneRadioButton=tk.Frame(f1, bg=colorDefault)
+zoneRadioButton=tk.Frame(f1, bg=func.colorDefault)
 a=0
-for i,v in enumerate(typeZone):
-    tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v, bg=colorDefault).grid(row=0, column=a,sticky=tk.W,padx=20)
+for i,v in enumerate(func.typeZone):
+    tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v, bg=func.colorDefault,command=setVar).grid(row=0, column=a,sticky=tk.W,padx=20)
     a+=1
 zoneRadioButton.grid(row=3,sticky=tk.W,pady=5)
 
 ################ button pour comfirmer le choix avec la zone choisit sur image
-buttonConfirm=tk.Button(f1,text="Confirmer",command=confirmer).grid(row=4,column=0,pady=5,sticky=tk.S)
+buttonConfirm=tk.Button(f1,text="Confirmer",command=func.confirmer).grid(row=4,column=0,pady=5,sticky=tk.S)
 
 ################ listebox pour les Actions
-def onSelectAction(evt):
+"""def onSelectAction(evt):
 	global drawRect
 	currentSelect=listAction.curselection()
 	drawRect.deleteAllRectAppear()
@@ -489,7 +496,7 @@ def onSelectAction(evt):
 		list1=listActionRect[selection]
 		#print("listActionRect "+str(list1))
 		drawRect.creatRect(selection,list1,3)
-	"""currentSelect=listAction.curselection()
+	currentSelect=listAction.curselection()
 	if len(currentSelect) >1:
 		print("when all selected "+str(listAction.curselection()))
 		tmp=0
@@ -503,7 +510,8 @@ def onSelectAction(evt):
 	else:
 		
 		print("if length of currentSelect =1 or =0")"""
-	"""global selectedAction
+
+"""	global selectedAction
     if selectedAction is not None:
         cadre.delete(selectedAction)
     selection=listAction.get(listAction.curselection())
@@ -511,17 +519,17 @@ def onSelectAction(evt):
     list1=listActionRect[selection]
     selectedAction=cadre.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=5)"""
     
-labelAction=tk.Label(f1,text="Les actions : ", bg=colorDefault)
+labelAction=tk.Label(f1,text="Les actions : ", bg=func.colorDefault)
 labelAction.config(font=('Forte',18))
 labelAction.grid(row=5,column=0,pady=5,sticky=tk.W)
 listAction = tk.Listbox(f1,width=70,height=8,selectmode=tk.MULTIPLE)
 listAction.grid(row=6,column=0,pady=5)
-listAction.bind('<<ListboxSelect>>', onSelectAction)  
+listAction.bind('<<ListboxSelect>>', func.onSelectAction)  
 for i in range(0,listAction.size()):
 	listAction.selection_set(i)
-
+func.setListBoxAction(listAction)
 # supprimer de la liste les fichiers selectionnés
-def deleteSelection():#pour liste des actions
+"""def deleteSelection():#pour liste des actions
 	global drawRect
 	currentselection = listAction.curselection()
 	#print("current selection " +str(currentselection))
@@ -542,15 +550,16 @@ def deleteSelection():#pour liste des actions
 	#for k in range(0,len(currentselection)-1).reverse():
 	#	print(str(k))
 		#
-	"""for i in range(0,len(currentselection)):
+
+	for i in range(0,len(currentselection)):
 		print("current selection " +str(currentselection[i]))
 		
 		list1=[]
 		list1=listActionRect[selection]
 		idRect=list1[4]
 		drawRect.deleteRect(selection,idRect)
-		listAction.delete(currentselection[i])"""
-	"""else:
+		listAction.delete(currentselection[i
+	else:
 		selection=listAction.get(currentselection[0])
 		list1=[]
 		
@@ -558,8 +567,9 @@ def deleteSelection():#pour liste des actions
 	#pas encore supprimer dans la liste!!!!!!!!!!!!!!!!
     #listPath.remove(selection[0])
 
+
 #################fonctio de generation du xml
-def save():
+"""def save():
 	global xmlProjet
 	if not(xl.pageExist(nameProjet, str(numPage),xmlProjet)) :
 		page = xl.addPage(str(listPath[int(numPage)]),numPage,xmlProjet)
@@ -569,13 +579,13 @@ def save():
 		page = xl.foundPage(nameProjet, numPage,xmlProjet)
 	sizelist=listAction.size()
 	#w=evt.widget
-	listItems=listAction.get(0,tk.END)
-	"""for i in range(0,sizelist) :
+	listItems=listAction.get(0,tk.END
+	for i in range(0,sizelist) :
 		(typeAction,idAction) = list1[i].split("-")
 		print("type"+typeAction)
 		print("id"+idAction)"""
 	#listActionRect[selection]
-	for k in range (0,sizelist) :
+"""	for k in range (0,sizelist) :
 		(typeAction,idAction) = listItems[k].split("-")
 		#listAction.selection_set(k)
 		#selection = listAction.curselection()
@@ -596,10 +606,10 @@ def save():
 		else :
 			if not(xl.sameType(nameProjet, numPage, numElem, typeEl,xmlProjet)):
 				xmlProjet=xl.replace(nameProjet, numPage, numElem, typeEl,xmlProjet)
-				xmlProjet=xl.endProjet(nameProjet,xmlProjet)
+				xmlProjet=xl.endProjet(nameProjet,xmlProjet)"""
 	#nextPage()
 
-def de_select():
+"""def de_select():
 	#global countClick
 	listSelectionAction=listAction.curselection()
 	#listSelectionAction=listAction.curselection()
@@ -628,19 +638,19 @@ def selectAll():
 		#print("listActionRect " +str(listActionRect))
 		#print("selection " + str(selection))
 		#print("list1 " + str(list1))
-		drawRect.creatRect(selection,list1,3)
+		drawRect.creatRect(selection,list1,3)"""
 ###fin barre menu qui a besoin de save
-menufichier.add_command(label="Enregistrer", command=save)
+menufichier.add_command(label="Enregistrer", command=func.save)
 menufichier.add_separator()
 menufichier.add_command(label="Quitter", command=root.destroy) 
 
 
 ################ button pour confirmer le choix des element de la page ##############
-fButtons=tk.Frame(f1, bg=colorDefault)
-buttonDeselect=tk.Button(fButtons,text="Deselect/Select all",command=de_select).grid(row=0,column=0,padx=20,sticky=tk.S)
-buttonDelete=tk.Button(fButtons,text="Supprimer",command=deleteSelection).grid(row=0,column=1,padx=20,sticky=tk.S)
-buttonLast=tk.Button(fButtons,text="Précédent",command=lastPage).grid(row=0,column=2,padx=20,sticky=tk.S)
-buttonSave=tk.Button(fButtons,text="Enregistrer et Suivant",command=nextPage).grid(row=0,column=3,padx=20,sticky=tk.S)
+fButtons=tk.Frame(f1, bg=func.colorDefault)
+buttonDeselect=tk.Button(fButtons,text="Deselect/Select all",command=func.de_select).grid(row=0,column=0,padx=20,sticky=tk.S)
+buttonDelete=tk.Button(fButtons,text="Supprimer",command=func.deleteSelection).grid(row=0,column=1,padx=20,sticky=tk.S)
+buttonLast=tk.Button(fButtons,text="Précédent",command=func.lastPage).grid(row=0,column=2,padx=20,sticky=tk.S)
+buttonSave=tk.Button(fButtons,text="Enregistrer et Suivant",command=func.nextPage).grid(row=0,column=3,padx=20,sticky=tk.S)
 #buttonSave=tk.Button(fButtons,text="Suivant",command=suivant).grid(row=0,column=1,padx=50,sticky=tk.S)
 fButtons.grid(row=7,column=0,pady=20)
 
@@ -659,11 +669,11 @@ fButtons.grid(row=7,column=0,pady=20)
 #afficher image dés qu'on selectionne un element
 #zoneImage=tk.Frame(root,bg="black")
 #zoneImage.grid(row=2,column=10,rowspan=2,columnspan=8,sticky=tk.E )
-fImg=tk.Frame(c,width=screen_width*0.6,height=screen_height, bg=colorDefault)
+fImg=tk.Frame(c,width=screen_width*0.6,height=screen_height, bg=func.colorDefault)
 fImg.grid(row=0,column=1,sticky=tk.N+tk.S)
-cadre=tk.Canvas(c, bg=colorDefault, bd=-2)
+cadre=tk.Canvas(c, bg=func.colorDefault, bd=-2)
 cadre.grid(row=0,column=1)
-
+func.setCadre(cadre)
 """def selectByButton():
     global numPage
     resizeImg(numPage)
@@ -702,7 +712,8 @@ cadre.grid(row=0,column=1)
     cadre.bind('<ButtonPress-3>', drawRect.onMove)   
     cadre.bind('<ButtonRelease-1>', drawRect.onFinal)
     gs.update(nameProjet,numPage)"""
-    
+ 
+""" 
 def resizeImg(index):
     global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
     dicimg={}
@@ -752,9 +763,9 @@ def resizeImg(index):
     cadre.bind('<ButtonPress-3>', drawRect.rightOnStart)
     cadre.bind('<B3-Motion>',     drawRect.rightOnMove)
     cadre.bind('<ButtonRelease-3>',drawRect.rightOnFinal)
-    gs.update(nameProjet,numPage)
+    gs.update(nameProjet,numPage)"""
  
-def recharge():
+"""def recharge():
 	global currentSelectedFile,lastSelectedFile,listActionRect
 	#global selectedAction
 	if currentSelectedFile is not None:
@@ -777,9 +788,9 @@ def recharge():
 			#else:
 			#    print("is none")
 	else:
-		currentSelectedFile=listFiles.get(listFiles.curselection())
+		currentSelectedFile=listFiles.get(listFiles.curselection())"""
 
-def onselect(evt):
+"""def onselect(evt):
 	global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
 	#cadre=tk.Canvas(c,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=screen_width-600,height=screen_height-25,bg="black")#,bg="black"
 	#cadre=tk.Label(f,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=320,height=240,bg="green")
@@ -797,11 +808,12 @@ def onselect(evt):
 		recharge()
 		resizeImg(index)
 		selectAll()
-		"""if currentSelectedFile != listFiles.get(listFiles.curselection()):
-				listAction.delete(0,tk.END)
-				listAction.insert(tk.END,var.get()+'-'+str(nbConfirm))
-				print("different")"""
-		"""list=[]
+		
+		if currentSelectedFile != listFiles.get(listFiles.curselection()):
+			listAction.delete(0,tk.END)
+			listAction.insert(tk.END,var.get()+'-'+str(nbConfirm))
+			print("different")
+		list=[]
 		list=dict[selection]
 		selectedAction=cadre.create_rectangle(list[0],list[1],list[0]+list[2],list[1]+list[3],width=5)"""
 		#zoneImage.grid(row=2,column=5000,rowspan=2,columnspan=8,sticky=tk.E)#,padx=20,pady=20
@@ -816,8 +828,11 @@ def onselect(evt):
 		#zoneImage.grid(row=0,column=1,rowspan=2,columnspan=8,sticky=tk.E )
 		#cadre.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
 		#cadre.config(scrollregion=cadre.bbox("all"))
+#def printList(event):  
+#    print(listFiles.get(listFiles.curselection()))  
+listFiles.bind('<<ListboxSelect>>', func.onselect)  #green
+listFiles.bind('<Double-Button-1>',func.openModif)  
 
-listFiles.bind('<<ListboxSelect>>', onselect)  #green
 #buttonLast.bind('<Button-1>', onselect)
 #buttonSave.bind('<Button-1>', onselect)
 #démarrer du réceptionnaire d'événements

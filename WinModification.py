@@ -5,7 +5,7 @@ Created on Tue May 15 09:53:46 2018
 @author: rachel NOIREAU & liuyan PAN
 """
 import tkinter as tk
-root=tk.Tk()
+#root=tk.Toplevel()
 import os
 import commun as co
 
@@ -15,7 +15,9 @@ import commun as co
 #var.set("Paragraphe")
 
 
-def creatWin(pathIMG,nameProjet):
+def creatWin(root,pathIMG,nameProjet):
+	var=tk.StringVar()
+	var.set("Paragraphe")
 	func=co.FunctionCommun()
 	screen_width = root.winfo_screenwidth()*0.9
 	screen_height = root.winfo_screenheight()*0.85
@@ -35,7 +37,7 @@ def creatWin(pathIMG,nameProjet):
 	zoneRadioButton=tk.Frame(f1, bg=func.colorDefault)
 	a=0
 	for i,v in enumerate(func.typeZone):
-		tk.Radiobutton(zoneRadioButton, text=v, variable=func.var, value = v, bg=func.colorDefault).grid(row=0, column=a,sticky=tk.W,padx=20)
+		tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v, bg=func.colorDefault).grid(row=0, column=a,sticky=tk.W,padx=20)
 		a+=1
 	zoneRadioButton.grid(row=1,sticky=tk.W,pady=5)
 	buttonConfirm=tk.Button(f1,text="Confirmer",command=func.confirmer).grid(row=2,column=0,pady=5,sticky=tk.S)
@@ -63,7 +65,7 @@ def creatWin(pathIMG,nameProjet):
 	root.mainloop()
 	
 
-numPage=0	
-pathImg='imgFromPdf/TD3/TD3page-0.png'
-nameProjet='TD3'
-creatWin(pathImg,nameProjet)
+#numPage=0	
+#pathImg='imgFromPdf/TD3/TD3page-0.png'
+#nameProjet='TD3'
+#creatWin(pathImg,nameProjet)

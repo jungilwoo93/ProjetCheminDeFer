@@ -1,4 +1,5 @@
 import tkinter as tk
+import commun as co
 trace = 0 
 class CanvasEventsDemo:
 
@@ -22,6 +23,7 @@ class CanvasEventsDemo:
 	listFileWithActionRect=None
 	currentFile=None
 	listRectAppear=[]
+	func=co.FunctionCommun()
 	#fileChanged=False
 	
 	def __init__(self, parent,listbox,actionRectList,fileWithActionRectList,currentFileSelected,fileChange,col=None):
@@ -33,6 +35,7 @@ class CanvasEventsDemo:
 		self.listFileWithActionRect=fileWithActionRectList
 		self.currentFile=currentFileSelected
 		self.fileChanged=fileChange
+		self.func.setListBoxAction(listbox)
 		#print("true or false?????????????"+str(fileChange))
 		#print("!!!!!!!!!!!!!listRect!!!!!!!!!!!!!"+str(self.listRect))
 		if fileChange is True:
@@ -122,7 +125,7 @@ class CanvasEventsDemo:
 		self.isMove=False
             
 	def leftOnFinal(self,event):
-		print('listFileWithActionRect !!!!' + str(self.listFileWithActionRect))
+		#print('listFileWithActionRect !!!!' + str(self.listFileWithActionRect))
 		self.listActionRect=self.listFileWithActionRect[self.currentFile]
 		global isDraw,listBoxAction,idAction,listActionRect,listFileWithActionRect,currentFile
 		self.final=event
@@ -133,6 +136,7 @@ class CanvasEventsDemo:
 		self.listBoxAction.insert(self.listBoxAction.size(),'Paragraphe-'+str(self.idAction))
 		self.listActionRect['Paragraphe-'+str(self.idAction)]=self.getCoordonnes()
 		self.listFileWithActionRect[self.currentFile]=self.listActionRect
+		#self.func.deselectAll()
 		print('listFileWithActionRect ' + str(self.listFileWithActionRect))
 		#self.listRect.append(objectId)#####################
 		self.listBoxAction.select_set(0,tk.END)
@@ -141,15 +145,16 @@ class CanvasEventsDemo:
 			selection=self.listBoxAction.get(i)
 			list1=[]
 			list1=self.listActionRect[selection]
-			#print("listActionRect1111"+str(self.listActionRect[selection]))
+			print("listActionRect1111"+str(self.listActionRect[selection]))
 			#print("list1"+str(list1))
-			selectedAction=self.canvas.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=2)
+			selectedAction=self.canvas.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=2,outline=list1[6])
 			list1[4]=selectedAction
 			#print("selection     "+str(selectedAction))
 			self.listRectAppear.append(selectedAction)#########################
 			#self.listRect.append(self.listRectAppear[0])
 			#print("listActionRect22222222"+str(self.listActionRect[selection]))
 			#print("creat rect"+str(self.listRectAppear))
+		
 		self.canvas.delete(objectId)
 	
 	def rightOnFinal(self,event):
@@ -208,7 +213,7 @@ class CanvasEventsDemo:
 		#print("currentFile " +self.currentFile) 
 		#list2=[]
 		list2=self.listFileWithActionRect[self.currentFile]
-		#print("listFileWithActionRect with?????" + str(list2))
+		print("listFileWithActionRect with?????" + str(list2))
 		#print("self.listActionRect " + str(self.listActionRect))
 		#list1=[]
 		list1=list2[actionRect]
@@ -245,3 +250,4 @@ class CanvasEventsDemo:
 		if selectedAction not in self.listRectAppear : 
 			self.listRectAppear.append(selectedAction)
 		return self.listRectAppear
+	

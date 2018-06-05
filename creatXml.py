@@ -206,8 +206,9 @@ def delectElement(nameProjet,numPage,numElem,xmlProjet):
 def replace(nameProjet, numPage, numElem, newType,xmlProjet) :
 	for e in xmlProjet.findall('page'):
 		if e.attrib['id']==str(numPage) :
-			for e1 in e.find('element'):
+			for e1 in e.findall('element'):
 				if not(e1 is None):
+					#print(str(e1.attrib['id']))
 					if e1.attrib['id']==str(numElem):
 						e1.attrib['type'] = newType
 						return xmlProjet
@@ -256,8 +257,12 @@ def sameType(nameProjet, numPage, numElem, newType, xmlProjet):#peut retirai nam
 def getRect(nameProjet,numPage,xmlProjet):
 	#page=foundPage(nameProjet,numPage,xmlProjet)
 	allPage=findAllPage(xmlProjet)
+	#print("all page " +str(allPage))
 	listRect=[]
 	for page in allPage:
+		#print("page " +str(page))
+		#print("page attrib " + str(page.attrib['id']))
+		#print("numpage " +str(numPage))
 		if page.attrib['id']==str(numPage):
 			for rect in page.findall('element'):
 				typeRect=rect.attrib['type']
@@ -276,6 +281,7 @@ def getRect(nameProjet,numPage,xmlProjet):
 				elHeight=rect.find('height')
 				height=elHeight.text
 				listRect.append([numPage,typeRect,numrect,posx,posy,width,height])
+	#print("listRect " +str(listRect))
 	return listRect
 
 def getRectForModification(name,pathImg,xmlProjet):
