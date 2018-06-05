@@ -14,7 +14,6 @@ class CanvasEventsDemo:
 	rightfinalX=0
 	rightfinalY=0
 	objectId=None
-	color="Black"
 	listRectDrawn={}
 	#listRect=[]
 	idAction=0
@@ -23,43 +22,40 @@ class CanvasEventsDemo:
 	listFileWithActionRect=None
 	currentFile=None
 	listRectAppear=[]
+	isWinModif=None
 	func=co.FunctionCommun()
 	#fileChanged=False
 	
-	def __init__(self, parent,listbox,actionRectList,fileWithActionRectList,currentFileSelected,fileChange,col=None):
+	def __init__(self, parent,listbox,actionRectList,fileWithActionRectList,currentFileSelected,isWinModif,fileChange=None):
 		self.canvas = parent
 		self.isDraw=False
 		self.isMove=False
+		self.isWinModif=isWinModif
 		self.listBoxAction=listbox
 		self.listActionRect=actionRectList
 		self.listFileWithActionRect=fileWithActionRectList
 		self.currentFile=currentFileSelected
-		self.fileChanged=fileChange
+		#self.fileChanged=fileChange
 		self.func.setListBoxAction(listbox)
 		#print("true or false?????????????"+str(fileChange))
 		#print("!!!!!!!!!!!!!listRect!!!!!!!!!!!!!"+str(self.listRect))
-		if fileChange is True:
-			#if len(self.listRect) >1:
-			#	self.canvas.delete(self.listRect[len(self.listRect)-1])
-			for i in range(0,len(self.listRectAppear)):
-				self.canvas.delete(self.listRectAppear[i])
-			self.listRectAppear=[]
-			if self.listBoxAction.size() >0 :
-				self.listBoxAction.select_set(0,tk.END)
-			else:
-				print("size <0")
-			#fileChange=False
+		if fileChange is not None:
+			if fileChange is True:
+				#if len(self.listRect) >1:
+				#	self.canvas.delete(self.listRect[len(self.listRect)-1])
+				for i in range(0,len(self.listRectAppear)):
+					self.canvas.delete(self.listRectAppear[i])
+				self.listRectAppear=[]
+				if self.listBoxAction.size() >0 :
+					self.listBoxAction.select_set(0,tk.END)
+				else:
+					print("size <0")
+				#fileChange=False
 		#print("!!!!!!!!!!!!!listRect!!!!!!!!!!!!!"+str(self.listRect))
 		#print("listbox")
 		#print("listActionRect"+str(actionRectList))
 		#print("listFileWithActionRect"+str(fileWithActionRectList))
 		#print("currentFileSelected"+str(currentFileSelected))
-		if col is not None:
-			print("isBlack")
-			self.color="Black"
-		else:
-			print("another color")
-			self.color=col
 		self.drawn  = None
 		
 	def leftOnStart(self, event):
@@ -137,7 +133,7 @@ class CanvasEventsDemo:
 		self.listActionRect['Paragraphe-'+str(self.idAction)]=self.getCoordonnes()
 		self.listFileWithActionRect[self.currentFile]=self.listActionRect
 		#self.func.deselectAll()
-		print('listFileWithActionRect ' + str(self.listFileWithActionRect))
+		#print('listFileWithActionRect ' + str(self.listFileWithActionRect))
 		#self.listRect.append(objectId)#####################
 		self.listBoxAction.select_set(0,tk.END)
 		#print("size of listBoxAction " + self.listBoxAction.size())
@@ -145,7 +141,7 @@ class CanvasEventsDemo:
 			selection=self.listBoxAction.get(i)
 			list1=[]
 			list1=self.listActionRect[selection]
-			print("listActionRect1111"+str(self.listActionRect[selection]))
+			#print("listActionRect1111"+str(self.listActionRect[selection]))
 			#print("list1"+str(list1))
 			selectedAction=self.canvas.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=2,outline=list1[6])
 			list1[4]=selectedAction
@@ -213,7 +209,7 @@ class CanvasEventsDemo:
 		#print("currentFile " +self.currentFile) 
 		#list2=[]
 		list2=self.listFileWithActionRect[self.currentFile]
-		print("listFileWithActionRect with?????" + str(list2))
+		#print("listFileWithActionRect with?????" + str(list2))
 		#print("self.listActionRect " + str(self.listActionRect))
 		#list1=[]
 		list1=list2[actionRect]

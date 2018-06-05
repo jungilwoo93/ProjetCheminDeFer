@@ -19,25 +19,21 @@ class FunctionCommun:
 	screen_height=None
 	listPath=[]
 	drawRect=None
+	drawRectModif=None
 	listFileWithActionRect={}
 	listActionRect={}
-	selectedAction=None
 	nameProjet='new'
-	selectedFile=None
-	listActionOfFile=None
 	currentSelectedFile=None
 	lastSelectedFile=None
-	currentSelectedAction=None
-	lastSelectedAction=None
 	numPage=0
-	countRect=1
-	rectSelect=None
 	xmlProjet=None
 	numberPage=0
 	listAction=None
 	listFiles=None
 	listModif=None
 	cadre=None
+	isWinModif=False
+	
 	#### fonctions ####
 	def __init__(self,listbox=None):
 		self.listAction=listbox
@@ -58,18 +54,18 @@ class FunctionCommun:
 	def setCadre(self,cadre):
 		self.cadre=cadre
 		
-	def changeColRect(self):
+	def changeColRect(self,drawRect):
 		value = str(self.var)
 		if value == 'Titre' :
-			self.createRectBySelectionListbox(2,'blue')
+			self.createRectBySelectionListbox(drawRect,2,'blue')
 		elif value == 'Lettrine' :
-			self.createRectBySelectionListbox(2,'green')
+			self.createRectBySelectionListbox(drawRect,2,'green')
 		elif value == 'Image' : 
-			self.createRectBySelectionListbox(2,'red')
+			self.createRectBySelectionListbox(drawRect,2,'red')
 		else:
-			self.createRectBySelectionListbox(2,'black')
+			self.createRectBySelectionListbox(drawRect,2,'black')
 
-	def createRectBySelectionListbox(self,wd=None,outline=None,fill=None):
+	def createRectBySelectionListbox(self,drawRect,wd=None,outline=None,fill=None):
 		currentSelect=self.listAction.curselection()
 		for i in range(0,len(currentSelect)):
 			selection=self.listAction.get(currentSelect[i])
@@ -79,33 +75,37 @@ class FunctionCommun:
 			if wd is not None:
 				if outline is not None:
 					if fill is not None :
-						self.drawRect.creatRect(selection,list1,wd,outline,fill)
+						drawRect.creatRect(selection,list1,wd,outline,fill)
 					else:
-						self.drawRect.creatRect(selection,list1,wd,outline)
+						drawRect.creatRect(selection,list1,wd,outline)
 				else:	
 					if fill is not None :
-						self.drawRect.creatRect(selection,list1,wd,None,fill)
+						drawRect.creatRect(selection,list1,wd,None,fill)
 					else:
-						self.drawRect.creatRect(selection,list1,wd)
+						drawRect.creatRect(selection,list1,wd)
 			else:
 				if outline is not None:
 					if fill is not None :
-						self.drawRect.creatRect(selection,list1,None,outline,fill)
+						drawRect.creatRect(selection,list1,None,outline,fill)
 					else:
-						self.drawRect.creatRect(selection,list1,None,outline)
+						drawRect.creatRect(selection,list1,None,outline)
 				else:
 					if fill is not None :
-						self.drawRect.creatRect(selection,list1,None,None,fill)
+						drawRect.creatRect(selection,list1,None,None,fill)
 					else:
-						self.drawRect.creatRect(selection,list1)
+						drawRect.creatRect(selection,list1)
 
 	def confirmer(self):
 		#print("listActionRect orginal " +str(listActionRect))
 		listActionOrigin=self.listAction.get(0,tk.END)
 		listTextSelection=[]
 		listTextChange=[]
-		self.drawRect.deleteAllRectAppear()
-		self.changeColRect()
+		if self.isWinModif is True:
+			self.drawRectModif.deleteAllRectAppear()
+			self.changeColRect(self.drawRectModif)
+		else:
+			self.drawRect.deleteAllRectAppear()
+			self.changeColRect(self.drawRect)
 		currentSelect=self.listAction.curselection()
 		for i in range(0,len(currentSelect)):
 			selection=self.listAction.get(currentSelect[i])
@@ -170,7 +170,8 @@ class FunctionCommun:
 				self.fileChange=False   
 		#print("currentList " +str(self.currentSelectedFile))
 		#print(" self.listFileWithActionRect " +str(self.listFileWithActionRect))
-		self.drawRect=rect.CanvasEventsDemo(self.cadre,self.listAction,self.listActionRect,self.listFileWithActionRect,self.currentSelectedFile,self.fileChange)
+		self.isWinModif=False
+		self.drawRect=rect.CanvasEventsDemo(self.cadre,self.listAction,self.listActionRect,self.listFileWithActionRect,self.currentSelectedFile,self.isWinModif,self.fileChange)
 		self.cadre.bind('<ButtonPress-1>', self.drawRect.leftOnStart)  
 		self.cadre.bind('<B1-Motion>',     self.drawRect.leftOnGrow)   
 		self.cadre.bind('<Double-1>',      self.drawRect.leftOnClear)
@@ -180,52 +181,132 @@ class FunctionCommun:
 		self.cadre.bind('<ButtonRelease-3>',self.drawRect.rightOnFinal)
 		gs.update(self.nameProjet,self.numPage)
 	
+	def setImageForModif(self,path,cadre):
+		self.cadre=cadre
+		#global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
+		dicimg={}
+		img=Image.open(path)
+		#img.resize((320,240))
+		#img.zoom(320/img.width(), 240/img.height())
+		wd,hg=img.size
+		mwd=self.screen_width
+		mhg=self.screen_height
+		if wd>mwd :
+			scale= 1.0*wd/mwd
+			newImg=img.resize((int(wd/scale),int(hg/scale)),Image.ANTIALIAS)
+			self.cadre.config(width=wd/scale,height=hg/scale)
+			photo = ImageTk.PhotoImage(newImg)
+			dicimg['img1'] = photo
+			self.cadre.image=photo
+			self.cadre.create_image(0,0,image=photo,anchor="nw") 
+		elif hg > mhg:
+			scale = 1.0*hg/mhg
+			newImg = img.resize((int(wd/scale),int(hg/scale)), Image.ANTIALIAS)
+			self.cadre.config(width=wd/scale,height=hg/scale)
+			photo = ImageTk.PhotoImage(newImg)
+			dicimg['img1'] = photo
+			self.cadre.image=photo
+			self.cadre.create_image(0,0,image=photo,anchor="nw") 
+		else:
+			self.cadre.config(width=wd,height=hg)
+			photo = ImageTk.PhotoImage(img)
+			dicimg['img1'] = photo
+			self.cadre.image=photo
+			self.cadre.create_image(0,0,image=photo,anchor="nw") 
+		self.isWinModif=True
+		(path1,path2,nameFile)=path.split('/')
+		#print("listAction " +str(self.listAction))
+		#print("listActionRect " + str(self.listActionRect))
+		#print("listFileWithActionRect " +str(self.listFileWithActionRect))
+		self.drawRectModif=rect.CanvasEventsDemo(self.cadre,self.listAction,self.listActionRect,self.listFileWithActionRect,nameFile,self.isWinModif)
+		self.cadre.bind('<ButtonPress-1>', self.drawRectModif.leftOnStart)  
+		self.cadre.bind('<B1-Motion>',     self.drawRectModif.leftOnGrow)   
+		self.cadre.bind('<Double-1>',      self.drawRectModif.leftOnClear)
+		self.cadre.bind('<ButtonRelease-1>', self.drawRectModif.leftOnFinal)
+		self.cadre.bind('<ButtonPress-3>', self.drawRectModif.rightOnStart)
+		self.cadre.bind('<B3-Motion>',     self.drawRectModif.rightOnMove)
+		self.cadre.bind('<ButtonRelease-3>',self.drawRectModif.rightOnFinal)
+		gs.update(self.nameProjet,self.numPage)
+		
 	def de_select(self):
 		#global countClick
 		listSelectionAction=self.listAction.curselection()
 		#listSelectionAction=listAction.curselection()
 		if len(listSelectionAction) < self.listAction.size() :
-			self.selectAll()
+			if self.isWinModif is True:
+				self.selectAll(self.currentSelectedFile)
+			else:
+				self.selectAll()
 		else:
 			self.deselectAll()
 
 	def deselectAll(self):
 		self.listAction.selection_clear(0,tk.END)
-		list1=self.drawRect.deselectRect()
-		#print("list1 " + str(list1))
-		sizeList=len(list1)
-		for i in range(0,sizeList):
-			#print("out here?")
-			self.drawRect.deselectAll(list1[i])
-		self.drawRect.clearListRectAppear()
+		if self.isWinModif is True:
+			list1=self.drawRectModif.deselectRect()
+			#if drawRectModif is not None, deselectRect()
+			#print("list1 " + str(list1))
+			sizeList=len(list1)
+			for i in range(0,sizeList):
+				#print("out here?")
+				self.drawRectModif.deselectAll(list1[i])
+			self.drawRectModif.clearListRectAppear()
+		else:
+			list1=self.drawRect.deselectRect()
+			#if drawRectModif is not None, deselectRect()
+			#print("list1 " + str(list1))
+			sizeList=len(list1)
+			for i in range(0,sizeList):
+				#print("out here?")
+				self.drawRect.deselectAll(list1[i])
+			self.drawRect.clearListRectAppear()
 		
-	def selectAll(self):
+	def selectAll(self,nameFile=None):
 		self.listAction.select_set(0,tk.END)
 		currentSelect=self.listAction.curselection()
 		for i in range(0,len(currentSelect)):
 			selection=self.listAction.get(currentSelect[i])
 			#print("current !!!!!!!!!! " +str(self.currentSelectedFile))
-			self.listActionRect=self.listFileWithActionRect[self.currentSelectedFile]
-			list1=[]
-			#list1=self.listModif[selection]
-			list1=self.listActionRect[selection]
-			#print("listActionRect " +str(self.listActionRect))
-			#print("selection " + str(selection))
-			#print("list1 " + str(list1))
-			self.drawRect.creatRect(selection,list1,3)
+			if self.isWinModif is True:
+				#print("listfilewithactionrect   !!!" +str(self.listFileWithActionRect))
+				self.listActionRect=self.listFileWithActionRect[nameFile]
+				list1=[]
+				list1=self.listActionRect[selection]
+				self.drawRectModif.creatRect(selection,list1,3)
+			else:
+				self.listActionRect=self.listFileWithActionRect[self.currentSelectedFile]
+				list1=[]
+				#list1=self.listModif[selection]
+				list1=self.listActionRect[selection]
+				#print("listActionRect " +str(self.listActionRect))
+				#print("selection " + str(selection))
+				#print("list1 " + str(list1))
+				
+				self.drawRect.creatRect(selection,list1,3)
 			
 	def onSelectAction(self,evt):
 		#global drawRect
 		currentSelect=self.listAction.curselection()
-		self.drawRect.deleteAllRectAppear()
-		for i in range(0,len(currentSelect)):
-			selection=self.listAction.get(currentSelect[i])
-			#print("selection " +str(selection))
-			#self.listActionRect=self.listFileWithActionRect[self.currentSelectedFile]
-			list1=[]
-			list1=self.listActionRect[selection]
-			#print("listActionRect "+str(list1))
-			self.drawRect.creatRect(selection,list1,3)
+		if self.isWinModif is True:
+			self.drawRectModif.deleteAllRectAppear()
+			for i in range(0,len(currentSelect)):
+				selection=self.listAction.get(currentSelect[i])
+				#print("selection " +str(selection))
+				#self.listActionRect=self.listFileWithActionRect[self.currentSelectedFile]
+				list1=[]
+				list1=self.listActionRect[selection]
+				#print("listActionRect "+str(list1))
+				self.drawRectModif.creatRect(selection,list1,3)
+		else:
+			self.drawRect.deleteAllRectAppear()
+			for i in range(0,len(currentSelect)):
+				selection=self.listAction.get(currentSelect[i])
+				#print("selection " +str(selection))
+				#self.listActionRect=self.listFileWithActionRect[self.currentSelectedFile]
+				list1=[]
+				list1=self.listActionRect[selection]
+				#print("listActionRect "+str(list1))
+				self.drawRect.creatRect(selection,list1,3)
 		"""currentSelect=listAction.curselection()
 		if len(currentSelect) >1:
 			print("when all selected "+str(listAction.curselection()))
@@ -436,7 +517,7 @@ class FunctionCommun:
 		self.xmlProjet=xl.getExistingXml(projet)
 		listInitial={}
 		list1=xl.getRectForModification(projet,pathImg,self.xmlProjet)
-		print("list1 " +str(list1))
+		#print("list1 " +str(list1))
 		for i in range(0,len(list1)):
 			list2=list1[i]
 			list3=[]
@@ -457,11 +538,14 @@ class FunctionCommun:
 			list3.append(None)
 			listInitial[str(list2[1])+'-'+str(list2[2])]=list3
 		(path1,path2,nameFile)=pathImg.split('/')
+		self.currentSelectedFile=nameFile
+		#print("current file " +str(self.currentSelectedFile))
 		self.listFileWithActionRect[nameFile]=listInitial
+		listModif=self.listFileWithActionRect[nameFile]
 		#print(str(listInitial))
-		for key in self.listModif:
-			self.listAction.insert(tk.END,key)		
-		self.selectAll()
+		for key in listModif:
+			self.listAction.insert(tk.END,key)
+		self.selectAll(nameFile)
 		
 	def save(self):
 		#global xmlProjet
@@ -509,10 +593,18 @@ class FunctionCommun:
 		root=tk.Toplevel()
 		#var=tk.StringVar()
 		#var.set("Paragraphe")
-		numPage=0	
-		pathImg='imgFromPdf/TD3/TD3page-0.png'
+		#numPage=0	
+		#pathImg='imgFromPdf/TD3/TD3page-0.png'
+		selection=self.listFiles.curselection()
+		#print(str(selection))
+		#print("all path " +str(self.listPath))
+		#print("path " +str(self.listPath[selection[0]]))
+		#print("nameprojet " +str(self.nameProjet))
 		#nameProjet='TD3'
-		modif.creatWin(root,pathImg,self.nameProjet)
+		#modif.creatWin(root,self.listPath[selection[0]],self.nameProjet)
+		#self.isWinModif=True
+		modif.creatWin(root,self.listPath[selection[0]],self.nameProjet)
+		
 	
 	# parcours choit du fichier
 	def chooseFile(self):
@@ -536,7 +628,7 @@ class FunctionCommun:
 			if ext == '.pdf':
 				#global nameProjet
 				self.nameProjet=nom
-				listImg = pti.pdfToPng(choice[i],self.nameProjet,30)#30==resolution base 90 resol haut
+				listImg = pti.pdfToPng(choice[i],self.nameProjet,90)#30==resolution base 90 resol haut
 				self.numberPage = pti.getCountPage()
 				size=len(listImg)
 				for k in range (0, size) :
@@ -570,7 +662,7 @@ class FunctionCommun:
 		
 	def deepLearnig(self):
 		if not(gs.cheminIsDone(self.nameProjet)):
-			print('creeation de cdf')
+			#print('creeation de cdf')
 			from DrawOnImage import Segmentation as sg
 			sg.Segm(self.nameProjet, self.numberPage)#nombre de page il et calculer dans pdfToimage
 			from DrawOnImage import Classification as cl

@@ -35,9 +35,11 @@ def creatWin(root,pathIMG,nameProjet):
 	labelZoneChoix.config(font=('Forte',18))
 	labelZoneChoix.grid(row=0, sticky=tk.W)
 	zoneRadioButton=tk.Frame(f1, bg=func.colorDefault)
+	def setVar():
+		func.setVar(var.get())
 	a=0
 	for i,v in enumerate(func.typeZone):
-		tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v, bg=func.colorDefault).grid(row=0, column=a,sticky=tk.W,padx=20)
+		tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v, bg=func.colorDefault,command=setVar).grid(row=0, column=a,sticky=tk.W,padx=20)
 		a+=1
 	zoneRadioButton.grid(row=1,sticky=tk.W,pady=5)
 	buttonConfirm=tk.Button(f1,text="Confirmer",command=func.confirmer).grid(row=2,column=0,pady=5,sticky=tk.S)
@@ -60,7 +62,8 @@ def creatWin(root,pathIMG,nameProjet):
 	fImg.grid(row=0,column=1,sticky=tk.N+tk.S)
 	cadre=tk.Canvas(c, bg=func.colorDefault, bd=-2)
 	cadre.grid(row=0,column=1)
-	func.resizeImg(pathIMG,cadre)
+	func.setImageForModif(pathIMG,cadre)
+	#func.setActionToListbox(pathIMG,nameProjet)
 	func.getCoordsFromXml(pathIMG,nameProjet)
 	root.mainloop()
 	
