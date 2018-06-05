@@ -18,5 +18,8 @@ def selectPage(x, y, mouseX, mouseY, sizeX, sizeY, dimention,numPage):
 	posY=int((y+sizeY[1])/heightImg)#mouseY-
 	numImg=(posY*dimention[0])+posX
 	print(numImg)
-	return numImg
+	#return numImg
+	import WinModification as modif 
+	root.Toplevel()
+	moodif.creatWin(root,selection[numImg],self.nameProjet)
 

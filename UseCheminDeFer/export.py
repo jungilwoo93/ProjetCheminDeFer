@@ -7,14 +7,16 @@ Created on Mon May  30 16:26:16 2018
 import tkinter as tk
 from PIL import Image, ImageFont, ImageDraw, ImageTk
 import xlrd
+import os
+#import signal
+import pyautogui
+ 
 
 pathOfExcel = 'fichiersExcel/Référence et page pdf Jardin apollon.xlsx'
+numbutton=0
 
-def completeTab(bt_expo):
-	#print(event.x)
-	#print( event.y)
-	print(bt_expo['text'])
-	numBouton=10
+def completeTab():
+	numButton=numbutton
 	wb = xlrd.open_workbook(pathOfExcel)
 	sh = wb.sheet_by_name(u'Feuil1')
 	colonneB = sh.col_values(1)
@@ -23,8 +25,17 @@ def completeTab(bt_expo):
 	for l in colonneB :
 		line = l.split(caractere)
 		if line[0]=='Page':###peut etre pas utile
-			if int(line[1])==int(numBouton):
+			if int(line[1])==int(numButton):
 				print('c est les meme')
+				#os.kill(signal.CTRL_C_EVENT, 0)#1
+				pyautogui.hotkey('ctrl', 'c')
+				print('cccoopppiierrrr')
+					#pour windows
+					#on met le curseur sur le pixel 400 par 400 
+					#windll.user32.SetCursorPos(400,400) 
+					#time.sleep(0.1) 
+					#on presse le bouton gauche de la souris 
+					#windll.user32.mouse_event(2,0,0,0,0) 
 
 
 def posMouse(event, widthBigIm, heightBigIm, numPage, dimention, sizeY):
@@ -47,6 +58,8 @@ def posMouse(event, widthBigIm, heightBigIm, numPage, dimention, sizeY):
 					if (abs(posX-MouseX) < 15) and (abs(posY-MouseY) < 15) :
 						print('bouton num')
 						print(k)
+						global numbutton
+						numbutton=k
 					posX+=wimg
 					k += 1
 			posY+=himg
