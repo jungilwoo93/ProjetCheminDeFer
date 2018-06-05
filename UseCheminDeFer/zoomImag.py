@@ -24,8 +24,8 @@ from PIL import Image, ImageTk
 from UseCheminDeFer import editPage as ep
 from UseCheminDeFer import export as exp
 
-sizeXimg=0
-sizeYimg=0
+sizeXimg=[20,20]
+sizeYimg=[20,20]
 pageSelected=0
 
 class AutoScrollbar(ttk.Scrollbar):
@@ -80,34 +80,40 @@ class Zoom_Advanced(ttk.Frame):
 		#self.canvas.bind('<Button-4>',   self.wheel)  # only with Linux, wheel scroll up
 		self.image = Image.open(path)  # open image
 		
-		#les boutons 
-		
-		
-		
-		
-		# exp.creatButton()
-		# self.img = Image.open('guillemets.jpg')
-		# self.sizeButton=8
-		# self.imag = self.img.resize((self.sizeButton,self.sizeButton))
-		# self.photo = ImageTk.PhotoImage(self.imag)
-		# k=0
-		# self.posX=0
-		# self.posY=10
-		# while k<numPager :
-			# for j in range (0,dimention[0]):
-				# self.posX=40
-				# self.posY=60
-				# self.bt_green = tk.Button(self.master, image=self.photo)#command=lambda: self.canvas.config(bg="green")
-				# self.bt_green_w = self.canvas.create_window(self.posX, self.posY, window=self.bt_green)
-		
-		
 		
 		self.width, self.height = self.image.size
+		
+		
+		
+		#les boutons 
+
+		
+		# self.img = Image.open('guillemets.jpg')
+		# self.sizeButton=40
+		# self.imag = self.img.resize((self.sizeButton,self.sizeButton))
+		# self.photo = ImageTk.PhotoImage(self.imag)
+		# self.posX=40
+		# self.posY=60
+		# self.bt_green = tk.Button(self.master, image=self.photo)#command=lambda: self.canvas.config(bg="green")
+		# self.bt_green_w = self.canvas.create_window(self.posX, self.posY, window=self.bt_green)
+		
+		
+		
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
 		self.imscale = 1.0  # scale for the canvaas image
 		self.delta = 1.3  # zoom magnitude
         # Put image into container rectangle and use it to set proper coordinates to the image
 		
-		exp.creatButton(self.canvas, self.width, self.height,numPage,dimention, self.master,sizeYimg)
+		#exp.creatButton(self.canvas, self.width, self.height,numPage,dimention, self.master,sizeYimg)
 		
 		self.container = self.canvas.create_rectangle(0, 0, self.width, self.height, width=0)
 		self.show_image()
@@ -205,6 +211,67 @@ class Zoom_Advanced(ttk.Frame):
 								anchor='nw', image=imagetk)
 			self.canvas.lower(imageid)  # set image into background
 			self.canvas.imagetk = imagetk  # keep an extra reference to prevent garbage-collection
+		
+		#creatButton
+		# img = Image.open('guillemets.jpg')
+		# sizeButton=20
+		# imag = img.resize((sizeButton,sizeButton))
+		# photo = ImageTk.PhotoImage(imag)
+		# k=0
+		# mwd=self.width
+		# mhg=self.height
+		# wimg=mwd/dimention[0]
+		# if numPage%dimention[0] ==0 :
+			# himg=(sizeYimg[0]-sizeYimg[1])/(int(numPage/dimention[0]))
+		# else:
+			# himg=(sizeYimg[0]-sizeYimg[1])/(int(numPage/dimention[0])+1)
+		# posX=wimg-10
+		# posY=10
+		# while k < numPage :
+			# for j in range (0,dimention[0]):
+				# if k <= numPage :
+					# bt_expo = tk.Button(self.master, image=photo , command=exp.completeTab)#master,#command=lambda: self.canvas.config(bg="green")
+					# bt_expo_w = self.canvas.create_window(posX, posY, window=bt_expo)
+					# posX+=wimg
+					# k += 1
+			# posY+=himg
+			# posX=wimg-10
+		
+		
+		self.img = Image.open('guillemets.jpg')
+		self.sizeButton=15
+		self.imag = self.img.resize((self.sizeButton,self.sizeButton))
+		self.photo = ImageTk.PhotoImage(self.imag)
+		self.mwd=self.width
+		self.mhg=self.height
+		self.wimg=self.mwd/dimention[0]
+		if numPage%dimention[0] ==0 :
+			self.himg=(sizeYimg[0]-sizeYimg[1])/(int(numPage/dimention[0]))
+		else:
+			self.himg=(sizeYimg[0]-sizeYimg[1])/(int(numPage/dimention[0])+1)
+		posX=self.wimg-13
+		posY=13
+		self.k=0
+		while self.k < numPage :
+			for j in range (0,dimention[0]):
+				if self.k <= numPage :
+					self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=lambda : exp.completeTab(self.bt_expo))
+					self.bt_expo_w = self.canvas.create_window(posX, posY, window=self.bt_expo)
+					#print(self.bt_expo['text'])
+					posX+=self.wimg
+					self.k += 1
+			posY+=self.himg
+			posX=self.wimg-13
+			
+		def posMouse(event):
+			exp.posMouse(event, self.width, self.height, numPage, dimention, sizeYimg)
+		
+		self.canvas.bind('<Motion>' ,posMouse)
+		#lambda : 
+		
+		
+		
+		#exp.creatButton(self.canvas, self.width, self.height,numPage,dimention, self.master,sizeYimg)
     
 def getNumPage():
     return pageSelected
