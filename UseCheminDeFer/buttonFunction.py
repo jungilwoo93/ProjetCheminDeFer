@@ -38,6 +38,7 @@ def getListImg(nameProjet,rectFull):
 	listImg = os.listdir('DrawOnImage/finalResult/' + nameProjet + '/' +rect)
 	chrono = lambda v: os.path.getmtime(os.path.join('DrawOnImage/finalResult/' + nameProjet + '/' +rect, v))
 	listImg.sort(key = chrono)
+	print(listImg)#########################################
 	return listImg
 	
 	
