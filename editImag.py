@@ -10,9 +10,9 @@ from PIL import Image, ImageDraw
 import xml.etree.ElementTree as ET
 import glob
 import os
+import lxml.etree as le
 
-
-def drawIm(nameProjet):
+def drawIm(pathIMG,nameProjet):
 	class imgData:
 
 		types   = list()    
@@ -52,14 +52,16 @@ def drawIm(nameProjet):
 		def run(self):
 			fl=self.extractPaths()
 			for x in range(0,len(fl)):
-				tree = ET.parse(fl[x])
+				tree = le.parse(fl[x])
 				root = tree.getroot()
 				for page in root.iter('page'):
-					for component in page.iter('element'):
-						img13.addComponent(component.attrib['type'],component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text)
-						self.dataSizeCounter =self.dataSizeCounter+1
-					img13.printall(img13.splitPath(fl[x]))#file name starts at the position 14 of the string
-					self.dataSizeCounter=0
+					for path in page.iter('file'):
+						if path.attrib['path'] ==  pathIMG :
+							for component in page.iter('element'):
+								img13.addComponent(component.attrib['type'],component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text)
+								self.dataSizeCounter =self.dataSizeCounter+1
+							img13.printall(img13.splitPath(fl[x]))#file name starts at the position 14 of the string
+							self.dataSizeCounter=0
 	
 		def printall(self,img): #this method draws on image after data extraction
 			im = Image.open("imgFromPdf/"+nameProjet+ '/' + nameProjet + img.split("-U")[0])# # path+ the name of the image 

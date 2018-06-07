@@ -3,11 +3,13 @@ from PIL import Image, ImageFont, ImageDraw, ImageTk
 import os
 from os.path import basename
 import tkinter.filedialog as tf
+from lxml import etree
 
 import DrawRect as rect
 import creatXml as xl
 import gestionSave as gs
 import pdfToImg as pti
+import editImag as ei
 
 
 class FunctionCommun:
@@ -510,8 +512,28 @@ class FunctionCommun:
 	
 		rootpop.mainloop()
 	
-	def saveModif(self):
-		print('coucou')
+	def saveModif(self,nameProjet,numPage):
+		pathXml ="DrawOnImage/workshop_test/"+ nameProjet +"/"
+		self.xmlEdit=etree.Element(nameProjet)
+		page = xl.addPage(str(self.listPath[int(self.numPage)]),self.numPage,self.xmlEdit)
+		#page = xl.foundPage(self.nameProjet, self.numPage,self.xmlEdit)
+		sizelist=self.listAction.size()
+		listItems=self.listAction.get(0,tk.END)
+		for k in range (0,sizelist) :
+			(typeAction,idAction) = listItems[k].split("-")
+			self.listActionRect=self.listFileWithActionRect[self.currentSelectedFile]
+			listCoord=self.listActionRect[listItems[k]]
+			typeEl=typeAction
+			numElem=idAction #id
+			posiX=listCoord[0]
+			posiY=listCoord[1]
+			widthEl=listCoord[2]
+			heightEl=listCoord[3]
+			xl.addElement(typeEl, numElem, posiX, posiY, widthEl, heightEl,self.nameProjet, self.numPage, self.xmlEdit)
+			with open(pathXml + '/' + 'page'+ numPage +'.png-Unlabelled.xml','w') as fichier:
+				fichier.write(etree.tostring(xmlProjet,pretty_print=True).decode('utf-8'))
+				fichier.close()
+		ei.drawIm(pathIMG,nameProjet)
 		
 	def getCoordsFromXml(self,pathImg,projet):
 		self.xmlProjet=xl.getExistingXml(projet)
@@ -588,14 +610,17 @@ class FunctionCommun:
 					self.xmlProjet=xl.replace(self.nameProjet, self.numPage, numElem, typeEl,self.xmlProjet)
 					self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
 		#nextPage()
-	def openModif(self,evt):
+	def openModif(self,nameProjet,numPage):
 		import WinModification as modif
 		root=tk.Toplevel()
+		#global self.nameProjet
+		self.nameProjet=nameProjet
+		self.numPage=numPage
 		#var=tk.StringVar()
 		#var.set("Paragraphe")
 		#numPage=0	
 		#pathImg='imgFromPdf/TD3/TD3page-0.png'
-		selection=self.listFiles.curselection()
+		#selection=self.listFiles.curselection()############### ca marche
 		#print(str(selection))
 		#print("all path " +str(self.listPath))
 		#print("path " +str(self.listPath[selection[0]]))
@@ -603,7 +628,7 @@ class FunctionCommun:
 		#nameProjet='TD3'
 		#modif.creatWin(root,self.listPath[selection[0]],self.nameProjet)
 		#self.isWinModif=True
-		modif.creatWin(root,self.listPath[selection[0]],self.nameProjet)
+		modif.creatWin(root,self.nameProjet,numPage)#,self.listPath[selection[0]]
 		
 	
 	# parcours choit du fichier

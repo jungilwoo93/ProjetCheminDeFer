@@ -130,6 +130,7 @@ class Zoom_Advanced(ttk.Frame):
     
 	def selectPage(self, event):
 		#print('ca clic')
+		
 		mouseX = event.x
 		mouseY = event.y
 		x = self.canvas.canvasx(event.x)
@@ -137,7 +138,7 @@ class Zoom_Advanced(ttk.Frame):
 		sizeX = sizeXimg#a simplifier
 		sizeY = sizeYimg
 		global pageSelected
-		pageSelected = ep.selectPage(x, y, mouseX, mouseY, sizeX, sizeY,dimention, numPage)
+		pageSelected = ep.selectPage(x, y, mouseX, mouseY, sizeX, sizeY,dimention, numPage)#root ou canva?
 
 	def move_from(self, event):
 		''' Remember previous coordinates for scrolling with the mouse '''
@@ -255,7 +256,7 @@ class Zoom_Advanced(ttk.Frame):
 		while self.k < numPage :
 			for j in range (0,dimention[0]):
 				if self.k <= numPage :
-					self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=lambda : exp.completeTab(self.bt_expo))
+					self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=exp.completeTab)
 					self.bt_expo_w = self.canvas.create_window(posX, posY, window=self.bt_expo)
 					#print(self.bt_expo['text'])
 					posX+=self.wimg

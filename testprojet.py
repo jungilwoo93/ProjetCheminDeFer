@@ -388,13 +388,7 @@ def deepLearnig():
 	from UseCheminDeFer import mainSeeResult as msr# a changer pour le nom aussi
 	msr.creatChemin(nameProjet)
 	
-	#global sg.namePropjet
-	#sg.nameProjet=nameProjet
-	#cl.nameProjet=nameProjet
-	#doi.nameProjet=nameProjet
-	#save()
-	#root.destroy()
-	#root.quit()
+
 """
 	
 menubar=tk.Menu(root)
@@ -831,7 +825,7 @@ def resizeImg(index):
 #def printList(event):  
 #    print(listFiles.get(listFiles.curselection()))  
 listFiles.bind('<<ListboxSelect>>', func.onselect)  #green
-listFiles.bind('<Double-Button-1>',func.openModif)  
+#listFiles.bind('<Double-Button-1>',func.openModif)  #####a virer
 
 #buttonLast.bind('<Button-1>', onselect)
 #buttonSave.bind('<Button-1>', onselect)

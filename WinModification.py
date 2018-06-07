@@ -15,8 +15,9 @@ import commun as co
 #var.set("Paragraphe")
 
 
-def creatWin(root,pathIMG,nameProjet):
+def creatWin(root,nameProjet,numPage):#pathIMG,
 	var=tk.StringVar()
+	pathIMG='imgFromPdf/' + nameProjet + '/' + nameProjet + 'page-' + str(numPage) +'.png'
 	var.set("Paragraphe")
 	func=co.FunctionCommun()
 	screen_width = root.winfo_screenwidth()*0.9
@@ -56,7 +57,7 @@ def creatWin(root,pathIMG,nameProjet):
 	buttonDeselect=tk.Button(fButtons,text="Deselect/Select all",command=func.de_select).grid(row=0,column=0,padx=20,sticky=tk.S)
 	buttonDelete=tk.Button(fButtons,text="Supprimer",command=func.deleteSelection).grid(row=0,column=1,padx=20,sticky=tk.S)
 	buttonLast=tk.Button(fButtons,text="Annuler",command=quit).grid(row=0,column=2,padx=20,sticky=tk.S)
-	buttonSave=tk.Button(fButtons,text="Enregistrer",command=func.saveModif).grid(row=0,column=3,padx=20,sticky=tk.S)
+	buttonSave=tk.Button(fButtons,text="Enregistrer",command=lambda : func.saveModif(nameProjet,numPage)).grid(row=0,column=3,padx=20,sticky=tk.S)
 	fButtons.grid(row=5,column=0,pady=20)
 	fImg=tk.Frame(c,width=screen_width*0.65,height=screen_height, bg=func.colorDefault)
 	fImg.grid(row=0,column=1,sticky=tk.N+tk.S)
@@ -68,6 +69,7 @@ def creatWin(root,pathIMG,nameProjet):
 	root.mainloop()
 	
 
+	
 #numPage=0	
 #pathImg='imgFromPdf/TD3/TD3page-0.png'
 #nameProjet='TD3'

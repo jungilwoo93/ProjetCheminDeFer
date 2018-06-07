@@ -12,12 +12,14 @@ import tkinter.filedialog as tf
 from UseCheminDeFer import zoomImag as zi
 from UseCheminDeFer import imgToPdf as itp
 from UseCheminDeFer import buttonFunction as bf
+import commun as co
 #from UseCheminDeFer import editPage as ep
 
 ####variable
 dimention=[4,4]
 rectFull=False
 colorDefault="#F5F5DC" #couleur du fond
+func=co.FunctionCommun()
 
 
 def creatChemin(nameProjet):
@@ -71,6 +73,8 @@ def creatChemin(nameProjet):
 	
 	def edit():
 		numPage=zi.getNumPage()
+		func.openModif(nameProjet, numPage)
+		#moodif.creatWin(root,selection[numImg],self.nameProjet)
 		path='imgFromPdf/' + nameProjet + '/' + nameProjet +'page-'+ str(numPage) +'png'
 	
 	editmenu.add_command(label="modifier une erreur", command=edit)
