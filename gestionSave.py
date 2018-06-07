@@ -8,7 +8,7 @@ Created on Fri May 18 14:53:00 2018
 
 def writeInText(nameProjet,numPage):
     fichier = open("elemSave.txt", "a")
-    fichier.write(nameProjet + ' ' + str(numPage) + '\n')
+    fichier.write('\n'+ nameProjet + ' ' + str(numPage))
     fichier.close()
    
     
@@ -21,10 +21,13 @@ def update(nameProjet,numPage):
 		for line in lines :
 			if nameProjet.lower() in line.lower() :
 				if 'CDF' in line :
+					print('cdf reconnu')
+					print(line)
 					line=nameProjet + ' ' + str(numPage) +' CDF'
 				else:
 					line=nameProjet + ' ' + str(numPage)
-			file.write(line)
+			if line != "":
+				file.write(line)
 
 def projetExist(nameProjet) :
     lines = None
@@ -95,12 +98,15 @@ def getAvancementProjet(nameProjet):
 
 
 def cheminIsDone(nameProjet):
+    print('verifChemin')
     lines = None
     with open('elemSave.txt', 'r') as file:
         lines = file.readlines()
         
         for line in lines :
             if nameProjet.lower() in line.lower() :
+                print('trouver projet')
+                print(line)
                 esp = line.count(" ")
                 deb = 0
                 fin = line.index(" ")
@@ -113,6 +119,7 @@ def cheminIsDone(nameProjet):
                         fin = line.index(" ")
                     else:
                         fin = len(line)
+                print(projetLigne)
                 if len(projetLigne)==3:
                     return projetLigne[2]=='CDF'
 
@@ -124,11 +131,12 @@ def doChemin(nameProjet, numPage):
 		#lines = [l in file.readlines() if l.contain(nameProjet)]
 	with open('elemSave.txt', 'w') as file:
 		for line in lines :
-			
+			print('on fait le chemin de fer')
 			if nameProjet.lower() in line.lower() :
 				line=nameProjet + ' ' + str(numPage) + ' ' +'CDF'
 				#print('salut')
 				#print(line)
+			if line!= "":
 				file.write(line)
 
 

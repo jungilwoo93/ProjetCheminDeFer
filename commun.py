@@ -687,7 +687,7 @@ class FunctionCommun:
 		
 	def deepLearnig(self):
 		if not(gs.cheminIsDone(self.nameProjet)):
-			#print('creeation de cdf')
+			print('creeation de cdf')
 			from DrawOnImage import Segmentation as sg
 			sg.Segm(self.nameProjet, self.numberPage)#nombre de page il et calculer dans pdfToimage
 			from DrawOnImage import Classification as cl
