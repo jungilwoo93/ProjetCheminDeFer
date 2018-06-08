@@ -27,6 +27,7 @@ from UseCheminDeFer import export as exp
 sizeXimg=[20,20]
 sizeYimg=[20,20]
 pageSelected=0
+buttonList=[]
 
 class AutoScrollbar(ttk.Scrollbar):
     ''' A scrollbar that hides itself if it's not needed.
@@ -98,17 +99,7 @@ class Zoom_Advanced(ttk.Frame):
 		# self.bt_green = tk.Button(self.master, image=self.photo)#command=lambda: self.canvas.config(bg="green")
 		# self.bt_green_w = self.canvas.create_window(self.posX, self.posY, window=self.bt_green)
 		
-		
-		
-		
 
-		
-		
-		
-		
-		
-		
-		
 		
 		self.imscale = 1.0  # scale for the canvaas image
 		self.delta = 1.3  # zoom magnitude
@@ -245,8 +236,8 @@ class Zoom_Advanced(ttk.Frame):
 					# k += 1
 			# posY+=himg
 			# posX=wimg-10
-		
-		
+		global buttonList
+		buttonList=[]
 		self.img = Image.open('guillemets.jpg')
 		self.sizeButton=15
 		self.imag = self.img.resize((self.sizeButton,self.sizeButton))
@@ -265,13 +256,18 @@ class Zoom_Advanced(ttk.Frame):
 			for j in range (0,dimention[0]):
 				if self.k <= numPage :
 					self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=exp.completeTab)
-					self.bt_expo_w = self.canvas.create_window(posX, posY, window=self.bt_expo)
+					buttonList.append([posX, posY,self.bt_expo])
+					#self.bt_expo_w = self.canvas.create_window(posX, posY, window=self.bt_expo)
 					#print(self.bt_expo['text'])
 					posX+=self.wimg
 					self.k += 1
 			posY+=self.himg
 			posX=self.wimg-13
-			
+		for i in range (0, len(buttonList)):
+			self.canvas.create_window(buttonList[i][0], buttonList[i][1], window=buttonList[i][2])
+		i=0
+		
+		
 		def posMouse(self,event):
 			exp.posMouse(event, self.width, self.height, numPage, dimention, sizeYimg)
 		

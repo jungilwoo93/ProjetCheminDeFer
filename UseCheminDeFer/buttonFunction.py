@@ -42,7 +42,6 @@ def getListImg(nameProjet,rectFull):
 	listImgOrder=[]
 	for i in range (0,size):
 		listImgOrder.append('classified-page-' + str(i) + '.png')
-	print(listImgOrder)#########################################
 	return listImgOrder
 	
 	

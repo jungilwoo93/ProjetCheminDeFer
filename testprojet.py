@@ -405,7 +405,10 @@ menufichier.add_separator()
 #menufichier.add_separator()
 #menufichier.add_command(label="Quitter", command=root.destroy) 
 
-cheminDeFer.add_command(label="Crée", command=func.deepLearnig)
+#
+cheminDeFer.add_command(label="Crée", command=func.deepLearnig, state = DISABLED)
+if func.nameProjet=='new':
+	self.cheminDeFer.entryconfig(0, state = ACTIVE)
 ############################################################ frame à gauche ####################################################
 #f1=tk.Frame(root,bg='gold', width=screen_width+1000, height=screen_height)
 #f1.config(width=screen_width+1000, height=screen_height)
