@@ -9,7 +9,8 @@ from PIL import Image, ImageFont, ImageDraw, ImageTk
 import xlrd
 import os
 #import signal
-import pyautogui
+#import pyautogui
+import pyperclip
  
 
 pathOfExcel = 'fichiersExcel/Référence et page pdf Jardin apollon.xlsx'
@@ -22,14 +23,22 @@ def completeTab():
 	colonneB = sh.col_values(1)
 	case=[]
 	caractere = " "
+	lines=0
 	for l in colonneB :
 		line = l.split(caractere)
-		if line[0]=='Page':###peut etre pas utile
+		if line[0]=='Page':
+			print('ca commence par page')
+			print(numButton)
+			print(line[1])
 			if int(line[1])==int(numButton):
 				print('c est les meme')
 				#os.kill(signal.CTRL_C_EVENT, 0)#1
-				pyautogui.hotkey('ctrl', 'c')
+				#pyautogui.hotkey('ctrl', 'c')
 				print('cccoopppiierrrr')
+				
+				case = sh.col_values(0)[lines]
+				pyperclip.copy(case)
+		lines+=1
 					#pour windows
 					#on met le curseur sur le pixel 400 par 400 
 					#windll.user32.SetCursorPos(400,400) 
@@ -38,9 +47,9 @@ def completeTab():
 					#windll.user32.mouse_event(2,0,0,0,0) 
 
 
-def posMouse(event, widthBigIm, heightBigIm, numPage, dimention, sizeY):
-		MouseX=event.x
-		MouseY=event.y
+def posMouse(MouseX, MouseY, widthBigIm, heightBigIm, numPage, dimention, sizeY):
+		#MouseX=event.x
+		#MouseY=event.y
 		sizeButton=10
 		k=0
 		mwd=widthBigIm
@@ -55,15 +64,23 @@ def posMouse(event, widthBigIm, heightBigIm, numPage, dimention, sizeY):
 		while k < numPage :
 			for j in range (0,dimention[0]):
 				if k <= numPage :
-					if (abs(posX-MouseX) < 15) and (abs(posY-MouseY) < 15) :
+					print('k par trop grand')
+					print(abs(posX-MouseX))
+					#print(abs(posY-MouseY))
+					print(posX)
+					print(MouseX)
+					if (abs(posX-MouseX) < 16) and (abs(posY-MouseY) < 16) :
 						print('bouton num')
 						print(k)
 						global numbutton
 						numbutton=k
+						return k
+						
 					posX+=wimg
 					k += 1
 			posY+=himg
 			posX=wimg-10
+		
 
 
 

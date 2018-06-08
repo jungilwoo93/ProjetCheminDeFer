@@ -78,6 +78,7 @@ class Zoom_Advanced(ttk.Frame):
 		self.canvas.bind('<MouseWheel>', self.wheel)  # with Windows and MacOS, but not Linux
 		#self.canvas.bind('<Button-5>',   self.wheel)  # only with Linux, wheel scroll down
 		#self.canvas.bind('<Button-4>',   self.wheel)  # only with Linux, wheel scroll up
+		self.canvas.bind('<Motion>', self.posMouse)
 		self.image = Image.open(path)  # open image
 		
 		
@@ -118,6 +119,7 @@ class Zoom_Advanced(ttk.Frame):
 		self.container = self.canvas.create_rectangle(0, 0, self.width, self.height, width=0)
 		self.show_image()
 
+	
 	def scroll_y(self, *args, **kwargs):
 		''' Scroll canvas vertically and redraw the image '''
 		self.canvas.yview(*args, **kwargs)  # scroll vertically
@@ -127,7 +129,13 @@ class Zoom_Advanced(ttk.Frame):
 		''' Scroll canvas horizontally and redraw the image '''
 		self.canvas.xview(*args, **kwargs)  # scroll horizontally
 		self.show_image()  # redraw the image
-    
+	
+	
+	def posMouse(self, event):
+		mouseX = self.canvas.canvasx(event.x)
+		mouseY = self.canvas.canvasy(event.y)
+		exp.posMouse(mouseX,mouseY, self.width, self.height, numPage, dimention, sizeYimg)
+	
 	def selectPage(self, event):
 		#print('ca clic')
 		
@@ -264,10 +272,10 @@ class Zoom_Advanced(ttk.Frame):
 			posY+=self.himg
 			posX=self.wimg-13
 			
-		def posMouse(event):
+		def posMouse(self,event):
 			exp.posMouse(event, self.width, self.height, numPage, dimention, sizeYimg)
 		
-		self.canvas.bind('<Motion>' ,posMouse)
+		#self.canvas.bind('<Motion>' ,posMouse)
 		#lambda : 
 		
 		
