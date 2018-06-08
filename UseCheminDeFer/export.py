@@ -48,8 +48,6 @@ def completeTab():
 
 
 def posMouse(MouseX, MouseY, widthBigIm, heightBigIm, numPage, dimention, sizeY):
-		#MouseX=event.x
-		#MouseY=event.y
 		sizeButton=10
 		k=0
 		mwd=widthBigIm
@@ -64,14 +62,14 @@ def posMouse(MouseX, MouseY, widthBigIm, heightBigIm, numPage, dimention, sizeY)
 		while k < numPage :
 			for j in range (0,dimention[0]):
 				if k <= numPage :
-					print('k par trop grand')
-					print(abs(posX-MouseX))
+					#print('k par trop grand')
+					#print(abs(posX-MouseX))
 					#print(abs(posY-MouseY))
-					print(posX)
-					print(MouseX)
+					#print(posX)
+					#print(MouseX)
 					if (abs(posX-MouseX) < 16) and (abs(posY-MouseY) < 16) :
-						print('bouton num')
-						print(k)
+						#print('bouton num')
+						#print(k)
 						global numbutton
 						numbutton=k
 						return k
@@ -87,6 +85,7 @@ def posMouse(MouseX, MouseY, widthBigIm, heightBigIm, numPage, dimention, sizeY)
 def creatButton(canvas, widthBigIm, heightBigIm, numPage, dimention, master,sizeY):
 		img = Image.open('guillemets.jpg')
 		sizeButton=10
+		buttonList=[]
 		imag = img.resize((sizeButton,sizeButton))
 		photo = ImageTk.PhotoImage(imag)
 		k=0
@@ -102,12 +101,15 @@ def creatButton(canvas, widthBigIm, heightBigIm, numPage, dimention, master,size
 		while k < numPage :
 			for j in range (0,dimention[0]):
 				if k <= numPage :
-					bt_green = tk.Button(master, image=photo , command=completeTab)#master,#command=lambda: self.canvas.config(bg="green")
-					bt_green_w = canvas.create_window(posX, posY, window=bt_green)
+					bt = tk.Button(master, image=photo , command=completeTab)#master,#command=lambda: self.canvas.config(bg="green")
+					buttonList.append(bt)
+					#bt_w = canvas.create_window(posX, posY, window=bt)
 					posX+=wimg
 					k += 1
 			posY+=himg
 			posX=wimg-10
-			
+		
+		return buttonList
+
 
 

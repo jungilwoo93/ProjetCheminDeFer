@@ -17,7 +17,7 @@ def selectPage(x, y, mouseX, mouseY, sizeX, sizeY, dimention,numPage):
 	posX=int((x+sizeX[1])/widthImg)#mouseX-
 	posY=int((y+sizeY[1])/heightImg)#mouseY-
 	numImg=(posY*dimention[0])+posX
-	print(numImg)
+	#print(numImg)
 	return numImg
 	#return numImg
 	#import WinModification as modif 
