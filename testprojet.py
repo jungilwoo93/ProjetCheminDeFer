@@ -428,7 +428,7 @@ f1.grid(row=0,column=0,sticky=tk.S+tk.W+tk.N)
 
 ####################### label fichiers choisis
 labelFichier=tk.Label(f1,text='Les fichiers choisis : ', bg=func.colorDefault)
-labelFichier.config(font=('Forte',18))
+labelFichier.config(font=('Arial',18))
 labelFichier.grid(row=0,sticky=tk.W,pady=5)
 
 ################################ frame pour listeBox et leur scrollbar
@@ -475,7 +475,7 @@ boutonSupprimer=tk.Button(zoneButton,text="Vider",command=delecteAll).grid(row=1
 
 ################## label pour la zone choisie
 labelZoneChoix=tk.Label(f1,text='La zone choisie est : ', bg=func.colorDefault)#,  gold
-labelZoneChoix.config(font=('Forte',18))
+labelZoneChoix.config(font=('Arial',18))
 labelZoneChoix.grid(row=2, sticky=tk.W)
 
 def setVar():
@@ -527,7 +527,7 @@ buttonConfirm=tk.Button(f1,text="Confirmer",command=func.confirmer).grid(row=4,c
     selectedAction=cadre.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=5)"""
     
 labelAction=tk.Label(f1,text="Les actions : ", bg=func.colorDefault)
-labelAction.config(font=('Forte',18))
+labelAction.config(font=('Arial',18))
 labelAction.grid(row=5,column=0,pady=5,sticky=tk.W)
 listAction = tk.Listbox(f1,width=70,height=8,selectmode=tk.MULTIPLE)
 listAction.grid(row=6,column=0,pady=5)
