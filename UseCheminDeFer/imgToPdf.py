@@ -61,9 +61,13 @@ def getImg(nameProjet, isFull):
 		rect='emptyRect'
 	path='DrawOnImage/finalResult/' + nameProjet + '/' + rect
 	listImg = os.listdir(path)
-	chrono = lambda v: os.path.getmtime(os.path.join(path, v))
-	listImg.sort(key = chrono)
-	return path, listImg
+	size = len(listImg)
+	listImgOrder=[]
+	for i in range (0,size):
+		listImgOrder.append('classified-page-' + str(i) + '.png')
+	#chrono = lambda v: os.path.getmtime(os.path.join(path, v))
+	#listImg.sort(key = chrono)
+	return path, listImgOrder
 	
 	
 	

@@ -36,10 +36,14 @@ def getListImg(nameProjet,rectFull):
 	else:
 		rect='emptyRect'
 	listImg = os.listdir('DrawOnImage/finalResult/' + nameProjet + '/' +rect)
-	chrono = lambda v: os.path.getmtime(os.path.join('DrawOnImage/finalResult/' + nameProjet + '/' +rect, v))
-	listImg.sort(key = chrono)
-	print(listImg)#########################################
-	return listImg
+	#chrono = lambda v: os.path.getmtime(os.path.join('DrawOnImage/finalResult/' + nameProjet + '/' +rect, v))
+	#listImg.sort(key = chrono)
+	size = len(listImg)
+	listImgOrder=[]
+	for i in range (0,size):
+		listImgOrder.append('classified-page-' + str(i) + '.png')
+	print(listImgOrder)#########################################
+	return listImgOrder
 	
 	
 def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull):
