@@ -40,6 +40,10 @@ class FunctionCommun:
 	def __init__(self,listbox=None):
 		self.listAction=listbox
 	
+	def projetIsChoose(self):
+		print(self.nameProjet!='new')
+		return self.nameProjet!='new'
+	
 	def setVar(self,var):
 		self.var=var
 		

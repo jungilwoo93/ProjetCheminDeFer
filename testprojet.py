@@ -398,17 +398,27 @@ cheminDeFer = tk.Menu(menubar,tearoff=0)
 menubar.add_cascade(label="Fichier", menu=menufichier)
 menubar.add_cascade(label="Chemin de fer", menu=cheminDeFer)
 
-menufichier.add_command(label="Nouveau Projet", command=func.newProjet)
-menufichier.add_command(label="Continuer Projet", command = func.continueProjet) 
+
+def continueProj():
+	func.continueProjet()
+	if func.projetIsChoose():
+		cheminDeFer.entryconfig(0, state =tk.ACTIVE)
+		
+def newProj():
+	func.newProjet()
+	if func.projetIsChoose():
+		cheminDeFer.entryconfig(0, state =tk.ACTIVE)
+
+menufichier.add_command(label="Nouveau Projet", command=newProj)
+menufichier.add_command(label="Continuer Projet", command = continueProj) 
 menufichier.add_separator() 
 #menufichier.add_command(label="Enregistrer", command=save)
 #menufichier.add_separator()
 #menufichier.add_command(label="Quitter", command=root.destroy) 
 
-#
-cheminDeFer.add_command(label="Crée", command=func.deepLearnig, state = DISABLED)
-if func.nameProjet=='new':
-	self.cheminDeFer.entryconfig(0, state = ACTIVE)
+
+cheminDeFer.add_command(label="Crée", command=func.deepLearnig, state =tk.DISABLED)
+
 ############################################################ frame à gauche ####################################################
 #f1=tk.Frame(root,bg='gold', width=screen_width+1000, height=screen_height)
 #f1.config(width=screen_width+1000, height=screen_height)
