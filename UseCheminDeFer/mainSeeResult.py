@@ -101,6 +101,18 @@ def creatChemin(nameProjet):
 		elif value == 6:
 			dimention[0]=6
 			dimention[1]=6
+		elif value == 7:
+			dimention[0]=7
+			dimention[1]=7
+		elif value == 8:
+			dimention[0]=8
+			dimention[1]=8
+		elif value == 9:
+			dimention[0]=9
+			dimention[1]=9
+		elif value == 10:
+			dimention[0]=10
+			dimention[1]=10
 		#bf.deleteCanvas(canva)
 		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
 		
@@ -111,6 +123,10 @@ def creatChemin(nameProjet):
 	dim.add_radiobutton(label="4*4",  variable=nitem, value=4,  command=setDimention)
 	dim.add_radiobutton(label="5*5",  variable=nitem, value=5,  command=setDimention)
 	dim.add_radiobutton(label="6*6",  variable=nitem, value=6,  command=setDimention)
+	dim.add_radiobutton(label="7*7",  variable=nitem, value=7,  command=setDimention)
+	dim.add_radiobutton(label="8*8",  variable=nitem, value=8,  command=setDimention)
+	dim.add_radiobutton(label="9*9",  variable=nitem, value=9,  command=setDimention)
+	dim.add_radiobutton(label="10*10",  variable=nitem, value=10,  command=setDimention)
 
 
 	#canva=tk.Canvas(root, width =760, height = 760, bg =defaultColor)

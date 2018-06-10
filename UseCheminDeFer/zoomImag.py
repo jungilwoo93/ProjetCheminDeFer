@@ -264,7 +264,8 @@ class Zoom_Advanced(ttk.Frame):
 			posY+=self.himg
 			posX=self.wimg-13
 		for i in range (0, len(buttonList)):
-			self.canvas.create_window(buttonList[i][0], buttonList[i][1], window=buttonList[i][2])
+			print('yo')
+			#self.canvas.create_window(buttonList[i][0], buttonList[i][1], window=buttonList[i][2])
 		i=0
 		
 		

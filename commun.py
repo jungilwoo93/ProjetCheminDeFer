@@ -657,7 +657,7 @@ class FunctionCommun:
 			if ext == '.pdf':
 				#global nameProjet
 				self.nameProjet=nom
-				listImg = pti.pdfToPng(choice[i],self.nameProjet,90)#30==resolution base 90 resol haut
+				listImg = pti.pdfToPng(choice[i],self.nameProjet,60)#30==resolution base 90 resol haut
 				self.numberPage = pti.getCountPage()
 				size=len(listImg)
 				for k in range (0, size) :
