@@ -79,7 +79,7 @@ def classif(nameProjet):
 		for x in range(0,len(fileNames)):
 			if fileNames[x]==nameProjet + '.xml' :
 				tree = ET.parse(path+''+fileNames[x])
-				print(path+''+fileNames[x])
+				#print(path+''+fileNames[x])
 				root = tree.getroot()
 				for component in root.iter('page'):
 					for elem in component.iter('element'):
@@ -112,8 +112,8 @@ def classif(nameProjet):
 	'''transforming our dataset into a pandaDataFrame'''
 
 	pdDataSet = pd.DataFrame(dataSet)#met sous forme de tableau a double entrée
-	print('le unknownSet')
-	print(unknownSet)
+	#print('le unknownSet')
+	#print(unknownSet)
 	pdUnlabelledData=pd.DataFrame(unknownSet)
 	'''test train split 25% 75%'''
 	#iloc:gets rows (or columns) at particular positions in the index

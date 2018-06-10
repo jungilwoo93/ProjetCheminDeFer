@@ -80,7 +80,7 @@ def drawIm(nameProjet):
 				draw.rectangle((int(self.x[i]),int(self.y[i]),int(self.w[i])+int(self.x[i]),int(self.h[i])+int(self.y[i])), fill=None, outline=color)
 				drawFull.text((int(self.x[i])-15,int(self.y[i])-15),self.types[i],fill=color)#self.types[i]'''
 				drawFull.rectangle((int(self.x[i]),int(self.y[i]),int(self.w[i])+int(self.x[i]),int(self.h[i])+int(self.y[i])), fill=color, outline=color)
-			print(os.path.exists("DrawOnImage/finalResult/"+nameProjet))
+			#print(os.path.exists("DrawOnImage/finalResult/"+nameProjet))
 			if not os.path.exists("DrawOnImage/finalResult/"+nameProjet):
 				os.makedirs("DrawOnImage/finalResult/" + nameProjet)
 				os.makedirs("DrawOnImage/finalResult/" + nameProjet + "/fullRect")

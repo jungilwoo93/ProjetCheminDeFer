@@ -63,7 +63,7 @@ def Segm(nameProjet,numberPage):
 		#finding bigblocks
 		for contour in contours1:
 			[x, y, w, h] = cv2.boundingRect(contour)
-			if w <80 and h <40 :  #les lettrines en generales sans assez petites
+			if   w <80 and  h <40 :  #les lettrines en generales sans assez petites
 				continue
 			component = ET.SubElement(components, "element")
 			component.attrib["type"] = "unknown"
@@ -84,5 +84,5 @@ def Segm(nameProjet,numberPage):
 			os.makedirs("DrawOnImage/Results/"+nameProjet)
 		tree.write("DrawOnImage/Results/xml_results/"+nameProjet+'/'+id_img+"-Unlabelled.xml")#writing elements to an unlabelled xml(it's unlabelled since we have not classified it yet)
 		tree.write("DrawOnImage/workshop_test/"+nameProjet+'/'+id_img+"-Unlabelled.xml")
-		#cv2.imwrite('DrawOnImage/bw_image.png', im_bw1)        #optionnel visuel d'une image en "mi-processing"
-		#cv2.imwrite("DrawOnImage/Results/"+nameProjet+'/'+id_img, or_im)      #optionnel image segmenter
+		cv2.imwrite('DrawOnImage/bw_image.png', im_bw1)        #optionnel visuel d'une image en "mi-processing"
+		cv2.imwrite("DrawOnImage/Results/"+nameProjet+'/'+id_img, or_im)      #optionnel image segmenter
