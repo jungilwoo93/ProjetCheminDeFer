@@ -86,6 +86,9 @@ def creatChemin(nameProjet):
 	def setDimention():#il y a moyen de simplifier
 		global dimention
 		value=nitem.get()
+		dimention[0]=value
+		dimention[1]=value
+		'''
 		if value==2:
 			dimention[0]=2
 			dimention[1]=2
@@ -112,7 +115,7 @@ def creatChemin(nameProjet):
 			dimention[1]=9
 		elif value == 10:
 			dimention[0]=10
-			dimention[1]=10
+			dimention[1]=10'''
 		#bf.deleteCanvas(canva)
 		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
 		
