@@ -525,12 +525,37 @@ buttonConfirm=tk.Button(f1,text="Confirmer",command=func.confirmer).grid(row=4,c
     list1=[]
     list1=listActionRect[selection]
     selectedAction=cadre.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=5)"""
-    
+# listFiles = tk.Listbox(listFrame,
+     # xscrollcommand=xDefilB.set,
+     # yscrollcommand=yDefilB.set,width=70,height=15,selectmode=tk.SINGLE,exportselection=0)
+# listFiles.grid(row=0)#'nsew'
+# func.setListBoxFiles(listFiles)
+##listFiles.pack(side="left",fill="y")  
+# xDefilB['command'] = listFiles.xview
+# yDefilB['command'] = listFiles.yview
+# listFrame.grid(row=1,pady=5,padx=20,sticky=tk.W)  
 labelAction=tk.Label(f1,text="Les actions : ", bg=func.colorDefault)
 labelAction.config(font=('Forte',18))
 labelAction.grid(row=5,column=0,pady=5,sticky=tk.W)
-listAction = tk.Listbox(f1,width=70,height=8,selectmode=tk.MULTIPLE)
-listAction.grid(row=6,column=0,pady=5)
+
+
+
+listFrame2=tk.Frame(f1)
+###################### scrollbar vertical et horizontal
+yDefilB = tk.Scrollbar(listFrame2, orient='vertical')
+yDefilB.grid(row=0, column=1, sticky='ns')
+xDefilB = tk.Scrollbar(listFrame2, orient='horizontal')
+xDefilB.grid(row=1, column=0, sticky='ew')
+
+listAction = tk.Listbox(listFrame2,
+     xscrollcommand=xDefilB.set,
+     yscrollcommand=yDefilB.set,width=70,height=8,selectmode=tk.MULTIPLE)
+listAction.grid(row=0)
+xDefilB['command'] = listAction.xview
+yDefilB['command'] = listAction.yview
+listFrame2.grid(row=6,column=0,pady=5, padx=20, sticky=tk.W)
+#listAction.grid(row=6,column=0,pady=5)
+
 listAction.bind('<<ListboxSelect>>', func.onSelectAction)  
 for i in range(0,listAction.size()):
 	listAction.selection_set(i)
