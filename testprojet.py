@@ -549,11 +549,11 @@ xDefilB.grid(row=1, column=0, sticky='ew')
 
 listAction = tk.Listbox(listFrame2,
      xscrollcommand=xDefilB.set,
-     yscrollcommand=yDefilB.set,width=70,height=8,selectmode=tk.MULTIPLE)
+     yscrollcommand=yDefilB.set,width=70,height=7,selectmode=tk.MULTIPLE)
 listAction.grid(row=0)
 xDefilB['command'] = listAction.xview
 yDefilB['command'] = listAction.yview
-listFrame2.grid(row=6,column=0,pady=5, padx=20, sticky=tk.W)
+listFrame2.grid(row=6,column=0,pady=4, padx=20, sticky=tk.W)
 #listAction.grid(row=6,column=0,pady=5)
 
 listAction.bind('<<ListboxSelect>>', func.onSelectAction)  

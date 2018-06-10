@@ -47,8 +47,27 @@ def creatWin(root,nameProjet,numPage):#pathIMG,
 	labelAction=tk.Label(f1,text="Les actions : ", bg=func.colorDefault)
 	labelAction.config(font=('Forte',18))
 	labelAction.grid(row=3,column=0,pady=5,sticky=tk.W)
-	listAction = tk.Listbox(f1,width=70,height=8,selectmode=tk.MULTIPLE)
-	listAction.grid(row=4,column=0,pady=5)
+	
+	
+	#listAction = tk.Listbox(f1,width=70,height=8,selectmode=tk.MULTIPLE)
+	#listAction.grid(row=4,column=0,pady=5)
+	
+	listFrame2=tk.Frame(f1)
+	###################### scrollbar vertical et horizontal
+	yDefilB = tk.Scrollbar(listFrame2, orient='vertical')
+	yDefilB.grid(row=0, column=1, sticky='ns')
+	xDefilB = tk.Scrollbar(listFrame2, orient='horizontal')
+	xDefilB.grid(row=1, column=0, sticky='ew')
+
+	listAction = tk.Listbox(listFrame2,
+		xscrollcommand=xDefilB.set,
+		yscrollcommand=yDefilB.set,width=70,height=8,selectmode=tk.MULTIPLE)
+	listAction.grid(row=0)
+	xDefilB['command'] = listAction.xview
+	yDefilB['command'] = listAction.yview
+	listFrame2.grid(row=4,column=0,pady=5, padx=20, sticky=tk.W)
+	
+
 	listAction.bind('<<ListboxSelect>>', func.onSelectAction)  
 	for i in range(0,listAction.size()):
 		listAction.selection_set(i)
