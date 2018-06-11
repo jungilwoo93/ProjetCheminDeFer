@@ -298,6 +298,7 @@ def getRectModif(nameProjet,numPage,xmlProjet):
 				height=elHeight.text
 				listRect.append([numPage,typeRect,numrect,posx,posy,width,height])
 	return listRect
+	
 def getRectForModification(name,pathImg,xmlProjet):
 	num = None
 	allPage=findAllPage(xmlProjet)
@@ -306,7 +307,7 @@ def getRectForModification(name,pathImg,xmlProjet):
 		for path in allPath:
 			if path.attrib['path'] == pathImg:
 				num = page.attrib['id']
-	listRect=getRect(name,num,xmlProjet)
+	listRect=getRectModif(name,num,xmlProjet)
 	return listRect
 	
 def getLastRectangleId(xmlProjet):
