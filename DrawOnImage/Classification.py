@@ -134,14 +134,12 @@ def classif(nameProjet):
 	cm=confusion_matrix(y_test,y_pred) #la confusion_matrix permet de calculer l'erreur, mais il existe d'autre methode pour la calculer 
 
 
-
 	''' classifying unlabelled data from xml files'''
 	x_train=pdDataSet.iloc[:,[0,3]].values
 	y_train=pdDataSet.iloc[:,[4]].values
 	x_test=pdUnlabelledData.iloc[:,[0,3]].values
 
-
-
+	
 	x_train = scaler.fit_transform(x_train)
 	x_test = scaler.transform(x_test)
 

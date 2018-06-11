@@ -10,7 +10,7 @@ from PIL import Image, ImageDraw
 import xml.etree.ElementTree as ET
 import glob
 import os
-
+from xlwt import Workbook
 
 def drawIm(nameProjet):
 	class imgData:
@@ -51,17 +51,22 @@ def drawIm(nameProjet):
 		
 		def run(self):
 			fl=self.extractPaths()
+			k=0
+			elenum=0
 			for x in range(0,len(fl)):
 				tree = ET.parse(fl[x])
 				root = tree.getroot()
+				
 				for page in root.iter('page'):
 					for component in page.iter('element'):
 						img13.addComponent(component.attrib['type'],component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text)
 						self.dataSizeCounter =self.dataSizeCounter+1
-					img13.printall(img13.splitPath(fl[x]))#file name starts at the position 14 of the string
+						elenum+=1
+					img13.printall(img13.splitPath(fl[x]),k, elenum)#file name starts at the position 14 of the string
 					self.dataSizeCounter=0
+					k+=1
 	
-		def printall(self,img): #this method draws on image after data extraction
+		def printall(self,img,numPage,elenum): #this method draws on image after data extraction
 			im = Image.open("imgFromPdf/"+nameProjet+ '/' + nameProjet + img.split("-U")[0])# # path+ the name of the image 
 			imFull = Image.open("imgFromPdf/"+nameProjet+ '/' + nameProjet + img.split("-U")[0])# # path+ the name of the image 
 			im=im.convert("RGB")
@@ -71,16 +76,27 @@ def drawIm(nameProjet):
 			drawFull = ImageDraw.Draw(imFull)
 			for i in range(self.dataSize-self.dataSizeCounter,self.dataSize):
 				if self.types[i]=="Titre":
-					color=(0,0,255)
+					color='red' #(225,0,0)
 				elif self.types[i]=="Paragraphe": # chaque type a un couleur 
-					color=(255,100,0)
+					color='gray'#(255,100,0)
 				else:
-					color=(100,255,0)
+					color='blue'#(0,0,255)
 				draw.text((int(self.x[i])-15,int(self.y[i])-15),self.types[i],fill=color)#self.types[i]'''
-				draw.rectangle((int(self.x[i]),int(self.y[i]),int(self.w[i])+int(self.x[i]),int(self.h[i])+int(self.y[i])), fill=None, outline=color)
+				#pour avoir un rectangle avec une plus grande epaiseur -> plusieur 
+				draw.rectangle((int(self.x[i]),int(self.y[i]),int(self.w[i])+int(self.x[i]),int(self.h[i])+int(self.y[i])), fill=None, outline=color)#, width=5
+				draw.rectangle((int(self.x[i])-1,int(self.y[i])-1,int(self.w[i])+int(self.x[i])+1,int(self.h[i])+int(self.y[i])+1), fill=None, outline=color)
+				draw.rectangle((int(self.x[i])+1,int(self.y[i])+1,int(self.w[i])+int(self.x[i])-1,int(self.h[i])+int(self.y[i])-1), fill=None, outline=color)
+				draw.rectangle((int(self.x[i])-2,int(self.y[i])-2,int(self.w[i])+int(self.x[i])+2,int(self.h[i])+int(self.y[i])+2), fill=None, outline=color)
+				draw.rectangle((int(self.x[i])+2,int(self.y[i])+2,int(self.w[i])+int(self.x[i])-2,int(self.h[i])+int(self.y[i])-2), fill=None, outline=color)
+				draw.rectangle((int(self.x[i])-3,int(self.y[i])-3,int(self.w[i])+int(self.x[i])+3,int(self.h[i])+int(self.y[i])+3), fill=None, outline=color)
+				draw.rectangle((int(self.x[i])+3,int(self.y[i])+3,int(self.w[i])+int(self.x[i])-3,int(self.h[i])+int(self.y[i])-3), fill=None, outline=color)
 				drawFull.text((int(self.x[i])-15,int(self.y[i])-15),self.types[i],fill=color)#self.types[i]'''
 				drawFull.rectangle((int(self.x[i]),int(self.y[i]),int(self.w[i])+int(self.x[i]),int(self.h[i])+int(self.y[i])), fill=color, outline=color)
-			#print(os.path.exists("DrawOnImage/finalResult/"+nameProjet))
+				
+				#ecriture dans excel
+				line = page1.row(elenum-self.dataSize+i+1)
+				line.write(0,'page' + str(numPage) + ' pos(' + str(self.x[i]) + ',' + str(self.y[i]) + ')')
+			
 			if not os.path.exists("DrawOnImage/finalResult/"+nameProjet):
 				os.makedirs("DrawOnImage/finalResult/" + nameProjet)
 				os.makedirs("DrawOnImage/finalResult/" + nameProjet + "/fullRect")
@@ -88,10 +104,15 @@ def drawIm(nameProjet):
 			im.save("DrawOnImage/finalResult/"+ nameProjet+"/emptyRect/classified-"+img.split("-U")[0], "PNG")
 			imFull.save("DrawOnImage/finalResult/"+ nameProjet+"/fullRect/classified-"+img.split("-U")[0], "PNG")
 
-
-
+	book = Workbook()
+	page1 = book.add_sheet('feuille 1',cell_overwrite_ok=True)
+	page1.write(0,0,'coordonnée unique ')
+	#wb = xlrd.open_workbook(pathOfExcel)
+	
 	img13=imgData(13)
 	img13.run()
+	page1.col(0).width = 10000
+	book.save('fichiersExcel/' + nameProjet + '.xls')
 
 
 
