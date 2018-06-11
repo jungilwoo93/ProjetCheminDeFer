@@ -84,15 +84,15 @@ def drawIm(pathIMG,nameProjet,scale):
 				print(int(scale))
 				draw.text((int(int(self.x[i])*scale-15),int(int(self.y[i])*scale-15)),self.types[i],fill=color)#self.types[i]'''
 				#plusieur rectangle pour un rectangle avec un tour plus epais
-				draw.rectangle((int(int(self.x[i])*scale,int(self.y[i])*scale,(int(self.w[i])+int(self.x[i]))*scale,(int(self.h[i])+int(self.y[i])))*scale), fill=None, outline=color)
-				draw.rectangle((int(int(self.x[i])*scale-1),int(int(self.y[i])*scale-1)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)+1)),int((int(int(self.h[i])*scale)+int(int(self.y[i])*scale)+1)), fill=None, outline=color)
-				draw.rectangle((int(int(self.x[i])*scale+1),int(int(self.y[i])*scale+1)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)-1)),int((int(int(self.h[i])*scale)+int(int(self.y[i])*scale)-1)), fill=None, outline=color)
-				draw.rectangle((int(int(self.x[i])*scale-2),int(int(self.y[i])*scale-2)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)+2)),int((int(int(self.h[i])*scale)+int(int(self.y[i])*scale)+2)), fill=None, outline=color)
-				draw.rectangle((int(int(self.x[i])*scale+2),int(int(self.y[i])*scale+2)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)-2)),int((int(int(self.h[i])*scale)+int(int(self.y[i])*scale)-2)), fill=None, outline=color)
-				draw.rectangle((int(int(self.x[i])*scale-3),int(int(self.y[i])*scale-3)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)+3)),int((int(int(self.h[i])*scale)+int(int(self.y[i])*scale)+3)), fill=None, outline=color)
-				draw.rectangle((int(int(self.x[i])*scale+3),int(int(self.y[i])*scale+3)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)-3)),int((int(int(self.h[i])*scale)+int(int(self.y[i])*scale)-3)), fill=None, outline=color)
+				draw.rectangle(((int(int(self.x[i])*scale),int(int(self.y[i])*scale),int((int(self.w[i])+int(self.x[i]))*scale),(int(self.h[i])*scale+int(self.y[i])*scale))), fill=None, outline=color)
+				draw.rectangle(((int(int(self.x[i])*scale-1),int(int(self.y[i])*scale-1)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)+1)),(int(int(self.h[i])*scale)+int(int(self.y[i])*scale)+1)), fill=None, outline=color)
+				draw.rectangle(((int(int(self.x[i])*scale+1),int(int(self.y[i])*scale+1)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)-1)),(int(int(self.h[i])*scale)+int(int(self.y[i])*scale)-1)), fill=None, outline=color)
+				draw.rectangle(((int(int(self.x[i])*scale-2),int(int(self.y[i])*scale-2)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)+2)),(int(int(self.h[i])*scale)+int(int(self.y[i])*scale)+2)), fill=None, outline=color)
+				draw.rectangle(((int(int(self.x[i])*scale+2),int(int(self.y[i])*scale+2)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)-2)),(int(int(self.h[i])*scale)+int(int(self.y[i])*scale)-2)), fill=None, outline=color)
+				draw.rectangle(((int(int(self.x[i])*scale-3),int(int(self.y[i])*scale-3)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)+3)),(int(int(self.h[i])*scale)+int(int(self.y[i])*scale)+3)), fill=None, outline=color)
+				draw.rectangle(((int(int(self.x[i])*scale+3),int(int(self.y[i])*scale+3)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)-3)),(int(int(self.h[i])*scale)+int(int(self.y[i])*scale)-3)), fill=None, outline=color)
 				drawFull.text((int(int(self.x[i])*scale-15),int(int(self.y[i])*scale-15)),self.types[i],fill=color)#self.types[i]'''
-				drawFull.rectangle((int(int(self.x[i])*scale),int(int(self.y[i])*scale)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale))),int(((int(int(self.h[i])*scale)+int(int(self.y[i])*scale)))), fill=color, outline=color)
+				drawFull.rectangle(((int(int(self.x[i])*scale),int(int(self.y[i])*scale)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale))),int((int(int(self.h[i])*scale)+int(int(self.y[i])*scale)))), fill=color, outline=color)
 				
 				self.modif.append('page ' + str(numPage) + ' pos( ' + str(self.x[i]) + ' , ' + str(self.y[i]) + ' )')
 				
