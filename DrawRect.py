@@ -25,7 +25,6 @@ class CanvasEventsDemo:
 	isWinModif=None
 	func=co.FunctionCommun()
 	#fileChanged=False
-	
 	def __init__(self, parent,listbox,actionRectList,fileWithActionRectList,currentFileSelected,isWinModif,fileChange=None):
 		self.canvas = parent
 		self.isDraw=False
@@ -175,7 +174,7 @@ class CanvasEventsDemo:
 		listCoord.append(height)
 		listCoord.append(objectId)
 		listCoord.append(2)
-		listCoord.append('black')
+		listCoord.append('gray')
 		listCoord.append(None)
 		return listCoord
     
