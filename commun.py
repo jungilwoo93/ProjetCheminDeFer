@@ -63,13 +63,13 @@ class FunctionCommun:
 	def changeColRect(self,drawRect):
 		value = str(self.var)
 		if value == 'Titre' :
-			self.createRectBySelectionListbox(drawRect,2,'blue')
-		elif value == 'Lettrine' :
-			self.createRectBySelectionListbox(drawRect,2,'green')
-		elif value == 'Image' : 
 			self.createRectBySelectionListbox(drawRect,2,'red')
+		elif value == 'Lettrine' :
+			self.createRectBySelectionListbox(drawRect,2,'blue')
+		elif value == 'Image' : 
+			self.createRectBySelectionListbox(drawRect,2,'green')
 		else:
-			self.createRectBySelectionListbox(drawRect,2,'black')
+			self.createRectBySelectionListbox(drawRect,2,'gray')
 
 	def createRectBySelectionListbox(self,drawRect,wd=None,outline=None,fill=None):
 		currentSelect=self.listAction.curselection()
@@ -489,13 +489,13 @@ class FunctionCommun:
 							list3.append(None) #idRect
 							list3.append(2)
 							if list2[1] =='Titre':
-								list3.append('blue')
-							elif list2[1] =='Lettrine' :
-								list3.append('green')
-							elif list2[1]=='Image':
 								list3.append('red')
+							elif list2[1] =='Lettrine' :
+								list3.append('blue')
+							elif list2[1]=='Image':
+								list3.append('green')
 							else:
-								list3.append('black')
+								list3.append('gray')
 							list3.append(None)
 							#print("list3 "+str(list3))
 							listInitial[str(list2[1])+'-'+str(list2[2])]=list3
@@ -554,13 +554,13 @@ class FunctionCommun:
 			list3.append(None)
 			list3.append(2)
 			if list2[1] =='Titre':
-				list3.append('blue')
-			elif list2[1] =='Lettrine' :
-				list3.append('green')
-			elif list2[1]=='Image':
 				list3.append('red')
+			elif list2[1] =='Lettrine' :
+				list3.append('blue')
+			elif list2[1]=='Image':
+				list3.append('green')
 			else:
-				list3.append('black')
+				list3.append('gray')
 			list3.append(None)
 			listInitial[str(list2[1])+'-'+str(list2[2])]=list3
 		(path1,path2,nameFile)=pathImg.split('/')
