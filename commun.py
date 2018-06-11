@@ -186,6 +186,7 @@ class FunctionCommun:
 		self.cadre.bind('<B3-Motion>',     self.drawRect.rightOnMove)
 		self.cadre.bind('<ButtonRelease-3>',self.drawRect.rightOnFinal)
 		gs.update(self.nameProjet,self.numPage)
+		
 	
 	def setImageForModif(self,path,cadre):
 		self.cadre=cadre
@@ -233,6 +234,7 @@ class FunctionCommun:
 		self.cadre.bind('<B3-Motion>',     self.drawRectModif.rightOnMove)
 		self.cadre.bind('<ButtonRelease-3>',self.drawRectModif.rightOnFinal)
 		gs.update(self.nameProjet,self.numPage)
+		return scale
 		
 	def de_select(self):
 		#global countClick
@@ -519,7 +521,7 @@ class FunctionCommun:
 	
 		rootpop.mainloop()
 	
-	def saveModif(self,nameProjet,numPage):
+	def saveModif(self,nameProjet,numPage,scale):
 		pathXml ="DrawOnImage/workshop_test/"+ nameProjet +"/"
 		self.xmlEdit=etree.Element(nameProjet)
 		page = xl.addPage(str(self.listPath[int(self.numPage)]),self.numPage,self.xmlEdit)
@@ -541,7 +543,7 @@ class FunctionCommun:
 				fichier.write(etree.tostring(self.xmlEdit,pretty_print=True).decode('utf-8'))#xmlProjet
 				fichier.close()
 		pathIMG='imgFromPdf/' + nameProjet+ '/'+ nameProjet+'page-'+ str(numPage) +'.png'
-		ei.drawIm(pathIMG,nameProjet)
+		ei.drawIm(pathIMG,nameProjet,scale)
 		
 	def getCoordsFromXml(self,pathImg,nameprojet,numPage):
 		global xmlProjet
