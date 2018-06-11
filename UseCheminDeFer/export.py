@@ -27,15 +27,9 @@ def completeTab():
 	for l in colonneB :
 		line = l.split(caractere)
 		if line[0]=='Page':
-			print('ca commence par page')
-			print(numButton)
-			print(line[1])
 			if int(line[1])==int(numButton):
-				print('c est les meme')
 				#os.kill(signal.CTRL_C_EVENT, 0)#1
 				#pyautogui.hotkey('ctrl', 'c')
-				print('cccoopppiierrrr')
-				
 				case = sh.col_values(0)[lines]
 				pyperclip.copy(case)
 		lines+=1
@@ -81,7 +75,7 @@ def posMouse(MouseX, MouseY, widthBigIm, heightBigIm, numPage, dimention, sizeY)
 		
 
 
-
+#pas utilisée
 def creatButton(canvas, widthBigIm, heightBigIm, numPage, dimention, master,sizeY):
 		img = Image.open('guillemets.jpg')
 		sizeButton=10

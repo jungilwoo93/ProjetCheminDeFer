@@ -36,6 +36,7 @@ def creatWin(root,nameProjet,numPage):#pathIMG,
 	labelZoneChoix.config(font=('Forte',18))
 	labelZoneChoix.grid(row=0, sticky=tk.W)
 	zoneRadioButton=tk.Frame(f1, bg=func.colorDefault)
+	
 	def setVar():
 		func.setVar(var.get())
 	a=0
@@ -78,6 +79,7 @@ def creatWin(root,nameProjet,numPage):#pathIMG,
 	buttonLast=tk.Button(fButtons,text="Annuler",command=quit).grid(row=0,column=2,padx=20,sticky=tk.S)
 	buttonSave=tk.Button(fButtons,text="Enregistrer",command=lambda : func.saveModif(nameProjet,numPage)).grid(row=0,column=3,padx=20,sticky=tk.S)
 	fButtons.grid(row=5,column=0,pady=20)
+	
 	fImg=tk.Frame(c,width=screen_width*0.65,height=screen_height, bg=func.colorDefault)
 	fImg.grid(row=0,column=1,sticky=tk.N+tk.S)
 	cadre=tk.Canvas(c, bg=func.colorDefault, bd=-2)
@@ -85,11 +87,7 @@ def creatWin(root,nameProjet,numPage):#pathIMG,
 	func.setImageForModif(pathIMG,cadre)
 	#func.setActionToListbox(pathIMG,nameProjet)
 	func.getCoordsFromXml(pathIMG,nameProjet)
+	
 	root.mainloop()
 	
 
-	
-#numPage=0	
-#pathImg='imgFromPdf/TD3/TD3page-0.png'
-#nameProjet='TD3'
-#creatWin(pathImg,nameProjet)
