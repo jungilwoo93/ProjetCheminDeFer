@@ -84,13 +84,17 @@ def drawIm(pathIMG,nameProjet,scale):
 				print(int(scale))
 				draw.text((int(int(self.x[i])*scale-15),int(int(self.y[i])*scale-15)),self.types[i],fill=color)#self.types[i]'''
 				#plusieur rectangle pour un rectangle avec un tour plus epais
-				draw.rectangle(((int(int(self.x[i])*scale),int(int(self.y[i])*scale),int((int(self.w[i])+int(self.x[i]))*scale),(int(self.h[i])*scale+int(self.y[i])*scale))), fill=None, outline=color)
-				draw.rectangle(((int(int(self.x[i])*scale-1),int(int(self.y[i])*scale-1)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)+1)),(int(int(self.h[i])*scale)+int(int(self.y[i])*scale)+1)), fill=None, outline=color)
-				draw.rectangle(((int(int(self.x[i])*scale+1),int(int(self.y[i])*scale+1)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)-1)),(int(int(self.h[i])*scale)+int(int(self.y[i])*scale)-1)), fill=None, outline=color)
-				draw.rectangle(((int(int(self.x[i])*scale-2),int(int(self.y[i])*scale-2)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)+2)),(int(int(self.h[i])*scale)+int(int(self.y[i])*scale)+2)), fill=None, outline=color)
-				draw.rectangle(((int(int(self.x[i])*scale+2),int(int(self.y[i])*scale+2)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)-2)),(int(int(self.h[i])*scale)+int(int(self.y[i])*scale)-2)), fill=None, outline=color)
-				draw.rectangle(((int(int(self.x[i])*scale-3),int(int(self.y[i])*scale-3)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)+3)),(int(int(self.h[i])*scale)+int(int(self.y[i])*scale)+3)), fill=None, outline=color)
-				draw.rectangle(((int(int(self.x[i])*scale+3),int(int(self.y[i])*scale+3)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale)-3)),(int(int(self.h[i])*scale)+int(int(self.y[i])*scale)-3)), fill=None, outline=color)
+				X=int(int(self.x[i])*scale)
+				Y=int(int(self.y[i])*scale)
+				W=int(int(self.w[i])*scale)+X
+				H=int(int(self.h[i])*scale) +Y
+				draw.rectangle((X,Y,W,H), fill=None, outline=color)
+				draw.rectangle((X-1,Y-1,W+1,H+1), fill=None, outline=color)
+				draw.rectangle((X+1,Y+1,W-1,H-1), fill=None, outline=color)
+				draw.rectangle((X-2,Y-2,W+2,H+2), fill=None, outline=color)
+				draw.rectangle((X+2,Y+2,W-2,H-2), fill=None, outline=color)
+				draw.rectangle((X-3,Y-3,W+3,H+3), fill=None, outline=color)
+				draw.rectangle((X+3,Y+3,W-3,H-3), fill=None, outline=color)
 				drawFull.text((int(int(self.x[i])*scale-15),int(int(self.y[i])*scale-15)),self.types[i],fill=color)#self.types[i]'''
 				drawFull.rectangle(((int(int(self.x[i])*scale),int(int(self.y[i])*scale)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale))),int((int(int(self.h[i])*scale)+int(int(self.y[i])*scale)))), fill=color, outline=color)
 				
