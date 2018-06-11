@@ -68,6 +68,10 @@ def getExistingXml(nameProjet):########
 	#except: #xe.XMLSyntaxError
 		#print('probleme de parse')
 	
+def getXmlToModif(nameProjet,numPage):
+	tree = le.parse('DrawOnImage/workshop_test/'+nameProjet+'/page-' + str(numPage) + '.png-Unlabelled.xml')
+	root = tree.getroot()
+	return root
  
     
 #def duplicationProjet() : #pas forcement necessaire
@@ -258,7 +262,7 @@ def getRect(nameProjet,numPage,xmlProjet):
 	#print("all page " +str(allPage))
 	listRect=[]
 	for page in allPage:
-		if page.attrib['id']==str(numPage):
+			#if page.attrib['id']==str(numPage):
 			for rect in page.findall('element'):
 				typeRect=rect.attrib['type'] 
 				numrect=rect.attrib['id'] 

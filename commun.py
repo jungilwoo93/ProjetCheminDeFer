@@ -538,12 +538,50 @@ class FunctionCommun:
 			heightEl=listCoord[3]
 			xl.addElement(typeEl, numElem, posiX, posiY, widthEl, heightEl,self.nameProjet, self.numPage, self.xmlEdit)
 			with open(pathXml + '/' + 'page-'+ str(numPage) +'.png-Unlabelled.xml','w') as fichier:
-				fichier.write(etree.tostring(xmlProjet,pretty_print=True).decode('utf-8'))
+				fichier.write(etree.tostring(self.xmlEdit,pretty_print=True).decode('utf-8'))#xmlProjet
 				fichier.close()
 		pathIMG='imgFromPdf/' + nameProjet+ '/'+ nameProjet+'page-'+ str(numPage) +'.png'
 		ei.drawIm(pathIMG,nameProjet)
 		
-	def getCoordsFromXml(self,pathImg,projet):
+	def getCoordsFromXml(self,pathImg,nameprojet,numPage):
+		global xmlProjet
+		#xmlProjet=xl.getExistingXml(nameprojet)
+		xmlProjet=xl.getXmlToModif(nameprojet,numPage)
+		self.getxmlProjet=xl.getXmlToModif(nameprojet,numPage)#xl.getExistingXml(nameprojet)
+		listInitial={}
+		list1=xl.getRectForModification(nameprojet,pathImg,self.getxmlProjet)
+		#print("list1 " +str(list1))
+		for i in range(0,len(list1)):
+			list2=list1[i]
+			list3=[]
+			list3.append(int(list2[3]))
+			list3.append(int(list2[4]))
+			list3.append(int(list2[5]))
+			list3.append(int(list2[6]))
+			list3.append(None)
+			list3.append(2)
+			if list2[1] =='Titre':
+				list3.append('red')
+			elif list2[1] =='Lettrine' :
+				list3.append('blue')
+			elif list2[1]=='Image':
+				list3.append('green')
+			else:
+				list3.append('gray')
+			list3.append(None)
+			listInitial[str(list2[1])+'-'+str(list2[2])]=list3
+		(path1,path2,nameFile)=pathImg.split('/')
+		self.currentSelectedFile=nameFile
+		#print("current file " +str(self.currentSelectedFile))
+		self.listFileWithActionRect[nameFile]=listInitial
+		listModif=self.listFileWithActionRect[nameFile]
+		#print(str(listInitial))
+		for key in listModif:
+			self.listAction.insert(tk.END,key)
+		self.selectAll(nameFile)
+		
+		'''
+		def getCoordsFromXml(self,pathImg,projet):
 		global xmlProjet
 		xmlProjet=xl.getExistingXml(projet)
 		self.getxmlProjet=xl.getExistingXml(projet)
@@ -577,7 +615,7 @@ class FunctionCommun:
 		#print(str(listInitial))
 		for key in listModif:
 			self.listAction.insert(tk.END,key)
-		self.selectAll(nameFile)
+		self.selectAll(nameFile)'''
 		
 	def save(self):
 		#global xmlProjet

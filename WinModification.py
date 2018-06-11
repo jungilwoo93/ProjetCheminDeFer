@@ -13,9 +13,11 @@ import commun as co
 #root = tk.Tk()
 #var=tk.StringVar()
 #var.set("Paragraphe")
-
+numIm=0
 
 def creatWin(root,nameProjet,numPage):#pathIMG,
+	global numIM
+	numIm=numPage
 	var=tk.StringVar()
 	pathIMG='imgFromPdf/' + nameProjet + '/' + nameProjet + 'page-' + str(numPage) +'.png'
 	var.set("Paragraphe")
@@ -33,7 +35,7 @@ def creatWin(root,nameProjet,numPage):#pathIMG,
 	f1=tk.Frame(c,bg=func.colorDefault,height=screen_height,width=screen_width*0.4)
 	f1.grid(row=0,column=0,sticky=tk.S+tk.W+tk.N,pady=100)
 	labelZoneChoix=tk.Label(f1,text='La zone choisie est : ', bg=func.colorDefault)
-	labelZoneChoix.config(font=('Forte',18))
+	labelZoneChoix.config(font=('Arial',18))
 	labelZoneChoix.grid(row=0, sticky=tk.W)
 	zoneRadioButton=tk.Frame(f1, bg=func.colorDefault)
 	
@@ -46,7 +48,7 @@ def creatWin(root,nameProjet,numPage):#pathIMG,
 	zoneRadioButton.grid(row=1,sticky=tk.W,pady=5)
 	buttonConfirm=tk.Button(f1,text="Confirmer",command=func.confirmer).grid(row=2,column=0,pady=5,sticky=tk.S)
 	labelAction=tk.Label(f1,text="Les actions : ", bg=func.colorDefault)
-	labelAction.config(font=('Forte',18))
+	labelAction.config(font=('Arial',18))
 	labelAction.grid(row=3,column=0,pady=5,sticky=tk.W)
 	
 	
@@ -86,7 +88,7 @@ def creatWin(root,nameProjet,numPage):#pathIMG,
 	cadre.grid(row=0,column=1)
 	func.setImageForModif(pathIMG,cadre)
 	#func.setActionToListbox(pathIMG,nameProjet)
-	func.getCoordsFromXml(pathIMG,nameProjet)
+	func.getCoordsFromXml(pathIMG,nameProjet,numIm)
 	
 	root.mainloop()
 	

@@ -80,7 +80,7 @@ def drawIm(pathIMG,nameProjet):
 				elif self.types[i]=="Paragraphe": # chaque type a un couleur 
 					color='gray'#(255,100,0)
 				else:
-					color='blue'(100,255,0)
+					color='blue'#(100,255,0)
 				draw.text((int(self.x[i])-15,int(self.y[i])-15),self.types[i],fill=color)#self.types[i]'''
 				#plusieur rectangle pour un rectangle avec un tour plus epais
 				draw.rectangle((int(self.x[i]),int(self.y[i]),int(self.w[i])+int(self.x[i]),int(self.h[i])+int(self.y[i])), fill=None, outline=color)
