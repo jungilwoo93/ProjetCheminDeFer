@@ -209,11 +209,13 @@ class Zoom_Advanced(ttk.Frame):
 		sizeX = sizeXimg#a simplifier
 		sizeY = sizeYimg
 		global pageSelected
-		pageSelected = ep.selectPage(x, y, mouseX, mouseY, sizeX, sizeY,dimention, numPage,self.wb,self.hgb)#root ou canva?
+		
+		pageSelected = ep.selectPage(x, y, mouseX, mouseY, sizeX, sizeY,dimention, numPage,self.wb,self.hgb,self.canvas.coords(self.imageid))#root ou canva?
 
 	def move_from(self, event):
 		''' Remember previous coordinates for scrolling with the mouse '''
 		self.selectPage(event)
+		print("move from")
 		self.canvas.scan_mark(event.x, event.y)
 		self.startX=event.x
 		self.startY=event.y
@@ -316,6 +318,9 @@ class Zoom_Advanced(ttk.Frame):
 			scale        *= self.delta
 		self.wb*=scale
 		self.hgb*=scale
+		"""if len(self.buttonResetList)>0 : 
+			for idButton in self.buttonResetList:
+				self.canvas.delete(idButton)"""
 		self.canvas.scale(self.imageid,x,y,scale,scale)
 		self.canvas.scale(self.container,x,y,scale,scale)
 		buttonMoveList=self.buttonResetList
@@ -325,6 +330,9 @@ class Zoom_Advanced(ttk.Frame):
 			buttonPosList=[]
 			newbuttonPosList=buttonMoveList[idButton]
 			self.canvas.scale(idButton,newbuttonPosList[0],newbuttonPosList[1],scale,scale)
+			buttonPosList.append(newbuttonPosList[0])
+			buttonPosList.append(newbuttonPosList[1])
+			self.buttonResetList[idButton]=buttonPosList
 		#self.canvas.scale('all', x, y, scale, scale)  # rescale all canvas objects
 		print("wheel")
 		self.isMoved=False
