@@ -299,6 +299,7 @@ def getRectModif(nameProjet,numPage,xmlProjet):
 				listRect.append([numPage,typeRect,numrect,posx,posy,width,height])
 	return listRect
 	
+	
 def getRectForModification(name,pathImg,xmlProjet):
 	num = None
 	allPage=findAllPage(xmlProjet)
