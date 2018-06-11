@@ -347,7 +347,10 @@ class FunctionCommun:
 			#print("selection " +str(selection))
 			list1=self.listActionRect[selection]
 			idRect=list1[4]
-			self.drawRect.deleteRect(selection,idRect)
+			if self.isWinModif is True:
+				self.drawRectModif.deleteRect(selection,idRect)
+			else:
+				self.drawRect.deleteRect(selection,idRect)
 		a = range(0,len(currentselection))
 		for x in reversed(a):
 			#print(str(x))
@@ -534,15 +537,18 @@ class FunctionCommun:
 			widthEl=listCoord[2]
 			heightEl=listCoord[3]
 			xl.addElement(typeEl, numElem, posiX, posiY, widthEl, heightEl,self.nameProjet, self.numPage, self.xmlEdit)
-			with open(pathXml + '/' + 'page'+ numPage +'.png-Unlabelled.xml','w') as fichier:
+			with open(pathXml + '/' + 'page-'+ str(numPage) +'.png-Unlabelled.xml','w') as fichier:
 				fichier.write(etree.tostring(xmlProjet,pretty_print=True).decode('utf-8'))
 				fichier.close()
+		pathIMG='imgFromPdf/' + nameProjet+ '/'+ nameProjet+'page-'+ str(numPage) +'.png'
 		ei.drawIm(pathIMG,nameProjet)
 		
 	def getCoordsFromXml(self,pathImg,projet):
-		self.xmlProjet=xl.getExistingXml(projet)
+		global xmlProjet
+		xmlProjet=xl.getExistingXml(projet)
+		self.getxmlProjet=xl.getExistingXml(projet)
 		listInitial={}
-		list1=xl.getRectForModification(projet,pathImg,self.xmlProjet)
+		list1=xl.getRectForModification(projet,pathImg,self.getxmlProjet)
 		#print("list1 " +str(list1))
 		for i in range(0,len(list1)):
 			list2=list1[i]

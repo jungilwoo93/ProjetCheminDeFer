@@ -155,8 +155,6 @@ def delectElement(nameProjet,numPage,numElem,xmlProjet):
 				if e1.attrib['id']==str(numElem):
 					listChild=xmlProjet.getchildren() 
 					listChild=e.getchildren()
-					print(listChild)
-					print(e1)
 					e.remove(e1)
 					return xmlProject
      
@@ -260,20 +258,12 @@ def getRect(nameProjet,numPage,xmlProjet):
 	#print("all page " +str(allPage))
 	listRect=[]
 	for page in allPage:
-		#print("page " +str(page))
-		#print("page attrib " + str(page.attrib['id']))
-		#print("numpage " +str(numPage))
 		if page.attrib['id']==str(numPage):
 			for rect in page.findall('element'):
-				typeRect=rect.attrib['type']
-				#print("typeRect " +str(typeRect)) 
-				numrect=rect.attrib['id']
-				#print("numRect " +str(numrect)) 
+				typeRect=rect.attrib['type'] 
+				numrect=rect.attrib['id'] 
 				elPosx=rect.find('posX')
-				#print("elPosx " +str(elPosx))
 				posx=elPosx.text
-				#posx=elPosx.findtext()
-				#print("posX " +str(posx))
 				elPosy=rect.find('posY')
 				posy=elPosy.text
 				elWidth=rect.find('width')
@@ -281,7 +271,6 @@ def getRect(nameProjet,numPage,xmlProjet):
 				elHeight=rect.find('height')
 				height=elHeight.text
 				listRect.append([numPage,typeRect,numrect,posx,posy,width,height])
-	#print("listRect " +str(listRect))
 	return listRect
 
 def getRectForModification(name,pathImg,xmlProjet):

@@ -76,11 +76,11 @@ def drawIm(pathIMG,nameProjet):
 			drawFull = ImageDraw.Draw(imFull)
 			for i in range(self.dataSize-self.dataSizeCounter,self.dataSize):
 				if self.types[i]=="Titre":
-					color=(0,0,255)
+					color='red'#(0,0,255)
 				elif self.types[i]=="Paragraphe": # chaque type a un couleur 
-					color=(255,100,0)
+					color='gray'#(255,100,0)
 				else:
-					color=(100,255,0)
+					color='blue'(100,255,0)
 				draw.text((int(self.x[i])-15,int(self.y[i])-15),self.types[i],fill=color)#self.types[i]'''
 				#plusieur rectangle pour un rectangle avec un tour plus epais
 				draw.rectangle((int(self.x[i]),int(self.y[i]),int(self.w[i])+int(self.x[i]),int(self.h[i])+int(self.y[i])), fill=None, outline=color)
@@ -93,7 +93,7 @@ def drawIm(pathIMG,nameProjet):
 				drawFull.text((int(self.x[i])-15,int(self.y[i])-15),self.types[i],fill=color)#self.types[i]'''
 				drawFull.rectangle((int(self.x[i]),int(self.y[i]),int(self.w[i])+int(self.x[i]),int(self.h[i])+int(self.y[i])), fill=color, outline=color)
 				
-				self.modif.append('page ' + numPage + ' pos( ' + str(self.x[i]) + ' , ' + str(self.y[i]) + ' )')
+				self.modif.append('page ' + str(numPage) + ' pos( ' + str(self.x[i]) + ' , ' + str(self.y[i]) + ' )')
 				
 			if not os.path.exists("DrawOnImage/finalResult/"+nameProjet):
 				os.makedirs("DrawOnImage/finalResult/" + nameProjet)
