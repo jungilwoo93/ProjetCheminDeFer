@@ -19,6 +19,7 @@ def creatWin(root,nameProjet,numPage):#pathIMG,
 	global numIM
 	numIm=numPage
 	var=tk.StringVar()
+	scale=1
 	pathIMG='imgFromPdf/' + nameProjet + '/' + nameProjet + 'page-' + str(numPage) +'.png'
 	var.set("Paragraphe")
 	func=co.FunctionCommun()
@@ -41,6 +42,7 @@ def creatWin(root,nameProjet,numPage):#pathIMG,
 	
 	def setVar():
 		func.setVar(var.get())
+	
 	a=0
 	for i,v in enumerate(func.typeZone):
 		tk.Radiobutton(zoneRadioButton, text=v, variable=var, value = v, bg=func.colorDefault,command=setVar).grid(row=0, column=a,sticky=tk.W,padx=20)
@@ -79,14 +81,16 @@ def creatWin(root,nameProjet,numPage):#pathIMG,
 	buttonDeselect=tk.Button(fButtons,text="Deselect/Select all",command=func.de_select).grid(row=0,column=0,padx=20,sticky=tk.S)
 	buttonDelete=tk.Button(fButtons,text="Supprimer",command=func.deleteSelection).grid(row=0,column=1,padx=20,sticky=tk.S)
 	buttonLast=tk.Button(fButtons,text="Annuler",command=quit).grid(row=0,column=2,padx=20,sticky=tk.S)
-	buttonSave=tk.Button(fButtons,text="Enregistrer",command=lambda : func.saveModif(nameProjet,numPage)).grid(row=0,column=3,padx=20,sticky=tk.S)
+	
+	
+	buttonSave=tk.Button(fButtons,text="Enregistrer",command=lambda : func.saveModif(nameProjet,numPage,scale)).grid(row=0,column=3,padx=20,sticky=tk.S)
 	fButtons.grid(row=5,column=0,pady=20)
 	
 	fImg=tk.Frame(c,width=screen_width*0.65,height=screen_height, bg=func.colorDefault)
 	fImg.grid(row=0,column=1,sticky=tk.N+tk.S)
 	cadre=tk.Canvas(c, bg=func.colorDefault, bd=-2)
 	cadre.grid(row=0,column=1)
-	func.setImageForModif(pathIMG,cadre)
+	scale=func.setImageForModif(pathIMG,cadre)
 	#func.setActionToListbox(pathIMG,nameProjet)
 	func.getCoordsFromXml(pathIMG,nameProjet,numIm)
 	

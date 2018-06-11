@@ -95,7 +95,7 @@ def drawIm(nameProjet):
 				
 				#ecriture dans excel
 				line = page1.row(elenum-self.dataSize+i+1)
-				line.write(0,'page' + str(numPage) + ' pos(' + str(self.x[i]) + ',' + str(self.y[i]) + ')')
+				line.write(0,'page ' + str(numPage) + ' pos( ' + str(self.x[i]) + ' , ' + str(self.y[i]) + ' )')
 			
 			if not os.path.exists("DrawOnImage/finalResult/"+nameProjet):
 				os.makedirs("DrawOnImage/finalResult/" + nameProjet)
