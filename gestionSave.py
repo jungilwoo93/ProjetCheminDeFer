@@ -23,9 +23,9 @@ def update(nameProjet,numPage):
 				if 'CDF' in line :
 					#print('cdf reconnu')
 					#print(line)
-					line=nameProjet + ' ' + str(numPage) +' CDF'
+					line=nameProjet + ' ' + str(numPage) +' CDF' +'\n'
 				else:
-					line=nameProjet + ' ' + str(numPage)
+					line=nameProjet + ' ' + str(numPage) + '\n'
 			if line != "":
 				file.write(line)
 
@@ -134,9 +134,9 @@ def doChemin(nameProjet, numPage):
 		for line in lines :
 			#print('on fait le chemin de fer')
 			if nameProjet.lower() in line.lower() :
-				line=nameProjet + ' ' + str(numPage) + ' ' +'CDF'
+				line=nameProjet + ' ' + str(numPage) + ' ' +'CDF' +'\n'
 				#print('salut')
-				print(line)
+				#print(line)
 			if line!= "":
 				file.write(line)
 

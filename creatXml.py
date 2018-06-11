@@ -262,7 +262,7 @@ def getRect(nameProjet,numPage,xmlProjet):
 	#print("all page " +str(allPage))
 	listRect=[]
 	for page in allPage:
-			#if page.attrib['id']==str(numPage):
+		if page.attrib['id']==str(numPage):
 			for rect in page.findall('element'):
 				typeRect=rect.attrib['type'] 
 				numrect=rect.attrib['id'] 
@@ -277,6 +277,27 @@ def getRect(nameProjet,numPage,xmlProjet):
 				listRect.append([numPage,typeRect,numrect,posx,posy,width,height])
 	return listRect
 
+	
+def getRectModif(nameProjet,numPage,xmlProjet):
+	#page=foundPage(nameProjet,numPage,xmlProjet)
+	allPage=findAllPage(xmlProjet)
+	#print("all page " +str(allPage))
+	listRect=[]
+	for page in allPage:
+			#if page.attrib['id']==str(numPage):
+			for rect in page.findall('element'):
+				typeRect=rect.attrib['type'] 
+				numrect=rect.attrib['id'] 
+				elPosx=rect.find('posX')
+				posx=elPosx.text
+				elPosy=rect.find('posY')
+				posy=elPosy.text
+				elWidth=rect.find('width')
+				width=elWidth.text
+				elHeight=rect.find('height')
+				height=elHeight.text
+				listRect.append([numPage,typeRect,numrect,posx,posy,width,height])
+	return listRect
 def getRectForModification(name,pathImg,xmlProjet):
 	num = None
 	allPage=findAllPage(xmlProjet)
