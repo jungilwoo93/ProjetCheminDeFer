@@ -7,6 +7,7 @@ Created on Tue May 22 09:37:31 2018
 
 #pas besoin de mouseX et mouseY
 def selectPage(x, y, mouseX, mouseY, sizeX, sizeY, dimention,numPage,w,h,posIm):
+	
 	#pbsize dimention de la fenetre
 	if numPage%dimention[0] ==0 :
 		numLines=numPage/dimention[0]

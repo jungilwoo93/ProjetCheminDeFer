@@ -15,9 +15,11 @@ import commun as co
 #var.set("Paragraphe")
 numIm=0
 
-def creatWin(root,nameProjet,numPage):#pathIMG,
-	global numIM
-	numIm=numPage
+def creatWin(root,nameProjet,numIm):#pathIMG,
+	#global numIM
+	#numIm=numPage
+	print(numIm)
+	numPage=numIm
 	var=tk.StringVar()
 	scale=1
 	pathIMG='imgFromPdf/' + nameProjet + '/' + nameProjet + 'page-' + str(numPage) +'.png'

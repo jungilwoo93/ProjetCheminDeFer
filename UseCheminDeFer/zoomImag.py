@@ -50,13 +50,16 @@ class Zoom_Advanced(ttk.Frame):
 	numPage=0
 	buttonResetList=[]
 	imageid=None
+	nameProjet='new'
 	''' Advanced zoom of the image '''
-	def __init__(self, mainframe, path,dim,numberPage):
+	def __init__(self, mainframe, path,dim,numberPage,nameProj):
 		''' Initialize the main Frame '''
 		global dimention
 		dimention=dim
 		global numPage
 		numPage=numberPage
+		global nameProjet
+		nameProjet=nameProj
 		ttk.Frame.__init__(self, master=mainframe)
         #self.master.title('Zoom with mouse wheel')
         # Vertical and horizontal scrollbars for canvas
@@ -114,7 +117,10 @@ class Zoom_Advanced(ttk.Frame):
 		
 		self.container = self.canvas.create_rectangle(0, 0, self.width, self.height, width=0)
 		self.show_image()
-
+	
+	def completeTab(self):
+		exp.completeTab(pageSelected,nameProjet)
+	
 	
 	def scroll_y(self, *args, **kwargs):
 		''' Scroll canvas vertically and redraw the image '''
@@ -144,7 +150,7 @@ class Zoom_Advanced(ttk.Frame):
 					buttonPosList=[]
 					newbuttonPosList=buttonMoveList[listIdButton[self.k]]
 					#print("buttonPosList " +str(buttonPosList))
-					self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=exp.completeTab)
+					self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=self.completeTab)
 					buttonCreated = self.canvas.create_window(newbuttonPosList[0], newbuttonPosList[1]-diff, window=self.bt_expo)
 					buttonPosList.append(newbuttonPosList[0])
 					buttonPosList.append(newbuttonPosList[1]-diff)
@@ -186,7 +192,7 @@ class Zoom_Advanced(ttk.Frame):
 					buttonPosList=[]
 					newbuttonPosList=buttonMoveList[listIdButton[self.k]]
 					#print("buttonPosList " +str(buttonPosList))
-					self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=exp.completeTab)
+					self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=self.completeTab)
 					buttonCreated = self.canvas.create_window(newbuttonPosList[0]-diff, newbuttonPosList[1], window=self.bt_expo)
 					buttonPosList.append(newbuttonPosList[0]-diff)
 					buttonPosList.append(newbuttonPosList[1])
@@ -196,11 +202,15 @@ class Zoom_Advanced(ttk.Frame):
 					self.k += 1
 			newLigne+=1
 	
-	def posMouse(self, event):
+	def posMouse(self,event):
 		mouseX = self.canvas.canvasx(event.x)
 		mouseY = self.canvas.canvasy(event.y)
-		exp.posMouse(mouseX,mouseY, self.width, self.height, numPage, dimention, sizeYimg)
-	
+		print(self.buttonResetList)
+		Pselected,findButton=exp.posMouse(mouseX,mouseY, self.width, self.height, numPage, dimention, sizeYimg,self.wb,self.hgb,self.canvas.coords(self.imageid),self.buttonResetList,nameProjet)
+		if findButton:
+			global pageSelected
+			pageSelected = Pselected
+		
 	def selectPage(self, event):
 		#print('ca clic')
 		
@@ -210,9 +220,9 @@ class Zoom_Advanced(ttk.Frame):
 		y = self.canvas.canvasy(event.y)
 		sizeX = sizeXimg#a simplifier
 		sizeY = sizeYimg
-		global pageSelected
 		
-		pageSelected = ep.selectPage(x, y, mouseX, mouseY, sizeX, sizeY,dimention, numPage,self.wb,self.hgb,self.canvas.coords(self.imageid))#root ou canva?
+		#pour selection sur toute la page
+		#pageSelected = ep.selectPage(x, y, mouseX, mouseY, sizeX, sizeY,dimention, numPage,self.wb,self.hgb,self.canvas.coords(self.imageid))#root ou canva?
 
 	def move_from(self, event):
 		''' Remember previous coordinates for scrolling with the mouse '''
@@ -257,7 +267,7 @@ class Zoom_Advanced(ttk.Frame):
 					buttonPosList=[]
 					newbuttonPosList=buttonMoveList[listIdButton[self.k]]
 					#print("buttonPosList " +str(buttonPosList))
-					self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=exp.completeTab)
+					self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=self.completeTab)
 					buttonCreated = self.canvas.create_window(newbuttonPosList[0]-diffX/50, newbuttonPosList[1]-diffY/50, window=self.bt_expo)
 					buttonPosList.append(newbuttonPosList[0]-diffX/50)
 					buttonPosList.append(newbuttonPosList[1]-diffY/50)
@@ -485,7 +495,7 @@ class Zoom_Advanced(ttk.Frame):
 					for j in range (0,dimention[0]):#dimention par defaut est 4, donc j = 0,1,2,3
 						if self.k < numPage :
 							buttonPosList=[]
-							self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=exp.completeTab)
+							self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=self.completeTab)
 							self.posX+=self.wimg
 							if self.isWheel is True:
 								print("true !!!!!!!!!!")
@@ -606,7 +616,7 @@ class Zoom_Advanced(ttk.Frame):
 			for j in range (0,dimention[0]):#dimention par defaut est 4, donc j = 0,1,2,3
 				if self.k < numPage :
 					buttonPosList=[]
-					self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=exp.completeTab)
+					self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=self.completeTab)
 					#buttonList.append([posX, posY,self.bt_expo])
 					#self.bt_expo_w = self.canvas.create_window(posX, posY, window=self.bt_expo)
 					#print(self.bt_expo['text'])

@@ -95,7 +95,7 @@ def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull):
 	#canva.postscript(file='D:\\S4\\ProjetCheminDeFer\\UseCheminDeFer\\img.ps')
 	path='UseCheminDeFer/img.jpg'
 	new_im.save(path,'JPEG',quality=1000)
-	zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet))
+	zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet), nameProjet)
 	
 	#new_im.show()
 
