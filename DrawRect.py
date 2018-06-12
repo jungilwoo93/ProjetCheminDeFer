@@ -122,6 +122,8 @@ class CanvasEventsDemo:
 	def leftOnFinal(self,event):
 		#print('listFileWithActionRect !!!!' + str(self.listFileWithActionRect))
 		self.listActionRect=self.listFileWithActionRect[self.currentFile]
+		print("listFileWithActionRect " +str(self.listFileWithActionRect))
+		print("currentFile " +str(self.currentFile))
 		global isDraw,listBoxAction,idAction,listActionRect,listFileWithActionRect,currentFile
 		self.final=event
 		self.finalX=event.x
@@ -188,11 +190,12 @@ class CanvasEventsDemo:
 		
 	def deleteRect(self,selection,idRect):
 		#print("delete rect")
+		listActionRect=self.listFileWithActionRect[self.currentFile]
 		list1=[]
-		list1=self.listActionRect[selection]
+		list1=listActionRect[selection]
 		
-		del self.listActionRect[selection]
-		#print("listRect " +str(self.listActionRect))
+		del listActionRect[selection]
+		#print("listFileWithActionRect " +str(self.listFileWithActionRect))
 		#self.listRect.remove(idRect)
 		self.canvas.delete(idRect)
 	
