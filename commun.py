@@ -436,6 +436,7 @@ class FunctionCommun:
 		print('on fait un new projet')
 		self.xmlProjet,start=xl.newProjet(self.nameProjet)
 		if not start:
+			print('pas start')
 			page=xl.addPage('imgFromPdf/' + self.nameProjet+ '/'+ self.nameProjet + 'page-0.png',self.numPage,self.xmlProjet)
 			self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
 			gs.writeInText(self.nameProjet,self.numPage)

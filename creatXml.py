@@ -87,13 +87,13 @@ def checkFileExiste(nameFile):
 
 def newProjet(nameProjet):
 	print('newwww proooojj')
-	print(os.path.exists('imgFromPdf/' + nameProjet))
-	if os.path.exists('imgFromPdf/' + nameProjet):
+	print(os.path.exists('DrawOnImage/XMLTrainingData/' + nameProjet +'.xml'))
+	if os.path.exists('DrawOnImage/XMLTrainingData/' + nameProjet +'.xml'):
 		print('ce projet est déjà commencé')
 		return continuePoject(nameProjet)#xmlProjet,bool=
 	else:
 		xmlProjet = etree.Element(nameProjet)#fait recommencer
-		return xmlProjet,os.path.exists('imgFromPdf/' + nameProjet)
+		return xmlProjet,False
 
 def continuePoject(nameProjet):
 	xmlProjet=getExistingXml(nameProjet) #etree.Element(nameProjet)
