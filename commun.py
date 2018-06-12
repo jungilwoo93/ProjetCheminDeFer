@@ -14,37 +14,36 @@ import editImag as ei
 
 class FunctionCommun:
 	#### variable ####
-	var=None
-	typeZone={"Titre","Paragraphe","Lettrine","Image"}
-	colorDefault="#F5F5DC"
-	screen_width=None
+	var=None #stocker la variable de radiobutton
+	typeZone={"Titre","Paragraphe","Lettrine","Image"} 
+	colorDefault="#F5F5DC" #couleur beige par défault
+	screen_width=None #transferer la taille d'ecran de main.py et WinModification.py pour qu'on peut utiliser dans commun.py
 	screen_height=None
-	listPath=[]
-	drawRect=None
-	drawRectModif=None
-	listFileWithActionRect={}
-	listActionRect={}
+	listPath=[] #stocker tous les chemins de d'images du projet
+	drawRect=None #creer la classe DrawRect pour le canvas d'image de main.py
+	drawRectModif=None #creer la classe DrawRect pour le canvas d'image de WinModification.py
+	listFileWithActionRect={} #dictionnaire, tous les fichiers et tous les actions et tous les rectangles qui sont dans ce dictionnaire
+	listActionRect={} #peut etre on peut le supprimer 
 	nameProjet='new'
-	currentSelectedFile=None
-	lastSelectedFile=None
-	numPage=0
-	xmlProjet=None
+	currentSelectedFile= None #pour noter le fichier current
+	lastSelectedFile=None #pour noter le dernier fichier
+	numPage=0 #pour noter numero de page
+	xmlProjet=None  
 	numberPage=0
-	listAction=None
-	listFiles=None
-	listModif=None
-	cadre=None
-	isWinModif=False
+	listAction=None #stocker listbox Action
+	listFiles=None #stocker listbox Files
+	cadre=None #stocker canvas d'image
+	isWinModif=False 
 	
 	#### fonctions ####
-	def __init__(self,listbox=None):
+	def __init__(self,listbox=None): #construteur
 		self.listAction=listbox
 	
 	def projetIsChoose(self):
 		print(self.nameProjet!='new')
 		return self.nameProjet!='new'
 	
-	def setVar(self,var):
+	def setVar(self,var): #main.py et WinModification.py transmet la variable de radiobutton a commun.py
 		self.var=var
 		
 	def setListBoxAction(self,listbox):
@@ -60,7 +59,7 @@ class FunctionCommun:
 	def setCadre(self,cadre):
 		self.cadre=cadre
 		
-	def changeColRect(self,drawRect):
+	def changeColRect(self,drawRect): 
 		value = str(self.var)
 		if value == 'Titre' :
 			self.createRectBySelectionListbox(drawRect,2,'red')
@@ -101,7 +100,7 @@ class FunctionCommun:
 					else:
 						drawRect.creatRect(selection,list1)
 
-	def confirmer(self):
+	def confirmer(self): #fonction de button "confirmer"
 		#print("listActionRect orginal " +str(listActionRect))
 		listActionOrigin=self.listAction.get(0,tk.END)
 		listTextSelection=[]
@@ -133,15 +132,15 @@ class FunctionCommun:
 		self.listFileWithActionRect[self.currentSelectedFile]=self.listActionRect
 
 	def resizeImg(self,index,cadre):
-		self.cadre=cadre
-		#global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
+		self.cadre=cadre #mettre le canvas
 		dicimg={}
-		img=Image.open(self.listPath[int(index)])
+		img=Image.open(self.listPath[int(index)]) #ovrir l'image
 		#img.resize((320,240))
 		#img.zoom(320/img.width(), 240/img.height())
 		wd,hg=img.size
 		mwd=self.screen_width
 		mhg=self.screen_height
+		#resize image
 		if wd>mwd :
 			scale= 1.0*wd/mwd
 			newImg=img.resize((int(wd/scale),int(hg/scale)),Image.ANTIALIAS)
@@ -165,7 +164,8 @@ class FunctionCommun:
 			self.cadre.image=photo
 			self.cadre.create_image(0,0,image=photo,anchor="nw") 
 		#newImg.save(listPath[index])  
-		#newImg.close() 
+		#newImg.close()
+		
 		if self.currentSelectedFile is None:   
 			self.currentSelectedFile=self.listFiles.get(self.listFiles.curselection())
 			self.fileChange=False
@@ -177,7 +177,8 @@ class FunctionCommun:
 		#print("currentList " +str(self.currentSelectedFile))
 		#print(" self.listFileWithActionRect " +str(self.listFileWithActionRect))
 		self.isWinModif=False
-		self.drawRect=rect.CanvasEventsDemo(self.cadre,self.listAction,self.listActionRect,self.listFileWithActionRect,self.currentSelectedFile,self.isWinModif,self.fileChange)
+		self.drawRect=rect.CanvasEventsDemo(self.cadre,self.listAction,self.listActionRect,self.listFileWithActionRect,self.currentSelectedFile,self.isWinModif,self.fileChange) #il y a des arguments inutils, nous pouvons essayer de les enlever
+		#les events de souris
 		self.cadre.bind('<ButtonPress-1>', self.drawRect.leftOnStart)  
 		self.cadre.bind('<B1-Motion>',     self.drawRect.leftOnGrow)   
 		self.cadre.bind('<Double-1>',      self.drawRect.leftOnClear)
@@ -188,7 +189,7 @@ class FunctionCommun:
 		gs.update(self.nameProjet,self.numPage)
 		
 	
-	def setImageForModif(self,path,cadre):
+	def setImageForModif(self,path,cadre): #repeter un peu la fonction de resizeImg, nous pourrons essayer de fusionner les 2 fonctions
 		self.cadre=cadre
 		#global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
 		dicimg={}
@@ -295,9 +296,11 @@ class FunctionCommun:
 	def onSelectAction(self,evt):
 		#global drawRect
 		currentSelect=self.listAction.curselection()
+		print("currentSelect " +str(currentSelect))
 		if self.isWinModif is True:
 			self.drawRectModif.deleteAllRectAppear()
 			for i in range(0,len(currentSelect)):
+				self.listActionRect=self.listFileWithActionRect[self.currentSelectedFile]
 				selection=self.listAction.get(currentSelect[i])
 				#print("selection " +str(selection))
 				#self.listActionRect=self.listFileWithActionRect[self.currentSelectedFile]
@@ -308,6 +311,7 @@ class FunctionCommun:
 		else:
 			self.drawRect.deleteAllRectAppear()
 			for i in range(0,len(currentSelect)):
+				self.listActionRect=self.listFileWithActionRect[self.currentSelectedFile]
 				selection=self.listAction.get(currentSelect[i])
 				#print("selection " +str(selection))
 				#self.listActionRect=self.listFileWithActionRect[self.currentSelectedFile]
@@ -337,8 +341,9 @@ class FunctionCommun:
 		list1=listActionRect[selection]
 		selectedAction=cadre.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=5)"""
 		
-	def deleteSelection(self):#pour liste des actions
-		#global drawRect
+	def deleteSelection(self):#fonction de button "Supprimer" pour supprimer les items que nous avons selectionner dans listbox des actions
+		self.listActionRect=self.listFileWithActionRect[self.currentSelectedFile]
+		#print("listActionRect " +str(listActionRect))
 		currentselection = self.listAction.curselection()
 		#print("current selection " +str(currentselection))
 		#print("size " + str(len(currentselection)))
@@ -434,6 +439,7 @@ class FunctionCommun:
 		gs.writeInText(self.nameProjet,self.numPage)
 	
 	def continueProjet(self):
+		#fenêtre pour choisir le projet
 		rootpop = tk.Tk()
 		rootpop.title("choisit le projet")
 		listFrame=tk.Frame(rootpop)
@@ -464,18 +470,15 @@ class FunctionCommun:
 			#global nameProjet,numPage,xmlProjet,currentSelectedFile
 			#nameProjet=listProjet.curselection()
 			#rootpop.destroy
-			if len(listProjet.curselection())!=0:
-				#print("coucou")
-				self.nameProjet =listProjet.get(listProjet.curselection()[0])
-				#global numPage
-				self.numPage=gs.getAvancementProjet(self.nameProjet)
+			if len(listProjet.curselection())!=0 :
+				self.nameProjet =listProjet.get(listProjet.curselection()[0])  #recuperer le nom de projet que nous avons choisit
+				self.numPage=gs.getAvancementProjet(self.nameProjet) 
 				self.listFiles.selection_set(int(self.numPage))
 				self.reloadImg()
-				self.resizeImg(int(self.numPage),self.cadre)
-				#global xmlProjet
+				self.resizeImg(int(self.numPage),self.cadre)#re
 				self.xmlProjet=xl.continuePoject(self.nameProjet)
 				self.currentSelectedFile=self.nameProjet
-				listFileInListbox = self.listFiles.get(0,tk.END)
+				listFileInListbox = self.listFiles.get(0,tk.END) #recuperer tous les noms de fichier dans listbox 
 				for i in range(0,len(listFileInListbox)):
 					list1=xl.getRect(self.nameProjet,i,self.xmlProjet)
 					#print("list1 " +str(list1))
@@ -487,12 +490,13 @@ class FunctionCommun:
 						if int(list2[0]) == i :
 							#print("coucou")
 							list3=[]
-							list3.append(int(list2[3]))
-							list3.append(int(list2[4]))
-							list3.append(int(list2[5]))
-							list3.append(int(list2[6]))
+							list3.append(int(list2[3])) #x
+							list3.append(int(list2[4])) #y
+							list3.append(int(list2[5])) #width
+							list3.append(int(list2[6])) #height
 							list3.append(None) #idRect
-							list3.append(2)
+							list3.append(2) #epaiseur de border
+							#couleur de border
 							if list2[1] =='Titre':
 								list3.append('red')
 							elif list2[1] =='Lettrine' :
@@ -501,13 +505,14 @@ class FunctionCommun:
 								list3.append('green')
 							else:
 								list3.append('gray')
-							list3.append(None)
+							list3.append(None) #couleur de fill
 							#print("list3 "+str(list3))
 							listInitial[str(list2[1])+'-'+str(list2[2])]=list3
+							#print("listInitial  "+str(listInitial))
 						else:
 							listInitial={}
 					self.listFileWithActionRect[listFileInListbox[i]]=listInitial
-					#print("listFilewithaCTIONrECT " +str(self.listFileWithActionRect))
+				#print("listFilewithaCTIONrECT " +str(self.listFileWithActionRect))
 				#for file in listFiles.get(0,tk.END):
 				#	listFileWithActionRect[file]=listInitial
 				#print('listFileWithActionRect ' +str(listFileWithActionRect)) 
@@ -546,12 +551,12 @@ class FunctionCommun:
 		ei.drawIm(pathIMG,nameProjet,scale)
 		
 	def getCoordsFromXml(self,pathImg,nameprojet,numPage):
-		global xmlProjet
+		#global xmlProjet
 		#xmlProjet=xl.getExistingXml(nameprojet)
-		xmlProjet=xl.getXmlToModif(nameprojet,numPage)
-		self.getxmlProjet=xl.getXmlToModif(nameprojet,numPage)#xl.getExistingXml(nameprojet)
+		self.xmlProjet=xl.getXmlToModif(nameprojet,numPage)
+		#self.getxmlProjet=xl.getXmlToModif(nameprojet,numPage)#xl.getExistingXml(nameprojet)
 		listInitial={}
-		list1=xl.getRectForModification(nameprojet,pathImg,self.getxmlProjet)
+		list1=xl.getRectForModification(nameprojet,pathImg,self.xmlProjet)
 		#print("list1 " +str(list1))
 		for i in range(0,len(list1)):
 			list2=list1[i]
