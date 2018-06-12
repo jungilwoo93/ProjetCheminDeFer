@@ -8,7 +8,7 @@ Created on Fri May 18 14:53:00 2018
 
 def writeInText(nameProjet,numPage):
     fichier = open("elemSave.txt", "a")
-    fichier.write('\n'+ nameProjet + ' ' + str(numPage))
+    fichier.write(nameProjet + ' ' + str(numPage)+' \n')
     fichier.close()
    
     
@@ -106,7 +106,7 @@ def cheminIsDone(nameProjet):
         for line in lines :
             if nameProjet.lower() in line.lower() :
                 #print('trouver projet')
-                #print(line)
+                print(line)
                 esp = line.count(" ")
                 deb = 0
                 fin = line.index(" ")
@@ -119,7 +119,7 @@ def cheminIsDone(nameProjet):
                         fin = line.index(" ")
                     else:
                         fin = len(line)
-                #print(projetLigne)
+                print(projetLigne)
                 if len(projetLigne)==4:
                     return projetLigne[2]=='CDF'
 
@@ -132,11 +132,11 @@ def doChemin(nameProjet, numPage):
 		#lines = [l in file.readlines() if l.contain(nameProjet)]
 	with open('elemSave.txt', 'w') as file:
 		for line in lines :
-			#print('on fait le chemin de fer')
+			print('on fait le chemin de fer')
 			if nameProjet.lower() in line.lower() :
 				line=nameProjet + ' ' + str(numPage) + ' ' +'CDF' +' \n'
 				#print('salut')
-				#print(line)
+				print(line)
 			if line!= "":
 				file.write(line)
 

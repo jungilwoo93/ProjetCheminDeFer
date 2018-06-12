@@ -16,26 +16,28 @@ numberPage=0
 def pdfToPng(namefile,nameProjet,resol): #'test1/source1.pdf'
 	#os.mkdir('imgFromPdf/' + nameProjet)
 	if len(namefile) > 0: 
-		
-		os.makedirs('imgFromPdf/' + nameProjet)
-		#page=0
-		listImg =[]
-		#print('pages = ', len(img.sequence))
-		with Image(filename=namefile,resolution=resol) as img: #pour resol 30 == low quality(utilisée pour l'app java) 60== high quality utilisé pour le traitement de l'img
+		if not os.path.exists('imgFromPdf/' + nameProjet):
+			os.makedirs('imgFromPdf/' + nameProjet)
+			#page=0
+			listImg =[]
 			#print('pages = ', len(img.sequence))
-			global numberPage
-			numberPage=len(img.sequence)
-			img.compression_quality = 99
-			#page += 1
-			for i in range (len(img.sequence)) :
-				listImg.append('imgFromPdf/' + splitPath(namefile) + '/'+ splitPath(namefile) + 'page-' + str(i) + '.png')
+			with Image(filename=namefile,resolution=resol) as img: #pour resol 30 == low quality(utilisée pour l'app java) 60== high quality utilisé pour le traitement de l'img
+				#print('pages = ', len(img.sequence))
+				global numberPage
+				numberPage=len(img.sequence)
+				img.compression_quality = 99
+				#page += 1
+				for i in range (len(img.sequence)) :
+					listImg.append('imgFromPdf/' + splitPath(namefile) + '/'+ splitPath(namefile) + 'page-' + str(i) + '.png')
 				
-			with img.convert('png') as converted:
-				#print("coucou") 
-				#print(str(page))
-				converted.save(filename='imgFromPdf/' + nameProjet + '/' + splitPath(namefile) + 'page' + '.png')    #nb le chemin des results
-				#listImg.append('imgFromPdf/' + splitPath(namefile) + '/'+ splitPath(namefile) + 'page-' + str(page) + '.png')
-		return listImg
+				with img.convert('png') as converted:
+					#print("coucou") 
+					#print(str(page))
+					converted.save(filename='imgFromPdf/' + nameProjet + '/' + splitPath(namefile) + 'page' + '.png')    #nb le chemin des results
+					#listImg.append('imgFromPdf/' + splitPath(namefile) + '/'+ splitPath(namefile) + 'page-' + str(page) + '.png')
+			return listImg
+		else:
+			return 0
 				
 def splitPath(path):
 	#global filePath,tempfileName,shotName,extension

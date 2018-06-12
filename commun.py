@@ -433,11 +433,17 @@ class FunctionCommun:
 		self.numPage=0
 		self.chooseFile()
 		#global xmlProjet
-		self.xmlProjet=xl.newProjet(self.nameProjet)
-		page=xl.addPage('imgFromPdf/' + self.nameProjet+ '/'+ self.nameProjet + 'page-0.png',self.numPage,self.xmlProjet)
-		self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
-		gs.writeInText(self.nameProjet,self.numPage)
-	
+		print('on fait un new projet')
+		self.xmlProjet,start=xl.newProjet(self.nameProjet)
+		if not start:
+			page=xl.addPage('imgFromPdf/' + self.nameProjet+ '/'+ self.nameProjet + 'page-0.png',self.numPage,self.xmlProjet)
+			self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
+			gs.writeInText(self.nameProjet,self.numPage)
+		else:
+			self.continueProjet()
+			
+			
+			
 	def continueProjet(self):
 		#fenêtre pour choisir le projet
 		rootpop = tk.Tk()
@@ -476,7 +482,7 @@ class FunctionCommun:
 				self.listFiles.selection_set(int(self.numPage))
 				self.reloadImg()
 				self.resizeImg(int(self.numPage),self.cadre)#re
-				self.xmlProjet=xl.continuePoject(self.nameProjet)
+				self.xmlProjet,temp=xl.continuePoject(self.nameProjet)
 				self.currentSelectedFile=self.nameProjet
 				listFileInListbox = self.listFiles.get(0,tk.END) #recuperer tous les noms de fichier dans listbox 
 				for i in range(0,len(listFileInListbox)):
@@ -699,6 +705,7 @@ class FunctionCommun:
 		#choiceBoth=tf.
 		#os.listdir #pour recupereelement d'un dosier
 		nbSelected=len(choice)
+		listImg=0
 		#recupere le nom apartir du chemin
 		for i in range (0,nbSelected):
 			ext = os.path.splitext(choice[i])[1]
@@ -709,24 +716,26 @@ class FunctionCommun:
 				#global nameProjet
 				self.nameProjet=nom
 				listImg = pti.pdfToPng(choice[i],self.nameProjet,60)#30==resolution base 90 resol haut
-				self.numberPage = pti.getCountPage()
-				size=len(listImg)
-				for k in range (0, size) :
-					self.listFiles.insert(self.listFiles.size(),basename(listImg[k])) 
-					self.listPath.append(listImg[k])
+				if listImg!=0:
+					self.numberPage = pti.getCountPage()
+					size=len(listImg)
+					for k in range (0, size) :
+						self.listFiles.insert(self.listFiles.size(),basename(listImg[k])) 
+						self.listPath.append(listImg[k])
 			else :
 				if nom!="": #sinon quand on clic sur parcourir mais qu'on ne choisi rien ça rajoute un espace blanc
 					self.listFiles.insert(self.listFiles.size(),nom) 
 					#listFiles.
 					self.listPath.append(choice[i])
 					# listFiles.TopIndex = listFiles.ListCount
-		self.listFiles.select_set(0)    
-		listInitial={}
-		for file in self.listFiles.get(0,tk.END):
-			self.listFileWithActionRect[file]=listInitial
-		#print(str(listFileWithActionRect))
-		self.resizeImg(0,self.cadre)
-		self.recharge()
+		if listImg!=0:
+			self.listFiles.select_set(0)    
+			listInitial={}
+			for file in self.listFiles.get(0,tk.END):
+				self.listFileWithActionRect[file]=listInitial
+			#print(str(listFileWithActionRect))
+			self.resizeImg(0,self.cadre)
+			self.recharge()
 		#pour trier par ordre alpha et enlever les boutons            
 	#    listFiles.Sorted = True
 	#    listPath.sort()

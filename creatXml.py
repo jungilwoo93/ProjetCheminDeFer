@@ -86,16 +86,18 @@ def checkFileExiste(nameFile):
 
 
 def newProjet(nameProjet):
-	if os.path.exists(nameProjet):
+	print('newwww proooojj')
+	print(os.path.exists('imgFromPdf/' + nameProjet))
+	if os.path.exists('imgFromPdf/' + nameProjet):
 		print('ce projet est déjà commencé')
-		continuePoject(nameProjet)
+		return continuePoject(nameProjet)#xmlProjet,bool=
 	else:
 		xmlProjet = etree.Element(nameProjet)#fait recommencer
-		return xmlProjet
+		return xmlProjet,os.path.exists('imgFromPdf/' + nameProjet)
 
 def continuePoject(nameProjet):
 	xmlProjet=getExistingXml(nameProjet) #etree.Element(nameProjet)
-	return xmlProjet
+	return xmlProjet,True
 
 def addPage(pathPage,numPage,xmlProjet):
 	page = etree.SubElement(xmlProjet,'page')
@@ -127,7 +129,7 @@ def endProjet(nameProjet,xmlProjet) :
 
 def addElement(typeEl, idEl, posiX, posiY, widthEl, heightEl, nameProjet, numPage, xmlProjet):
 	page=foundPage(nameProjet, numPage, xmlProjet)
-	print(page)
+	#print(page)
 #    page = etree.SubElement(xmlProjet,'page')
 #    page.set('id',bytes(numero))
 	element = etree.SubElement(page,'element') #ou append
@@ -237,7 +239,7 @@ def findAllPage(xmlProject):
 def reSave(nameProjet, numPage, numElem, xmlProjet) : #peut retirer name project    
 	for e in xmlProjet.findall('page'):
 		if e.attrib['id']==str(numPage) :
-			print('passe numpage')
+			#print('passe numpage')
 			for e1 in e.findall('element'):
 				if not(e1 is None):
 					if e1.attrib['id']==str(numElem):
