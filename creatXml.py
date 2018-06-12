@@ -302,7 +302,7 @@ def getRectModif(nameProjet,numPage,xmlProjet,scale):
 	return listRect
 	
 	
-def getRectForModification(name,pathImg,xmlProjet):
+def getRectForModification(name,pathImg,xmlProjet,scale):
 	num = None
 	allPage=findAllPage(xmlProjet)
 	for page in allPage:
@@ -310,7 +310,7 @@ def getRectForModification(name,pathImg,xmlProjet):
 		for path in allPath:
 			if path.attrib['path'] == pathImg:
 				num = page.attrib['id']
-	listRect=getRectModif(name,num,xmlProjet)
+	listRect=getRectModif(name,num,xmlProjet,scale)
 	return listRect
 	
 def getLastRectangleId(xmlProjet):

@@ -539,10 +539,10 @@ class FunctionCommun:
 			listCoord=self.listActionRect[listItems[k]]
 			typeEl=typeAction
 			numElem=idAction #id
-			posiX=listCoord[0]
-			posiY=listCoord[1]
-			widthEl=listCoord[2]
-			heightEl=listCoord[3]
+			posiX=int(listCoord[0]*scale)
+			posiY=int(listCoord[1]*scale)
+			widthEl=int(listCoord[2]*scale)
+			heightEl=int(listCoord[3]*scale)
 			xl.addElement(typeEl, numElem, posiX, posiY, widthEl, heightEl,self.nameProjet, self.numPage, self.xmlEdit)
 			with open(pathXml + '/' + 'page-'+ str(numPage) +'.png-Unlabelled.xml','w') as fichier:
 				fichier.write(etree.tostring(self.xmlEdit,pretty_print=True).decode('utf-8'))#xmlProjet
@@ -550,21 +550,21 @@ class FunctionCommun:
 		pathIMG='imgFromPdf/' + nameProjet+ '/'+ nameProjet+'page-'+ str(numPage) +'.png'
 		ei.drawIm(pathIMG,nameProjet,scale)
 		
-	def getCoordsFromXml(self,pathImg,nameprojet,numPage):
+	def getCoordsFromXml(self,pathImg,nameprojet,numPage,scale):
 		#global xmlProjet
 		#xmlProjet=xl.getExistingXml(nameprojet)
 		self.xmlProjet=xl.getXmlToModif(nameprojet,numPage)
 		#self.getxmlProjet=xl.getXmlToModif(nameprojet,numPage)#xl.getExistingXml(nameprojet)
 		listInitial={}
-		list1=xl.getRectForModification(nameprojet,pathImg,self.xmlProjet)
+		list1=xl.getRectForModification(nameprojet,pathImg,self.xmlProjet,scale)
 		#print("list1 " +str(list1))
 		for i in range(0,len(list1)):
 			list2=list1[i]
 			list3=[]
-			list3.append(int(list2[3]))
-			list3.append(int(list2[4]))
-			list3.append(int(list2[5]))
-			list3.append(int(list2[6]))
+			list3.append(int(int(list2[3])/scale))
+			list3.append(int(int(list2[4])/scale))
+			list3.append(int(int(list2[5])/scale))
+			list3.append(int(int(list2[6])/scale))
 			list3.append(None)
 			list3.append(2)
 			if list2[1] =='Titre':
