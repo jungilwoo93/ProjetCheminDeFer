@@ -41,7 +41,7 @@ def Segm(nameProjet,numberPage):
 				#page = ET.SubElement(components, "page")
 				#print('bla')
 			component = ET.SubElement(components, "element")
-			component.attrib['type'] = "lettrine"
+			component.attrib['type'] = "Lettrine"
 			ET.SubElement(component, "width").text = str(w)
 			ET.SubElement(component, "height").text = str(h)
 			ET.SubElement(component, "posX").text = str(x)
