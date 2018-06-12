@@ -283,11 +283,12 @@ def getRectModif(nameProjet,numPage,xmlProjet):
 	allPage=findAllPage(xmlProjet)
 	#print("all page " +str(allPage))
 	listRect=[]
+	numR=0
 	for page in allPage:
 			#if page.attrib['id']==str(numPage):
 			for rect in page.findall('element'):
 				typeRect=rect.attrib['type'] 
-				numrect=rect.attrib['id'] 
+				#numrect=rect.attrib['id'] 
 				elPosx=rect.find('posX')
 				posx=elPosx.text
 				elPosy=rect.find('posY')
@@ -296,7 +297,8 @@ def getRectModif(nameProjet,numPage,xmlProjet):
 				width=elWidth.text
 				elHeight=rect.find('height')
 				height=elHeight.text
-				listRect.append([numPage,typeRect,numrect,posx,posy,width,height])
+				listRect.append([numPage,typeRect,numR,posx,posy,width,height])
+				numR+=1
 	return listRect
 	
 	

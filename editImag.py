@@ -81,7 +81,7 @@ def drawIm(pathIMG,nameProjet,scale):
 					color='gray'#(255,100,0)
 				else:
 					color='blue'#(100,255,0)
-				print(int(scale))
+				scale=1
 				draw.text((int(int(self.x[i])*scale-15),int(int(self.y[i])*scale-15)),self.types[i],fill=color)#self.types[i]'''
 				#plusieur rectangle pour un rectangle avec un tour plus epais
 				X=int(int(self.x[i])*scale)
