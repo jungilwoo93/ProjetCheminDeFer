@@ -92,7 +92,7 @@ def creatWin(root,nameProjet,numPage):#pathIMG,
 	cadre.grid(row=0,column=1)
 	scale=func.setImageForModif(pathIMG,cadre)
 	#func.setActionToListbox(pathIMG,nameProjet)
-	func.getCoordsFromXml(pathIMG,nameProjet,numIm)
+	func.getCoordsFromXml(pathIMG,nameProjet,numIm,scale)
 	
 	root.mainloop()
 	

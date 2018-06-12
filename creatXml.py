@@ -278,7 +278,7 @@ def getRect(nameProjet,numPage,xmlProjet):
 	return listRect
 
 	
-def getRectModif(nameProjet,numPage,xmlProjet):
+def getRectModif(nameProjet,numPage,xmlProjet,scale):
 	#page=foundPage(nameProjet,numPage,xmlProjet)
 	allPage=findAllPage(xmlProjet)
 	#print("all page " +str(allPage))
