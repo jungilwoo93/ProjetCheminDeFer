@@ -51,6 +51,7 @@ class Zoom_Advanced(ttk.Frame):
 	buttonResetList=[]
 	imageid=None
 	nameProjet='new'
+	selectClick=0
 	''' Advanced zoom of the image '''
 	def __init__(self, mainframe, path,dim,numberPage,nameProj):
 		''' Initialize the main Frame '''
@@ -119,7 +120,11 @@ class Zoom_Advanced(ttk.Frame):
 		self.show_image()
 	
 	def completeTab(self):
+		global selectClick
+		selectClick=pageSelected
+		
 		exp.completeTab(pageSelected,nameProjet)
+		
 	
 	
 	def scroll_y(self, *args, **kwargs):
@@ -636,7 +641,7 @@ class Zoom_Advanced(ttk.Frame):
 			#print("listButton " +str(self.buttonResetList))
 	
 def getNumPage():
-    return pageSelected
+    return selectClick#pageSelected
     # def selectPage(event):
         # print('ca clic')
         # mouseX = event.x
