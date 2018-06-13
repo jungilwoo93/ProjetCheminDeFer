@@ -105,14 +105,14 @@ def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull):
 	
 	if zoomImg is None:
 		print("zoomImg is none")
-		zoomImg=zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet))
+		zoomImg=zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet),nameProjet)
 		#zoomImg.findAll()
 	else:
 		print("zoomImg is not none")
 		#zoomImg.findAll()
 		zoomImg.deleteAllButton()
 		#zoomImg.findAll()
-		zoomImg==zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet))
+		zoomImg==zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet),nameProjet)
 		#print("coucou")
 		#zoomImg.findAll()
 	canva.wm_state('iconic')

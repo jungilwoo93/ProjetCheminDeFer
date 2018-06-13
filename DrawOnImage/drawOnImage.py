@@ -67,6 +67,7 @@ def drawIm(nameProjet):
 					k+=1
 	
 		def printall(self,img,numPage,elenum): #this method draws on image after data extraction
+			listLettrine=[]
 			im = Image.open("imgFromPdf/"+nameProjet+ '/' + nameProjet + img.split("-U")[0])# # path+ the name of the image 
 			imFull = Image.open("imgFromPdf/"+nameProjet+ '/' + nameProjet + img.split("-U")[0])# # path+ the name of the image 
 			im=im.convert("RGB")
@@ -81,6 +82,7 @@ def drawIm(nameProjet):
 					color='gray'#(255,100,0)
 				else:
 					color='blue'#(0,0,255)
+					listLettrine.append([int(self.x[i]),int(self.y[i]),int(self.w[i])+int(self.x[i]),int(self.h[i])+int(self.y[i])])
 				draw.text((int(self.x[i])-15,int(self.y[i])-15),self.types[i],fill=color)#self.types[i]'''
 				#pour avoir un rectangle avec une plus grande epaiseur -> plusieur 
 				draw.rectangle((int(self.x[i]),int(self.y[i]),int(self.w[i])+int(self.x[i]),int(self.h[i])+int(self.y[i])), fill=None, outline=color)#, width=5
@@ -96,6 +98,10 @@ def drawIm(nameProjet):
 				#ecriture dans excel
 				line = page1.row(elenum-self.dataSize+i+1)
 				line.write(0,'page ' + str(numPage) + ' pos( ' + str(self.x[i]) + ' , ' + str(self.y[i]) + ' )')
+			
+			#pourvoir les lettrine même quand rectangle plein
+			for j in range (0,len(listLettrine)):
+				drawFull.rectangle(listLettrine[j], fill='blue', outline=color)
 			
 			if not os.path.exists("DrawOnImage/finalResult/"+nameProjet):
 				os.makedirs("DrawOnImage/finalResult/" + nameProjet)
