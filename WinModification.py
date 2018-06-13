@@ -13,12 +13,13 @@ import commun as co
 #root = tk.Tk()
 #var=tk.StringVar()
 #var.set("Paragraphe")
-numIm=0
+numPage=0
 
 def creatWin(root,nameProjet,numIm):#pathIMG,
 	#global numIM
 	#numIm=numPage
 	print(numIm)
+	global numPage
 	numPage=numIm
 	var=tk.StringVar()
 	scale=1
