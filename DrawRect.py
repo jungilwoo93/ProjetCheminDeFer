@@ -1,9 +1,14 @@
+"""
+Created on Tue May 22 09:37:31 2018
+
+@author: Liuyan PAN
+"""
+#la classe pour designer les rectangles
 import tkinter as tk
 import commun as co
 trace = 0 
 class CanvasEventsDemo:
-
-	startX=0
+	startX=0 #noter la position de start
 	startY=0
 	rightstartX=0
 	rightstartY=0

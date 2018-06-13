@@ -2,16 +2,9 @@
 """
 Created on Mon May 21 19:23:16 2018
 
-@author: rachel
+@author: Liuyan PAN
 """
-"""columns=0
-lines=0
 
-def show():
-    for ligne in range(5):
-        for colonne in range(5):
-            Button(fenetre, text='L%s-C%s' % (ligne, colonne), borderwidth=1).grid(row=ligne, column=colonne)
-"""
 
 
 
