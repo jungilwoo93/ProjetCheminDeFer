@@ -131,13 +131,12 @@ class Zoom_Advanced(ttk.Frame):
 		self.canvas.yview(*args, **kwargs)		# scroll vertically
 		self.isMoved=True
 		self.show_image()
-		self.canvas.update() 
+		#self.canvas.update() 
 		(s,f)=self.vbar.get()
 		diff=(f-s)/self.himg
 		if len(self.buttonResetList)>0 : 
 			for idButton in self.buttonResetList:
 				self.canvas.delete(idButton)
-			self.buttonResetList={}
 		self.img = Image.open('guillemets.jpg')
 		self.sizeButton=15
 		self.imag = self.img.resize((self.sizeButton,self.sizeButton))
@@ -173,15 +172,15 @@ class Zoom_Advanced(ttk.Frame):
 		''' Scroll canvas horizontally and redraw the image '''
 		self.canvas.xview(*args, **kwargs)  # scroll horizontally
 		#print("scoll_x")
-		self.isMoved=True
+		
 		self.show_image()  # redraw the image
+		self.isMoved=True
 		self.canvas.update() 
 		(s,f)=self.hbar.get()
 		diff=(f-s)/self.wimg
 		if len(self.buttonResetList)>0 : 
 			for idButton in self.buttonResetList:
 				self.canvas.delete(idButton)
-			self.buttonResetList={}
 		self.img = Image.open('guillemets.jpg')
 		self.sizeButton=15
 		self.imag = self.img.resize((self.sizeButton,self.sizeButton))
@@ -213,7 +212,7 @@ class Zoom_Advanced(ttk.Frame):
 	def posMouse(self,event):
 		mouseX = self.canvas.canvasx(event.x)
 		mouseY = self.canvas.canvasy(event.y)
-		print(self.buttonResetList)
+		#print(self.buttonResetList)
 		Pselected,findButton=exp.posMouse(mouseX,mouseY, self.width, self.height, self.numPage, self.dimention, sizeYimg,self.wb,self.hgb,self.canvas.coords(self.imageid),self.buttonResetList,self.nameProjet)
 		if findButton:
 			global pageSelected
@@ -259,7 +258,6 @@ class Zoom_Advanced(ttk.Frame):
 		if len(self.buttonResetList)>0 : 
 			for idButton in self.buttonResetList:
 				self.canvas.delete(idButton)
-		self.buttonResetList={}
 		self.img = Image.open('guillemets.jpg')
 		self.sizeButton=15
 		self.imag = self.img.resize((self.sizeButton,self.sizeButton))
@@ -416,7 +414,7 @@ class Zoom_Advanced(ttk.Frame):
 				self.canvas.delete(self.imageid)
 			self.imageid = self.canvas.create_image(max(bbox2[0], bbox1[0]), max(bbox2[1], bbox1[1]),
 								anchor='nw', image=imagetk)
-			print("id image " +str(self.imageid))
+			#print("id image " +str(self.imageid))
 			if self.isMoved is not True:
 				self.posImgX=max(bbox2[0], bbox1[0])
 				self.posImgY=max(bbox2[1], bbox1[1])
@@ -496,14 +494,14 @@ class Zoom_Advanced(ttk.Frame):
 			self.k=0
 			newLigne=0
 			if self.isMoved is not True:
-				print("isMoved false")
+				#print("isMoved false")
 				self.buttonResetList={}
 				while self.k < self.numPage : #quand k inferieur de nombre de page
 					(self.posX,self.posY)=self.canvas.coords(self.imageid)#retourne les coordonnées de id image
 					
 					#self.posX=max(bbox2[0], bbox1[0])
 					#self.posY=max(bbox2[1], bbox1[1])
-					print(str(self.posX)+" cou cou "+str(self.posY))
+					#print(str(self.posX)+" cou cou "+str(self.posY))
 					#self.canvas.create_rectangle(self.posX,self.posY,10,10,fill='red')
 					self.posX-=10
 					self.posY=self.posY+10+newLigne*self.himg
@@ -515,7 +513,7 @@ class Zoom_Advanced(ttk.Frame):
 							self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=self.completeTab)
 							self.posX+=self.wimg
 							if self.isWheel is True:
-								print("true !!!!!!!!!!")
+								#print("true !!!!!!!!!!")
 								self.posX-=int(self.x1/ self.imscale)
 								self.posY-=int(self.y1 / self.imscale)
 								buttonCreated = self.canvas.create_window(self.posX, self.posY, window=self.bt_expo)
@@ -558,7 +556,7 @@ class Zoom_Advanced(ttk.Frame):
 							self.k += 1
 					newLigne+=1
 				
-		print("show_image")
+		#print("show_image")
 			#print("new ligne"+str(newLigne))
 			#print("listButton " +str(self.buttonResetList))
 			#posX=10
@@ -595,7 +593,7 @@ class Zoom_Advanced(ttk.Frame):
 		print(str(self.canvas.find_all()))
 		#exp.creatButton(self.canvas, self.width, self.height,numPage,dimention, self.master,sizeYimg)
 	def createButton(self,event):
-		print("configure")
+		#print("configure")
 		self.show_image()
 		self.canvas.update() 
 
