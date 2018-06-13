@@ -19,20 +19,14 @@ import pdfToImg as pti
 import commun as co
 
 #########################################################  fenetre principale ##################################################
-#créer la fenêtre d'application
-root = tk.Tk()
+root = tk.Tk() #créer la fenêtre d'application
 #récupérer la taille d'écran d'ordi
 screen_width = root.winfo_screenwidth()*0.9
 screen_height = root.winfo_screenheight()*0.85
-#définir la taille d'écran d'or comme la fenêtre d'application
-#root.geometry(str(screen_width)+'x'+str(screen_height))
-root.geometry('%dx%d+%d+%d' % (screen_width, screen_height, 1, 1))
-#mettre le title et background pour l'application
-root.title("Trainning Chemin de Fer")
-#fixer la taille de fenêtre, on peut pas agrandir et réduire la fênetre
-root.resizable(width=False,height=False)
-#colorDefault="#F5F5DC" #F5F5DC #beige #bd=-2 #supprime bordure
-func=co.FunctionCommun()
+root.geometry('%dx%d+%d+%d' % (screen_width, screen_height, 1, 1)) #définir la taille d'écran d'or comme la fenêtre d'application
+root.title("Trainning Chemin de Fer") #mettre le title et background pour l'application
+root.resizable(width=False,height=False) #fixer la taille de fenêtre, on peut pas agrandir et réduire la fênetre
+func=co.FunctionCommun() #initialiser commun.py pour utiliser les fonctions
 func.setSizeScreen(screen_width,screen_height)
 
 ####################################################### frame entier ########################################################3
