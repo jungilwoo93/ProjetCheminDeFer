@@ -153,9 +153,9 @@ def drawIm(pathIMG,nameProjet,scale):
 			book = Workbook()
 			page1 = book.add_sheet('feuille 1',cell_overwrite_ok=True)
 			page1.write(0,0,'coordonnée unique ')
-			for i in range (1,len(colonneANew)+1):
+			for i in range (0,len(colonneANew)):
 				line = page1.row(i)
-				line.write(0,colonneANew[i])
+				line.write(0,colonneANew[i+1])
 			page1.col(0).width = 10000
 			book.save('fichiersExcel/' + nameProjet + '.xls')
 			modif=[]
