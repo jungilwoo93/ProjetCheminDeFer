@@ -101,7 +101,7 @@ def drawIm(nameProjet):
 			
 			#pourvoir les lettrine même quand rectangle plein
 			for j in range (0,len(listLettrine)):
-				drawFull.rectangle(listLettrine[j], fill='blue', outline=color)
+				drawFull.rectangle(listLettrine[j], fill='blue', outline='blue')
 			
 			if not os.path.exists("DrawOnImage/finalResult/"+nameProjet):
 				os.makedirs("DrawOnImage/finalResult/" + nameProjet)
