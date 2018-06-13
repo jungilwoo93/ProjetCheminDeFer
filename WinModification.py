@@ -15,7 +15,7 @@ import commun as co
 #var.set("Paragraphe")
 numPage=0
 
-def creatWin(root,nameProjet,numIm):#pathIMG,
+def creatWin(root,nameProjet,numIm,dimention):#pathIMG,
 	#global numIM
 	#numIm=numPage
 	print(numIm)

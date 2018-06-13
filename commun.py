@@ -296,7 +296,7 @@ class FunctionCommun:
 	def onSelectAction(self,evt):
 		#global drawRect
 		currentSelect=self.listAction.curselection()
-		print("currentSelect " +str(currentSelect))
+		#print("currentSelect " +str(currentSelect))
 		if self.isWinModif is True:
 			self.drawRectModif.deleteAllRectAppear()
 			for i in range(0,len(currentSelect)):
@@ -672,7 +672,7 @@ class FunctionCommun:
 					self.xmlProjet=xl.replace(self.nameProjet, self.numPage, numElem, typeEl,self.xmlProjet)
 					self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
 		#nextPage()
-	def openModif(self,nameProjet,numPage):
+	def openModif(self,nameProjet,numPage,dimention):
 		import WinModification as modif
 		root=tk.Toplevel()
 		#global self.nameProjet
@@ -690,7 +690,13 @@ class FunctionCommun:
 		#nameProjet='TD3'
 		#modif.creatWin(root,self.listPath[selection[0]],self.nameProjet)
 		#self.isWinModif=True
-		modif.creatWin(root,self.nameProjet,numPage)#,self.listPath[selection[0]]
+		def callback():
+			from UseCheminDeFer import mainSeeResult as msr# a changer pour le nom aussi
+			root.destroy()
+			msr.creatChemin(self.nameProjet,dimention,True)
+			
+		root.protocol("WM_DELETE_WINDOW",callback)
+		modif.creatWin(root,self.nameProjet,numPage,dimention)#,self.listPath[selection[0]]
 		
 	
 	# parcours choit du fichier
