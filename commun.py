@@ -536,6 +536,8 @@ class FunctionCommun:
 	def saveModif(self,nameProjet,numPage,scale):
 		pathXml ="DrawOnImage/workshop_test/"+ nameProjet +"/"
 		self.xmlEdit=etree.Element(nameProjet)
+		self.numPage=numPage
+		print("saveModif " +str(self.numPage))
 		page = xl.addPage('page-'+str(self.numPage)+'.png',self.numPage,self.xmlEdit)
 		#page = xl.foundPage(self.nameProjet, self.numPage,self.xmlEdit)
 		sizelist=self.listAction.size()
@@ -696,6 +698,7 @@ class FunctionCommun:
 			msr.creatChemin(self.nameProjet,dimention,True)
 			
 		root.protocol("WM_DELETE_WINDOW",callback)
+		print("openModif " +str(numPage))
 		modif.creatWin(root,self.nameProjet,numPage,dimention)#,self.listPath[selection[0]]
 		
 	
