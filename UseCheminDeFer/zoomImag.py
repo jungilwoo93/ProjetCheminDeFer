@@ -59,7 +59,7 @@ class Zoom_Advanced(ttk.Frame):
 		self.dimention=dim
 		#global numPage
 		self.numPage=numberPage
-		self.nameProj=nameProj
+		self.nameProjet=nameProj
 
 		ttk.Frame.__init__(self, master=mainframe)
         #self.master.title('Zoom with mouse wheel')

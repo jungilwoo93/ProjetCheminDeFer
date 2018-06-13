@@ -22,7 +22,10 @@ colorDefault="#F5F5DC" #couleur du fond
 func=co.FunctionCommun()
 
 
-def creatChemin(nameProjet):
+def creatChemin(nameProjet,dm=None,newWin=None):
+	global dimention
+	if dm is not None:
+		dimention=dm
 	####fenetre
 	root = tk.Toplevel()#pour ouvrirune fenetre dans une autre fenetre
 	ecran_width = root.winfo_screenwidth()*0.9
@@ -59,7 +62,7 @@ def creatChemin(nameProjet):
 		global rectFull
 		rect=bf.fullRect(rectFull)
 		rectFull=rect
-		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
+		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull,newWin)
 		
 	
 	
@@ -72,16 +75,22 @@ def creatChemin(nameProjet):
 
 	
 	def edit():
+		global dimention
 		numPage=zi.getNumPage()
-		func.openModif(nameProjet, numPage)
+		print("edit " +str(dimention))
+		root.destroy()
+		func.openModif(nameProjet, numPage,dimention)
 		#moodif.creatWin(root,selection[numImg],self.nameProjet)
 		path='imgFromPdf/' + nameProjet + '/' + nameProjet +'page-'+ str(numPage) +'png'
+		
 	
 	editmenu.add_command(label="modifier une erreur", command=edit)
-	
-	nitem=tk.IntVar()
-	nitem.set(4)# bouton seletionner par defaut doit etre le meme que celui selectionner en haut
-
+	if dimention is None:
+		nitem=tk.IntVar()
+		nitem.set(4)# bouton seletionner par defaut doit etre le meme que celui selectionner en haut
+	else:
+		nitem=tk.IntVar()
+		nitem.set(dimention[0])
 	#########nombre de page par feuille
 	def setDimention():#il y a moyen de simplifier
 		global dimention
@@ -118,7 +127,7 @@ def creatChemin(nameProjet):
 			dimention[1]=10'''
 		#bf.deleteCanvas(canva)
 		print("radiobutton")
-		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
+		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull,newWin)
 		
 		
 
@@ -150,7 +159,7 @@ def creatChemin(nameProjet):
 	#app = zi.Zoom_Advanced(root,listImg,mwd,mhg,dimention)
 	###########l'aperçu
 	print("default")
-	bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
+	bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull,newWin)
 	
 
 	root.mainloop()

@@ -47,7 +47,7 @@ def getListImg(nameProjet,rectFull):
 	return listImgOrder
 	
 	
-def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull):
+def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull,newWin):
 	global zoomImg
 	if rectFull:
 		rect='fullRect'
@@ -104,6 +104,8 @@ def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull):
 		canva.destroy()
 	canva.protocol("WM_DELETE_WINDOW",callback)
 	
+	if newWin is not None:
+		zoomImg=None
 	if zoomImg is None:
 		print("zoomImg is none")
 		canva.wm_state('iconic')

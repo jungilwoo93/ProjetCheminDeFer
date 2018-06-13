@@ -61,7 +61,7 @@ def posMouse(MouseX, MouseY, widthBigIm, heightBigIm, numPage, dimention, sizeY,
 			himg=h/(int(numPage/dimention[0])+1)#sizeY[0]-sizeY[1]
 		#posX=wimg-10
 		#posY=10
-		print(listPosRect)
+		#print(listPosRect)
 		for idbutt in listPosRect:
 			rect=listPosRect[idbutt]
 				#for j in range (0,dimention[0]):
