@@ -67,7 +67,8 @@ def getExistingXml(nameProjet):########
 		return root
 	#except: #xe.XMLSyntaxError
 		#print('probleme de parse')
-	
+
+#recupere le xml existant pour en modifier les erreurs dans la fenetre prevu pour
 def getXmlToModif(nameProjet,numPage):
 	tree = le.parse('DrawOnImage/workshop_test/'+nameProjet+'/page-' + str(numPage) + '.png-Unlabelled.xml')
 	root = tree.getroot()
@@ -92,7 +93,7 @@ def newProjet(nameProjet):
 		print('ce projet est déjà commencé')
 		return continuePoject(nameProjet)#xmlProjet,bool=
 	else:
-		xmlProjet = etree.Element(nameProjet)#fait recommencer
+		xmlProjet = etree.Element('Book')
 		return xmlProjet,False
 
 def continuePoject(nameProjet):

@@ -14,7 +14,7 @@ def Segm(nameProjet,numberPage):
 	for x in range(0, numberPage):  # les images chargées pour la segmentation
 		id_img="page-"+str(x)+".png"
 		
-		root = ET.Element(nameProjet,id=id_img)
+		root = ET.Element('Book',id=id_img)
 		components = ET.SubElement(root, "page")
 		or_im=cv2.imread("imgFromPdf/"+ nameProjet+'/'+ nameProjet + id_img)  #les images extraite en haute qualité se trouve dans le dossier /images
 		kernel1 = cv2.getStructuringElement(cv2.MORPH_CROSS, (1, 2)) 
