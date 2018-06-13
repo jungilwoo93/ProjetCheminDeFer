@@ -10,6 +10,7 @@ import tkinter.filedialog as tf
 import os
 from PIL import Image, ImageFont, ImageDraw, ImageTk
 from UseCheminDeFer import zoomImag as zi
+import time
 
 listImgOfCanvas=[]
 zoomImg=None
@@ -105,6 +106,7 @@ def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull):
 	
 	if zoomImg is None:
 		print("zoomImg is none")
+		canva.wm_state('iconic')
 		zoomImg=zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet),nameProjet)
 		#zoomImg.findAll()
 	else:
@@ -112,10 +114,12 @@ def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull):
 		#zoomImg.findAll()
 		zoomImg.deleteAllButton()
 		#zoomImg.findAll()
+		canva.wm_state('iconic')
 		zoomImg==zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet),nameProjet)
 		#print("coucou")
 		#zoomImg.findAll()
-	canva.wm_state('iconic')
+	
+	#time.sleep(3)
 	canva.wm_state('normal')
 	#new_im.show()
 
