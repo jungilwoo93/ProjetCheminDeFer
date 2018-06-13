@@ -214,7 +214,7 @@ class Zoom_Advanced(ttk.Frame):
 		mouseX = self.canvas.canvasx(event.x)
 		mouseY = self.canvas.canvasy(event.y)
 		print(self.buttonResetList)
-		Pselected,findButton=exp.posMouse(mouseX,mouseY, self.width, self.height, self.numPage, self.dimention, sizeYimg,self.wb,self.hgb,self.canvas.coords(self.imageid),self.buttonResetList,nameProjet)
+		Pselected,findButton=exp.posMouse(mouseX,mouseY, self.width, self.height, self.numPage, self.dimention, sizeYimg,self.wb,self.hgb,self.canvas.coords(self.imageid),self.buttonResetList,self.nameProjet)
 		if findButton:
 			global pageSelected
 			pageSelected = Pselected
