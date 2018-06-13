@@ -123,7 +123,7 @@ class Zoom_Advanced(ttk.Frame):
 		global selectClick
 		selectClick=pageSelected
 		
-		exp.completeTab(pageSelected,nameProjet)
+		exp.completeTab(pageSelected,self.nameProjet)
 
 	
 	def scroll_y(self, *args, **kwargs):
