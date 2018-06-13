@@ -153,7 +153,7 @@ def drawIm(pathIMG,nameProjet,scale):
 			book = Workbook()
 			page1 = book.add_sheet('feuille 1',cell_overwrite_ok=True)
 			page1.write(0,0,'coordonnée unique ')
-			for i in range (1,len(colonneA)+1):
+			for i in range (1,len(colonneANew)+1):
 				line = page1.row(i)
 				line.write(0,colonneANew[i])
 			page1.col(0).width = 10000
