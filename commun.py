@@ -536,7 +536,7 @@ class FunctionCommun:
 	def saveModif(self,nameProjet,numPage,scale):
 		pathXml ="DrawOnImage/workshop_test/"+ nameProjet +"/"
 		self.xmlEdit=etree.Element(nameProjet)
-		page = xl.addPage(str(self.listPath[int(self.numPage)]),self.numPage,self.xmlEdit)
+		page = xl.addPage('page-'+str(self.numPage)+'.png',self.numPage,self.xmlEdit)
 		#page = xl.foundPage(self.nameProjet, self.numPage,self.xmlEdit)
 		sizelist=self.listAction.size()
 		listItems=self.listAction.get(0,tk.END)
@@ -554,7 +554,7 @@ class FunctionCommun:
 			with open(pathXml + '/' + 'page-'+ str(numPage) +'.png-Unlabelled.xml','w') as fichier:
 				fichier.write(etree.tostring(self.xmlEdit,pretty_print=True).decode('utf-8'))#xmlProjet
 				fichier.close()
-		pathIMG='imgFromPdf/' + nameProjet+ '/'+ nameProjet+'page-'+ str(numPage) +'.png'
+		pathIMG='page-'+ str(numPage) +'.png'#'imgFromPdf/' + nameProjet+ '/'+ nameProjet+
 		ei.drawIm(pathIMG,nameProjet,scale)
 		
 	def getCoordsFromXml(self,pathImg,nameprojet,numPage,scale):
