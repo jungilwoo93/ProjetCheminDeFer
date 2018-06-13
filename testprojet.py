@@ -403,11 +403,13 @@ def continueProj():
 	func.continueProjet()
 	if func.projetIsChoose():
 		cheminDeFer.entryconfig(0, state =tk.ACTIVE)
+		menufichier.entryconfig(2, state =tk.ACTIVE)
 		
 def newProj():
 	func.newProjet()
 	if func.projetIsChoose():
 		cheminDeFer.entryconfig(0, state =tk.ACTIVE)
+		menufichier.entryconfig(2, state =tk.ACTIVE)
 
 menufichier.add_command(label="Nouveau Projet", command=newProj)
 menufichier.add_command(label="Continuer Projet", command = continueProj) 
@@ -671,8 +673,12 @@ def selectAll():
 		#print("selection " + str(selection))
 		#print("list1 " + str(list1))
 		drawRect.creatRect(selection,list1,3)"""
+		
+		
+
+
 ###fin barre menu qui a besoin de save
-menufichier.add_command(label="Enregistrer", command=func.save)
+menufichier.add_command(label="Enregistrer", command=func.save, state =tk.DISABLED)
 menufichier.add_separator()
 menufichier.add_command(label="Quitter", command=root.destroy) 
 
