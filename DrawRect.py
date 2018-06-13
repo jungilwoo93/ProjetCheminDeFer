@@ -120,11 +120,11 @@ class CanvasEventsDemo:
 		self.isMove=False
             
 	def leftOnFinal(self,event):
-		#print('listFileWithActionRect !!!!' + str(self.listFileWithActionRect))
+		print('listFileWithActionRect !!!!' + str(self.listFileWithActionRect))
 		#global isDraw,listBoxAction,idAction,listActionRect,listFileWithActionRect,currentFile
 		listActionRect=self.listFileWithActionRect[self.currentFile]
-		#print("listFileWithActionRect " +str(self.listFileWithActionRect))
-		#print("currentFile " +str(self.currentFile))
+		print("listFileWithActionRect " +str(self.listFileWithActionRect))
+		print("currentFile " +str(self.currentFile))
 		
 		self.final=event
 		self.finalX=event.x
@@ -133,12 +133,12 @@ class CanvasEventsDemo:
 		self.idAction=self.listBoxAction.size()+1##############id de action essayer de recuperer par le nom de listbox,if size de listbox>0,sinon par 1,2,3......
 		self.listBoxAction.insert(self.listBoxAction.size(),'Paragraphe-'+str(self.idAction))
 		listActionRect['Paragraphe-'+str(self.idAction)]=self.getCoordonnes()
-		#print("listActionRect " +str(listActionRect))
+		print("listActionRect " +str(listActionRect))
 		self.listFileWithActionRect[self.currentFile]=listActionRect
-		#print("current " +str(self.currentFile))
-		#print("!!!!!!!!!!!!! "+str(self.listFileWithActionRect[self.currentFile]))
+		print("current " +str(self.currentFile))
+		print("!!!!!!!!!!!!! "+str(self.listFileWithActionRect[self.currentFile]))
 		#self.func.deselectAll()
-		#print('listFileWithActionRect ' + str(self.listFileWithActionRect))
+		print('listFileWithActionRect ' + str(self.listFileWithActionRect))
 		#self.listRect.append(objectId)#####################
 		self.listBoxAction.select_set(0,tk.END)
 		#print("size of listBoxAction " + self.listBoxAction.size())

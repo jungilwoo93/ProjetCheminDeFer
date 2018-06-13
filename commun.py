@@ -440,8 +440,7 @@ class FunctionCommun:
 			page=xl.addPage('imgFromPdf/' + self.nameProjet+ '/'+ self.nameProjet + 'page-0.png',self.numPage,self.xmlProjet)
 			self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
 			gs.writeInText(self.nameProjet,self.numPage)
-		else:
-			self.continueProjet()
+		self.continueProjet()
 			
 			
 			
@@ -726,38 +725,6 @@ class FunctionCommun:
 				#global nameProjet
 				self.nameProjet=nom
 				listImg = pti.pdfToPng(choice[i],self.nameProjet,60)#30==resolution base 90 resol haut
-				if listImg!=0:
-					self.numberPage = pti.getCountPage()
-					size=len(listImg)
-					for k in range (0, size) :
-						self.listFiles.insert(self.listFiles.size(),basename(listImg[k])) 
-						self.listPath.append(listImg[k])
-			else :
-				if nom!="": #sinon quand on clic sur parcourir mais qu'on ne choisi rien ça rajoute un espace blanc
-					self.listFiles.insert(self.listFiles.size(),nom) 
-					#listFiles.
-					self.listPath.append(choice[i])
-					# listFiles.TopIndex = listFiles.ListCount
-		if listImg!=0:
-			self.listFiles.select_set(0)    
-			listInitial={}
-			for file in self.listFiles.get(0,tk.END):
-				self.listFileWithActionRect[file]=listInitial
-			#print(str(listFileWithActionRect))
-			self.resizeImg(0,self.cadre)
-			self.recharge()
-		#pour trier par ordre alpha et enlever les boutons            
-	#    listFiles.Sorted = True
-	#    listPath.sort()
-	#    j=0
-	#    while j < (listFiles.size() - 1) :
-	#        if (listFiles.get(j + 1,j+1) == listFiles.get(j,j)) :
-	#            listFiles.delete(j,j)
-	#            listPath.remove(listPath[j])
-	#            j = 0
-	#        else :
-	#            j += 1
-		#listPath.reverse()??????????????????????????
 		
 	def deepLearnig(self):
 		if not(gs.cheminIsDone(self.nameProjet)):
