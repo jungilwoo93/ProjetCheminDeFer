@@ -48,15 +48,15 @@ class AutoScrollbar(ttk.Scrollbar):
 class Zoom_Advanced(ttk.Frame):
 	dimention=[4,4]
 	numPage=0
-	buttonResetList=[]
+	buttonResetList={}
 	imageid=None
 	''' Advanced zoom of the image '''
 	def __init__(self, mainframe, path,dim,numberPage):
 		''' Initialize the main Frame '''
-		global dimention
-		dimention=dim
-		global numPage
-		numPage=numberPage
+		#global dimention
+		self.dimention=dim
+		#global numPage
+		self.numPage=numberPage
 		ttk.Frame.__init__(self, master=mainframe)
         #self.master.title('Zoom with mouse wheel')
         # Vertical and horizontal scrollbars for canvas
@@ -88,7 +88,7 @@ class Zoom_Advanced(ttk.Frame):
 		self.hgb=self.height
 		self.isMoved=False
 		self.isWheel=False
-		self.rect=None
+		#print("    " +str(self.buttonResetList))
 		#self.created=True
 		
 		
@@ -114,6 +114,7 @@ class Zoom_Advanced(ttk.Frame):
 		
 		self.container = self.canvas.create_rectangle(0, 0, self.width, self.height, width=0)
 		self.show_image()
+		self.canvas.update() 
 
 	
 	def scroll_y(self, *args, **kwargs):
@@ -121,11 +122,13 @@ class Zoom_Advanced(ttk.Frame):
 		self.canvas.yview(*args, **kwargs)		# scroll vertically
 		self.isMoved=True
 		self.show_image()
+		self.canvas.update() 
 		(s,f)=self.vbar.get()
 		diff=(f-s)/self.himg
 		if len(self.buttonResetList)>0 : 
 			for idButton in self.buttonResetList:
 				self.canvas.delete(idButton)
+			self.buttonResetList={}
 		self.img = Image.open('guillemets.jpg')
 		self.sizeButton=15
 		self.imag = self.img.resize((self.sizeButton,self.sizeButton))
@@ -136,11 +139,11 @@ class Zoom_Advanced(ttk.Frame):
 		self.k=0
 		newLigne=0
 		listIdButton=[]
-		while self.k < numPage : #quand k inferieur de nombre de page
+		while self.k < self.numPage : #quand k inferieur de nombre de page
 			for idButton in buttonMoveList:
 				listIdButton.append(idButton)
-			for j in range (0,dimention[0]):#dimention par defaut est 4, donc j = 0,1,2,3
-				if self.k < numPage :
+			for j in range (0,self.dimention[0]):#dimention par defaut est 4, donc j = 0,1,2,3
+				if self.k < self.numPage :
 					buttonPosList=[]
 					newbuttonPosList=buttonMoveList[listIdButton[self.k]]
 					#print("buttonPosList " +str(buttonPosList))
@@ -160,14 +163,16 @@ class Zoom_Advanced(ttk.Frame):
 	def scroll_x(self, *args, **kwargs):
 		''' Scroll canvas horizontally and redraw the image '''
 		self.canvas.xview(*args, **kwargs)  # scroll horizontally
-		print("scoll_x")
+		#print("scoll_x")
 		self.isMoved=True
 		self.show_image()  # redraw the image
+		self.canvas.update() 
 		(s,f)=self.hbar.get()
 		diff=(f-s)/self.wimg
 		if len(self.buttonResetList)>0 : 
 			for idButton in self.buttonResetList:
 				self.canvas.delete(idButton)
+			self.buttonResetList={}
 		self.img = Image.open('guillemets.jpg')
 		self.sizeButton=15
 		self.imag = self.img.resize((self.sizeButton,self.sizeButton))
@@ -178,11 +183,11 @@ class Zoom_Advanced(ttk.Frame):
 		self.k=0
 		newLigne=0
 		listIdButton=[]
-		while self.k < numPage : #quand k inferieur de nombre de page
+		while self.k < self.numPage : #quand k inferieur de nombre de page
 			for idButton in buttonMoveList:
 				listIdButton.append(idButton)
-			for j in range (0,dimention[0]):#dimention par defaut est 4, donc j = 0,1,2,3
-				if self.k < numPage :
+			for j in range (0,self.dimention[0]):#dimention par defaut est 4, donc j = 0,1,2,3
+				if self.k < self.numPage :
 					buttonPosList=[]
 					newbuttonPosList=buttonMoveList[listIdButton[self.k]]
 					#print("buttonPosList " +str(buttonPosList))
@@ -199,7 +204,7 @@ class Zoom_Advanced(ttk.Frame):
 	def posMouse(self, event):
 		mouseX = self.canvas.canvasx(event.x)
 		mouseY = self.canvas.canvasy(event.y)
-		exp.posMouse(mouseX,mouseY, self.width, self.height, numPage, dimention, sizeYimg)
+		exp.posMouse(mouseX,mouseY, self.width, self.height, self.numPage, self.dimention, sizeYimg)
 	
 	def selectPage(self, event):
 		#print('ca clic')
@@ -212,12 +217,12 @@ class Zoom_Advanced(ttk.Frame):
 		sizeY = sizeYimg
 		global pageSelected
 		
-		pageSelected = ep.selectPage(x, y, mouseX, mouseY, sizeX, sizeY,dimention, numPage,self.wb,self.hgb,self.canvas.coords(self.imageid))#root ou canva?
+		pageSelected = ep.selectPage(x, y, mouseX, mouseY, sizeX, sizeY,self.dimention, self.numPage,self.wb,self.hgb,self.canvas.coords(self.imageid))#root ou canva?
 
 	def move_from(self, event):
 		''' Remember previous coordinates for scrolling with the mouse '''
 		self.selectPage(event)
-		print("move from")
+		#print("move from")
 		self.canvas.scan_mark(event.x, event.y)
 		self.startX=event.x
 		self.startY=event.y
@@ -225,20 +230,23 @@ class Zoom_Advanced(ttk.Frame):
 	def move_to(self, event):
 		''' Drag (move) canvas to the new position '''
 		self.canvas.scan_dragto(event.x, event.y, gain=1)
-		print("move_to")
+		#print("move_to")
 		"""print("start " +str(self.startX) + " " +str(self.startY))
 		print("event " +str(event.x) + " " +str(event.y))
 		print("posx!!" + str(self.posX))
 		print("posy!!" + str(self.posY))
 		print("diffx " + str(diffX))
 		print("diffy " +str(diffY))"""
-		self.show_image()
+		self.isMoved=True
+		self.show_image() # redraw the image
+		self.canvas.update() 
 		diffX=(self.startX-event.x)/self.wimg
 		diffY=(self.startY-event.y)/self.himg
-		self.isMoved=True		# redraw the image
+				
 		if len(self.buttonResetList)>0 : 
 			for idButton in self.buttonResetList:
 				self.canvas.delete(idButton)
+		self.buttonResetList={}
 		self.img = Image.open('guillemets.jpg')
 		self.sizeButton=15
 		self.imag = self.img.resize((self.sizeButton,self.sizeButton))
@@ -249,11 +257,11 @@ class Zoom_Advanced(ttk.Frame):
 		self.k=0
 		newLigne=0
 		listIdButton=[]
-		while self.k < numPage : #quand k inferieur de nombre de page
+		while self.k < self.numPage : #quand k inferieur de nombre de page
 			for idButton in buttonMoveList:
 				listIdButton.append(idButton)
-			for j in range (0,dimention[0]):#dimention par defaut est 4, donc j = 0,1,2,3
-				if self.k < numPage :
+			for j in range (0,self.dimention[0]):#dimention par defaut est 4, donc j = 0,1,2,3
+				if self.k < self.numPage :
 					buttonPosList=[]
 					newbuttonPosList=buttonMoveList[listIdButton[self.k]]
 					#print("buttonPosList " +str(buttonPosList))
@@ -293,10 +301,13 @@ class Zoom_Advanced(ttk.Frame):
 			y = min(int(self.y2 / self.imscale), self.height)  # ...and sometimes not
 			image = self.image.crop((int(self.x1 / self.imscale), int(self.y1 / self.imscale), x, y))#selectionner une partie d'une image
 			imagetk = ImageTk.PhotoImage(image.resize((int(self.x2 - self.x1), int(self.y2 - self.y1))))
+			if self.imageid is not None:
+				self.canvas.delete(self.imageid)
 			self.imageid = self.canvas.create_image((max(bbox2[0], bbox1[0])-diffX)/self.imscale, (self.posImgY-diffY)/self.imscale,
 								anchor='nw', image=imagetk)
-		(self.posX,self.posY)=self.canvas.coords(self.imageid)#retourne les coordonnées de id image
-		print(str(self.posX)+" move to "+str(self.posY))
+		self.canvas.update() 
+		#(self.posX,self.posY)=self.canvas.coords(self.imageid)#retourne les coordonnées de id image
+		#print(str(self.posX)+" move to "+str(self.posY))
 		#print("listButton " +str(self.buttonResetList))
 
 	def wheel(self, event):
@@ -340,7 +351,7 @@ class Zoom_Advanced(ttk.Frame):
 		self.isMoved=False
 		self.isWheel=True
 		self.show_image()
-		print("wheel")
+		#print("wheel")
 		self.isWheel=False
 		
 
@@ -376,24 +387,27 @@ class Zoom_Advanced(ttk.Frame):
 			#print("x " +str(x))
 			y = min(int(self.y2 / self.imscale), self.height)  # ...and sometimes not
 			#print("y " +str(y))
-			print("crop " + str(int(self.x1 / self.imscale)) + "  " +str(int(self.y1 / self.imscale)))
-			print("crop " +str(x) + " "+str(y))
+			#print("crop " + str(int(self.x1 / self.imscale)) + "  " +str(int(self.y1 / self.imscale)))
+			#print("crop " +str(x) + " "+str(y))
 			image = self.image.crop((int(self.x1 / self.imscale), int(self.y1 / self.imscale), x, y))#selectionner une partie d'une image
 			imagetk = ImageTk.PhotoImage(image.resize((int(self.x2 - self.x1), int(self.y2 - self.y1))))
-			print("x2-x1 " + str(int(self.x2 - self.x1)))
-			print("y2-y1 " +str(int(self.y2 - self.y1)))
+			#print("x2-x1 " + str(int(self.x2 - self.x1)))
+			#print("y2-y1 " +str(int(self.y2 - self.y1)))
 			global sizeXimg
 			global sizeYimg
-			sizeXimg = [x2img ,x1img]
-			sizeYimg = [y2img , y1img]
-			print("sizeXimg " +str(sizeXimg))
-			print("sizeYimg " +str(sizeYimg))
+			self.sizeXimg = [x2img ,x1img]
+			self.sizeYimg = [y2img , y1img]
+			#print("sizeXimg " +str(sizeXimg))
+			#print("sizeYimg " +str(sizeYimg))
+			if self.imageid is not None:
+				self.canvas.delete(self.imageid)
 			self.imageid = self.canvas.create_image(max(bbox2[0], bbox1[0]), max(bbox2[1], bbox1[1]),
 								anchor='nw', image=imagetk)
+			print("id image " +str(self.imageid))
 			if self.isMoved is not True:
 				self.posImgX=max(bbox2[0], bbox1[0])
 				self.posImgY=max(bbox2[1], bbox1[1])
-			print("x y de image " +str(max(bbox2[0], bbox1[0])) +" " +str(max(bbox2[1], bbox1[1])))
+			#print("x y de image " +str(max(bbox2[0], bbox1[0])) +" " +str(max(bbox2[1], bbox1[1])))
 			#print(str(max(bbox2[0], bbox1[0])))
 			#print(str())
 			#print(str())
@@ -425,146 +439,18 @@ class Zoom_Advanced(ttk.Frame):
 					# k += 1
 			# posY+=himg
 			# posX=wimg-10
-			global buttonPosList,buttonResetList
-			#print("buttonCreatedList1 "+str(self.buttonResetList))
-			if len(self.buttonResetList)>0 : 
-				for idButton in self.buttonResetList:
-					#print("idbutton !!" + str(idButton))
-					self.canvas.delete(idButton)
-					#print("delete ")
-			#print("buttonCreatedList2 "+str(self.buttonResetList))
-			
-			
-			self.img = Image.open('guillemets.jpg')
-			self.sizeButton=15
-			self.imag = self.img.resize((self.sizeButton,self.sizeButton))
-			self.photo = ImageTk.PhotoImage(self.imag)
-			#print(str(self.canvas.coords(self.imageid)))
-			
-			#print("width "+str(self.width))
-			#print("height " +str(self.height))
-			#print("imagewidth "+str(image.width))
-			#print("imageheight " +str(image.height))
-			"""if self.created == True:
-				self.mwd=self.width
-				self.mhg=self.height
-				self.created=False
-				print("first")
-			else:"""
-			self.mwd=self.wb
-			self.mhg=self.hgb
-			
-			self.wimg=self.mwd/dimention[0]
-			#print("wimg "+str(self.wimg))
-			if numPage%dimention[0] ==0 :
-				self.himg=self.mhg/(int(numPage/dimention[0]))
-				#self.himg=(sizeYimg[0]-sizeYimg[1])/(int(numPage/dimention[0]))
-			else:
-				self.himg=self.mhg/(int(numPage/dimention[0]+1))
-				#self.himg=(sizeYimg[0]-sizeYimg[1])/(int(numPage/dimention[0])+1)
-			#print("himg "+str(self.himg))
-			#posX+=self.wimg
-			#posX=self.wimg-13
-			#posY=13
-			self.k=0
-			newLigne=0
-			if self.isMoved is not True:
-				print("isMoved false")
-				self.buttonResetList={}
-				while self.k < numPage : #quand k inferieur de nombre de page
-					(self.posX,self.posY)=self.canvas.coords(self.imageid)#retourne les coordonnées de id image
-					
-					#self.posX=max(bbox2[0], bbox1[0])
-					#self.posY=max(bbox2[1], bbox1[1])
-					print(str(self.posX)+" cou cou "+str(self.posY))
-					#self.canvas.create_rectangle(self.posX,self.posY,10,10,fill='red')
-					self.posX-=10
-					self.posY=self.posY+10+newLigne*self.himg
-					#print("numpage" + str(numPage))
-					self.rect=None
-					for j in range (0,dimention[0]):#dimention par defaut est 4, donc j = 0,1,2,3
-						if self.k < numPage :
-							buttonPosList=[]
-							self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=exp.completeTab)
-							self.posX+=self.wimg
-							if self.isWheel is True:
-								print("true !!!!!!!!!!")
-								self.posX-=int(self.x1/ self.imscale)
-								self.posY-=int(self.y1 / self.imscale)
-								buttonCreated = self.canvas.create_window(self.posX, self.posY, window=self.bt_expo)
-								buttonPosList.append(self.posX)
-								buttonPosList.append(self.posY)
-							else:
-								buttonCreated = self.canvas.create_window(self.posX, self.posY, window=self.bt_expo)
-								buttonPosList.append(self.posX)
-								buttonPosList.append(self.posY)
-							
-							#buttonList.append([posX, posY,self.bt_expo])
-							#self.bt_expo_w = self.canvas.create_window(posX, posY, window=self.bt_expo)
-							#print(self.bt_expo['text'])
-							
-							#print("wimg!!!!!!!!!!!! ")
-							#print("self.x " +str(self.x1))
-							#print("self.x2 " +str(self.x2))
-
-							"""if int(self.x1/self.imscale)!= 0 or int(self.y1 / self.imscale)!=0 :
-								print("show_image " + str(int(self.x1 / self.imscale)) + "  " +str(int(self.y1 / self.imscale)))"""
-							
-							"""	buttonCreated = self.canvas.create_window(self.posX, self.posY, window=self.bt_expo)
-								print("posX " +str(self.posX))
-								print("posY " +str(self.posY))
-								buttonPosList.append(self.posX)
-								buttonPosList.append(self.posY)
-							else:
-								self.posX-=int(self.x1 / self.imscale)
-								self.posY-=int(self.y1 / self.imscale)
-								buttonCreated = self.canvas.create_window(self.posX, self.posY, window=self.bt_expo)
-								buttonPosList.append(self.posX)
-								buttonPosList.append(self.posY)"""
-							
-								#print("posx!! show_image"+str(self.posX))
-								#print("posy!! show_image"+str(self.posY))
-							
-							#buttonCreated=self.canvas.create_window(buttonList[i][0], buttonList[i][1], window=buttonList[i][2])
-							self.buttonResetList[buttonCreated]=buttonPosList
-							#self.buttonResetList.append(buttonCreated)
-							self.k += 1
-					newLigne+=1
-				
-		print("show_image")
-			#print("new ligne"+str(newLigne))
-			#print("listButton " +str(self.buttonResetList))
-			#posX=10
-			#self.posY+=self.himg
-			#self.posX=self.wimg-10
-		#for i in range (0, len(buttonList)):
-			
-			#self.buttonResetList.append(buttonCreated)
-		#i=0
-		#print("buttonCreatedList3 "+str(self.buttonResetList))
-		
-		"""def posMouse(self,event):
-			exp.posMouse(event, self.width, self.height, numPage, dimention, sizeYimg)"""
-		
-		#self.canvas.bind('<Motion>' ,posMouse)
-		#lambda : 
-		
-		
-		
-		#exp.creatButton(self.canvas, self.width, self.height,numPage,dimention, self.master,sizeYimg)
-	def createButton(self,event):
-		print("configure")
-		self.show_image()
-		global buttonPosList,buttonResetList
+		global buttonPosList
 		#print("buttonCreatedList1 "+str(self.buttonResetList))
 		if len(self.buttonResetList)>0 : 
+			print(str(self.buttonResetList))
 			for idButton in self.buttonResetList:
-				#print("idButton!! " +str(idButton))
+				#print("idbutton !!" + str(idButton))
 				self.canvas.delete(idButton)
 				#print("delete ")
-		#print("buttonCreatedList2 "+str(self.buttonResetList))
-		
 		self.buttonResetList={}
+		#print("buttonCreatedList2 "+str(self.buttonResetList))
+
+			
 		self.img = Image.open('guillemets.jpg')
 		self.sizeButton=15
 		self.imag = self.img.resize((self.sizeButton,self.sizeButton))
@@ -584,13 +470,13 @@ class Zoom_Advanced(ttk.Frame):
 		self.mwd=self.wb
 		self.mhg=self.hgb
 		
-		self.wimg=self.mwd/dimention[0]
+		self.wimg=self.mwd/self.dimention[0]
 		#print("wimg "+str(self.wimg))
-		if numPage%dimention[0] ==0 :
-			self.himg=self.mhg/(int(numPage/dimention[0]))
+		if self.numPage%self.dimention[0] ==0 :
+			self.himg=self.mhg/(int(self.numPage/self.dimention[0]))
 			#self.himg=(sizeYimg[0]-sizeYimg[1])/(int(numPage/dimention[0]))
 		else:
-			self.himg=self.mhg/(int(numPage/dimention[0]+1))
+			self.himg=self.mhg/(int(self.numPage/self.dimention[0]+1))
 			#self.himg=(sizeYimg[0]-sizeYimg[1])/(int(numPage/dimention[0])+1)
 		#print("himg "+str(self.himg))
 		#posX+=self.wimg
@@ -598,29 +484,107 @@ class Zoom_Advanced(ttk.Frame):
 		#posY=13
 		self.k=0
 		newLigne=0
-		while self.k < numPage : #quand k inferieur de nombre de page
-			(self.posX,self.posY)=self.canvas.coords(self.imageid)#retourne les coordonnées de id image
-			self.posX-=10
-			self.posY=self.posY+10+newLigne*self.himg
-			#print("numpage" + str(numPage))
-			for j in range (0,dimention[0]):#dimention par defaut est 4, donc j = 0,1,2,3
-				if self.k < numPage :
-					buttonPosList=[]
-					self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=exp.completeTab)
-					#buttonList.append([posX, posY,self.bt_expo])
-					#self.bt_expo_w = self.canvas.create_window(posX, posY, window=self.bt_expo)
-					#print(self.bt_expo['text'])
-					self.posX+=self.wimg
-					buttonCreated = self.canvas.create_window(self.posX, self.posY, window=self.bt_expo)
-					#print("posx "+str(self.posX))
-					#print("posy "+str(self.posY))
-					buttonPosList.append(self.posX)
-					buttonPosList.append(self.posY)
-					#buttonCreated=self.canvas.create_window(buttonList[i][0], buttonList[i][1], window=buttonList[i][2])
-					self.buttonResetList[buttonCreated]=buttonPosList
-					#self.buttonResetList.append(buttonCreated)
-					self.k += 1
-			newLigne+=1
+		if self.isMoved is not True:
+			print("isMoved false")
+			self.buttonResetList={}
+			while self.k < self.numPage : #quand k inferieur de nombre de page
+				(self.posX,self.posY)=self.canvas.coords(self.imageid)#retourne les coordonnées de id image
+		
+				#self.posX=max(bbox2[0], bbox1[0])
+				#self.posY=max(bbox2[1], bbox1[1])
+				#print(str(self.posX)+" cou cou "+str(self.posY))
+				#self.canvas.create_rectangle(self.posX,self.posY,10,10,fill='red')
+				self.posX-=10
+				self.posY=self.posY+10+newLigne*self.himg
+				#print("numpage" + str(numPage))
+				
+				for j in range (0,self.dimention[0]):#dimention par defaut est 4, donc j = 0,1,2,3
+					if self.k < self.numPage :
+						buttonPosList=[]
+						self.bt_expo = tk.Button(self.master, text=str(self.k), image=self.photo , command=exp.completeTab)
+						self.posX+=self.wimg
+						if self.isWheel is True:
+							#print("true !!!!!!!!!!")
+							self.posX-=int(self.x1/ self.imscale)
+							self.posY-=int(self.y1 / self.imscale)
+							buttonCreated = self.canvas.create_window(self.posX, self.posY, window=self.bt_expo)
+							buttonPosList.append(self.posX)
+							buttonPosList.append(self.posY)
+						else:
+							#print("false   !")
+							buttonCreated = self.canvas.create_window(self.posX, self.posY, window=self.bt_expo)
+							buttonPosList.append(self.posX)
+							buttonPosList.append(self.posY)
+							
+						#buttonList.append([posX, posY,self.bt_expo])
+						#self.bt_expo_w = self.canvas.create_window(posX, posY, window=self.bt_expo)
+						#print(self.bt_expo['text'])
+							
+						#print("wimg!!!!!!!!!!!! ")
+						#print("self.x " +str(self.x1))
+						#print("self.x2 " +str(self.x2))
+
+						"""if int(self.x1/self.imscale)!= 0 or int(self.y1 / self.imscale)!=0 :
+							print("show_image " + str(int(self.x1 / self.imscale)) + "  " +str(int(self.y1 / self.imscale)))"""
+						
+						"""	buttonCreated = self.canvas.create_window(self.posX, self.posY, window=self.bt_expo)
+							print("posX " +str(self.posX))
+							print("posY " +str(self.posY))
+							buttonPosList.append(self.posX)
+							buttonPosList.append(self.posY)
+						else:
+							self.posX-=int(self.x1 / self.imscale)
+							self.posY-=int(self.y1 / self.imscale)
+							buttonCreated = self.canvas.create_window(self.posX, self.posY, window=self.bt_expo)
+							buttonPosList.append(self.posX)
+							buttonPosList.append(self.posY)"""
+							
+							#print("posx!! show_image"+str(self.posX))
+							#print("posy!! show_image"+str(self.posY))
+							
+						#buttonCreated=self.canvas.create_window(buttonList[i][0], buttonList[i][1], window=buttonList[i][2])
+						self.buttonResetList[buttonCreated]=buttonPosList
+						#self.buttonResetList.append(buttonCreated)
+						self.k += 1
+				newLigne+=1
+		print("listButton " +str(self.buttonResetList))	
+		self.findAll()
+		#print("show_image")
+			#print("new ligne"+str(newLigne))
+			
+			#posX=10
+			#self.posY+=self.himg
+			#self.posX=self.wimg-10
+		#for i in range (0, len(buttonList)):
+			
+			#self.buttonResetList.append(buttonCreated)
+		#i=0
+		#print("buttonCreatedList3 "+str(self.buttonResetList))
+		
+		"""def posMouse(self,event):
+			exp.posMouse(event, self.width, self.height, numPage, dimention, sizeYimg)"""
+		
+		#self.canvas.bind('<Motion>' ,posMouse)
+		#lambda : 
+		
+	def deleteAllButton(self):
+		self.canvas.delete("all");
+		self.container = self.canvas.create_rectangle(0, 0, self.width, self.height, width=0)
+		self.canvas.update() 
+		"""print(str(self.buttonResetList))
+		if len(self.buttonResetList)>0 :
+			print("delete")
+			for idButton in self.buttonResetList:
+				self.canvas.delete(idButton)
+		self.buttonResetList={}"""
+		
+	def findAll(self):
+		print(str(self.canvas.find_all()))
+		#exp.creatButton(self.canvas, self.width, self.height,numPage,dimention, self.master,sizeYimg)
+	def createButton(self,event):
+		print("configure")
+		self.show_image()
+		self.canvas.update() 
 		#print("createdbutton")
 			#print("new ligne"+str(newLigne))
 			#print("listButton " +str(self.buttonResetList))

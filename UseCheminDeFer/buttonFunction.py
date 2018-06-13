@@ -12,6 +12,7 @@ from PIL import Image, ImageFont, ImageDraw, ImageTk
 from UseCheminDeFer import zoomImag as zi
 
 listImgOfCanvas=[]
+zoomImg=None
 
 # def ChooseWhereSave():
 	# f=tkinter.filedialog.asksaveasfile(
@@ -46,6 +47,7 @@ def getListImg(nameProjet,rectFull):
 	
 	
 def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull):
+	global zoomImg
 	if rectFull:
 		rect='fullRect'
 	else:
@@ -95,8 +97,26 @@ def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull):
 	#canva.postscript(file='D:\\S4\\ProjetCheminDeFer\\UseCheminDeFer\\img.ps')
 	path='UseCheminDeFer/img.jpg'
 	new_im.save(path,'JPEG',quality=1000)
-	zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet))
+	def callback():
+		global zoomImg
+		zoomImg=None
+		canva.destroy()
+	canva.protocol("WM_DELETE_WINDOW",callback)
 	
+	if zoomImg is None:
+		print("zoomImg is none")
+		zoomImg=zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet))
+		#zoomImg.findAll()
+	else:
+		print("zoomImg is not none")
+		#zoomImg.findAll()
+		zoomImg.deleteAllButton()
+		#zoomImg.findAll()
+		zoomImg==zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet))
+		#print("coucou")
+		#zoomImg.findAll()
+	canva.wm_state('iconic')
+	canva.wm_state('normal')
 	#new_im.show()
 
 #recuper le nombre de page

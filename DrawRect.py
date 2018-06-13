@@ -92,7 +92,7 @@ class CanvasEventsDemo:
 			#print("is draw")
 			if self.drawn: 
 				canvas.delete(self.drawn)
-			objectId = canvas.create_rectangle(self.start.x, self.start.y, event.x, event.y)
+			objectId = canvas.create_rectangle(self.start.x, self.start.y, event.x, event.y,outline="gray")
 			if trace: 
 				print("trace")
 				print(objectId)
@@ -112,7 +112,7 @@ class CanvasEventsDemo:
 		if self.drawn: 
 			canvas.delete(self.drawn)
 		diffX, diffY = (event.x - self.start.x), (event.y - self.start.y)
-		objectId = canvas.create_rectangle(self.start.x+diffX, self.start.y+diffY, self.finalX+diffX, self.finalY+diffY)
+		objectId = canvas.create_rectangle(self.start.x+diffX, self.start.y+diffY, self.finalX+diffX, self.finalY+diffY,outline="gray")
 		if trace: 
 			print("trace")
 			print(objectId)
@@ -121,27 +121,31 @@ class CanvasEventsDemo:
             
 	def leftOnFinal(self,event):
 		#print('listFileWithActionRect !!!!' + str(self.listFileWithActionRect))
-		self.listActionRect=self.listFileWithActionRect[self.currentFile]
+		#global isDraw,listBoxAction,idAction,listActionRect,listFileWithActionRect,currentFile
+		listActionRect=self.listFileWithActionRect[self.currentFile]
 		print("listFileWithActionRect " +str(self.listFileWithActionRect))
 		print("currentFile " +str(self.currentFile))
-		global isDraw,listBoxAction,idAction,listActionRect,listFileWithActionRect,currentFile
+		
 		self.final=event
 		self.finalX=event.x
 		self.finalY=event.y
 		self.isDraw=True
 		self.idAction=self.listBoxAction.size()+1##############id de action essayer de recuperer par le nom de listbox,if size de listbox>0,sinon par 1,2,3......
 		self.listBoxAction.insert(self.listBoxAction.size(),'Paragraphe-'+str(self.idAction))
-		self.listActionRect['Paragraphe-'+str(self.idAction)]=self.getCoordonnes()
-		self.listFileWithActionRect[self.currentFile]=self.listActionRect
+		listActionRect['Paragraphe-'+str(self.idAction)]=self.getCoordonnes()
+		print("listActionRect " +str(listActionRect))
+		self.listFileWithActionRect[self.currentFile]=listActionRect
+		print("current " +str(self.currentFile))
+		print("!!!!!!!!!!!!! "+str(self.listFileWithActionRect[self.currentFile]))
 		#self.func.deselectAll()
-		#print('listFileWithActionRect ' + str(self.listFileWithActionRect))
+		print('listFileWithActionRect ' + str(self.listFileWithActionRect))
 		#self.listRect.append(objectId)#####################
 		self.listBoxAction.select_set(0,tk.END)
 		#print("size of listBoxAction " + self.listBoxAction.size())
 		for i in range(0,self.listBoxAction.size()) : 
 			selection=self.listBoxAction.get(i)
 			list1=[]
-			list1=self.listActionRect[selection]
+			list1=listActionRect[selection]
 			#print("listActionRect1111"+str(self.listActionRect[selection]))
 			#print("list1"+str(list1))
 			selectedAction=self.canvas.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=2,outline=list1[6])

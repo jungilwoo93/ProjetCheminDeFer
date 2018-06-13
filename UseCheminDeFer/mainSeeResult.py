@@ -117,6 +117,7 @@ def creatChemin(nameProjet):
 			dimention[0]=10
 			dimention[1]=10'''
 		#bf.deleteCanvas(canva)
+		print("radiobutton")
 		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
 		
 		
@@ -148,6 +149,7 @@ def creatChemin(nameProjet):
 	posY=0
 	#app = zi.Zoom_Advanced(root,listImg,mwd,mhg,dimention)
 	###########l'aperçu
+	print("default")
 	bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull)
 	
 
