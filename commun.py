@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 from PIL import Image, ImageFont, ImageDraw, ImageTk
 import os
 from os.path import basename
@@ -431,16 +432,17 @@ class FunctionCommun:
 	def newProjet(self):
 		#global numPage
 		self.numPage=0
-		self.chooseFile()
+		choice = self.chooseFile()
 		#global xmlProjet
 		print('on fait un new projet')
-		self.xmlProjet,start=xl.newProjet(self.nameProjet)
-		if not start:
-			print('pas start')
-			page=xl.addPage('imgFromPdf/' + self.nameProjet+ '/'+ self.nameProjet + 'page-0.png',self.numPage,self.xmlProjet)
-			self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
-			gs.writeInText(self.nameProjet,self.numPage)
-		self.continueProjet()
+		if choice > 0:
+			self.xmlProjet,start=xl.newProjet(self.nameProjet)
+			if not start:
+				print('pas start')
+				page=xl.addPage('imgFromPdf/' + self.nameProjet+ '/'+ self.nameProjet + 'page-0.png',self.numPage,self.xmlProjet)
+				self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
+				gs.writeInText(self.nameProjet,self.numPage)
+			self.continueProjet()
 			
 			
 			
@@ -704,7 +706,8 @@ class FunctionCommun:
 	# parcours choit du fichier
 	def chooseFile(self):
 		#choice=fenetre.FileDialog(tf.msoFileDialogOpen)
-		choice = tf.askopenfilenames() #fichier uniquement
+		choice = tf.askopenfilenames(filetypes=[("pdf files","*.pdf")],multiple=0) #fichier uniquement
+		print("choice " +str(choice))
 		#choice = tf.askdirectory()  #repertoire uniquement
 		#defaultextension='.png'
 		#filetypes=[('BMP FILES','*.bmp')]#pas sure
@@ -714,6 +717,7 @@ class FunctionCommun:
 		#choiceBoth=tf.
 		#os.listdir #pour recupereelement d'un dosier
 		nbSelected=len(choice)
+		print("length "+str(nbSelected))
 		listImg=0
 		#recupere le nom apartir du chemin
 		for i in range (0,nbSelected):
@@ -725,7 +729,12 @@ class FunctionCommun:
 				#global nameProjet
 				self.nameProjet=nom
 				listImg = pti.pdfToPng(choice[i],self.nameProjet,60)#30==resolution base 90 resol haut
-		
+			else:
+				messagebox.showinfo(title="Erreur",message="Type de fichier doit être Pdf")
+				self.newProjet()
+				
+		return nbSelected
+				
 	def deepLearnig(self):
 		if not(gs.cheminIsDone(self.nameProjet)):
 			print('creeation de cdf')
