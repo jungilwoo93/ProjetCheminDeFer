@@ -62,7 +62,7 @@ cheminDeFer = tk.Menu(menubar,tearoff=0)
 menubar.add_cascade(label="Fichier", menu=menufichier)
 menubar.add_cascade(label="Chemin de fer", menu=cheminDeFer)
 
-
+'''
 def continueProj():
 	func.continueProjet()
 	if func.projetIsChoose():
@@ -78,11 +78,8 @@ def newProj():
 		menufichier.entryconfig(3, state =tk.ACTIVE)
 		buttonLast.entryconfig(0, state =tk.ACTIVE)
 		buttonSave.entryconfig(0, state =tk.ACTIVE)
+'''
 
- 
-#menufichier.add_command(label="Enregistrer", command=save)
-#menufichier.add_separator()
-#menufichier.add_command(label="Quitter", command=root.destroy) 
 
 
 cheminDeFer.add_command(label="Crée", command=func.deepLearnig, state =tk.DISABLED)
@@ -171,27 +168,42 @@ yDefilB['command'] = listAction.yview
 listFrame2.grid(row=6,column=0,pady=4, padx=20, sticky=tk.W)
 #listAction.grid(row=6,column=0,pady=5)
 
-listAction.bind('<<ListboxSelect>>', func.onSelectAction)  
-for i in range(0,listAction.size()):
-	listAction.selection_set(i)
-func.setListBoxAction(listAction)
 
 
+buttonDelete=tk.Button(fButtons,text="Supprimer",command=func.deleteSelection, state =tk.DISABLED)
 
-
-
+def deSelect():
+	func.de_select
+	if len(listAction.curselection())!=0:
+		buttonDelete.config(state =tk.ACTIVE)
+	else:
+		buttonDelete.config(state =tk.DISABLED)
 
 ################ button pour confirmer le choix des element de la page ##############
 fButtons=tk.Frame(f1, bg=func.colorDefault)
 buttonDeselect=tk.Button(fButtons,text="Deselect/Select all",command=func.de_select, state =tk.DISABLED)
-buttonDelete=tk.Button(fButtons,text="Supprimer",command=func.deleteSelection).grid(row=0,column=1,padx=20,sticky=tk.S)
 buttonLast=tk.Button(fButtons,text="Précédent",command=func.lastPage, state =tk.DISABLED)
 buttonSave=tk.Button(fButtons,text="Enregistrer et Suivant",command=func.nextPage, state =tk.DISABLED)
+
 buttonLast.grid(row=0,column=2,padx=20,sticky=tk.S)
 #buttonSave=tk.Button(fButtons,text="Suivant",command=suivant).grid(row=0,column=1,padx=50,sticky=tk.S)
 buttonDeselect.grid(row=0,column=0,padx=20,sticky=tk.S)
+buttonDelete.grid(row=0,column=1,padx=20,sticky=tk.S)
 buttonSave.grid(row=0,column=3,padx=20,sticky=tk.S)
 fButtons.grid(row=7,column=0,pady=20)
+
+
+def onSelectAction(event):
+	func.onSelectAction
+	if len(listAction.curselection())!=0:
+		buttonDelete.config(state =tk.ACTIVE)
+	else:
+		buttonDelete.config(state =tk.DISABLED)
+
+listAction.bind('<<ListboxSelect>>', onSelectAction)  
+for i in range(0,listAction.size()):
+	listAction.selection_set(i)
+func.setListBoxAction(listAction)
 
 
 def continueProj():
@@ -247,87 +259,11 @@ cadre=tk.Canvas(c, bg=func.colorDefault, bd=-2)
 cadre.grid(row=0,column=1)
 func.setCadre(cadre)
 
- 
-""" 
-def resizeImg(index):
-    global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
-    dicimg={}
-    img=Image.open(listPath[int(index)])
-    #img.resize((320,240))
-    #img.zoom(320/img.width(), 240/img.height())
-    wd,hg=img.size
-    mwd=screen_width
-    mhg=screen_height
-    if wd>mwd :
-        scale= 1.0*wd/mwd
-        newImg=img.resize((int(wd/scale),int(hg/scale)),Image.ANTIALIAS)
-        cadre.config(width=wd/scale,height=hg/scale)
-        photo = ImageTk.PhotoImage(newImg)
-        dicimg['img1'] = photo
-        cadre.image=photo
-        cadre.create_image(0,0,image=photo,anchor="nw") 
-    elif hg > mhg:
-        scale = 1.0*hg/mhg
-        newImg = img.resize((int(wd/scale),int(hg/scale)), Image.ANTIALIAS)
-        cadre.config(width=wd/scale,height=hg/scale)
-        photo = ImageTk.PhotoImage(newImg)
-        dicimg['img1'] = photo
-        cadre.image=photo
-        cadre.create_image(0,0,image=photo,anchor="nw") 
-    else:
-        cadre.config(width=wd,height=hg)
-        photo = ImageTk.PhotoImage(img)
-        dicimg['img1'] = photo
-        cadre.image=photo
-        cadre.create_image(0,0,image=photo,anchor="nw") 
-    #newImg.save(listPath[index])  
-    #newImg.close() 
-    if currentSelectedFile is None:   
-        currentSelectedFile=listFiles.get(listFiles.curselection())
-        fileChange=False
-    else:
-        if lastSelectedFile!=currentSelectedFile:
-            fileChange=True
-        else:
-            fileChange=False    
-    drawRect=rect.CanvasEventsDemo(cadre,listAction,listActionRect,listFileWithActionRect,currentSelectedFile,fileChange)
-    cadre.bind('<ButtonPress-1>', drawRect.leftOnStart)  
-    cadre.bind('<B1-Motion>',     drawRect.leftOnGrow)   
-    cadre.bind('<Double-1>',      drawRect.leftOnClear)
-    cadre.bind('<ButtonRelease-1>', drawRect.leftOnFinal)
-    cadre.bind('<ButtonPress-3>', drawRect.rightOnStart)
-    cadre.bind('<B3-Motion>',     drawRect.rightOnMove)
-    cadre.bind('<ButtonRelease-3>',drawRect.rightOnFinal)
-    gs.update(nameProjet,numPage)"""
- 
 
 
-"""def onselect(evt):
-	global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
-	#cadre=tk.Canvas(c,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=screen_width-600,height=screen_height-25,bg="black")#,bg="black"
-	#cadre=tk.Label(f,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=320,height=240,bg="green")
-	#cadre=tk.Canvas(root,width=screen_width-500,height=screen_height,bg="black")
-	#dicimg = {}
-	#selection = listFiles.curselection()
-	#print(selection[0])
-	w=evt.widget
-	if len(w.curselection())!=0 :
-		index = int(w.curselection()[0])
-		global numPage
-		numPage=index
-		#value = w.get(index)
-		#print(index)
-		recharge()
-		resizeImg(index)
-		selectAll()
-		
-		if currentSelectedFile != listFiles.get(listFiles.curselection()):
-			listAction.delete(0,tk.END)
-			listAction.insert(tk.END,var.get()+'-'+str(nbConfirm))
-			print("different")
-		list=[]
-		list=dict[selection]
-		selectedAction=cadre.create_rectangle(list[0],list[1],list[0]+list[2],list[1]+list[3],width=5)"""
+
+
+
 		#zoneImage.grid(row=2,column=5000,rowspan=2,columnspan=8,sticky=tk.E)#,padx=20,pady=20
 		#cadre.grid(row=2,column=500,rowspan=2,columnspan=30,sticky=tk.E)# padx=20,pady=20,
 		#cadre.grid(row=0,column=1,sticky=tk.S)
