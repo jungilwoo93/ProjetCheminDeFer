@@ -19,12 +19,12 @@ zoomImg=None
 
 
 
-#inverse l'etat des rectangle entre plein et vide
+#inverser l'etat des rectangle entre plein et vide
 def fullRect(full):
 	return not(full)
 
 
-#retourne la liste des images
+#retourner la liste des images
 def getListImg(nameProjet,rectFull):
 	if rectFull:
 		rect='fullRect'
@@ -37,7 +37,7 @@ def getListImg(nameProjet,rectFull):
 		listImgOrder.append('classified-page-' + str(i) + '.png')
 	return listImgOrder
 	
-#met a jour le canvas	
+#mise a jour le canvas	
 def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull,newWin):
 	global zoomImg
 	if rectFull:
