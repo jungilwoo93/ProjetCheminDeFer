@@ -4,115 +4,90 @@ Created on Tue May 22 09:37:31 2018
 @author: Liuyan PAN
 """
 #la classe pour designer les rectangles
+#des fonctions à améliorer, tester qu'on a choisit un rect ou pas, après on peut le supprimer ou bouger, maintenant la fonction pour bouger les rectangles ne fonctionne pas bien.
 import tkinter as tk
 import commun as co
 trace = 0 
-class CanvasEventsDemo:
-	startX=0 #noter la position de start
+class CanvasEventsRect:
+	startX=0 #noter la position de start quand on appuie le button gauche de souri
 	startY=0
-	rightstartX=0
+	rightstartX=0 #noter la position de final quand on appuie le button droit de souri
 	rightstartY=0
-	isDraw=False
-	isMove=False
-	finalX=0
+	isDrawn=False #le rect est dessiné ou pas
+	isMove=False #pour la fonction de movement du rect, ça fonctionne pas bien, il faut l'améliorer
+	finalX=0 #noter la position de start quand on appuie le button droite de souri
 	finalY=0
-	rightfinalX=0
+	rightfinalX=0 #noter la position de final quand on appuie le button droite de souri
 	rightfinalY=0
-	objectId=None
-	listRectDrawn={}
-	#listRect=[]
-	idAction=0
+	objectId=None #stocke id de rect quand nous créons le rect
 	listBoxAction=None
-	listActionRect=None
-	listFileWithActionRect=None
+	listFileWithActionRect=None 
 	currentFile=None
-	listRectAppear=[]
-	isWinModif=None
+	listRectAppear=[] #stroker les ids de rect qui sont créés et affichés
+	#isWinModif=None #pour savoir que c'est la fenêtre Main.py ou WinModification.py, inutile pour l'instant
 	func=co.FunctionCommun()
-	#fileChanged=False
-	def __init__(self, parent,listbox,actionRectList,fileWithActionRectList,currentFileSelected,isWinModif,fileChange=None):
+	def __init__(self, parent,listbox,fileWithActionRectList,currentFileSelected,fileChange=None):
 		self.canvas = parent
-		self.isDraw=False
+		self.isDrawn=False
 		self.isMove=False
-		self.isWinModif=isWinModif
 		self.listBoxAction=listbox
-		self.listActionRect=actionRectList
 		self.listFileWithActionRect=fileWithActionRectList
 		self.currentFile=currentFileSelected
-		#self.fileChanged=fileChange
 		self.func.setListBoxAction(listbox)
-		#print("true or false?????????????"+str(fileChange))
-		#print("!!!!!!!!!!!!!listRect!!!!!!!!!!!!!"+str(self.listRect))
-		if fileChange is not None:
+		if fileChange is not None: #si le current fichier est changé, il faut supprimer les rectangles sont créés et affichés
 			if fileChange is True:
-				#if len(self.listRect) >1:
-				#	self.canvas.delete(self.listRect[len(self.listRect)-1])
 				for i in range(0,len(self.listRectAppear)):
 					self.canvas.delete(self.listRectAppear[i])
 				self.listRectAppear=[]
 				if self.listBoxAction.size() >0 :
 					self.listBoxAction.select_set(0,tk.END)
-				else:
-					print("size <0")
-				#fileChange=False
-		#print("!!!!!!!!!!!!!listRect!!!!!!!!!!!!!"+str(self.listRect))
-		#print("listbox")
-		#print("listActionRect"+str(actionRectList))
-		#print("listFileWithActionRect"+str(fileWithActionRectList))
-		#print("currentFileSelected"+str(currentFileSelected))
-		self.drawn  = None
+		self.drawn  = None #=objectId
 		
-	def leftOnStart(self, event):
+	def leftOnStart(self, event): #le button gauche appuyé
 		global objectId
 		self.start = event
 		canvas = self.start.widget
-		if self.isDraw is True :
+		if self.isDrawn is True : #si le rect précédant est créé, on le supprime pour designer un nouveau rect, le rect précédant est stocké dans listRectAppear dans la foncttion leftOnFinal
 			canvas.delete(objectId)
-		#print("true or false?????????????"+str(fileChange))
-		#if self.fileChanged is True:
-		#	print("is true")
-		self.drawn = None
+		self.drawn = None 
 		self.startX=self.start.x
 		self.startY=self.start.y
-		self.isDraw=False
-		#print("is True? " +str(self.fileChanged))
-		#print("is draw? " +str(self.isDraw)) 
+		self.isDrawn=False
 
         
-	def rightOnStart(self,event):
-		global objectId,isDraw,isMove
+	def rightOnStart(self,event): #le button droite appuyé
+		global objectId,isDrawn,isMove
 		self.rightstart = event
 		canvas = self.start.widget
-		if self.isDraw is True:
+		if self.isDrawn is True:
 			canvas.delete(objectId)
 		self.drawn = None
 		self.rightstartX=self.rightstart.x
 		self.rightstartY=self.rightstart.y
 		self.isMove=False
 
-	def leftOnGrow(self, event): 
-		global objectId,isDraw                      
+	def leftOnGrow(self, event): # le button gauche est appuyé et bougé
+		global objectId,isDrawn                      
 		canvas = event.widget
-		if self.isDraw is False:
-			#print("is draw")
+		if self.isDrawn is False:
 			if self.drawn: 
 				canvas.delete(self.drawn)
 			objectId = canvas.create_rectangle(self.start.x, self.start.y, event.x, event.y,outline="gray")
-			if trace: 
+			if trace: #tracer le rect
 				print("trace")
 				print(objectId)
 			self.drawn = objectId
-			#print("objectID: " +str(objectId))
-			#print("drawn" + str(self.drawn))
         
 
-	def leftOnClear(self, event):
+	def leftOnClear(self, event): # double click pour supprimer 
+		#cette fonction peut être améliorer
 		global objectId
 		canvas = event.widget
 		canvas.delete(objectId)
 		self.drawn=None
 
-	def rightOnMove(self, event):
+	def rightOnMove(self, event): #le button droite appuyé et bougé, pour bouger les rectangles
+		#fonction à améliorer
 		canvas = event.widget
 		if self.drawn: 
 			canvas.delete(self.drawn)
@@ -125,104 +100,78 @@ class CanvasEventsDemo:
 		self.isMove=False
             
 	def leftOnFinal(self,event):
-		print('listFileWithActionRect !!!!' + str(self.listFileWithActionRect))
-		#global isDraw,listBoxAction,idAction,listActionRect,listFileWithActionRect,currentFile
+		global isDraw,listBoxAction,listFileWithActionRect,currentFile
 		listActionRect=self.listFileWithActionRect[self.currentFile]
-		print("listFileWithActionRect " +str(self.listFileWithActionRect))
-		print("currentFile " +str(self.currentFile))
-		
 		self.final=event
 		self.finalX=event.x
 		self.finalY=event.y
-		self.isDraw=True
-		self.idAction=self.listBoxAction.size()+1##############id de action essayer de recuperer par le nom de listbox,if size de listbox>0,sinon par 1,2,3......
-		self.listBoxAction.insert(self.listBoxAction.size(),'Paragraphe-'+str(self.idAction))
-		listActionRect['Paragraphe-'+str(self.idAction)]=self.getCoordonnes()
-		print("listActionRect " +str(listActionRect))
+		self.isDrawn=True
+		idAction=self.listBoxAction.size()+1 #id de action essayer de recuperer par le nom de listbox,if size de listbox>0,sinon par 1,2,3...... #c'est possible que id est répété, essayer de trouver une idée pour évider ça
+		self.listBoxAction.insert(self.listBoxAction.size(),'Paragraphe-'+str(idAction))
+		listActionRect['Paragraphe-'+str(idAction)]=self.getCoordonnes()
 		self.listFileWithActionRect[self.currentFile]=listActionRect
-		print("current " +str(self.currentFile))
-		print("!!!!!!!!!!!!! "+str(self.listFileWithActionRect[self.currentFile]))
-		#self.func.deselectAll()
-		print('listFileWithActionRect ' + str(self.listFileWithActionRect))
-		#self.listRect.append(objectId)#####################
 		self.listBoxAction.select_set(0,tk.END)
-		#print("size of listBoxAction " + self.listBoxAction.size())
 		for i in range(0,self.listBoxAction.size()) : 
 			selection=self.listBoxAction.get(i)
 			list1=[]
 			list1=listActionRect[selection]
-			#print("listActionRect1111"+str(self.listActionRect[selection]))
-			#print("list1"+str(list1))
 			selectedAction=self.canvas.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=2,outline=list1[6])
 			list1[4]=selectedAction
-			#print("selection     "+str(selectedAction))
-			self.listRectAppear.append(selectedAction)#########################
-			#self.listRect.append(self.listRectAppear[0])
-			#print("listActionRect22222222"+str(self.listActionRect[selection]))
-			#print("creat rect"+str(self.listRectAppear))
-		
+			self.listRectAppear.append(selectedAction)#stocker les rects crée
 		self.canvas.delete(objectId)
 	
 	def rightOnFinal(self,event):
+		#fonction à améliorer
 		global isMove
 		self.isMove=True
 		self.rightfinal=event
 		self.rightfinalX=event.x
 		self.rightfinalY=event.y
-		self.isDraw=True
+		self.isDrawn=True
         
 	def getCoordonnes(self):
 		listCoord=[]
-		if self.isMove is True :
+		if self.isMove is True : #renvoyer la position de rect bougé
 			listCoord.append(self.rightstartX)
 			listCoord.append(self.rightstartY)
-		else:
+		else: #sinon renvoyer la position de rect créé sans bouger
 			listCoord.append(self.startX)
 			listCoord.append(self.startY)
 		width=abs(self.finalX-self.startX)
 		height=abs(self.finalY-self.startY)
 		listCoord.append(width)
 		listCoord.append(height)
-		listCoord.append(self.objectId)
-		listCoord.append(2)
-		listCoord.append('gray')
-		listCoord.append(None)
+		listCoord.append(self.objectId) #id de rect
+		listCoord.append(2) #épaiseur de border
+		listCoord.append('gray') #couleur de border de rect
+		listCoord.append(None) #couleur plein de rect
 		return listCoord
     
-	def deselectAll(self,idRect):
-		#self.listRectAppear.remove(idRect)
+	def deselectAll(self,idRect): #supprimer le rect indiqué
 		self.canvas.delete(idRect)
 	
-	def deleteAllRectAppear(self):
+	def deleteAllRectAppear(self): #supprimer tous les rects affichés
 		for i in range(0,len(self.listRectAppear)):
 			self.canvas.delete(self.listRectAppear[i])
 		
-	def deleteRect(self,selection,idRect):
-		#print("delete rect")
+	def deleteRect(self,selection,idRect): #supprimer le rect choisit
 		listActionRect=self.listFileWithActionRect[self.currentFile]
 		list1=[]
 		list1=listActionRect[selection]
-		
 		del listActionRect[selection]
-		#print("listFileWithActionRect " +str(self.listFileWithActionRect))
-		#self.listRect.remove(idRect)
 		self.canvas.delete(idRect)
 	
-	def deselectRect(self):
+	def deselectRect(self): #retourner la liste listRectAppear
 		list1=[]
 		list1=self.listRectAppear
 		return list1
 		
-	def clearListRectAppear(self):
+	def clearListRectAppear(self): 
+		#self.listRectAppear=[]
 		self.listRectAppear.clear()
 		
-	def creatRect(self,actionRect,coordRect,wd=None, colOutline=None, colFill=None):
-		#print("currentFile " +self.currentFile) 
-		#list2=[]
+	def creatRect(self,actionRect,coordRect,wd=None, colOutline=None, colFill=None): #créer les rectangles avec l'option
 		list2=self.listFileWithActionRect[self.currentFile]
-		#print("listFileWithActionRect with?????" + str(list2))
-		#print("self.listActionRect " + str(self.listActionRect))
-		#list1=[]
 		list1=list2[actionRect]
 		if wd is not None:
 			list1[5]=wd
@@ -254,7 +203,7 @@ class CanvasEventsDemo:
 				else:
 					selectedAction=self.canvas.create_rectangle(coordRect[0],coordRect[1],coordRect[0]+coordRect[2],coordRect[1]+coordRect[3])
 		list1[4]=selectedAction
-		if selectedAction not in self.listRectAppear : 
+		if selectedAction not in self.listRectAppear : #Quand on crée le rectangle et on l'affiche, il faut le mettre dans cette liste
 			self.listRectAppear.append(selectedAction)
 		return self.listRectAppear
 	
