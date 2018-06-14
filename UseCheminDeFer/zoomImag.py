@@ -4,7 +4,7 @@ Created on Mon May 21 19:23:16 2018
 
 @author: Liuyan PAN
 """
-
+#problème:recréer trop de fois d'image et buttons
 import random
 import tkinter as tk
 from tkinter import ttk

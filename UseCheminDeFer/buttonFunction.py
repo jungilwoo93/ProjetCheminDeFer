@@ -79,7 +79,7 @@ def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull,newWin):
 		canva.wm_state('iconic')
 		zoomImg=zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet),nameProjet)
 	else:
-		zoomImg.deleteAllButton()
+		#zoomImg.deleteAllButton()
 		canva.wm_state('iconic')
 		zoomImg==zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet),nameProjet)
 	canva.wm_state('normal')
