@@ -9,7 +9,7 @@ import tkinter as tk
 import tkinter.filedialog as tf
 import os
 
-path='ProjetCheminDeFer'
+
 
 def ChooseWhereSave():
 	f=tf.asksaveasfile(
@@ -20,10 +20,10 @@ def ChooseWhereSave():
 	return f.name
 	
 
-
+#mettre les images dans un pdf
 def pngToPdf(nameProjet,dimention,isFull,pathSave):
-	marge=20#marge entre image et bord de la feuille
-	spacing=5
+	marge=20#marge entre image et bord de la feuille#peut etre changé sans problemes
+	spacing=5#espace entre les images #peut etre changé sans problemes
 	numPage=0
 	path, imageList = getImg(nameProjet, isFull)
 	x=0+marge
@@ -37,30 +37,22 @@ def pngToPdf(nameProjet,dimention,isFull,pathSave):
 	h=int((hg/wd)*(((mwd-dimention[0]*spacing)-2*marge)/dimention[0]))
 	pdf = FPDF(format='A4')#orientation = 'P'(ou L), unit = 'mm',
 	k=0
-	#pdf.startPageNums()
 	while k< len(imageList):
 		if not(k == len(imageList)):
 			pdf.add_page()
 		for i in range (0, dimention[1]):
 			for j in range (0, dimention[0]):
 				if not(k == len(imageList)):
-					img=Image.open(path + '/' + imageList[k])#i*dimention[0]+j+numPage*(dimention[0]*dimention[1])
-					#newImg=img.resize((w, h))#, Image.ANTIALIAS
+					img=Image.open(path + '/' + imageList[k])
 					pdf.image(path + '/' + imageList[k], x, y, w, h)
 					k += 1
 					x += w + spacing
 			x = 0 + marge
 			y += h + spacing
 		pdf.set_y(-297+10)
-		# Select Arial italic 8
-		pdf.set_font('Arial', 'I', 8)
-		# Print centered page number
-		pdf.cell(0, 10, nameProjet + ' Page ' + str(pdf.page_no()), 0, 0, 'C')
+		pdf.set_font('Arial', 'I', 7)#I pour italique
+		pdf.cell(0, 10, nameProjet + ' Page ' + str(pdf.page_no()), 0, 0, 'C')#mettre un numero de page
 		y=0+marge
-	#link # put a link
-	#startPageNums(centered|left|right);
-	#set_margins 
-	#PageNo
 	pdf.output(pathSave, "F")
 
 def getImg(nameProjet, isFull):
@@ -74,12 +66,5 @@ def getImg(nameProjet, isFull):
 	listImgOrder=[]
 	for i in range (0,size):
 		listImgOrder.append('classified-page-' + str(i) + '.png')
-	#chrono = lambda v: os.path.getmtime(os.path.join(path, v))
-	#listImg.sort(key = chrono)
 	return path, listImgOrder
 	
-	
-	
-	
-	
-#pngToPdf('Batch',[4,8],True)
