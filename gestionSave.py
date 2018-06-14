@@ -2,7 +2,7 @@
 """
 Created on Fri May 18 14:53:00 2018
 
-@author: rachel
+@author: rachel NOIREAU et Liuyan PAN
 """
 
 # on ecrit dans le fichier txt le nom du projet et le numero de la page auquel on en est 

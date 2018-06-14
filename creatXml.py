@@ -7,66 +7,17 @@ Created on Tue May 15 09:53:46 2018
 import lxml.etree as le
 from lxml import etree
 import os.path
-#from xml.dom import minidom
 import xml.etree.ElementTree as et
 import xml.etree as xe
 import xml.etree.cElementTree as ET
-#import requests
-#import lxml.etree._Element as el
-
-
 import xml.dom.minidom as dm
-#from PyQt4 import QtXml,  QtCore
 
-
-
-#C:/Users/rachel/Documents/GitHub/ProjetCheminDeFer/docXml/
-    
-def getExistingXml(nameProjet):########
-	#try:
-	
-		# def __init__(self):
-			# file = QtCore.QFile("files//essai.xml")
-			# file.open(mode_r)
-			# doc = QtXml.QDomDocument()
-			# doc.setContent(self.file)
-			# file.close()
-			# file.open(mode_w)
-			# out = QtCore.QTextStream(self.file)
-			# root = self.doc.documentElement()
-		#doc = dm.parse('docXml/' + nameProjet + '.xml')
-		#root=doc.getElementsByTagName('Batch')[0]
-		#root=ET.iterparse('docXml/' + nameProjet + '.xml')
-        #print (self.root.tagName())
-		#r = requests.get('docXml/' + nameProjet + '.xml')
-		#xml = r.json()['items'].encode('utf-8')
-		#parser=etree.XMLParser(encoding='utf-8')
+#recupere un xml déjà cree   
+def getExistingXml(nameProjet):
 		tree = le.parse('DrawOnImage/XmlTrainingData/' + nameProjet + '.xml')#str(nameProjet) +
-		#root = etree.fromstring(xml, parser=etree.XMLParser(encoding='utf-8'))
-		root = tree.getroot()#getroottree()
-		#print('ccccccccccccccccccccccoooooooouuuuuuucou')
-		#print(type(root))
-		#oSetroot = etree.Element(root.tag)
-		#doc = minidom.parse('docXml/' + nameProjet + '.xml')
-		#root = doc.documentElement
-		#root.find()
-		#NewSub = etree.SubElement ( root, nameProjet )
-		#tree.write('docXml/' + nameProjet + '.xml')
-		#rootXml=ET.XML(root)
-		#avec dom
-		#doc = parse('docXml/' + nameProjet + '.xml') # parse an XML file by name
-		#doc.documentElement
-		#datasource = open('docXml/' + nameProjet + '.xml')
-		#dom2 = parse(datasource)
-		#docXml=doc.toxml()
-		#dom3 = parseString(docXml)
-		#conference=doc.getElementsByTagName('Batch')
-		#rootXml=ET.XML(docXml)
-		#bla=et.fromstring('docXml/' + nameProjet + '.xml')
-		#NewSub#oSetroot
+		root = tree.getroot()
 		return root
-	#except: #xe.XMLSyntaxError
-		#print('probleme de parse')
+
 
 #recupere le xml existant pour en modifier les erreurs dans la fenetre prevu pour
 def getXmlToModif(nameProjet,numPage):
@@ -75,31 +26,24 @@ def getXmlToModif(nameProjet,numPage):
 	return root
  
     
-#def duplicationProjet() : #pas forcement necessaire
-#    print(xmlProjets[0])
-#    for i in range (0 ,len(xmlProjets[0])):
-#        listProjets.append(xmlProjets[0][i])
-
-
+#verifie l'exisance d'un fichier
 def checkFileExiste(nameFile):
-    #nameFile.exists()
     return os.path.exists(nameFile)
 
-
+#crée un nouveau xml 
 def newProjet(nameProjet):
-	print('newwww proooojj')
-	print(os.path.exists('DrawOnImage/XMLTrainingData/' + nameProjet +'.xml'))
 	if os.path.exists('DrawOnImage/XMLTrainingData/' + nameProjet +'.xml'):
 		print('ce projet est déjà commencé')
-		return continuePoject(nameProjet)#xmlProjet,bool=
+		return continuePoject(nameProjet)
 	else:
 		xmlProjet = etree.Element('Book')
 		return xmlProjet,False
 
 def continuePoject(nameProjet):
-	xmlProjet=getExistingXml(nameProjet) #etree.Element(nameProjet)
+	xmlProjet=getExistingXml(nameProjet)
 	return xmlProjet,True
 
+#ajouter une balise "page"
 def addPage(pathPage,numPage,xmlProjet):
 	page = etree.SubElement(xmlProjet,'page')
 	page.set('id',str(numPage)) 
@@ -107,42 +51,26 @@ def addPage(pathPage,numPage,xmlProjet):
 	file.set('path',pathPage)
 	return page
     
-
+#sauvegarder le projet
 def endProjet(nameProjet,xmlProjet) :   
-    #xmlProjet = etree.Element(nameProjet)
 	path='DrawOnImage/XmlTrainingData'
 	try:
 		if not(os.path.exists(path)) :
 			os.mkdir(path)
 		with open(path + '/' + nameProjet +'.xml','w') as fichier:
-        #En-tête du fichier xml
-			#fichier.write('<?xml version="1.0" encoding="UTF_8"?>\n')#pb d'encodage
-            #index=xmlProjets[0].index(nameProjet)
-            #xmlProjets[1][index]=xmlProjet
 			fichier.write(etree.tostring(xmlProjet,pretty_print=True).decode('utf-8'))#cree premiere balise
-            #xmlProjet = etree.Element(nameProjet)
 			fichier.close()
 			return xmlProjet
 	except IOError:
 		print('Problème rencontré lors de l\'écriture ...')
 		exit(1)
         
-
+#ajouter une balise "element"
 def addElement(typeEl, idEl, posiX, posiY, widthEl, heightEl, nameProjet, numPage, xmlProjet):
 	page=foundPage(nameProjet, numPage, xmlProjet)
-	#print(page)
-#    page = etree.SubElement(xmlProjet,'page')
-#    page.set('id',bytes(numero))
-	element = etree.SubElement(page,'element') #ou append
+	element = etree.SubElement(page,'element')
 	element.set('type',typeEl)#recurere le typele l'element de la liste
 	element.set('id',str(idEl))
-    
-    #truc du prof
-#    position = etree.SubElement(element,'element')
-#    position.set('posX','mobile')
-#    position.set('posY','mobile')
-#    position.set('width','mobile')
-#    position.set('height','mobile')
     
 	posX = etree.SubElement(element,'posX')
 	posX.text= str(posiX)
@@ -154,7 +82,7 @@ def addElement(typeEl, idEl, posiX, posiY, widthEl, heightEl, nameProjet, numPag
 	height = etree.SubElement(element,'height')
 	height.text= str(heightEl)
 
-
+#suprimer une balise "element"
 def delectElement(nameProjet,numPage,numElem,xmlProjet):
 	for e in xmlProjet.findall('page'):
 		if e.attrib['id']==str(numPage) :
@@ -165,98 +93,56 @@ def delectElement(nameProjet,numPage,numElem,xmlProjet):
 					e.remove(e1)
 					return xmlProjet
      
-	 
+#suprimer une balise "page" 
 def delectPage(nameProjet,numPage,xmlProjet):
 	for e in xmlProjet.findall('page'):
 		if e.attrib['id']==str(numPage) :
 			xmlProjet.remove(e)
 			return xmlProjet
 
-			
-    #xmlProjet.replace(e, e)
-#    
-#    
-#    with open('docXml\\' + nameProjet + '.xml','r') as f:
-#        lines = f.readlines()
-#    
-#    ligneefface=0
-#    with open('docXml\\' + nameProjet + '.xml','w') as f:
-#        for line in lines:
-#            # str.lower permet de ne pas s'occuper des majuscules
-#            if (chaine.lower() in line.lower()):
-#                line = remplace
-#            #f.write(line)
-#                ligneefface=4
-#                print('on remplace')
-#                f.write(line)
-#                ligneefface -=1
-#            if ligneefface==0 :
-#                f.write(line)
-#                print('yo')
-#            else :
-#                ligneefface -=1
-#    
-#    
-##    root = et.XML(etree.tostring(xmlProjet,pretty_print=True).decode('utf-8'))
-##    p  = root.find(nameProjet + '/page')  # le père
-##    e = p.find('posX') # le fils
-##    p.remove(e) # supression
-##    print (et.tostring(root))
 
-##    xml = etree.parse('monfichier.xml')
-##    for ma_balise in xml.getchildren():
-##    if 'mon_attribut' in ma_balise.attrib and ma_balise.attrib['mon_attribut'] == 'ok':
-##        ma_balise.text = 'nouvelle valeur'
-##        # Si besoin d'une section CDATA
-##        # ma_balise.text = etree.CDATA('nouvelle valeur')
-##                
-##    with open('monfichier.xml', 'w') as f1:
-##    f1.write(etree.tounicode(xml))           
-#                
-#    #index=xmlProjets[0].index(nameProjet)
-#    #xmlProjets[1][index]=xmlProjet
-        
+#changer le type d'un element
 def replace(nameProjet, numPage, numElem, newType,xmlProjet) :
 	for e in xmlProjet.findall('page'):
 		if e.attrib['id']==str(numPage) :
 			for e1 in e.findall('element'):
 				if not(e1 is None):
-					#print(str(e1.attrib['id']))
 					if e1.attrib['id']==str(numElem):
 						e1.attrib['type'] = newType
 						return xmlProjet
-#xmlProjet.replace(e, e)
 
-def pageExist(nameProjet, numPage,xmlProjet)  : #virer name project
+#verifier si une page existe
+def pageExist(nameProjet, numPage,xmlProjet)  : 
 	for e in xmlProjet.findall('page'):
 		if e.attrib['id']==str(numPage) :
 			return True
 	return False
-        
-def foundPage(nameProjet, numPage, xmlProjet) : #nameProjet a virer
+
+#chercher une page à partir de sont numéros     
+def foundPage(nameProjet, numPage, xmlProjet) : 
 	for e in xmlProjet.findall('page'):
 		if e.attrib['id']==str(numPage) :
 			return e
+
+#faire la liste des pages
 def findAllPage(xmlProject):
 	listPage=[]
 	for e in xmlProject.findall('page'):
 		listPage.append(e)
 	return listPage
-		#if e.attrib['id']==str(numPage) :
-		#	return e
 
-def reSave(nameProjet, numPage, numElem, xmlProjet) : #peut retirer name project    
+#savegarde un elemnt déjà prescedament sauvegardé
+def reSave(nameProjet, numPage, numElem, xmlProjet) :    
 	for e in xmlProjet.findall('page'):
 		if e.attrib['id']==str(numPage) :
-			#print('passe numpage')
 			for e1 in e.findall('element'):
 				if not(e1 is None):
 					if e1.attrib['id']==str(numElem):
 						return True 
 	return False
-            #addElement(typeEl, idEl, posiX, posiY, widthEl, heightEl, e)
 
-def sameType(nameProjet, numPage, numElem, newType, xmlProjet):#peut retirai nameProj
+#verifier que 2 element sont de même type
+def sameType(nameProjet, numPage, numElem, newType, xmlProjet):
 	for e in xmlProjet.findall('page'):
 		if e.attrib['id']==str(numPage) :
 			for e1 in e.findall('element'):
@@ -266,11 +152,9 @@ def sameType(nameProjet, numPage, numElem, newType, xmlProjet):#peut retirai nam
 							return True
 	return False
  
-
+#obtenir le coordonnée des rectangle d'une page
 def getRect(nameProjet,numPage,xmlProjet):
-	#page=foundPage(nameProjet,numPage,xmlProjet)
 	allPage=findAllPage(xmlProjet)
-	#print("all page " +str(allPage))
 	listRect=[]
 	for page in allPage:
 		if page.attrib['id']==str(numPage):
@@ -288,18 +172,14 @@ def getRect(nameProjet,numPage,xmlProjet):
 				listRect.append([numPage,typeRect,numrect,posx,posy,width,height])
 	return listRect
 
-	
+#obtenir le coordonnée des rectangle d'une page à partir de la fenetre de modification
 def getRectModif(nameProjet,numPage,xmlProjet,scale):
-	#page=foundPage(nameProjet,numPage,xmlProjet)
 	allPage=findAllPage(xmlProjet)
-	#print("all page " +str(allPage))
 	listRect=[]
 	numR=0
 	for page in allPage:
-			#if page.attrib['id']==str(numPage):
 			for rect in page.findall('element'):
 				typeRect=rect.attrib['type'] 
-				#numrect=rect.attrib['id'] 
 				elPosx=rect.find('posX')
 				posx=elPosx.text
 				elPosy=rect.find('posY')
@@ -312,7 +192,7 @@ def getRectModif(nameProjet,numPage,xmlProjet,scale):
 				numR+=1
 	return listRect
 	
-	
+#trover la bonne page pour modification
 def getRectForModification(name,pathImg,xmlProjet,scale):
 	num = None
 	allPage=findAllPage(xmlProjet)
@@ -323,7 +203,8 @@ def getRectForModification(name,pathImg,xmlProjet,scale):
 				num = page.attrib['id']
 	listRect=getRectModif(name,num,xmlProjet,scale)
 	return listRect
-	
+
+#obtenir le plus grand id de rectangle
 def getLastRectangleId(xmlProjet):
 	maxId=0
 	for page in xmlProjet.findall('page'):
