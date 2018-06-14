@@ -387,7 +387,7 @@ class Zoom_Advanced(ttk.Frame):
 	def findAll(self): #imprimer tous les items de canvas, par exemple les buttons,l'image
 		print(str(self.canvas.find_all()))
 		
-	def createButton(self,event): #
+	def createButton(self,event): #L’utilisateur a modifié la taille d’un widget, par exemple en déplaçant un coin ou un côté de la fenêtre.
 		self.show_image()
 		self.canvas.update() 
 

@@ -4,10 +4,9 @@ Created on Tue May 22 09:37:31 2018
 
 @author: Rachel NOIREAU & Liuyan PAN
 """
-
+#la fenêtre pour afficher chemin de fer, nous pouvons agrandir ou réduire l'image, si on appuie un button ", on peut copier une référence dans un fichier excel, et ou on peut choisir l'image qu'on veut modifier
 import tkinter as tk
 import tkinter.filedialog as tf
-
 
 #import de nos autre fichiers
 from UseCheminDeFer import zoomImag as zi
@@ -17,7 +16,7 @@ import commun as co
 
 
 ####variable
-dimention=[4,4]
+dimention=[4,4] #dimension par défault
 rectFull=False
 colorDefault="#F5F5DC" #couleur du fond
 func=co.FunctionCommun()
