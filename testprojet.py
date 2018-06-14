@@ -156,7 +156,7 @@ fButtons.grid(row=7,column=0,pady=20)
 
 
 def onSelectAction(event):
-	func.onSelectAction()
+	func.onSelectAction(event)
 	if len(listAction.curselection())!=0:
 		buttonDelete.config(state =tk.ACTIVE)
 	else:
