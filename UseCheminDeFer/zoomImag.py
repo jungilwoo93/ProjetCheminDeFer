@@ -5,9 +5,6 @@ Created on Mon May 21 19:23:16 2018
 @author: Liuyan PAN
 """
 
-
-
-
 import random
 import tkinter as tk
 from tkinter import ttk
@@ -23,6 +20,7 @@ pageSelected=0
 buttonList=[]
 
 class AutoScrollbar(ttk.Scrollbar):
+	#scrollbar automatiquement
     ''' A scrollbar that hides itself if it's not needed.
         Works only if you use the grid geometry manager '''
     def set(self, lo, hi):
@@ -46,16 +44,12 @@ class Zoom_Advanced(ttk.Frame):
 	nameProjet='new'
 	selectClick=0
 	''' Advanced zoom of the image '''
-	def __init__(self, mainframe, path,dim,numberPage,nameProj):
+	def __init__(self, mainframe, path,dim,numberPage,nameProj): #constructeur
 		''' Initialize the main Frame '''
-		#global dimention
 		self.dimention=dim
-		#global numPage
 		self.numPage=numberPage
 		self.nameProjet=nameProj
-
 		ttk.Frame.__init__(self, master=mainframe)
-        #self.master.title('Zoom with mouse wheel')
         # Vertical and horizontal scrollbars for canvas
 		self.vbar = AutoScrollbar(self.master, orient='vertical')
 		self.hbar = AutoScrollbar(self.master, orient='horizontal')
@@ -85,20 +79,14 @@ class Zoom_Advanced(ttk.Frame):
 		self.hgb=self.height
 		self.isMoved=False
 		self.isWheel=False
-		
-
-		
 		self.imscale = 1.0  # scale for the canvaas image
 		self.delta = 1.3  # zoom magnitude
-
-		
 		self.container = self.canvas.create_rectangle(0, 0, self.width, self.height, width=0)
 		self.show_image()
 	
-	def completeTab(self):
+	def completeTab(self): #copier le text dans excel
 		global selectClick
 		selectClick=pageSelected
-		
 		exp.completeTab(pageSelected,self.nameProjet)
 
 	
@@ -107,6 +95,7 @@ class Zoom_Advanced(ttk.Frame):
 		self.canvas.yview(*args, **kwargs)		# scroll vertically
 		self.isMoved=True
 		self.show_image() 
+		#recuperer la position de scrollbar pour calculer la distance pour que les bouttons sont bougés
 		(s,f)=self.vbar.get()
 		diff=(f-s)/self.himg
 		if len(self.buttonResetList)>0 : 
@@ -139,11 +128,10 @@ class Zoom_Advanced(ttk.Frame):
 	def scroll_x(self, *args, **kwargs):
 		''' Scroll canvas horizontally and redraw the image '''
 		self.canvas.xview(*args, **kwargs)  # scroll horizontally
-		#print("scoll_x")
-		
 		self.show_image()  # redraw the image
 		self.isMoved=True
 		self.canvas.update() 
+		#recuperer la position de scrollbar pour calculer la distance pour que les bouttons sont bougés
 		(s,f)=self.hbar.get()
 		diff=(f-s)/self.wimg
 		if len(self.buttonResetList)>0 : 
@@ -181,8 +169,9 @@ class Zoom_Advanced(ttk.Frame):
 		if findButton:
 			global pageSelected
 			pageSelected = Pselected
-#fonction non utiliser 
-#apple la fonction qui renvoie l'id de la page sur laquel on à cliqué
+	#fonction non utiliser 
+	
+	#apple la fonction qui renvoie l'id de la page sur laquel on à cliqué
 	def selectPage(self, event):
 		mouseX = event.x
 		mouseY = event.y
@@ -190,7 +179,6 @@ class Zoom_Advanced(ttk.Frame):
 		y = self.canvas.canvasy(event.y)
 		sizeX = sizeXimg
 		sizeY = sizeYimg
-		#pageSelected = ep.selectPage(x, y, mouseX, mouseY, sizeX, sizeY,dimention, numPage,self.wb,self.hgb,self.canvas.coords(self.imageid))
 
 
 	def move_from(self, event):
@@ -208,7 +196,7 @@ class Zoom_Advanced(ttk.Frame):
 		self.canvas.update() 
 		diffX=(self.startX-event.x)/self.wimg
 		diffY=(self.startY-event.y)/self.himg
-				
+		#supprimer les buttons qu'on a crée avant
 		if len(self.buttonResetList)>0 : 
 			for idButton in self.buttonResetList:
 				self.canvas.delete(idButton)
@@ -396,11 +384,10 @@ class Zoom_Advanced(ttk.Frame):
 		self.container = self.canvas.create_rectangle(0, 0, self.width, self.height, width=0)
 		self.canvas.update() 
 	#mister les boutons
-	def findAll(self):
+	def findAll(self): #imprimer tous les items de canvas, par exemple les buttons,l'image
 		print(str(self.canvas.find_all()))
-		#exp.creatButton(self.canvas, self.width, self.height,numPage,dimention, self.master,sizeYimg)
 		
-	def createButton(self,event):
+	def createButton(self,event): #
 		self.show_image()
 		self.canvas.update() 
 
