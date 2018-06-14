@@ -38,8 +38,6 @@ def Segm(nameProjet,numberPage):
 			[x, y, w, h] = cv2.boundingRect(contour)
 			if w <500 and h <50 :    #finding the big bigblocks aka "paragraphes"
 				continue
-				#page = ET.SubElement(components, "page")
-				#print('bla')
 			component = ET.SubElement(components, "element")
 			component.attrib['type'] = "Lettrine"
 			ET.SubElement(component, "width").text = str(w)
@@ -81,5 +79,5 @@ def Segm(nameProjet,numberPage):
 			os.makedirs("DrawOnImage/Results/"+nameProjet)
 		tree.write("DrawOnImage/Results/xml_results/"+nameProjet+'/'+id_img+"-Unlabelled.xml")#writing elements to an unlabelled xml(it's unlabelled since we have not classified it yet)
 		tree.write("DrawOnImage/workshop_test/"+nameProjet+'/'+id_img+"-Unlabelled.xml")
-		cv2.imwrite('DrawOnImage/bw_image.png', im_bw1)        #optionnel visuel d'une image en "mi-processing"
-		cv2.imwrite("DrawOnImage/Results/"+nameProjet+'/'+id_img, or_im)      #optionnel image segmenter
+		#cv2.imwrite('DrawOnImage/bw_image.png', im_bw1)        #optionnel visuel d'une image en "mi-processing"
+		#cv2.imwrite("DrawOnImage/Results/"+nameProjet+'/'+id_img, or_im)      #optionnel image segmenter

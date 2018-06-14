@@ -18,8 +18,7 @@ import os
 def classif(nameProjet):
 	dataSet=[] #training dataset
 	unknownSet=[]
-	#nameProjet='Batch'
-	print(nameProjet)
+
 	
 	class Component(object):
 
@@ -35,7 +34,6 @@ def classif(nameProjet):
 		xmlFiles=glob.glob(path+"/*.xml")
 		fileList=list()
 		for x in range(0,len(xmlFiles)):
-			#fileList.append(xmlFiles[x][28:])#28:nombre de caractere du chemin
 			fileList.append(splitPath(xmlFiles[x]))
 		return fileList
     
@@ -43,11 +41,11 @@ def classif(nameProjet):
 		xmlFiles=glob.glob(path+"/*.xml")
 		fileList=list()
 		for x in range(0,len(xmlFiles)):
-			#fileList.append(xmlFiles[x][26:])#75:nbr de car
 			fileList.append(splitPath(xmlFiles[x]))
 		return fileList
     
-	def splitPath(path):
+	#recupere a partir du chemin le nom de fichier
+	def splitPath(path): 
 		(filePath,tempfileName) = os.path.split(path)
 		(shotName,extension) = os.path.splitext(tempfileName)
 		return shotName + '.xml'
@@ -79,7 +77,6 @@ def classif(nameProjet):
 		for x in range(0,len(fileNames)):
 			if fileNames[x]==nameProjet + '.xml' :
 				tree = ET.parse(path+''+fileNames[x])
-				#print(path+''+fileNames[x])
 				root = tree.getroot()
 				for component in root.iter('page'):
 					for elem in component.iter('element'):
@@ -88,7 +85,7 @@ def classif(nameProjet):
 	def rewriteXml():
 		if len(unknownSet)!=0:
 			for x in range(0,len(unknownSet)):
-				tree = ET.parse('DrawOnImage/workshop_test/'+ nameProjet +'/'+unknownSet[x][4] + '-Unlabelled.xml')#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
+				tree = ET.parse('DrawOnImage/workshop_test/'+ nameProjet +'/'+unknownSet[x][4] + '-Unlabelled.xml')
 				root = tree.getroot()
 				for component in root.iter('page'):
 					for elem in component.iter('element'):
@@ -97,26 +94,25 @@ def classif(nameProjet):
 								elem.attrib['type']="Paragraphe"
 							else:
 								elem.attrib['type']="Titre"
-							tree.write('DrawOnImage/workshop_test/'+ nameProjet +'/'+unknownSet[x][4] + '-Unlabelled.xml')#C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
+							tree.write('DrawOnImage/workshop_test/'+ nameProjet +'/'+unknownSet[x][4] + '-Unlabelled.xml')
 							break
 
 
 
 
 
-	extractData('DrawOnImage/XMLTrainingData/')#C:/Users/DL9/Desktop/
+	extractData('DrawOnImage/XMLTrainingData/')
 
-	extractUnlabelledData("DrawOnImage/workshop_test/"+ nameProjet +'/')##C:/Users/DL9/Desktop/Machine Learning/Projet3A/Draw on image/
+	extractUnlabelledData("DrawOnImage/workshop_test/"+ nameProjet +'/')
 
 
 	'''transforming our dataset into a pandaDataFrame'''
 
 	pdDataSet = pd.DataFrame(dataSet)#met sous forme de tableau a double entrée
-	#print('le unknownSet')
-	#print(unknownSet)
+
 	pdUnlabelledData=pd.DataFrame(unknownSet)
 	'''test train split 25% 75%'''
-	#iloc:gets rows (or columns) at particular positions in the index
+
 	x_train,x_test,y_train,y_test=train_test_split(pdDataSet.iloc[:,[0,3]].values ,pdDataSet.iloc[:,[4]].values,test_size=0.25,random_state=0)
 
 	scaler = StandardScaler()
