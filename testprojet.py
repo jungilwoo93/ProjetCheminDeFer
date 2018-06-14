@@ -105,7 +105,8 @@ for i,v in enumerate(func.typeZone):
 zoneRadioButton.grid(row=3,sticky=tk.W,pady=5)
 
 ################ button pour comfirmer le choix avec la zone choisit sur image
-buttonConfirm=tk.Button(f1,text="Confirmer",command=func.confirmer).grid(row=4,column=0,pady=5,sticky=tk.S)
+buttonConfirm=tk.Button(f1,text="Confirmer",command=func.confirmer, state =tk.DISABLED)
+buttonConfirm.grid(row=4,column=0,pady=5,sticky=tk.S)
 
 ################ listebox pour les Actions
 labelAction=tk.Label(f1,text="Les actions : ", bg=func.colorDefault)
@@ -137,22 +138,28 @@ def deSelect():
 	func.de_select()
 	if len(listAction.curselection())!=0:
 		buttonDelete.config(state =tk.ACTIVE)
+		buttonConfirm.config(state =tk.ACTIVE)
 	else:
 		buttonDelete.config(state =tk.DISABLED)
+		buttonConfirm.config(state =tk.DISABLED)
 
 def nextPage():
 	func.nextPage()
 	if len(listAction.curselection())!=0:
 		buttonDelete.config(state =tk.ACTIVE)
+		buttonConfirm.config(state =tk.ACTIVE)
 	else:
 		buttonDelete.config(state =tk.DISABLED)
+		buttonConfirm.config(state =tk.DISABLED)
 
 def lastPage():
 	func.lastPage()
 	if len(listAction.curselection())!=0:
 		buttonDelete.config(state =tk.ACTIVE)
+		buttonConfirm.config(state =tk.ACTIVE)
 	else:
 		buttonDelete.config(state =tk.DISABLED)
+		buttonConfirm.config(state =tk.DISABLED)
 		
 ################ button pour confirmer le choix des element de la page ##############
 
@@ -172,8 +179,10 @@ def onSelectAction(event):
 	func.onSelectAction(event)
 	if len(listAction.curselection())!=0:
 		buttonDelete.config(state =tk.ACTIVE)
+		buttonConfirm.config(state =tk.ACTIVE)
 	else:
 		buttonDelete.config(state =tk.DISABLED)
+		buttonConfirm.config(state =tk.DISABLED)
 
 listAction.bind('<<ListboxSelect>>', onSelectAction) #evenement de listAction #quand on selectionne une/des action(s)
 for i in range(0,listAction.size()):
@@ -192,8 +201,10 @@ def continueProj():
 		buttonDeselect.config(state =tk.ACTIVE)
 		if len(listAction.curselection())!=0:
 			buttonDelete.config(state =tk.ACTIVE)
+			buttonConfirm.config(state =tk.ACTIVE)
 		else:
 			buttonDelete.config(state =tk.DISABLED)
+			buttonConfirm.config(state =tk.DISABLED)
 		
 def newProj():
 	func.newProjet()
@@ -206,8 +217,10 @@ def newProj():
 		buttonDeselect.config(state =tk.ACTIVE)
 		if len(listAction.curselection())!=0:
 			buttonDelete.config(state =tk.ACTIVE)
+			buttonConfirm.config(state =tk.ACTIVE)
 		else:
 			buttonDelete.config(state =tk.DISABLED)
+			buttonConfirm.config(state =tk.DISABLED)
 
 
 ##########barre de menu
@@ -231,8 +244,10 @@ def onSelect(event):
 	func.onselect(event)
 	if len(listAction.curselection())!=0:
 		buttonDelete.config(state =tk.ACTIVE)
+		buttonConfirm.config(state =tk.ACTIVE)
 	else:
 		buttonDelete.config(state =tk.DISABLED)
+		buttonConfirm.config(state =tk.DISABLED)
 
 listFiles.bind('<<ListboxSelect>>', onSelect)  #green
 
