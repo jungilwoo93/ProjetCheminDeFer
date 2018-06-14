@@ -27,7 +27,9 @@ class CanvasEventsRect:
 	listRectAppear=[] #stroker les ids de rect qui sont créés et affichés
 	#isWinModif=None #pour savoir que c'est la fenêtre Main.py ou WinModification.py, inutile pour l'instant
 	func=co.FunctionCommun()
-	def __init__(self, parent,listbox,fileWithActionRectList,currentFileSelected,fileChange=None):
+	buttonConfirme=None
+	buttonDelete=None
+	def __init__(self, parent,listbox,fileWithActionRectList,currentFileSelected,buttonConf,buttonDel,fileChange=None):
 		self.canvas = parent
 		self.isDrawn=False
 		self.isMove=False
@@ -35,6 +37,10 @@ class CanvasEventsRect:
 		self.listFileWithActionRect=fileWithActionRectList
 		self.currentFile=currentFileSelected
 		self.func.setListBoxAction(listbox)
+		self.buttonConfirme=buttonConf
+		self.buttonDelete=buttonDel
+		self.func.setButton(self.buttonConfirme,self.buttonDelete)
+
 		if fileChange is not None: #si le current fichier est changé, il faut supprimer les rectangles sont créés et affichés
 			if fileChange is True:
 				for i in range(0,len(self.listRectAppear)):
@@ -101,7 +107,7 @@ class CanvasEventsRect:
 		self.isMove=False
             
 	def leftOnFinal(self,event):
-		global isDraw,listBoxAction,listFileWithActionRect,currentFile
+		global isDraw,listBoxAction,listFileWithActionRect,currentFile,buttonConfirme,buttonDelete
 		listActionRect=self.listFileWithActionRect[self.currentFile]
 		self.final=event
 		self.finalX=event.x
@@ -120,6 +126,8 @@ class CanvasEventsRect:
 			list1[4]=selectedAction
 			self.listRectAppear.append(selectedAction)#stocker les rects crée
 		self.canvas.delete(objectId)
+		self.buttonDelete.config(state =tk.ACTIVE)
+		self.buttonConfirme.config(state =tk.ACTIVE)
 	
 	def rightOnFinal(self,event):
 		#fonction à améliorer

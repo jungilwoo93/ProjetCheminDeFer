@@ -14,6 +14,7 @@ from os.path import basename
 import tkinter.filedialog as tf
 from lxml import etree
 
+#nos autre fichiers
 import DrawRect as rect
 import creatXml as xl
 import gestionSave as gs
@@ -43,18 +44,23 @@ class FunctionCommun:
 	listFiles=None #stocker listbox Files
 	cadre=None #stocker canvas d'image
 	isWinModif=False 
+	buttonConfirme=None
+	buttonDelete=None
 	
 	#### fonctions ####
 	def __init__(self,listbox=None): #construteur
 		self.listAction=listbox
 	
 	def projetIsChoose(self):
-		print(self.nameProjet!='new')
 		return self.nameProjet!='new'
 	
 	def setVar(self,var): #Main.py et WinModification.py transmet la variable de radiobutton a commun.py
 		self.var=var
-		
+	
+	def setButton(self,buttonConf,buttonDel):#Main.py et WinModification.py transmet le listbox d'Action a commun.py
+		self.buttonConfirme=buttonConf
+		self.boutonDelete=buttonDel
+	
 	def setListBoxAction(self,listbox):#Main.py et WinModification.py transmet le listbox d'Action a commun.py
 		self.listAction=listbox
 		
@@ -140,6 +146,12 @@ class FunctionCommun:
 			self.listActionRect[key]=newListActionRect[key]
 		self.listFileWithActionRect[self.currentSelectedFile]=self.listActionRect
 
+	"""def onFinal(self,event):
+		self.drawRect.leftOnFinal(event)
+		self.buttonDelete.config(state =tk.ACTIVE)
+		self.buttonConfirme.config(state =tk.ACTIVE)"""
+
+		
 	def resizeImg(self,index,cadre):
 		self.cadre=cadre #mettre le canvas
 		dicimg={}
@@ -182,11 +194,12 @@ class FunctionCommun:
 				self.fileChange=False   
 
 		self.isWinModif=False
-		self.drawRect=rect.CanvasEventsRect(self.cadre,self.listAction,self.listFileWithActionRect,self.currentSelectedFile,self.fileChange) 
+		self.drawRect=rect.CanvasEventsRect(self.cadre,self.listAction,self.listFileWithActionRect,self.currentSelectedFile,self.buttonConfirme,self.buttonDelete,self.fileChange) 
 		#les events de souris
 		self.cadre.bind('<ButtonPress-1>', self.drawRect.leftOnStart)  
 		self.cadre.bind('<B1-Motion>',     self.drawRect.leftOnGrow)   
 		self.cadre.bind('<Double-1>',      self.drawRect.leftOnClear)
+		
 		self.cadre.bind('<ButtonRelease-1>', self.drawRect.leftOnFinal)
 		#self.cadre.bind('<ButtonPress-3>', self.drawRect.rightOnStart)
 		#self.cadre.bind('<B3-Motion>',     self.drawRect.rightOnMove)
@@ -225,7 +238,7 @@ class FunctionCommun:
 			self.cadre.create_image(0,0,image=photo,anchor="nw") 
 		self.isWinModif=True
 		(path1,path2,nameFile)=path.split('/')
-		self.drawRectModif=rect.CanvasEventsRect(self.cadre,self.listAction,self.listFileWithActionRect,nameFile)
+		self.drawRectModif=rect.CanvasEventsRect(self.cadre,self.listAction,self.listFileWithActionRect,nameFile,self.buttonConfirme,self.buttonDelete)
 		self.cadre.bind('<ButtonPress-1>', self.drawRectModif.leftOnStart)  
 		self.cadre.bind('<B1-Motion>',     self.drawRectModif.leftOnGrow)   
 		self.cadre.bind('<Double-1>',      self.drawRectModif.leftOnClear)
@@ -668,14 +681,7 @@ class FunctionCommun:
 			gs.doChemin(self.nameProjet,self.numPage)
 		from UseCheminDeFer import mainSeeResult as msr# a changer pour le nom aussi
 		msr.creatChemin(self.nameProjet)
-		
-		#global sg.namePropjet
-		#sg.nameProjet=nameProjet
-		#cl.nameProjet=nameProjet
-		#doi.nameProjet=nameProjet
-		#save()
-		#root.destroy()
-		#root.quit()
+
 	
 	def reloadImg(self) :
 		listImgFromPdf = os.listdir('imgFromPdf/' + self.nameProjet)
@@ -686,11 +692,10 @@ class FunctionCommun:
 			nom=os.path.splitext(nomExt)[0]
 			self.listFiles.insert(self.listFiles.size(), nom)
 			self.listPath.append('imgFromPdf/' + self.nameProjet + '/' + listImgFromPdf[k])
-		#global numberPage
 		self.numberPage=len(listImgFromPdf)
 		self.listFiles.select_set(self.numPage)#pour que ça aille a la page ou on en etait
 		
-		# supprimer de la liste les fichiers selectionnés
+
 		
 	def recharge(self):
 		#global currentSelectedFile,lastSelectedFile,listActionRect
