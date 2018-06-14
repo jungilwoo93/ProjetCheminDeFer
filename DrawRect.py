@@ -5,6 +5,7 @@ Created on Tue May 22 09:37:31 2018
 """
 #la classe pour designer les rectangles
 #des fonctions à améliorer, tester qu'on a choisit un rect ou pas, après on peut le supprimer ou bouger, maintenant la fonction pour bouger les rectangles ne fonctionne pas bien.
+#important : si on utiliser le canvas pour créer des choses, par exemple create_rectangle, create_windows, create_image,etc, il nous faut penser et supprimer bien tous ce qu'on crée
 import tkinter as tk
 import commun as co
 trace = 0 
@@ -115,7 +116,7 @@ class CanvasEventsRect:
 			selection=self.listBoxAction.get(i)
 			list1=[]
 			list1=listActionRect[selection]
-			selectedAction=self.canvas.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=2,outline=list1[6])
+			selectedAction=self.canvas.create_rectangle(list1[0],list1[1],list1[0]+list1[2],list1[1]+list1[3],width=2,outline=list1[6]) #couleur de rect est gris par default
 			list1[4]=selectedAction
 			self.listRectAppear.append(selectedAction)#stocker les rects crée
 		self.canvas.delete(objectId)
@@ -161,7 +162,7 @@ class CanvasEventsRect:
 		del listActionRect[selection]
 		self.canvas.delete(idRect)
 	
-	def deselectRect(self): #retourner la liste listRectAppear
+	def getListRectAppear(self): #retourner la liste listRectAppear
 		list1=[]
 		list1=self.listRectAppear
 		return list1
