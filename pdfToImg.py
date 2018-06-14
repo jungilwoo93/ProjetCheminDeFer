@@ -4,50 +4,37 @@ Created on Wed May 16 09:34:19 2018
 
 @author: rachel NOIREAU & Liuyan PAN
 """
-
+#ce fichier contient la fonction pour convertir le fichier pdf en png, il va couper chaque page de pdf et la convertir en png
 from __future__ import print_function
-#from imagemagick import *
 from wand.image import Image
 import os.path
 
 numberPage=0
 
 #nb le chemin du fichier source
-def pdfToPng(namefile,nameProjet,resol): #'test1/source1.pdf'
-	#os.mkdir('imgFromPdf/' + nameProjet)
+def pdfToPng(namefile,nameProjet,resol): 
 	if len(namefile) > 0: 
 		if not os.path.exists('imgFromPdf/' + nameProjet):
 			os.makedirs('imgFromPdf/' + nameProjet)
-			#page=0
 			listImg =[]
-			#print('pages = ', len(img.sequence))
 			with Image(filename=namefile,resolution=resol) as img: #pour resol 30 == low quality(utilisée pour l'app java) 60== high quality utilisé pour le traitement de l'img
-				#print('pages = ', len(img.sequence))
 				global numberPage
 				numberPage=len(img.sequence)
 				img.compression_quality = 99
-				#page += 1
 				for i in range (len(img.sequence)) :
-					listImg.append('imgFromPdf/' + splitPath(namefile) + '/'+ splitPath(namefile) + 'page-' + str(i) + '.png')
+					listImg.append('imgFromPdf/' + splitPath(namefile) + '/'+ splitPath(namefile) + 'page-' + str(i) + '.png') #stoker les paths d'image
 				
-				with img.convert('png') as converted:
-					#print("coucou") 
-					#print(str(page))
+				with img.convert('png') as converted: #convertir les pages de pdf en png
 					converted.save(filename='imgFromPdf/' + nameProjet + '/' + splitPath(namefile) + 'page' + '.png')    #nb le chemin des results
-					#listImg.append('imgFromPdf/' + splitPath(namefile) + '/'+ splitPath(namefile) + 'page-' + str(page) + '.png')
 			return listImg
 		else:
 			return 0
 				
-def splitPath(path):
-	#global filePath,tempfileName,shotName,extension
+def splitPath(path): #couper les paths
 	(filePath,tempfileName) = os.path.split(path)
 	(shotName,extension) = os.path.splitext(tempfileName)
 	return shotName
 	
 
 def getCountPage():#path
-	#sourcePDF=pdf.PdfFileReader(open(path,'rb'))
-	#countPage=sourcePDF.getNumPages()
-	#print(countPage)
 	return numberPage

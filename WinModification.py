@@ -4,21 +4,15 @@ Created on Tue May 15 09:53:46 2018
 
 @author: rachel NOIREAU & liuyan PAN
 """
+#ce fichier contient la fenêtre Modification, l'organisation de layout est pareil que WinTraining.py
+#utiliser le commun pour les fonctions, parce que le plupart des fonctions sont en commun avec WinTraining.py
 import tkinter as tk
-#root=tk.Toplevel()
 import os
 import commun as co
 
-### variable global ###
-#root = tk.Tk()
-#var=tk.StringVar()
-#var.set("Paragraphe")
 numPage=0
 
-def creatWin(root,nameProjet,numIm,dimention):#pathIMG,
-	#global numIM
-	#numIm=numPage
-	print(numIm)
+def creatWin(root,nameProjet,numIm,dimention):
 	global numPage
 	numPage=numIm
 	var=tk.StringVar()

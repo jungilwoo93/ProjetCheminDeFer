@@ -2,7 +2,7 @@
 """
 Created on Fri Dec 22 02:49:11 2017
 
-@author: DL9
+@author: Liuyan PAN & Rachel Noireau
 """
 
 
@@ -62,10 +62,8 @@ def drawIm(pathIMG,nameProjet,scale):
 				root = tree.getroot()
 				numPage=0
 				for page in root.iter('page'):
-					#print(page.iter('file'))
 					for path in page.iter('file'):
 						if path.attrib['path'] ==  pathIMG :
-							#print(pathIMG)
 							for component in page.iter('element'):
 								img13.addComponent(component.attrib['type'],component.find('posX').text,component.find('posY').text,component.find('width').text,component.find('height').text)
 								self.dataSizeCounter =self.dataSizeCounter+1
@@ -111,7 +109,6 @@ def drawIm(pathIMG,nameProjet,scale):
 				drawFull.rectangle(((int(int(self.x[i])*scale),int(int(self.y[i])*scale)),int((int(int(self.w[i])*scale)+int(int(self.x[i])*scale))),int((int(int(self.h[i])*scale)+int(int(self.y[i])*scale)))), fill=color, outline=color)
 				
 				self.modif.append('page ' + str(numPage) + ' pos( ' + str(self.x[i]) + ' , ' + str(self.y[i]) + ' )')
-				#print('page ' + str(numPage) + ' pos( ' + str(self.x[i]) + ' , ' + str(self.y[i]) + ' )')
 				
 				
 				#pourvoir les lettrine même quand rectangle plein
@@ -163,9 +160,3 @@ def drawIm(pathIMG,nameProjet,scale):
 	img13=imgData(13)
 	img13.run()
 	img13.upDateExcel()
-
-
-
-#draw.rectangle((10, 10, 30, 30), fill=None, outline=(255, 0, 0))
-
-#drawIm('Batch')    

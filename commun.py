@@ -4,7 +4,7 @@ Created on Mon May  7 16:26:16 2018
 
 @author: Rachel Noireau et Liuyan PAN
 """
-#ce fichier contient les fonctions communes pour la fenêtre de Main.py et WinModification.py
+#ce fichier contient les fonctions communes pour la fenêtre de WinTraining.py et WinModification.py
 #la conversion de pdf en image png et le traitement d'image sont trop lents, peut être on peut ajouter une barre de progression
 #ajouter un button pour afficher tous les rectangles ou les cacher, au lieu de selectionner tous pour afficher
 import tkinter as tk
@@ -27,15 +27,17 @@ class FunctionCommun:
 	var=None #stocker la variable de radiobutton
 	typeZone={"Titre","Paragraphe","Lettrine","Image"} 
 	colorDefault="#F5F5DC" #couleur beige par défault
-	screen_width=None #transferer la taille d'ecran de main.py et WinModification.py pour qu'on peut utiliser dans commun.py
+	screen_width=None #transferer la taille d'ecran de WinTraining.py et WinModification.py pour qu'on peut utiliser dans commun.py
 	screen_height=None
 	listPath=[] #stocker tous les chemins de d'images du projet
-	drawRect=None #creer la classe DrawRect pour le canvas d'image de main.py
+	drawRect=None #creer la classe DrawRect pour le canvas d'image de WinTraining.py
 	drawRectModif=None #creer la classe DrawRect pour le canvas d'image de WinModification.py
 	listFileWithActionRect={} #dictionnaire, tous les fichiers et tous les actions et tous les rectangles qui sont dans ce dictionnaire
 	listActionRect={} #peut etre on peut le supprimer 
 	nameProjet='new'
 	currentSelectedFile= None #pour noter le fichier current
+	currentIndex=None
+	lastIndex=None
 	lastSelectedFile=None #pour noter le dernier fichier
 	numPage=0 #pour noter numero de page
 	xmlProjet=None  
@@ -54,24 +56,24 @@ class FunctionCommun:
 	def projetIsChoose(self):
 		return self.nameProjet!='new'
 	
-	def setVar(self,var): #Main.py et WinModification.py transmet la variable de radiobutton a commun.py
+	def setVar(self,var): #WinTraining.py et WinModification.py transmet la variable de radiobutton a commun.py
 		self.var=var
 	
-	def setButton(self,buttonConf,buttonDel):#Main.py et WinModification.py transmet le listbox d'Action a commun.py
+	def setButton(self,buttonConf,buttonDel):#WinTraining.py et WinModification.py transmet le buttons a commun.py
 		self.buttonConfirme=buttonConf
 		self.boutonDelete=buttonDel
 	
-	def setListBoxAction(self,listbox):#Main.py et WinModification.py transmet le listbox d'Action a commun.py
+	def setListBoxAction(self,listbox):#WinTraining.py et WinModification.py transmet le listbox d'Action a commun.py
 		self.listAction=listbox
 		
-	def setSizeScreen(self,width,height):#Main.py et WinModification.py transmet la size d'écran a commun.py
+	def setSizeScreen(self,width,height):#WinTraining.py et WinModification.py transmet la size d'écran a commun.py
 		self.screen_width=width
 		self.screen_height=height
 	
-	def setListBoxFiles(self,listbox):#Main.py et WinModification.py transmet le listbox de Fichier a commun.py
+	def setListBoxFiles(self,listbox):#WinTraining.py et WinModification.py transmet le listbox de Fichier a commun.py
 		self.listFiles=listbox
 		
-	def setCadre(self,cadre):#Main.py et WinModification.py transmet le Canvas a commun.py
+	def setCadre(self,cadre):#WinTraining.py et WinModification.py transmet le Canvas a commun.py
 		self.cadre=cadre
 		
 	def changeColRect(self,drawRect): #quand on appuie le button comfirmer, le couleur des rectangles choisis seront changés
@@ -146,18 +148,13 @@ class FunctionCommun:
 			self.listActionRect[key]=newListActionRect[key]
 		self.listFileWithActionRect[self.currentSelectedFile]=self.listActionRect
 
-	"""def onFinal(self,event):
-		self.drawRect.leftOnFinal(event)
-		self.buttonDelete.config(state =tk.ACTIVE)
-		self.buttonConfirme.config(state =tk.ACTIVE)"""
-
 		
-	def resizeImg(self,index,cadre):
+	def resizeImg(self,index,cadre): #redimensionner la taille d'image pour afficher, si l'image est trop grande que le canvas
 		self.cadre=cadre #mettre le canvas
 		dicimg={}
 		img=Image.open(self.listPath[int(index)]) #ovrir l'image
 		wd,hg=img.size
-		mwd=self.screen_width
+		mwd=self.screen_width #s'il y a un pb de redimmentsionner l'image, peut être il faut mettre *0.6
 		mhg=self.screen_height
 		#resize image
 		if wd>mwd : #si largeur de photo est plus grand que le largeur de Canvas
@@ -199,7 +196,6 @@ class FunctionCommun:
 		self.cadre.bind('<ButtonPress-1>', self.drawRect.leftOnStart)  
 		self.cadre.bind('<B1-Motion>',     self.drawRect.leftOnGrow)   
 		self.cadre.bind('<Double-1>',      self.drawRect.leftOnClear)
-		
 		self.cadre.bind('<ButtonRelease-1>', self.drawRect.leftOnFinal)
 		#self.cadre.bind('<ButtonPress-3>', self.drawRect.rightOnStart)
 		#self.cadre.bind('<B3-Motion>',     self.drawRect.rightOnMove)
@@ -360,11 +356,11 @@ class FunctionCommun:
 			
 
 
-	############################# Barre menu 
-	def newProjet(self):
+	############################# Barre menu ############
+	def newProjet(self): #fonctions de NewProjet sur le barre de menu
 		self.numPage=0
 		choice = self.chooseFile()
-		if choice > 0:
+		if choice > 0: #si on a choisi un fichier
 			self.xmlProjet,start=xl.newProjet(self.nameProjet)
 			if not start: #ecrire la tête de la queue dans xml et le nom de projet et numero de page dans elemSave.txt
 				page=xl.addPage('imgFromPdf/' + self.nameProjet+ '/'+ self.nameProjet + 'page-0.png',self.numPage,self.xmlProjet)
@@ -402,6 +398,7 @@ class FunctionCommun:
 			if len(listProjet.curselection())!=0 :
 				self.nameProjet =listProjet.get(listProjet.curselection()[0])  #recuperer le nom de projet que nous avons choisit
 				self.numPage=gs.getAvancementProjet(self.nameProjet) 
+				self.currentIndex=self.numPage
 				self.listFiles.selection_set(int(self.numPage))
 				self.reloadImg()
 				self.resizeImg(int(self.numPage),self.cadre)#re
@@ -431,18 +428,11 @@ class FunctionCommun:
 							else:
 								list3.append('gray')
 							list3.append(None) #couleur de fill
-							#print("list3 "+str(list3))
 							listInitial[str(list2[1])+'-'+str(list2[2])]=list3
-							#print("listInitial  "+str(listInitial))
 						else:
 							listInitial={}
-					self.listFileWithActionRect[listFileInListbox[i]]=listInitial
-				#print("listFilewithaCTIONrECT " +str(self.listFileWithActionRect))
-				#for file in listFiles.get(0,tk.END):
-				#	listFileWithActionRect[file]=listInitial
-				#print('listFileWithActionRect ' +str(listFileWithActionRect)) 
+					self.listFileWithActionRect[listFileInListbox[i]]=listInitial #stocker tous les fichiers, les actions de ces ficheirs,et les coordonnees de rectangles d'action 
 				self.recharge()
-				#deselectAll()
 				self.selectAll()
 				rootpop.destroy()
 				rootpop.quit()
@@ -451,13 +441,11 @@ class FunctionCommun:
 	
 		rootpop.mainloop()
 	
-	def saveModif(self,nameProjet,numPage,scale):
+	def saveModif(self,nameProjet,numPage,scale): #pour la fenêtre WinModification.py, quand on modifie les erreurs, on utilise cette fonction pour enregistrer au lieu de save()
 		pathXml ="DrawOnImage/workshop_test/"+ nameProjet +"/"
 		self.xmlEdit=etree.Element(nameProjet)
 		self.numPage=numPage
-		print("saveModif " +str(self.numPage))
 		page = xl.addPage('page-'+str(self.numPage)+'.png',self.numPage,self.xmlEdit)
-		#page = xl.foundPage(self.nameProjet, self.numPage,self.xmlEdit)
 		sizelist=self.listAction.size()
 		listItems=self.listAction.get(0,tk.END)
 		for k in range (0,sizelist) :
@@ -474,17 +462,13 @@ class FunctionCommun:
 			with open(pathXml + '/' + 'page-'+ str(numPage) +'.png-Unlabelled.xml','w') as fichier:
 				fichier.write(etree.tostring(self.xmlEdit,pretty_print=True).decode('utf-8'))#xmlProjet
 				fichier.close()
-		pathIMG='page-'+ str(numPage) +'.png'#'imgFromPdf/' + nameProjet+ '/'+ nameProjet+
+		pathIMG='page-'+ str(numPage) +'.png'
 		ei.drawIm(pathIMG,nameProjet,scale)
 		
 	def getCoordsFromXml(self,pathImg,nameprojet,numPage,scale):
-		#global xmlProjet
-		#xmlProjet=xl.getExistingXml(nameprojet)
 		self.xmlProjet=xl.getXmlToModif(nameprojet,numPage)
-		#self.getxmlProjet=xl.getXmlToModif(nameprojet,numPage)#xl.getExistingXml(nameprojet)
 		listInitial={}
-		list1=xl.getRectForModification(nameprojet,pathImg,self.xmlProjet,scale)
-		#print("list1 " +str(list1))
+		list1=xl.getRectForModification(nameprojet,pathImg,self.xmlProjet,scale) #recuperer les rects depuis les fichiers XML
 		for i in range(0,len(list1)):
 			list2=list1[i]
 			list3=[]
@@ -506,52 +490,13 @@ class FunctionCommun:
 			listInitial[str(list2[1])+'-'+str(list2[2])]=list3
 		(path1,path2,nameFile)=pathImg.split('/')
 		self.currentSelectedFile=nameFile
-		#print("current file " +str(self.currentSelectedFile))
 		self.listFileWithActionRect[nameFile]=listInitial
-		listModif=self.listFileWithActionRect[nameFile]
-		#print(str(listInitial))
+		listModif=self.listFileWithActionRect[nameFile]#stocker les données qu'on a récupéré par xml dans la liste pour qu'on puisse utiliser après
 		for key in listModif:
 			self.listAction.insert(tk.END,key)
 		self.selectAll(nameFile)
 		
-		'''
-		def getCoordsFromXml(self,pathImg,projet):
-		global xmlProjet
-		xmlProjet=xl.getExistingXml(projet)
-		self.getxmlProjet=xl.getExistingXml(projet)
-		listInitial={}
-		list1=xl.getRectForModification(projet,pathImg,self.getxmlProjet)
-		#print("list1 " +str(list1))
-		for i in range(0,len(list1)):
-			list2=list1[i]
-			list3=[]
-			list3.append(int(list2[3]))
-			list3.append(int(list2[4]))
-			list3.append(int(list2[5]))
-			list3.append(int(list2[6]))
-			list3.append(None)
-			list3.append(2)
-			if list2[1] =='Titre':
-				list3.append('red')
-			elif list2[1] =='Lettrine' :
-				list3.append('blue')
-			elif list2[1]=='Image':
-				list3.append('green')
-			else:
-				list3.append('gray')
-			list3.append(None)
-			listInitial[str(list2[1])+'-'+str(list2[2])]=list3
-		(path1,path2,nameFile)=pathImg.split('/')
-		self.currentSelectedFile=nameFile
-		#print("current file " +str(self.currentSelectedFile))
-		self.listFileWithActionRect[nameFile]=listInitial
-		listModif=self.listFileWithActionRect[nameFile]
-		#print(str(listInitial))
-		for key in listModif:
-			self.listAction.insert(tk.END,key)
-		self.selectAll(nameFile)'''
-		
-	def save(self):
+	def save(self): 
 		if not(xl.pageExist(self.nameProjet, str(self.numPage),self.xmlProjet)) :
 			page = xl.addPage(str(self.listPath[int(self.numPage)]),self.numPage,self.xmlProjet)
 			
@@ -582,62 +527,35 @@ class FunctionCommun:
 				if not(xl.sameType(self.nameProjet, self.numPage, numElem, typeEl,self.xmlProjet)):
 					self.xmlProjet=xl.replace(self.nameProjet, self.numPage, numElem, typeEl,self.xmlProjet)
 			self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
-		#nextPage()
-	def openModif(self,nameProjet,numPage,dimention):
+		
+	def openModif(self,nameProjet,numPage,dimention): #ovrir la fenêtre de WinModification
 		import WinModification as modif
 		root=tk.Toplevel()
-		#global self.nameProjet
 		self.nameProjet=nameProjet
 		self.numPage=numPage
-		#var=tk.StringVar()
-		#var.set("Paragraphe")
-		#numPage=0	
-		#pathImg='imgFromPdf/TD3/TD3page-0.png'
-		#selection=self.listFiles.curselection()############### ca marche
-		#print(str(selection))
-		#print("all path " +str(self.listPath))
-		#print("path " +str(self.listPath[selection[0]]))
-		#print("nameprojet " +str(self.nameProjet))
-		#nameProjet='TD3'
-		#modif.creatWin(root,self.listPath[selection[0]],self.nameProjet)
-		#self.isWinModif=True
 		def callback():
 			from UseCheminDeFer import mainSeeResult as msr# a changer pour le nom aussi
 			root.destroy()
 			msr.creatChemin(self.nameProjet,dimention,True)
 			
-		root.protocol("WM_DELETE_WINDOW",callback)
-		print("openModif " +str(numPage))
-		modif.creatWin(root,self.nameProjet,numPage,dimention)#,self.listPath[selection[0]]
+		root.protocol("WM_DELETE_WINDOW",callback) #s'il detecte la fenêtre qui est fermé, il va détruire la fenêtre de WinModification, ouvrir la fenêtre MainSeeResult(chemin de fer)
+		modif.creatWin(root,self.nameProjet,numPage,dimention)
 		
 	
 	# parcours choit du fichier
 	def chooseFile(self):
-		#choice=fenetre.FileDialog(tf.msoFileDialogOpen)
-		choice = tf.askopenfilenames(filetypes=[("pdf files","*.pdf")],multiple=0) #fichier uniquement
-		print("choice " +str(choice))
-		#choice = tf.askdirectory()  #repertoire uniquement
-		#defaultextension='.png'
-		#filetypes=[('BMP FILES','*.bmp')]#pas sure
-		#filetypes=[('PNG FILES','*.png')]
-		#("JPEG",'*.jpg')
-		#print(choice)
-		#choiceBoth=tf.
-		#os.listdir #pour recupereelement d'un dosier
+		choice = tf.askopenfilenames(filetypes=[("pdf files","*.pdf")],multiple=0) #fichier pdf uniquement #il faut l'améliorer, on ne veut pas sélectionner multiple fichiers
 		nbSelected=len(choice)
-		print("length "+str(nbSelected))
 		listImg=0
 		#recupere le nom apartir du chemin
 		for i in range (0,nbSelected):
 			ext = os.path.splitext(choice[i])[1]
 			nomExt=basename(choice[i])
-			#nom=choice[i]
 			nom=os.path.splitext(nomExt)[0]
 			if ext == '.pdf':
-				#global nameProjet
 				self.nameProjet=nom
 				listImg = pti.pdfToPng(choice[i],self.nameProjet,60)#30==resolution base 90 resol haut
-			else:
+			else: #si c'est pas un fichier pdf, il affiche un messagebox, et relancer la fonction newProjet pour choisir un bon fichier de projet 
 				messagebox.showinfo(title="Erreur",message="Type de fichier doit être Pdf")
 				self.newProjet()
 				
@@ -645,7 +563,6 @@ class FunctionCommun:
 				
 	def deepLearnig(self):
 		if not(gs.cheminIsDone(self.nameProjet)):
-			print('creeation de cdf')
 			from DrawOnImage import Segmentation as sg
 			sg.Segm(self.nameProjet, self.numberPage)#nombre de page il et calculer dans pdfToimage
 			from DrawOnImage import Classification as cl
@@ -671,9 +588,7 @@ class FunctionCommun:
 		
 
 		
-	def recharge(self):
-		#global currentSelectedFile,lastSelectedFile,listActionRect
-		#global selectedAction
+	def recharge(self): #si les contenus de listFileWithActionRect sont changés, recharger les nouvelles contenues dans la liste
 		if self.currentSelectedFile is not None:
 			if len(self.listFiles.curselection())!=0 :
 				self.lastSelectedFile=self.currentSelectedFile
@@ -682,55 +597,25 @@ class FunctionCommun:
 					self.listAction.delete(0,tk.END)
 					newListActionRect={}
 					self.listActionRect=newListActionRect
-					#mapAction=getMapActionRect(currentSelectedFile)
 					mapActionRect=self.listFileWithActionRect[self.currentSelectedFile]
 					if mapActionRect is not None :
-						#print("mapActionRect isn't none")
 						for key in mapActionRect :
 							self.listAction.insert(tk.END,key)
-							#print(mapActionRect[key])
 							self.listActionRect[key]=mapActionRect[key]
-							#print(str(listActionRect[key]))
-				#else:
-				#    print("is none")
 		else:
 			self.currentSelectedFile=self.listFiles.get(self.listFiles.curselection())
-		#print("current file    ?!"+str(self.currentSelectedFile))
 			
-	def onselect(self,evt):
-		#global drawRect,newImg,currentSelectedFile,lastSelectedFile,listActionRect
-		#cadre=tk.Canvas(c,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=screen_width-600,height=screen_height-25,bg="black")#,bg="black"
-		#cadre=tk.Label(f,yscrollcommand=vsb.set, xscrollcommand=hsb.set,width=320,height=240,bg="green")
-		#cadre=tk.Canvas(root,width=screen_width-500,height=screen_height,bg="black")
-		#dicimg = {}
-		#selection = listFiles.curselection()
-		#print(selection[0])
+	def onselect(self,evt): #quand on click dans listbox Files
 		w=evt.widget
 		if len(w.curselection())!=0 :
-			index = int(w.curselection()[0])
-			#global numPage
-			self.numPage=index
-			#value = w.get(index)
-			#print(index)
+			if gs.projetExist(self.nameProjet):
+				gs.update(self.nameProjet,str(int(self.currentIndex)+1))
+			else :
+				gs.writeInText(self.nameProjet,self.currentIndex+1)
+			self.save()
+			self.lastIndex=self.currentIndex
+			self.currentIndex = int(w.curselection()[0])
+			self.numPage=self.currentIndex
 			self.recharge()
-			self.resizeImg(index,self.cadre)
+			self.resizeImg(self.currentIndex,self.cadre)
 			self.selectAll()
-			"""if currentSelectedFile != listFiles.get(listFiles.curselection()):
-					listAction.delete(0,tk.END)
-					listAction.insert(tk.END,var.get()+'-'+str(nbConfirm))
-					print("different")"""
-			"""list=[]
-			list=dict[selection]
-			selectedAction=cadre.create_rectangle(list[0],list[1],list[0]+list[2],list[1]+list[3],width=5)"""
-			#zoneImage.grid(row=2,column=5000,rowspan=2,columnspan=8,sticky=tk.E)#,padx=20,pady=20
-			#cadre.grid(row=2,column=500,rowspan=2,columnspan=30,sticky=tk.E)# padx=20,pady=20,
-			#cadre.grid(row=0,column=1,sticky=tk.S)
-			#cadre.create_window(0, 0,  window=f)
-			#cadre.create_window(0,0,window=f1)
-			#c.create_window(1,0,window=cadre)
-			#f.update_idletasks()
-			#f1.grid(row=0,column=0,sticky=tk.W+tk.S)
-			#cadre.update_idletasks()
-			#zoneImage.grid(row=0,column=1,rowspan=2,columnspan=8,sticky=tk.E )
-			#cadre.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
-			#cadre.config(scrollregion=cadre.bbox("all"))
