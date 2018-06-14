@@ -134,7 +134,8 @@ fButtons=tk.Frame(f1, bg=func.colorDefault)
 buttonDelete=tk.Button(fButtons,text="Supprimer",command=func.deleteSelection, state =tk.DISABLED)
 
 def deSelect():
-	func.de_select
+	func.de_select()
+	print(len(listAction.curselection()))
 	if len(listAction.curselection())!=0:
 		buttonDelete.config(state =tk.ACTIVE)
 	else:
@@ -155,7 +156,7 @@ fButtons.grid(row=7,column=0,pady=20)
 
 
 def onSelectAction(event):
-	func.onSelectAction
+	func.onSelectAction()
 	if len(listAction.curselection())!=0:
 		buttonDelete.config(state =tk.ACTIVE)
 	else:
