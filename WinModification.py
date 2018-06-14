@@ -12,6 +12,7 @@ import commun as co
 
 numPage=0
 
+#creation de la fenetre de modification
 def creatWin(root,nameProjet,numIm,dimention):
 	global numPage
 	numPage=numIm
@@ -84,7 +85,7 @@ def creatWin(root,nameProjet,numIm,dimention):
 	cadre=tk.Canvas(c, bg=func.colorDefault, bd=-2)
 	cadre.grid(row=0,column=1)
 	scale=func.setImageForModif(pathIMG,cadre) ##récupérer le scale pour les coordonnees car les images sont redimensionnées, il faut redimensionner les coordonnees des rectangles aussis. sinon les rectangles sont affichés pas sur le bon endroit
-	func.getCoordsFromXml(pathIMG,nameProjet,numIm,scale) ##
+	func.getCoordsFromXml(pathIMG,nameProjet,numIm,scale) 
 	root.mainloop()
 	
 

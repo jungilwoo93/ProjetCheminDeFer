@@ -83,9 +83,9 @@ def drawIm(nameProjet):
 				else:
 					color='blue'#(0,0,255)
 					listLettrine.append([int(self.x[i]),int(self.y[i]),int(self.w[i])+int(self.x[i]),int(self.h[i])+int(self.y[i])])
-				draw.text((int(self.x[i])-15,int(self.y[i])-15),self.types[i],fill=color)#self.types[i]'''
+				draw.text((int(self.x[i])-15,int(self.y[i])-15),self.types[i],fill=color)
 				#pour avoir un rectangle avec une plus grande epaiseur -> plusieur 
-				draw.rectangle((int(self.x[i]),int(self.y[i]),int(self.w[i])+int(self.x[i]),int(self.h[i])+int(self.y[i])), fill=None, outline=color)#, width=5
+				draw.rectangle((int(self.x[i]),int(self.y[i]),int(self.w[i])+int(self.x[i]),int(self.h[i])+int(self.y[i])), fill=None, outline=color)
 				draw.rectangle((int(self.x[i])-1,int(self.y[i])-1,int(self.w[i])+int(self.x[i])+1,int(self.h[i])+int(self.y[i])+1), fill=None, outline=color)
 				draw.rectangle((int(self.x[i])+1,int(self.y[i])+1,int(self.w[i])+int(self.x[i])-1,int(self.h[i])+int(self.y[i])-1), fill=None, outline=color)
 				draw.rectangle((int(self.x[i])-2,int(self.y[i])-2,int(self.w[i])+int(self.x[i])+2,int(self.h[i])+int(self.y[i])+2), fill=None, outline=color)
@@ -113,15 +113,10 @@ def drawIm(nameProjet):
 	book = Workbook()
 	page1 = book.add_sheet('feuille 1',cell_overwrite_ok=True)
 	page1.write(0,0,'coordonnée unique ')
-	#wb = xlrd.open_workbook(pathOfExcel)
+
 	
 	img13=imgData(13)
 	img13.run()
 	page1.col(0).width = 10000
 	book.save('fichiersExcel/' + nameProjet + '.xls')
 
-
-
-#draw.rectangle((10, 10, 30, 30), fill=None, outline=(255, 0, 0))
-
-#drawIm('Batch')    

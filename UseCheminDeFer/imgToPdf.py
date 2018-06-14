@@ -10,13 +10,12 @@ import tkinter.filedialog as tf
 import os
 
 
-
+#choisir l'enplacement où se faire la sauvegarde
 def ChooseWhereSave():
 	f=tf.asksaveasfile(
 		title="Enregistrer sous …",
 		filetypes=[('PDF files','.pdf')],
-		defaultextension=".pdf")
-	#print(f.name) 
+		defaultextension=".pdf") 
 	return f.name
 	
 
@@ -55,6 +54,7 @@ def pngToPdf(nameProjet,dimention,isFull,pathSave):
 		y=0+marge
 	pdf.output(pathSave, "F")
 
+#recuperer la liste des images
 def getImg(nameProjet, isFull):
 	if isFull:
 		rect='fullRect'

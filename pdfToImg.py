@@ -35,6 +35,6 @@ def splitPath(path): #couper les paths
 	(shotName,extension) = os.path.splitext(tempfileName)
 	return shotName
 	
-
+#retourne le nombre de pade du pdf 
 def getCountPage():#path
 	return numberPage
