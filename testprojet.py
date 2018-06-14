@@ -135,17 +135,30 @@ buttonDelete=tk.Button(fButtons,text="Supprimer",command=func.deleteSelection, s
 
 def deSelect():
 	func.de_select()
-	print(len(listAction.curselection()))
 	if len(listAction.curselection())!=0:
 		buttonDelete.config(state =tk.ACTIVE)
 	else:
 		buttonDelete.config(state =tk.DISABLED)
 
+def nextPage():
+	func.nextPage()
+	if len(listAction.curselection())!=0:
+		buttonDelete.config(state =tk.ACTIVE)
+	else:
+		buttonDelete.config(state =tk.DISABLED)
+
+def lastPage():
+	func.lastPage()
+	if len(listAction.curselection())!=0:
+		buttonDelete.config(state =tk.ACTIVE)
+	else:
+		buttonDelete.config(state =tk.DISABLED)
+		
 ################ button pour confirmer le choix des element de la page ##############
 
-buttonDeselect=tk.Button(fButtons,text="Deselect/Select all",command=func.de_select, state =tk.DISABLED)
-buttonLast=tk.Button(fButtons,text="Précédent",command=func.lastPage, state =tk.DISABLED)
-buttonSave=tk.Button(fButtons,text="Enregistrer et Suivant",command=func.nextPage, state =tk.DISABLED)
+buttonDeselect=tk.Button(fButtons,text="Deselect/Select all",command=deSelect, state =tk.DISABLED)
+buttonLast=tk.Button(fButtons,text="Précédent",command=lastPage, state =tk.DISABLED)
+buttonSave=tk.Button(fButtons,text="Enregistrer et Suivant",command=nextPage, state =tk.DISABLED)
 
 buttonLast.grid(row=0,column=2,padx=20,sticky=tk.S)
 buttonDeselect.grid(row=0,column=0,padx=20,sticky=tk.S)
@@ -177,6 +190,10 @@ def continueProj():
 		buttonLast.config(state =tk.ACTIVE)
 		buttonSave.config(state =tk.ACTIVE)
 		buttonDeselect.config(state =tk.ACTIVE)
+		if len(listAction.curselection())!=0:
+			buttonDelete.config(state =tk.ACTIVE)
+		else:
+			buttonDelete.config(state =tk.DISABLED)
 		
 def newProj():
 	func.newProjet()
@@ -187,6 +204,10 @@ def newProj():
 		buttonLast.config(state =tk.ACTIVE)
 		buttonSave.config(state =tk.ACTIVE)
 		buttonDeselect.config(state =tk.ACTIVE)
+		if len(listAction.curselection())!=0:
+			buttonDelete.config(state =tk.ACTIVE)
+		else:
+			buttonDelete.config(state =tk.DISABLED)
 
 
 ##########barre de menu
@@ -206,9 +227,14 @@ cadre=tk.Canvas(c, bg=func.colorDefault, bd=-2)
 cadre.grid(row=0,column=1)
 
 func.setCadre(cadre)
+def onSelect(event):
+	func.onselect(event)
+	if len(listAction.curselection())!=0:
+		buttonDelete.config(state =tk.ACTIVE)
+	else:
+		buttonDelete.config(state =tk.DISABLED)
 
-
-listFiles.bind('<<ListboxSelect>>', func.onselect)  #green
+listFiles.bind('<<ListboxSelect>>', onSelect)  #green
 
 
 
