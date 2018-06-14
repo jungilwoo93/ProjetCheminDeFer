@@ -8,6 +8,7 @@ Created on Mon May  7 16:26:16 2018
 #la conversion de pdf en image png et le traitement d'image sont trop lents, peut être on peut ajouter une barre de progression
 #ajouter un button pour afficher tous les rectangles ou les cacher, au lieu de selectionner tous pour afficher
 import tkinter as tk
+from tkinter import messagebox
 from PIL import Image, ImageFont, ImageDraw, ImageTk
 import os
 from os.path import basename
@@ -534,9 +535,13 @@ class FunctionCommun:
 		self.nameProjet=nameProjet
 		self.numPage=numPage
 		def callback():
-			from UseCheminDeFer import mainSeeResult as msr# a changer pour le nom aussi
-			root.destroy()
-			msr.creatChemin(self.nameProjet,dimention,True)
+			question=messagebox.askyesno('Question','Ouvrir la fenêtre de Chemin de Fer')
+			if question:
+				from UseCheminDeFer import mainSeeResult as msr# a changer pour le nom aussi
+				root.destroy()
+				msr.creatChemin(self.nameProjet,dimention,True)
+			else:
+				root.destroy()
 			
 		root.protocol("WM_DELETE_WINDOW",callback) #s'il detecte la fenêtre qui est fermé, il va détruire la fenêtre de WinModification, ouvrir la fenêtre MainSeeResult(chemin de fer)
 		modif.creatWin(root,self.nameProjet,numPage,dimention)
