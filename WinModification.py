@@ -50,10 +50,6 @@ def creatWin(root,nameProjet,numIm,dimention):
 	labelAction.config(font=('Arial',18))
 	labelAction.grid(row=3,column=0,pady=5,sticky=tk.W)
 	
-	
-	#listAction = tk.Listbox(f1,width=70,height=8,selectmode=tk.MULTIPLE)
-	#listAction.grid(row=4,column=0,pady=5)
-	
 	listFrame2=tk.Frame(f1)
 	###################### scrollbar vertical et horizontal
 	yDefilB = tk.Scrollbar(listFrame2, orient='vertical')
@@ -87,10 +83,8 @@ def creatWin(root,nameProjet,numIm,dimention):
 	fImg.grid(row=0,column=1,sticky=tk.N+tk.S)
 	cadre=tk.Canvas(c, bg=func.colorDefault, bd=-2)
 	cadre.grid(row=0,column=1)
-	scale=func.setImageForModif(pathIMG,cadre)
-	#func.setActionToListbox(pathIMG,nameProjet)
-	func.getCoordsFromXml(pathIMG,nameProjet,numIm,scale)
-	
+	scale=func.setImageForModif(pathIMG,cadre) ##récupérer le scale pour les coordonnees car les images sont redimensionnées, il faut redimensionner les coordonnees des rectangles aussis. sinon les rectangles sont affichés pas sur le bon endroit
+	func.getCoordsFromXml(pathIMG,nameProjet,numIm,scale) ##
 	root.mainloop()
 	
 

@@ -12,9 +12,10 @@ import xml.etree as xe
 import xml.etree.cElementTree as ET
 import xml.dom.minidom as dm
 
+
 #recupere un xml déjà cree   
 def getExistingXml(nameProjet):
-		tree = le.parse('DrawOnImage/XmlTrainingData/' + nameProjet + '.xml')#str(nameProjet) +
+		tree = le.parse('DrawOnImage/XmlTrainingData/' + nameProjet + '.xml')
 		root = tree.getroot()
 		return root
 
@@ -27,6 +28,7 @@ def getXmlToModif(nameProjet,numPage):
  
     
 #verifie l'exisance d'un fichier
+
 def checkFileExiste(nameFile):
     return os.path.exists(nameFile)
 
@@ -71,12 +73,10 @@ def addElement(typeEl, idEl, posiX, posiY, widthEl, heightEl, nameProjet, numPag
 	element = etree.SubElement(page,'element')
 	element.set('type',typeEl)#recurere le typele l'element de la liste
 	element.set('id',str(idEl))
-    
 	posX = etree.SubElement(element,'posX')
 	posX.text= str(posiX)
 	posY = etree.SubElement(element,'posY')
 	posY.text= str(posiY)
-    
 	width = etree.SubElement(element,'width')
 	width.text= str(widthEl)
 	height = etree.SubElement(element,'height')
@@ -99,6 +99,7 @@ def delectPage(nameProjet,numPage,xmlProjet):
 		if e.attrib['id']==str(numPage) :
 			xmlProjet.remove(e)
 			return xmlProjet
+
 
 
 #changer le type d'un element
@@ -192,7 +193,8 @@ def getRectModif(nameProjet,numPage,xmlProjet,scale):
 				numR+=1
 	return listRect
 	
-#trover la bonne page pour modification
+
+#trouver la bonne page pour modification
 def getRectForModification(name,pathImg,xmlProjet,scale):
 	num = None
 	allPage=findAllPage(xmlProjet)
