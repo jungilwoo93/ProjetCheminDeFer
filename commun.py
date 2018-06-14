@@ -343,9 +343,8 @@ class FunctionCommun:
 		
 		
 		
-	def lastPage(self):
+	def lastPage(self): #button Précédent 
 		self.save()
-		#global numPage
 		if gs.projetExist(self.nameProjet):
 			gs.update(self.nameProjet,int(self.numPage)-1)
 		else :
@@ -353,7 +352,6 @@ class FunctionCommun:
 		if int(self.numPage)>0 :
 			self.numPage=int(self.numPage)
 			self.numPage -= 1
-			#print(numPage)
 			self.listFiles.selection_clear(0, tk.END)
 			self.listFiles.selection_set(int(self.numPage))
 			self.recharge()
@@ -364,15 +362,11 @@ class FunctionCommun:
 
 	############################# Barre menu 
 	def newProjet(self):
-		#global numPage
 		self.numPage=0
 		choice = self.chooseFile()
-		#global xmlProjet
-		print('on fait un new projet')
 		if choice > 0:
 			self.xmlProjet,start=xl.newProjet(self.nameProjet)
-			if not start:
-				print('pas start')
+			if not start: #ecrire la tête de la queue dans xml et le nom de projet et numero de page dans elemSave.txt
 				page=xl.addPage('imgFromPdf/' + self.nameProjet+ '/'+ self.nameProjet + 'page-0.png',self.numPage,self.xmlProjet)
 				self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
 				gs.writeInText(self.nameProjet,self.numPage)
@@ -383,7 +377,7 @@ class FunctionCommun:
 	def continueProjet(self):
 		#fenêtre pour choisir le projet
 		rootpop = tk.Tk()
-		rootpop.title("choisit le projet")
+		rootpop.title("Choisit le projet")
 		listFrame=tk.Frame(rootpop)
 		
 		yDefilB = tk.Scrollbar(listFrame, orient='vertical')
@@ -394,13 +388,9 @@ class FunctionCommun:
 		listProjet = tk.Listbox(listFrame,
 			xscrollcommand=xDefilB.set,
 			yscrollcommand=yDefilB.set,width=70,height=15,selectmode=tk.SINGLE,exportselection=0)    
-		listProjet.grid(row=0)#'nsew'
-		#listFiles.pack(side="left",fill="y")  
+		listProjet.grid(row=0) 
 		xDefilB['command'] = listProjet.xview
 		yDefilB['command'] = listProjet.yview    
-		#global xl.xmlProjets
-		#xl.duplicationProjet()
-		#print(len(xl.listProjets))
 		Projetlist=gs.getListProjet()
 		for i in range (0 ,len(Projetlist)):
 			listProjet.insert(1,Projetlist[i])
@@ -409,9 +399,6 @@ class FunctionCommun:
 
 
 		def projetToContinu(evt):   
-			#global nameProjet,numPage,xmlProjet,currentSelectedFile
-			#nameProjet=listProjet.curselection()
-			#rootpop.destroy
 			if len(listProjet.curselection())!=0 :
 				self.nameProjet =listProjet.get(listProjet.curselection()[0])  #recuperer le nom de projet que nous avons choisit
 				self.numPage=gs.getAvancementProjet(self.nameProjet) 
@@ -423,14 +410,10 @@ class FunctionCommun:
 				listFileInListbox = self.listFiles.get(0,tk.END) #recuperer tous les noms de fichier dans listbox 
 				for i in range(0,len(listFileInListbox)):
 					list1=xl.getRect(self.nameProjet,i,self.xmlProjet)
-					#print("list1 " +str(list1))
 					listInitial={}
 					for k in range(0,len(list1)):
-						list2=list1[k]	
-						#print("list2 "+str(list2))
-						#print(str(int(list2[0]))+'=?'+str(i))
+						list2=list1[k]
 						if int(list2[0]) == i :
-							#print("coucou")
 							list3=[]
 							list3.append(int(list2[3])) #x
 							list3.append(int(list2[4])) #y
