@@ -106,7 +106,7 @@ zoneRadioButton.grid(row=3,sticky=tk.W,pady=5)
 
 ################ button pour comfirmer le choix avec la zone choisit sur image
 buttonConfirm=tk.Button(f1,text="Confirmer",command=func.confirmer, state =tk.DISABLED)
-buttonConfirm.grid(row=4,column=0,pady=5,sticky=tk.S)
+#buttonConfirm.grid(row=4,column=0,pady=5,sticky=tk.S)
 
 ################ listebox pour les Actions
 labelAction=tk.Label(f1,text="Les actions : ", bg=func.colorDefault)
@@ -166,12 +166,15 @@ def lastPage():
 buttonDeselect=tk.Button(fButtons,text="Deselect/Select all",command=deSelect, state =tk.DISABLED)
 buttonLast=tk.Button(fButtons,text="Précédent",command=lastPage, state =tk.DISABLED)
 buttonSave=tk.Button(fButtons,text="Enregistrer et Suivant",command=nextPage, state =tk.DISABLED)
+func.setButton(buttonConfirm,buttonDelete)
 
+buttonConfirm.grid(row=4,column=0,pady=5,sticky=tk.S)
 buttonLast.grid(row=0,column=2,padx=20,sticky=tk.S)
 buttonDeselect.grid(row=0,column=0,padx=20,sticky=tk.S)
 buttonDelete.grid(row=0,column=1,padx=20,sticky=tk.S)
 buttonSave.grid(row=0,column=3,padx=20,sticky=tk.S)
 fButtons.grid(row=7,column=0,pady=20)
+
 
 
 
@@ -219,10 +222,18 @@ def newProj():
 			buttonDelete.config(state =tk.ACTIVE)
 			buttonConfirm.config(state =tk.ACTIVE)
 		else:
-			buttonDelete.config(state =tk.DISABLED)
 			buttonConfirm.config(state =tk.DISABLED)
-
-
+			buttonDelete.config(state =tk.DISABLED)
+			
+def createAction(event):
+	if len(listAction.curselection())!=0:
+		buttonDelete.config(state =tk.ACTIVE)
+		buttonConfirm.config(state =tk.ACTIVE)
+	else:
+		buttonDelete.config(state =tk.DISABLED)
+		buttonConfirm.config(state =tk.DISABLED)
+	
+		
 ##########barre de menu
 menufichier.add_command(label="Nouveau Projet", command=newProj)
 menufichier.add_command(label="Continuer Projet", command = continueProj) 
@@ -237,7 +248,17 @@ menufichier.add_command(label="Quitter", command=root.destroy)
 fImg=tk.Frame(c,width=screen_width*0.6,height=screen_height, bg=func.colorDefault)
 fImg.grid(row=0,column=1,sticky=tk.N+tk.S)
 cadre=tk.Canvas(c, bg=func.colorDefault, bd=-2)
+
+fButtons.bind('<Motion>', createAction)
+fImg.bind('<Motion>', createAction)
+listFrame2.bind('<Motion>', createAction)
+zoneRadioButton.bind('<Motion>', createAction)
+listFrame.bind('<Motion>', createAction)
+f1.bind('<Motion>', createAction)
+root.bind('<Motion>', createAction)
+
 cadre.grid(row=0,column=1)
+
 
 func.setCadre(cadre)
 def onSelect(event):
