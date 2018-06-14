@@ -552,7 +552,6 @@ class FunctionCommun:
 		self.selectAll(nameFile)'''
 		
 	def save(self):
-		#global xmlProjet
 		if not(xl.pageExist(self.nameProjet, str(self.numPage),self.xmlProjet)) :
 			page = xl.addPage(str(self.listPath[int(self.numPage)]),self.numPage,self.xmlProjet)
 			
@@ -560,20 +559,14 @@ class FunctionCommun:
 		else :
 			page = xl.foundPage(self.nameProjet, self.numPage,self.xmlProjet)
 		sizelist=self.listAction.size()
-		#w=evt.widget
 		listItems=self.listAction.get(0,tk.END)
-		"""for i in range(0,sizelist) :
-			(typeAction,idAction) = list1[i].split("-")
-			print("type"+typeAction)
-			print("id"+idAction)"""
-		#listActionRect[selection]
+		
+		xl.delectPage(self.nameProjet,self.numPage,self.xmlProjet)
+		page = xl.addPage(str(self.listPath[int(self.numPage)]),self.numPage,self.xmlProjet)
+		self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
+		
 		for k in range (0,sizelist) :
 			(typeAction,idAction) = listItems[k].split("-")
-			#listAction.selection_set(k)
-			#selection = listAction.curselection()
-			#typeEl = selection[0]
-			#index = int(listAction.curselection()[0])#.w
-			#recuprerton rectangle d'index k
 			self.listActionRect=self.listFileWithActionRect[self.currentSelectedFile]
 			listCoord=self.listActionRect[listItems[k]]
 			typeEl=typeAction
@@ -585,12 +578,10 @@ class FunctionCommun:
 			
 			if not(xl.reSave(self.nameProjet, self.numPage, numElem,self.xmlProjet)) :
 				xl.addElement(typeEl, numElem, posiX, posiY, widthEl, heightEl,self.nameProjet, self.numPage, self.xmlProjet)
-				self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
 			else :
-				#print(str(self.nameProjet)+' ... '+ str(self.numPage)+' ... '+ str(numElem)+' ... '+ str(typeEl)+' ... '+str(self.xmlProjet))
 				if not(xl.sameType(self.nameProjet, self.numPage, numElem, typeEl,self.xmlProjet)):
 					self.xmlProjet=xl.replace(self.nameProjet, self.numPage, numElem, typeEl,self.xmlProjet)
-					self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
+			self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
 		#nextPage()
 	def openModif(self,nameProjet,numPage,dimention):
 		import WinModification as modif

@@ -163,8 +163,16 @@ def delectElement(nameProjet,numPage,numElem,xmlProjet):
 					listChild=xmlProjet.getchildren() 
 					listChild=e.getchildren()
 					e.remove(e1)
-					return xmlProject
+					return xmlProjet
      
+	 
+def delectPage(nameProjet,numPage,xmlProjet):
+	for e in xmlProjet.findall('page'):
+		if e.attrib['id']==str(numPage) :
+			xmlProjet.remove(e)
+			return xmlProjet
+
+			
     #xmlProjet.replace(e, e)
 #    
 #    
