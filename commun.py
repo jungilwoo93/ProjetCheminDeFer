@@ -580,15 +580,20 @@ class FunctionCommun:
 
 	
 	def reloadImg(self) :
-		listImgFromPdf = os.listdir('imgFromPdf/' + self.nameProjet)
-		chrono = lambda v: os.path.getmtime(os.path.join('imgFromPdf/' + self.nameProjet, v))
-		listImgFromPdf.sort(key = chrono)
-		for k in range (0,len(listImgFromPdf)) :
-			nomExt=basename(listImgFromPdf[k])
+		#listImgFromPdf = os.listdir('imgFromPdf/' + self.nameProjet)
+		#chrono = lambda v: os.path.getmtime(os.path.join('imgFromPdf/' + self.nameProjet, v))
+		#listImgFromPdf.sort(key = chrono)
+		listImg = os.listdir('imgFromPdf/' + self.nameProjet)
+		size = len(listImg)
+		listImgOrder=[]
+		for i in range (0,size):
+			listImgOrder.append(self.nameProjet + 'page-' + str(i) + '.png')
+		for k in range (0,len(listImgOrder)) :
+			nomExt=basename(listImgOrder[k])
 			nom=os.path.splitext(nomExt)[0]
 			self.listFiles.insert(self.listFiles.size(), nom)
-			self.listPath.append('imgFromPdf/' + self.nameProjet + '/' + listImgFromPdf[k])
-		self.numberPage=len(listImgFromPdf)
+			self.listPath.append('imgFromPdf/' + self.nameProjet + '/' + listImgOrder[k])
+		self.numberPage=len(listImgOrder)
 		self.listFiles.select_set(self.numPage)#pour que ça aille a la page ou on en etait
 		
 

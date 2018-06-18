@@ -17,7 +17,7 @@ def pdfToPng(namefile,nameProjet,resol):
 		if not os.path.exists('imgFromPdf/' + nameProjet):
 			os.makedirs('imgFromPdf/' + nameProjet)
 			listImg =[]
-			with Image(filename=namefile,resolution=resol) as img: #pour resol 30 == low quality(utilisée pour l'app java) 60== high quality utilisé pour le traitement de l'img
+			with Image(filename=namefile,resolution=resol) as img: #pour resol 30 == low quality(utilisée pour l'app java) 60== high quality utilisé pour le traitement de l'imgage
 				global numberPage
 				numberPage=len(img.sequence)
 				img.compression_quality = 99
@@ -35,6 +35,6 @@ def splitPath(path): #couper les paths
 	(shotName,extension) = os.path.splitext(tempfileName)
 	return shotName
 	
-#retourne le nombre de pade du pdf 
+#retourne le nombre de page du pdf 
 def getCountPage():#path
 	return numberPage
