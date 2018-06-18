@@ -95,7 +95,6 @@ def drawIm(pathIMG,nameProjet,scale):
 					color='blue'#(100,255,0)
 					listLettrine.append((X,Y,W,H))
 				
-				print('draw rect')
 				draw.text((int(int(self.x[i])*scale-15),int(int(self.y[i])*scale-15)),self.types[i],fill=color)#self.types[i]'''
 				#plusieur rectangle pour un rectangle avec un tour plus epais
 				draw.rectangle((X,Y,W,H), fill=None, outline=color)
