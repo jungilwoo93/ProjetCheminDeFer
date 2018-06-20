@@ -38,7 +38,7 @@ def getListImg(nameProjet,rectFull):
 	return listImgOrder
 	
 #mise a jour le canvas	
-def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull,newWin):
+def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull,newWin,root):
 	global zoomImg
 	if rectFull:
 		rect='fullRect'
@@ -66,7 +66,10 @@ def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull,newWin):
 			posY+=hg+spacing
 			posX=0
 	path='UseCheminDeFer/img.jpg'
+	#new_im.resize((canva.winfo_width(),canva.winfo_height()))
 	new_im.save(path,'JPEG',quality=1000)
+	
+	
 	def callback():
 		global zoomImg
 		zoomImg=None
@@ -77,11 +80,11 @@ def setCanvas(canva,dicimg,listImg,mwd,mhg,dm,nameProjet,rectFull,newWin):
 		zoomImg=None
 	if zoomImg is None:
 		canva.wm_state('iconic')
-		zoomImg=zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet),nameProjet)
+		zoomImg=zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet),nameProjet,root)
 	else:
 		#zoomImg.deleteAllButton()
 		canva.wm_state('iconic')
-		zoomImg==zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet),nameProjet)
+		zoomImg==zi.Zoom_Advanced(canva,path,dm,getNumberImg(nameProjet),nameProjet,root)
 	canva.wm_state('normal')
 
 
@@ -94,6 +97,7 @@ def deleteCanvas(canva):
 	global listImgOfCanvas
 	for img in listImgOfCanvas:
 		canva.delete(img)
+		
 #permet de zoomer et de se deplacer sur l'image
 def zoomImage(canva, dimention):
 	zoom_ad = Zoom_Advanced(canva,path,dimention)

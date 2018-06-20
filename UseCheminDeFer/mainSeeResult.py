@@ -59,7 +59,7 @@ def creatChemin(nameProjet,dm=None,newWin=None):
 		global rectFull
 		rect=bf.fullRect(rectFull)
 		rectFull=rect
-		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull,newWin)
+		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull,newWin,root)
 	rect= tk.Menu(view,tearoff=0)
 	dim= tk.Menu(view,tearoff=0)
 	view.add_cascade(label="rectangle", menu=rect)
@@ -86,7 +86,7 @@ def creatChemin(nameProjet,dm=None,newWin=None):
 		value=nitem.get()
 		dimention[0]=value
 		dimention[1]=value
-		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull,newWin)
+		bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull,newWin,root)
 		
 		
 	#les differentes dimentions possibles
@@ -111,7 +111,7 @@ def creatChemin(nameProjet,dm=None,newWin=None):
 	posY=0
 
 	###########l'aperçu
-	bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull,newWin)
+	bf.setCanvas(root,dicimg,listImg,mwd,mhg,dimention,nameProjet,rectFull,newWin,root)
 	
 
 	root.mainloop()

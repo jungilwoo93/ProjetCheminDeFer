@@ -2,7 +2,7 @@
 """
 Created on Mon May 21 19:23:16 2018
 
-@author: Liuyan PAN
+@author: Liuyan PAN et Rachel NOIREAU
 """
 #problème:recréer trop de fois d'image et buttons
 import random
@@ -44,8 +44,9 @@ class Zoom_Advanced(ttk.Frame):
 	nameProjet='new'
 	selectClick=0
 	''' Advanced zoom of the image '''
-	def __init__(self, mainframe, path,dim,numberPage,nameProj): #constructeur
+	def __init__(self, mainframe, path,dim,numberPage,nameProj,root): #constructeur
 		''' Initialize the main Frame '''
+		self.root=root
 		self.dimention=dim
 		self.numPage=numberPage
 		self.nameProjet=nameProj
@@ -67,8 +68,8 @@ class Zoom_Advanced(ttk.Frame):
 		self.master.columnconfigure(0, weight=1)
 		# Bind events to the Canvas
 		self.canvas.bind('<Configure>', self.createButton)  # canvas is resized
-		self.canvas.bind('<ButtonPress-1>', self.move_from)
-		self.canvas.bind('<B1-Motion>',     self.move_to)
+		#self.canvas.bind('<ButtonPress-1>', self.move_from)
+		#self.canvas.bind('<B1-Motion>',     self.move_to)
 		self.canvas.bind('<MouseWheel>', self.wheel)  # with Windows and MacOS, but not Linux
 		self.canvas.bind('<Button-5>',   self.wheel)  # only with Linux, wheel scroll down
 		self.canvas.bind('<Button-4>',   self.wheel)  # only with Linux, wheel scroll up
@@ -82,6 +83,7 @@ class Zoom_Advanced(ttk.Frame):
 		self.imscale = 1.0  # scale for the canvaas image
 		self.delta = 1.3  # zoom magnitude
 		self.container = self.canvas.create_rectangle(0, 0, self.width, self.height, width=0)
+		self.initWheel()
 		self.show_image()
 	
 	def completeTab(self): #copier le text dans excel
@@ -278,8 +280,44 @@ class Zoom_Advanced(ttk.Frame):
 		self.isWheel=True
 		self.show_image()
 		self.isWheel=False
-		
 
+
+	def initWheel(self):
+		''' Zoom initiale '''
+		#x = self.canvas.canvasx(event.x)#retourne la coordonnée x du canvas
+		#y = self.canvas.canvasy(event.y)
+		bbox = self.canvas.bbox(self.container)  # get image area
+		#if bbox[0] < x < bbox[2] and bbox[1] < y < bbox[3]: pass  # Ok! Inside the image
+		#else: return  # zoom only inside image area
+		scale = 1.0
+		# Respond to Linux (event.num) or Windows (event.delta) wheel event
+		# if event.num == 5 or event.delta == -120:  # scroll down
+			# i = min(self.width, self.height)
+			# if int(i * self.imscale) < 30: return  # image is less than 30 pixels
+			# self.imscale /= self.delta
+			# scale        /= self.delta
+		# if event.num == 4 or event.delta == 120:  # scroll up
+		#i = min(self.canvas.winfo_width(), self.canvas.winfo_height())
+		#if i < self.imscale: return  # 1 pixel is bigger than the visible area
+		
+		ecran_width = self.root.winfo_screenwidth()*0.9-18
+		
+		self.imscale *=ecran_width/self.wb#self.canvas.winfo_width()
+		scale        *=ecran_width/self.wb#self.canvas.winfo_width()
+		
+		print(self.canvas.winfo_width())
+		x=0#ecran_width
+		y=0#self.canvas.winfo_height()
+		
+		self.wb*=scale
+		self.hgb*=scale
+		#self.canvas.scale(self.imageid,x,y,scale,scale)
+		self.canvas.scale(self.container,x,y,scale,scale)
+		
+		self.canvas.update() 
+		
+		
+		
 	def show_image(self, event=None):
 		''' Show image on the Canvas '''
 		bbox1 = self.canvas.bbox(self.container)  # get image area
