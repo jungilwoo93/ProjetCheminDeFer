@@ -78,7 +78,7 @@ def drawIm(nameProjet):
 			for i in range(self.dataSize-self.dataSizeCounter,self.dataSize):
 				if self.types[i]=="Titre":
 					color='red' #(225,0,0)
-				elif self.types[i]=="Paragraphe": # chaque type a un couleur 
+				elif self.types[i]=="Paragraphe": # chaque type a une couleur 
 					color='gray'#(255,100,0)
 				else:
 					color='blue'#(0,0,255)
@@ -92,14 +92,15 @@ def drawIm(nameProjet):
 				draw.rectangle((int(self.x[i])+2,int(self.y[i])+2,int(self.w[i])+int(self.x[i])-2,int(self.h[i])+int(self.y[i])-2), fill=None, outline=color)
 				draw.rectangle((int(self.x[i])-3,int(self.y[i])-3,int(self.w[i])+int(self.x[i])+3,int(self.h[i])+int(self.y[i])+3), fill=None, outline=color)
 				draw.rectangle((int(self.x[i])+3,int(self.y[i])+3,int(self.w[i])+int(self.x[i])-3,int(self.h[i])+int(self.y[i])-3), fill=None, outline=color)
-				drawFull.text((int(self.x[i])-15,int(self.y[i])-15),self.types[i],fill=color)#self.types[i]'''
+				#pour les rectangle plein
+				drawFull.text((int(self.x[i])-15,int(self.y[i])-15),self.types[i],fill=color)
 				drawFull.rectangle((int(self.x[i]),int(self.y[i]),int(self.w[i])+int(self.x[i]),int(self.h[i])+int(self.y[i])), fill=color, outline=color)
 				
 				#ecriture dans excel
 				line = page1.row(elenum-self.dataSize+i+1)
 				line.write(0,'page ' + str(numPage) + ' pos( ' + str(self.x[i]) + ' , ' + str(self.y[i]) + ' )')
 			
-			#pourvoir les lettrine même quand rectangle plein
+			#pour voir les lettrines même quand rectangle plein
 			for j in range (0,len(listLettrine)):
 				drawFull.rectangle(listLettrine[j], fill='blue', outline='blue')
 			

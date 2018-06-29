@@ -56,7 +56,7 @@ menubar.add_cascade(label="Chemin de fer", menu=cheminDeFer)
 #menufichier.add_command(label="Enregistrer", command=func.save, state =tk.DISABLED)
 #menufichier.add_separator()
 #menufichier.add_command(label="Quitter", command=root.destroy) 
-cheminDeFer.add_command(label="Crée", command=func.deepLearnig, state =tk.DISABLED)
+cheminDeFer.add_command(label="Créer", command=func.deepLearnig, state =tk.DISABLED)
 
 ############################################################ frame à gauche ####################################################
 f1=tk.Frame(c,bg=func.colorDefault,height=screen_height,width=screen_width*0.4)
