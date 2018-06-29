@@ -144,8 +144,12 @@ class CanvasEventsRect:
 			listCoord.append(self.rightstartX)
 			listCoord.append(self.rightstartY)
 		else: #sinon renvoyer la position de rect créé sans bouger
-			listCoord.append(self.startX)
-			listCoord.append(self.startY)
+			if self.startX > self.finalX:
+				listCoord.append(self.finalX)
+				listCoord.append(self.finalY)
+			else:
+				listCoord.append(self.startX)
+				listCoord.append(self.startY)
 		width=abs(self.finalX-self.startX)
 		height=abs(self.finalY-self.startY)
 		listCoord.append(width)
