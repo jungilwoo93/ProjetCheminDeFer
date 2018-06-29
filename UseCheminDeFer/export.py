@@ -16,7 +16,6 @@ numbutton=0
 
 #permet de trouver la reference corespondant a la page et de la copier dans le presse papier
 def completeTab(numButton,nameProj):
-	nameProj='Référence et page pdf Jardin apollon'
 	pathOfExcel = 'placesTesExcelAvecReferencesIci/'+nameProj+'.xlsx'
 	global numbutton
 	numbutton=numButton
