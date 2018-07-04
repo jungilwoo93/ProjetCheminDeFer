@@ -10,9 +10,9 @@ import xml.etree.cElementTree as ET
 import os
 
 
-def Segm(nameProjet,numberPage):
-	for x in range(0, numberPage):  # les images chargées pour la segmentation
-		id_img="page-"+str(x)+".png"
+def Segm(nameProjet,numberPage,numPage):
+	for i in range(0, numberPage):  # les images chargées pour la segmentation
+		id_img="page-"+str(i)+".png"
 		
 		root = ET.Element('Book',id=id_img)
 		components = ET.SubElement(root, "page")
@@ -78,6 +78,8 @@ def Segm(nameProjet,numberPage):
 		if not os.path.exists("DrawOnImage/Results/"+nameProjet):
 			os.makedirs("DrawOnImage/Results/"+nameProjet)
 		tree.write("DrawOnImage/Results/xml_results/"+nameProjet+'/'+id_img+"-Unlabelled.xml")#writing elements to an unlabelled xml(it's unlabelled since we have not classified it yet)
-		tree.write("DrawOnImage/workshop_test/"+nameProjet+'/'+id_img+"-Unlabelled.xml")
+		if int(numPage) < int(i+1)  :
+			print( 'segementation ' + str(i) )
+			tree.write("DrawOnImage/workshop_test/"+nameProjet+'/'+id_img+"-Unlabelled.xml")
 		#cv2.imwrite('DrawOnImage/bw_image.png', im_bw1)        #optionnel visuel d'une image en "mi-processing"
 		#cv2.imwrite("DrawOnImage/Results/"+nameProjet+'/'+id_img, or_im)      #optionnel image segmenter

@@ -7,10 +7,10 @@ Created on Tue May 15 09:53:46 2018
 import lxml.etree as le
 from lxml import etree
 import os.path
-import xml.etree.ElementTree as et
-import xml.etree as xe
+#import xml.etree.ElementTree as et
+#import xml.etree as xe
 import xml.etree.cElementTree as ET
-import xml.dom.minidom as dm
+#import xml.dom.minidom as dm
 
 
 #recupere un xml déjà cree   
@@ -132,7 +132,7 @@ def findAllPage(xmlProject):
 		listPage.append(e)
 	return listPage
 
-#savegarde un elemnt déjà prescedament sauvegardé
+#sauvegarde un element déjà prescedament sauvegardé
 def reSave(nameProjet, numPage, numElem, xmlProjet) :    
 	for e in xmlProjet.findall('page'):
 		if e.attrib['id']==str(numPage) :
@@ -153,7 +153,7 @@ def sameType(nameProjet, numPage, numElem, newType, xmlProjet):
 							return True
 	return False
  
-#obtenir le coordonnée des rectangle d'une page
+#obtenir le coordonnée des rectangles d'une page
 def getRect(nameProjet,numPage,xmlProjet):
 	allPage=findAllPage(xmlProjet)
 	listRect=[]
@@ -173,7 +173,7 @@ def getRect(nameProjet,numPage,xmlProjet):
 				listRect.append([numPage,typeRect,numrect,posx,posy,width,height])
 	return listRect
 
-#obtenir le coordonnée des rectangle d'une page à partir de la fenetre de modification
+#obtenir les coordonnées des rectangle d'une page à partir de la fenetre de modification
 def getRectModif(nameProjet,numPage,xmlProjet,scale):
 	allPage=findAllPage(xmlProjet)
 	listRect=[]
@@ -215,5 +215,37 @@ def getLastRectangleId(xmlProjet):
 			if int(id)>maxId:
 				maxId=id
 	return maxId+1
+	
 
 
+def foundPageSelfDone(xmlProjet) : 
+	for e in xmlProjet.findall('page'):
+		return e
+		
+#ajouter une page faite au resultat final pour etre bien sur que celle là au moins sont classé corectementet qu'il n'y ai pas besoin de corriger
+def addRectSelfDone(nameProjet, xmlProjet, idEl, type, w, h, x, y):
+	page = foundPageSelfDone(xmlProjet)
+	element = etree.SubElement(page,'element')
+	element.set('type',type)#recurere le typele l'element de la liste
+	element.set('id',str(idEl))
+	posX = etree.SubElement(element,'posX')
+	posX.text= str(x)
+	posY = etree.SubElement(element,'posY')
+	posY.text= str(y)
+	width = etree.SubElement(element,'width')
+	width.text= str(w)
+	height = etree.SubElement(element,'height')
+	height.text= str(h)
+	
+	
+def endSelfDone(nameProjet, xmlProjet, numPage):
+	path='DrawOnImage/workshop_test/'+ nameProjet
+	if not(os.path.exists('DrawOnImage/workshop_test')) :
+			os.mkdir('DrawOnImage/workshop_test')
+	if not(os.path.exists(path)) :
+		os.mkdir(path)
+	with open(path + '/page-' + str(numPage) + '.png-Unlabelled.xml','w') as fichier:
+			fichier.write(etree.tostring(xmlProjet,pretty_print=True).decode('utf-8'))#cree premiere balise
+			fichier.close()
+			
+			

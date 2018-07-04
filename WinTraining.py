@@ -249,12 +249,6 @@ fImg=tk.Frame(c,width=screen_width*0.6,height=screen_height, bg=func.colorDefaul
 fImg.grid(row=0,column=1,sticky=tk.N+tk.S)
 cadre=tk.Canvas(c, bg=func.colorDefault, bd=-2)
 
-fButtons.bind('<Motion>', createAction)
-fImg.bind('<Motion>', createAction)
-listFrame2.bind('<Motion>', createAction)
-zoneRadioButton.bind('<Motion>', createAction)
-listFrame.bind('<Motion>', createAction)
-f1.bind('<Motion>', createAction)
 root.bind('<Motion>', createAction)
 
 cadre.grid(row=0,column=1)

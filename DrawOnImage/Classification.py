@@ -15,7 +15,7 @@ import os
 
 
 
-def classif(nameProjet):
+def classif(nameProjet, numpage):
 	dataSet=[] #training dataset
 	unknownSet=[]
 
@@ -84,16 +84,19 @@ def classif(nameProjet):
 
 	def rewriteXml():
 		if len(unknownSet)!=0:
-			for x in range(0,len(unknownSet)):
+			print("nnnnuuuummmmmmppppaaaagggeee")
+			print(numpage)
+			for x in range(int(numpage), len(unknownSet)):
+				print(x)
 				tree = ET.parse('DrawOnImage/workshop_test/'+ nameProjet +'/'+unknownSet[x][4] + '-Unlabelled.xml')
 				root = tree.getroot()
 				for component in root.iter('page'):
 					for elem in component.iter('element'):
 						if elem.attrib['type']=="unknown":
 							if y_pred[x]==1:
-								elem.attrib['type']="Paragraphe"
+								elem.attrib['type'] = "Paragraphe"
 							else:
-								elem.attrib['type']="Titre"
+								elem.attrib['type'] = "Titre"
 							tree.write('DrawOnImage/workshop_test/'+ nameProjet +'/'+unknownSet[x][4] + '-Unlabelled.xml')
 							break
 

@@ -14,6 +14,7 @@ import os
 from os.path import basename
 import tkinter.filedialog as tf
 from lxml import etree
+import xml.etree.cElementTree as ET
 
 #nos autre fichiers
 import DrawRect as rect
@@ -498,19 +499,27 @@ class FunctionCommun:
 		self.selectAll(nameFile)
 		
 	def save(self): 
+		########pas sûre que utile
 		if not(xl.pageExist(self.nameProjet, str(self.numPage),self.xmlProjet)) :
 			page = xl.addPage(str(self.listPath[int(self.numPage)]),self.numPage,self.xmlProjet)
 			
 			self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
 		else :
 			page = xl.foundPage(self.nameProjet, self.numPage,self.xmlProjet)
+		#########
 		sizelist=self.listAction.size()
 		listItems=self.listAction.get(0,tk.END)
 		
-		xl.delectPage(self.nameProjet,self.numPage,self.xmlProjet)
+		xl.delectPage(self.nameProjet,self.numPage,self.xmlProjet)#####pas sûre utile
 		page = xl.addPage(str(self.listPath[int(self.numPage)]),self.numPage,self.xmlProjet)
 		self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
-		
+		if not gs.cheminIsDone(self.nameProjet):
+			id_img="page-"+str(self.numPage)+".png"
+			print('eleeeeemmmmeeeenntt crreeeeeeerrrr')
+			self.root = etree.Element('Book',id=id_img)
+			print(type(self.root))
+			page = etree.SubElement(self.root, "page")
+			print(type(page))
 		for k in range (0,sizelist) :
 			(typeAction,idAction) = listItems[k].split("-")
 			self.listActionRect=self.listFileWithActionRect[self.currentSelectedFile]
@@ -521,15 +530,22 @@ class FunctionCommun:
 			posiY=listCoord[1]
 			widthEl=listCoord[2]
 			heightEl=listCoord[3]
+		
+			if not gs.cheminIsDone(self.nameProjet):
+				xl.addRectSelfDone(self.nameProjet, self.root, numElem, typeEl, widthEl, heightEl, posiX, posiY)
+				#xl.endSelfDone(self.nameProjet, self.xmlProjet, self.numPage)
 			
 			if not(xl.reSave(self.nameProjet, self.numPage, numElem,self.xmlProjet)) :
 				xl.addElement(typeEl, numElem, posiX, posiY, widthEl, heightEl,self.nameProjet, self.numPage, self.xmlProjet)
 			else :
 				if not(xl.sameType(self.nameProjet, self.numPage, numElem, typeEl,self.xmlProjet)):
 					self.xmlProjet=xl.replace(self.nameProjet, self.numPage, numElem, typeEl,self.xmlProjet)
+					
 			self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
-		
-	def openModif(self,nameProjet,numPage,dimention): #ovrir la fenêtre de WinModification
+		print(type(self.root))
+		xl.endSelfDone(self.nameProjet, self.root, self.numPage)
+			
+	def openModif(self,nameProjet,numPage,dimention): #ouvrir la fenêtre de WinModification
 		import WinModification as modif
 		root=tk.Toplevel()
 		self.nameProjet=nameProjet
@@ -569,13 +585,13 @@ class FunctionCommun:
 	def deepLearnig(self):
 		if not(gs.cheminIsDone(self.nameProjet)):
 			from DrawOnImage import Segmentation as sg
-			sg.Segm(self.nameProjet, self.numberPage)#nombre de page il et calculer dans pdfToimage
+			sg.Segm(self.nameProjet, self.numberPage, self.numPage) #nombre de page il et calculer dans pdfToimage
 			from DrawOnImage import Classification as cl
-			cl.classif(self.nameProjet)
+			cl.classif(self.nameProjet, self.numPage)
 			from DrawOnImage import drawOnImage as doi #a remettre c'est juste lourd
 			doi.drawIm(self.nameProjet)
 			gs.doChemin(self.nameProjet,self.numPage)
-		from UseCheminDeFer import mainSeeResult as msr# a changer pour le nom aussi
+		from UseCheminDeFer import mainSeeResult as msr # a changer pour le nom aussi
 		msr.creatChemin(self.nameProjet)
 
 	
