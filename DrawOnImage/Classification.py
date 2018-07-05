@@ -84,10 +84,7 @@ def classif(nameProjet, numpage):
 
 	def rewriteXml():
 		if len(unknownSet)!=0:
-			print("nnnnuuuummmmmmppppaaaagggeee")
-			print(numpage)
 			for x in range(int(numpage), len(unknownSet)):
-				print(x)
 				tree = ET.parse('DrawOnImage/workshop_test/'+ nameProjet +'/'+unknownSet[x][4] + '-Unlabelled.xml')
 				root = tree.getroot()
 				for component in root.iter('page'):

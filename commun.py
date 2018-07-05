@@ -50,6 +50,7 @@ class FunctionCommun:
 	isWinModif=False 
 	buttonConfirme=None
 	buttonDelete=None
+	scale=1.0
 	
 	#### fonctions ####
 	def __init__(self,listbox=None): #construteur
@@ -176,6 +177,7 @@ class FunctionCommun:
 			self.cadre.image=photo
 			self.cadre.create_image(0,0,image=photo,anchor="nw") 
 		else:
+			scale = 1.0
 			self.cadre.config(width=wd,height=hg)
 			photo = ImageTk.PhotoImage(img)
 			dicimg['img1'] = photo
@@ -204,6 +206,9 @@ class FunctionCommun:
 		#self.cadre.bind('<ButtonRelease-3>',self.drawRect.rightOnFinal)
 		gs.update(self.nameProjet,self.numPage)
 		
+		self.scale = scale
+		return scale 
+		
 	
 	def setImageForModif(self,path,cadre): #repeter un peu la fonction de resizeImg, nous pourrons essayer de fusionner les 2 fonctions
 		self.cadre=cadre
@@ -212,7 +217,7 @@ class FunctionCommun:
 		wd,hg=img.size
 		mwd=self.screen_width
 		mhg=self.screen_height
-		if wd>mwd :
+		if wd > mwd :
 			scale= 1.0*wd/mwd
 			newImg=img.resize((int(wd/scale),int(hg/scale)),Image.ANTIALIAS)
 			self.cadre.config(width=wd/scale,height=hg/scale)
@@ -229,6 +234,7 @@ class FunctionCommun:
 			self.cadre.image=photo
 			self.cadre.create_image(0,0,image=photo,anchor="nw") 
 		else:
+			scale = 1.0
 			self.cadre.config(width=wd,height=hg)
 			photo = ImageTk.PhotoImage(img)
 			dicimg['img1'] = photo
@@ -515,21 +521,18 @@ class FunctionCommun:
 		self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
 		if not gs.cheminIsDone(self.nameProjet):
 			id_img="page-"+str(self.numPage)+".png"
-			print('eleeeeemmmmeeeenntt crreeeeeeerrrr')
 			self.root = etree.Element('Book',id=id_img)
-			print(type(self.root))
 			page = etree.SubElement(self.root, "page")
-			print(type(page))
 		for k in range (0,sizelist) :
 			(typeAction,idAction) = listItems[k].split("-")
 			self.listActionRect=self.listFileWithActionRect[self.currentSelectedFile]
 			listCoord=self.listActionRect[listItems[k]]
 			typeEl=typeAction
 			numElem=idAction #id
-			posiX=listCoord[0]
-			posiY=listCoord[1]
-			widthEl=listCoord[2]
-			heightEl=listCoord[3]
+			posiX = int(listCoord[0]*self.scale)
+			posiY = int(listCoord[1]*self.scale)
+			widthEl = int(listCoord[2]*self.scale)
+			heightEl = int(listCoord[3]*self.scale)
 		
 			if not gs.cheminIsDone(self.nameProjet):
 				xl.addRectSelfDone(self.nameProjet, self.root, numElem, typeEl, widthEl, heightEl, posiX, posiY)
@@ -542,9 +545,9 @@ class FunctionCommun:
 					self.xmlProjet=xl.replace(self.nameProjet, self.numPage, numElem, typeEl,self.xmlProjet)
 					
 			self.xmlProjet=xl.endProjet(self.nameProjet,self.xmlProjet)
-		print(type(self.root))
 		xl.endSelfDone(self.nameProjet, self.root, self.numPage)
-			
+		
+		
 	def openModif(self,nameProjet,numPage,dimention): #ouvrir la fenêtre de WinModification
 		import WinModification as modif
 		root=tk.Toplevel()
