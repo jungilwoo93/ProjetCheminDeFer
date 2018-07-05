@@ -50,12 +50,13 @@ class FunctionCommun:
 	isWinModif=False 
 	buttonConfirme=None
 	buttonDelete=None
-	scale=1.0
+	scale=1.0 # coeficient d'agrandisement de l'image
 	
 	#### fonctions ####
 	def __init__(self,listbox=None): #construteur
 		self.listAction=listbox
 	
+	#savoir si un nom de projet a déjà été choisit
 	def projetIsChoose(self):
 		return self.nameProjet!='new'
 	
@@ -585,6 +586,7 @@ class FunctionCommun:
 				
 		return nbSelected
 				
+	#creeation du chemin de fer
 	def deepLearnig(self):
 		if not(gs.cheminIsDone(self.nameProjet)):
 			from DrawOnImage import Segmentation as sg
@@ -597,7 +599,7 @@ class FunctionCommun:
 		from UseCheminDeFer import mainSeeResult as msr # a changer pour le nom aussi
 		msr.creatChemin(self.nameProjet)
 
-	
+	#refaire la liste d'image sans les extraires à nouveau d'un pdf
 	def reloadImg(self) :
 		#listImgFromPdf = os.listdir('imgFromPdf/' + self.nameProjet)
 		#chrono = lambda v: os.path.getmtime(os.path.join('imgFromPdf/' + self.nameProjet, v))
